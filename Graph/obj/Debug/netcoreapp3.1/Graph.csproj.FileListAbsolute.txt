@@ -1,0 +1,13 @@
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\bin\Debug\netcoreapp3.1\Graph.exe
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\bin\Debug\netcoreapp3.1\Graph.deps.json
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\bin\Debug\netcoreapp3.1\Graph.runtimeconfig.json
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\bin\Debug\netcoreapp3.1\Graph.runtimeconfig.dev.json
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\bin\Debug\netcoreapp3.1\Graph.dll
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\bin\Debug\netcoreapp3.1\Graph.pdb
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\obj\Debug\netcoreapp3.1\Graph.csprojAssemblyReference.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\obj\Debug\netcoreapp3.1\Graph.AssemblyInfoInputs.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\obj\Debug\netcoreapp3.1\Graph.AssemblyInfo.cs
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\obj\Debug\netcoreapp3.1\Graph.csproj.CoreCompileInputs.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\obj\Debug\netcoreapp3.1\Graph.dll
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\obj\Debug\netcoreapp3.1\Graph.pdb
+C:\Users\vothu\OneDrive\Máy tính\C#\Graph\obj\Debug\netcoreapp3.1\Graph.genruntimeconfig.cache
