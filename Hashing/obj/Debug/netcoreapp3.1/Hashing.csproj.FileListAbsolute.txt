@@ -1,0 +1,13 @@
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\bin\Debug\netcoreapp3.1\Hashing.exe
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\bin\Debug\netcoreapp3.1\Hashing.deps.json
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\bin\Debug\netcoreapp3.1\Hashing.runtimeconfig.json
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\bin\Debug\netcoreapp3.1\Hashing.runtimeconfig.dev.json
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\bin\Debug\netcoreapp3.1\Hashing.dll
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\bin\Debug\netcoreapp3.1\Hashing.pdb
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\obj\Debug\netcoreapp3.1\Hashing.csprojAssemblyReference.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\obj\Debug\netcoreapp3.1\Hashing.AssemblyInfoInputs.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\obj\Debug\netcoreapp3.1\Hashing.AssemblyInfo.cs
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\obj\Debug\netcoreapp3.1\Hashing.csproj.CoreCompileInputs.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\obj\Debug\netcoreapp3.1\Hashing.dll
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\obj\Debug\netcoreapp3.1\Hashing.pdb
+C:\Users\vothu\OneDrive\Máy tính\C#\Hashing\obj\Debug\netcoreapp3.1\Hashing.genruntimeconfig.cache

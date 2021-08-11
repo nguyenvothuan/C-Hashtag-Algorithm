@@ -1,0 +1,12 @@
+E: set of all edges
+V: set of all vertices
+|X|: cardinality of X
+L: the number of leaf nodes
+I: the number of internal nodes
+Handshaking theorem: 
+        Sum of degrees of all vertices in the tree = 2|E|
+        Consequence: 
+        1. In a k-ary tree (nodes have 0 or k children):
+            L = (k-1)*I+1
+        
+    
