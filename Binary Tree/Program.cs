@@ -15,7 +15,10 @@ namespace Binary_Tree
             bst.Add(5);
             bst.Add(7);
             BSTMethods tester =  new BSTMethods();
-            Console.Write(tester.IsMirror(bst));
+            int[] pre = {10,5,1,7,40,50};
+
+            BinaryTree tree = tester.BuildTreeFromPreorder(pre);
+            tree.TraversePreOrder(tree.Root);
         }
     }
 }

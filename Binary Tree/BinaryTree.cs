@@ -26,6 +26,10 @@ class BinaryTree
 {
     public Node Root { get; set; }
 
+    public BinaryTree() {}
+    public BinaryTree(Node Root){
+        this.Root=Root;
+    }
 
     ///<summary>Add a childless Node the value specified</summary>
     ///<param>An integer value to add to the tree.</param>
@@ -200,5 +204,78 @@ class BSTMethods {
         return bst.Root.Left==bst.Root.Right;
     }
     
+    ///<summary>Return the depth of a full binary, giver the preorder traversal string</summary>
+    ///<param>String tree: a string of two characters 'n' and 'l' represent the nodes and leafs of the tree in preorder traversal
+    ///</param>
+    int FindDepthRec(char[] tree, int n, int index)
+    {
+        if (index >= n || tree[index] == 'l')
+            return 0;
+ 
+        // calc height of left subtree (In preorder
+        // left subtree is processed before right)
+        index++;
+        int left = FindDepthRec(tree, n, index);
+ 
+        // calc height of right subtree
+        index++;
+        int right = FindDepthRec(tree, n, index);
+ 
+        return Math.Max(left, right) + 1;
+    }
+ 
+    public int FindDepth(char[] tree)
+    {
+        int n = tree.Length;
+        int index = 0;
+        return (FindDepthRec(tree, n, index));
+    }
 
+    public BinaryTree BuildTreeFromPreorder(int[] pre)
+    {
+        return new BinaryTree(FromPreorder(pre, 0, pre.Length-1));
+    }
+    private Node FromPreorder(int[] pre, int index, int cut)//pre[index:cut]
+    {
+        Node cur = new Node(pre[index]);
+        //segment with only 1 node 
+        if (index==cut)
+            return cur;//root
+     
+        //segment with at least 2 node: index < cut
+        Node left;
+        Node right;
+        int rightIndex = IndexOfTheFirstGreater(pre, index, cut);//find the index of right node of cur
+        int leftIndex= index+1;
+        if (rightIndex==-1&&pre[index+1]>pre[index]) //no heir; very unlikely is this case
+            return cur;
+        //case one: no right child so the left child will span from the root of the left subtree pre[index+1] to pre[cut]
+        if (rightIndex==-1) {
+            left = FromPreorder(pre, leftIndex, cut);
+            cur.Left=left;
+            return cur;
+        }
+        //case two: no left child so the left right child will span from the root of the right subtree to pre[cut]
+        if (pre[index+1] > pre[index]) {
+            right = FromPreorder(pre, rightIndex, cut);
+            cur.Right=right;
+            return cur;
+        }
+        left = FromPreorder(pre, leftIndex, rightIndex-1);
+        right = FromPreorder(pre, rightIndex, cut);
+        cur.Left=left; cur.Right=right;
+        return cur;
+    }
+    private int IndexOfTheFirstGreater(int[] pre, int index, int cut) {//pass in a segment of the string from pre[index:cut]. Return the first the index of the first element greater than pre[index], -1 if there is no such thing
+        int cur = pre[index];
+
+    
+        while (index<=cut) //smaller than the right starting point
+        {//so index can be equal to cut: pre[cut]>pre[index]
+            
+            if (pre[index]>cur ) return index;
+            index++;
+        }
+        return -1;//pre[index] is the greatest from index forward
+    }
 }

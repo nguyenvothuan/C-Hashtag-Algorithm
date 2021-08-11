@@ -9,4 +9,7 @@ Handshaking theorem:
         1. In a k-ary tree (nodes have 0 or k children):
             L = (k-1)*I+1
         
-    
+Tree traversal:
+    Inorder: Left, Root, Right
+    Preorder: Root, Left, Right
+    Postorder: Left, Right, Root
