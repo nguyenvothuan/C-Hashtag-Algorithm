@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 public class Node 
 {
     public int value {get; set;}
@@ -25,11 +25,14 @@ public class Node
 class BinaryTree
 {
     public Node Root { get; set; }
-
-    public BinaryTree() {}
+    private int Cardinality {get; set;}
+    public BinaryTree() {Cardinality=0;}
     public BinaryTree(Node Root){
         this.Root=Root;
+        Cardinality = 1;
     }
+    
+    public int GetCardinality() {return Cardinality;}
 
     ///<summary>Add a childless Node the value specified</summary>
     ///<param>An integer value to add to the tree.</param>
@@ -64,7 +67,7 @@ class BinaryTree
             else
                 before.Right = newNode;
         }
- 
+        Cardinality++;
         return true;
     }
  
@@ -94,7 +97,7 @@ class BinaryTree
             // Delete the inorder successor, because the minValue is to the utter left, it falls under the second case
             parent.Right = Remove(parent.Right, parent.value);
         }
- 
+        Cardinality--;
         return parent;
     }
 
@@ -135,10 +138,64 @@ class BinaryTree
         return parent == null ? 0 : Math.Max(GetTreeDepth(parent.Left ), GetTreeDepth(parent.Right )) + 1;
     }
  
-    public void TraversePreOrder(Node parent)
-    {
+    public List<int> LevelOrderTraversal(Node parent) {
+        List<int> traversal = new List<int>();
+        Queue<Node> que = new Queue<Node>();
+        que.Enqueue(parent)   ;
+        while (que.Count!=0)
+        {
+            Node cur = que.Dequeue();
+            traversal.Add(cur.value);
+            if (cur.Left!=null) que.Enqueue(cur.Left);
+            if (cur.Right!=null) que.Enqueue(cur.Right);
+        }
+        return traversal;
+    }
+    public List<int> PostorderList() {
+        List<int> list =  new List<int>();
+        PostorderUtil(Root, list);
+        return list;
+    }
+    private void PostorderUtil(Node parent, List<int> list) {
+        if (parent!=null) {
+            PostorderUtil(parent.Left, list);
+            PostorderUtil(parent.Right, list);
+            list.Add(parent.value);
+        }
+    }
+    public List<int> InorderList() {
+        List<int> list =  new List<int>();
+        InorderUtil(Root, list);
+        return list;
+    }
+    private void InorderUtil(Node parent, List<int> list) {
         if (parent != null)
         {
+            PreorderUtil(parent.Left, list );
+            list.Add(parent.value);
+            
+            PreorderUtil(parent.Right , list);
+        }
+    }
+    public List<int> PreorderList() {
+        List<int> list =  new List<int>();
+        PreorderUtil(Root, list);
+        return list;
+    } 
+    private void PreorderUtil(Node parent, List<int> list) {
+        if (parent != null)
+        {
+            list.Add(parent.value);
+            PreorderUtil(parent.Left, list );
+            PreorderUtil(parent.Right , list);
+        }
+    }
+    public void TraversePreOrder(Node parent)
+    {
+
+        if (parent != null)
+        {
+            
             Console.Write(parent.value + " ");
             TraversePreOrder(parent.Left );
             TraversePreOrder(parent.Right );
@@ -165,6 +222,18 @@ class BinaryTree
         }
     }
 }
+
+class LiberalBinaryTree {
+    Node Root {get; set;}
+    public LiberalBinaryTree (Node Root) {
+        this.Root=Root;
+    }
+    ///<param>Node node: a node to add to this tree<param>
+    ///<param>string dir: a node to specify to go left or right<param>
+    public void Add (Node node, string dir) {
+    }
+}
+
 
 ///<summary>A class contains methods written on the Binary Tree data structure</summary>
 class BSTMethods {
@@ -278,4 +347,193 @@ class BSTMethods {
         }
         return -1;//pre[index] is the greatest from index forward
     }
+
+    public BinaryTree ReplaceNodeWithSumPredecessorAndSuccessorInInorder(BinaryTree bst) {
+        List<int> inorder = bst.InorderList();
+        inorder.Insert(inorder.Count, 0);
+        inorder.Insert(0,0);
+       
+        Node cur = bst.Root;
+        ReplaceWithSum(cur, inorder, 1);
+        BinaryTree newTree = new BinaryTree(cur);
+        return newTree;
+    }
+    private void ReplaceWithSum(Node cur, List<int> inorder, int i) {//inorder traversal and replace with sum
+        //TODO1: Fix this shit
+        if (cur!=null) {
+            i++;
+            Console.WriteLine(i);
+            ReplaceWithSum(cur.Left, inorder, i);
+            cur.value = inorder[i-1] + inorder[i+1];
+            
+            ReplaceWithSum(cur.Right, inorder, i);
+            
+        }
+        
+    }
+
+    public bool SameLevel(BinaryTree bst, int a, int b) {
+
+        int levela = FindLevel(bst, a);
+        int levelb = FindLevel(bst, b);
+    
+        return levela==levelb;
+    }
+    ///<summary>Return the level of the node with value a, -1 if no such thing found</summary>
+    public int FindLevel(BinaryTree bst, int a) {
+        Node cur = bst.Root;
+        int level =0;
+        while (cur!=null)
+        {
+            if (a==cur.value) return level;
+            if (a<cur.value){
+                cur = cur.Left;
+                level++;
+            }
+            else {
+                cur=cur.Right;
+                level++;
+            }
+        }
+        return -1;
+    }
+
+    public bool AllLeavesOfTheSameLevel(BinaryTree bst) {
+        return AllLeavesUtil(bst.Root)!=-1;
+
+        
+    }
+    private int AllLeavesUtil (Node root) {//return the depth of the tree if all leaves of the same level, return -1 else.
+        if (root.Left==null && root.Right==null) return 0;
+        if (root.Left!=null && root.Right!=null) 
+        {
+            int left = AllLeavesUtil(root.Left); int right = AllLeavesUtil(root.Right);
+            if (left==-1||right==-1) return -1;
+            if (left!=right) return -1;
+            return left+1;
+        }
+        return -1;
+
+    }
+    public int[] LeftDiagonalSum(BinaryTree bst) {
+        List<int> levelSum = new List<int>();
+        LeftDiagonalUtil(bst.Root, levelSum, 0);
+        int[] sum = levelSum.ToArray()    ;
+        return sum;
+    }
+    private void LeftDiagonalUtil(Node root, List<int> levelSum, int curLevel ){
+        if (root==null) return;
+        if (levelSum.Count<=curLevel) levelSum.Add(0);//index out of bound
+        levelSum[curLevel] += root.value;
+        LeftDiagonalUtil(root.Right, levelSum, curLevel);
+        LeftDiagonalUtil(root.Left, levelSum, curLevel+1);
+    }
+    public int LongestPathRootToLeaf (BinaryTree bst) {
+        int sum =0;
+        List<Node> path = LongestPathUtil(bst.Root);
+        foreach (Node n in path){
+            sum+= n.value;
+        }
+        return sum;
+    }
+    private List<Node> LongestPathUtil(Node root) {
+        if (root==null) return null;
+        List<Node> left ; List<Node> right;
+        if (root.Left==null&&root.Right==null) {
+            List<Node> path = new List<Node>(); path.Add(root);
+            return path;
+        }
+        if (root.Right==null) {
+            left = LongestPathUtil(root.Left);
+            left.Insert(0,root);
+            return left;
+
+        }
+        if (root.Left==null) {
+            right = LongestPathUtil(root.Right);
+            right.Insert(0,root);
+            return right;
+
+        }
+        left = LongestPathUtil(root.Left);
+        right = LongestPathUtil(root.Right);
+        if (left.Count>right.Count){
+            left.Insert(0,root);
+            return left;
+        }
+        right.Insert(0,root);
+        return right;
+    }
+
+    public int LargestSumNonAdjacentNodes(BinaryTree bst) {
+        int count = bst.GetCardinality();
+        int[] red = new int[count];
+        int[] black = new int[count];
+        int[] pre = bst.PreorderList().ToArray();
+        int chosen = Red(bst.Root, red, black, pre);
+        int unchosen = Black(bst.Root, red, black, pre);
+        return Math.Max(chosen, unchosen);
+
+    }
+
+    private int Red(Node n, int[] red, int[] black, int[] pre) {//node n chosen
+        int index = HashNodeToPreorderIndex(n, pre);
+        if (red[index]!=-1) return red[index];
+        if (n.Left==null && n.Right==null) {
+            red[index] = n.value;
+            return n.value;
+        }
+        if (n.Left==null) {
+            return Black(n.Right, red, black, pre);
+        }
+        if (n.Right==null) {
+            return Black(n.Left, red, black, pre);
+        }
+        return Black(n.Right, red, black, pre)+ Black(n.Left, red, black, pre);
+    }
+
+    private int Black(Node n, int[] red, int[] black, int[] pre) {//node n not selected, but noting to  do with its descendants
+        int index = HashNodeToPreorderIndex(n, pre);
+        if (index==-1) return -1;
+        if (black[index]!=-1) return black[index];//calculated
+        if (n.Left==null&&n.Right==null) {
+            black[index] = 0;
+            return 0;//because n is not chosen and it has no child
+        };
+        if (n.Left==null) {
+            black[index] = Math.Max(Black(n.Right, red, black, pre), Red(n.Right, red, black, pre));
+            return black[index];
+        }
+        if (n.Right==null) {
+            black[index] = Math.Max(Black(n.Left, red, black, pre), Red(n.Left, red, black, pre));
+            return black[index];
+        }
+        int redLeft = Red(n.Left, red, black, pre);
+        int redRight = Red(n.Right, red, black, pre);
+        int blackLeft = Black(n.Left, red, black, pre);
+        int blackRight= Black(n.Right, red, black, pre);
+        black[index] = MultipleNumberMax(blackLeft+redRight, redLeft+blackRight, redLeft+redRight, blackLeft+blackRight);
+        return black[index];
+
+
+    }
+
+
+
+    private int HashNodeToPreorderIndex (Node n, int[] pre) { //O(n)
+        for(int i=0;i<pre.Length;i++){
+            if(pre[i]==n.value) return i;
+
+        }
+        return -1;
+    }
+
+    private int MultipleNumberMax(int a, int b, int c, int d){
+        return Math.Max(Math.Max(a,b),Math.Max(c,d));
+    }
+    private class MapNodeToNum {
+        Node n {get;set;}
+        int i {get; set;}
+    }
 }
+
