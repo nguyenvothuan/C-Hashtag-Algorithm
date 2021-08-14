@@ -469,6 +469,7 @@ class BSTMethods {
         int count = bst.GetCardinality();
         int[] red = new int[count];
         int[] black = new int[count];
+        Array.Fill(red, -1);Array.Fill(black, -1);
         int[] pre = bst.PreorderList().ToArray();
         int chosen = Red(bst.Root, red, black, pre);
         int unchosen = Black(bst.Root, red, black, pre);
@@ -478,18 +479,24 @@ class BSTMethods {
 
     private int Red(Node n, int[] red, int[] black, int[] pre) {//node n chosen
         int index = HashNodeToPreorderIndex(n, pre);
-        if (red[index]!=-1) return red[index];
-        if (n.Left==null && n.Right==null) {
+        if (red[index]!=-1) return red[index];//calculated
+        else if (n.Left==null && n.Right==null) {
             red[index] = n.value;
-            return n.value;
+            
         }
-        if (n.Left==null) {
-            return Black(n.Right, red, black, pre);
+        else if (n.Left==null) {
+            red[index] = n.value+ Black(n.Right, red, black, pre);
+            
         }
-        if (n.Right==null) {
-            return Black(n.Left, red, black, pre);
+        else if (n.Right==null) {
+           red[index]=n.value+ Black(n.Left, red, black, pre);
+           
         }
-        return Black(n.Right, red, black, pre)+ Black(n.Left, red, black, pre);
+        else {
+        red[index] = n.value+ Black(n.Right, red, black, pre)+ Black(n.Left, red, black, pre);
+        
+        }
+        return red[index];
     }
 
     private int Black(Node n, int[] red, int[] black, int[] pre) {//node n not selected, but noting to  do with its descendants
