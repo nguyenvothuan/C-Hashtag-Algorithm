@@ -17,7 +17,7 @@ namespace Binary_Tree
             BSTMethods tester =  new BSTMethods();
             int[] pre = {10,5,1,7,40,50};
 
-            int sum = tester.LargestSumNonAdjacentNodes(bst);
+            int sum = tester.MaxSumNonAdjacentLevels(bst);
            Console.WriteLine(sum);
         }
     }
