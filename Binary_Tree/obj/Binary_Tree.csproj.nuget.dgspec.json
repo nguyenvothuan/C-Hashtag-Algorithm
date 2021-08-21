@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Graph\\Graph.csproj": {}
+    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\Binary_Tree.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Graph\\Graph.csproj": {
+    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\Binary_Tree.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Graph\\Graph.csproj",
-        "projectName": "Graph",
-        "projectPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Graph\\Graph.csproj",
+        "projectUniqueName": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\Binary_Tree.csproj",
+        "projectName": "Binary_Tree",
+        "projectPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\Binary_Tree.csproj",
         "packagesPath": "C:\\Users\\vothu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Graph\\obj\\",
+        "outputPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vothu\\AppData\\Roaming\\NuGet\\NuGet.Config",

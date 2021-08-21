@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary Tree\\Binary Tree.csproj",
-      "projectName": "Binary Tree",
-      "projectPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary Tree\\Binary Tree.csproj",
+      "projectUniqueName": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\Binary_Tree.csproj",
+      "projectName": "Binary_Tree",
+      "projectPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\Binary_Tree.csproj",
       "packagesPath": "C:\\Users\\vothu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary Tree\\obj\\",
+      "outputPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Binary_Tree\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vothu\\AppData\\Roaming\\NuGet\\NuGet.Config",

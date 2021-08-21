@@ -73,6 +73,15 @@ class GeneralHashing
         }
     }
 
+    public void TestHashSet() {
+        HashSet<int> hash= new HashSet<int>();
+        hash.Add(1);
+        hash.Add(2);hash.Add(3);
+
+    }
+
+
+
     public int MinimumNumberToDeleteIdArray(int[] arr)
     {
         Dictionary<int, int> hash = new Dictionary<int, int>();
@@ -156,39 +165,44 @@ class GeneralHashing
     {
         if (x1 == x2 && y1 == y2)
         {
-            return new int[];
+            return new float[0];
         }
         if (x1 == x2 || y1 == y2)
         {
-            return new int[];
+            return new float[0];
         }
-        float[] ab = new int[];
+        float[] ab = new float[2];
 
         ab[0] = (y1 - y2) / (x1 - x2);
-        ab[1] = y1 - a * x1;
+        ab[1] = y1 - ab[0] * x1;
         return ab;
     }
 
     public int MaxPointsContainedOnALine(int[][] points)
-    {
-        Dictionary<float[], List<int[]>> lineAndPoints = new Dictionary<int[], List<int[]>>();
+    {//TODO 4: The problem with this one is that it will check if the hash table contains EXACTLY the array represents 
+    //the line or not. So when another line is identified to represent the same line, it returns false because their hashkeys
+    //are different
+        Dictionary<float[], List<int[]>> lineAndPoints = new Dictionary<float[], List<int[]>>();
         int numPoint = points.Length;
         for (int i = 0; i < numPoint - 1; i++)
         {
-            for (int j = i + 1; j < numPoints; j++)
+            for (int j = i + 1; j < numPoint; j++)
             {
                 int[] p1 = points[i];
                 int[] p2 = points[j];
 
                 float[] line = GetLineAB(p1[0], p1[1], p2[0], p2[1]);
+                
+                
+
                 if (line.Length > 0)
                 {
                     if (!lineAndPoints.ContainsKey(line))
                     {
-
-                        lineAndPoints.Add(line);
-                        lineAndPoints[line].Add(p1); 
-                        lineAndPoints[line].Add(p2);
+                        List<int[]> newlist = new List<int[]>();
+                        newlist.Add(p1); newlist.Add(p2);
+                        lineAndPoints.Add(line,newlist);
+                       
                     }
                     else {
                         if (!lineAndPoints[line].Contains(p1))  lineAndPoints[line].Add(p1);
@@ -207,4 +221,123 @@ class GeneralHashing
         }
         return max;
     }
+
+    public bool DuplicateInKDistance(int k, int[] arr) {
+        Dictionary<int, int> dict = new Dictionary<int, int>();//key for cur, int been the last happened index
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (!dict.ContainsKey(arr[i]))
+                dict.Add(arr[i], i);
+            else {
+                if (i - dict[arr[i]]<=k) return true;
+                dict[arr[i]]=i;
+            }
+        }
+        return false;
+    }
+
+    public int[] ShortestSubSegmentWithAllHighestFreqElement(int[] arr) {
+        List<int> valWithMaxFreq = new List<int>();//contains value as 
+        int curMaxFreq = 0;
+        Dictionary<int, int[]> valFreqFirstLast= new Dictionary<int, int>();//first is freq, then first occurence, then last occurence
+        
+        for (int i =0;i<arr.Length;i++) {
+            if (!valFreqFirstLast.ContainsKey(arr[i])){
+                if (curMaxFreq==0) curMaxFreq=1;
+                int[] curFreqFirstLast = {1, i, i};
+                valFreqFirstLast.Add(arr[i], curFreqFirstLast);
+            }
+            else {
+                int curFreq = ++valFreqFirstLast[arr[i]][0];//increment by 1 freq
+                valFreqFirstLast[arr[i]][2] = i;//last seen: 9 years ago
+                if (curFreq==curMaxFreq) valWithMaxFreq.Add(arr[i]);
+                if (curFreq>curMaxFreq) {
+                    valWithMaxFreq.Clear();
+                    valWithMaxFreq.Add(arr[i]);
+                }
+            }
+        }
+        int smallestSubSeg = 99999;
+        int smallestSubSegIndex = -1;//first index of this seg
+        
+        foreach (int i in valWithMaxFreq) {
+            int curSegLength = valFreqFirstLast[i][2] - valFreqFirstLast[i][1];
+            if (curSegLength<smallestSubSeg) {
+                smallestSubSeg =  curSegLength;
+                smallestSubSegIndex = valFreqFirstLast[i][1];
+            }
+            
+        }
+        
+        int curVal = arr[smallestSubSegIndex];
+        int sample = curVal;
+        List<int> seg = new List<int>();
+        seg.Add(curVal);
+        while (smallestSubSeg>0) {
+            curVal = arr[++smallestSubSegIndex];
+            if  (curVal==sample)
+            {
+                smallestSubSeg--;
+            } 
+        }
+        return seg.ToArray();
+    }
+
+
+    public bool IsDisJoint(int[] arr1, int[] arr2) {
+        HashSet<int> a1 = new HashSet<int>(arr1);
+        HashSet<int> a2 = new HashSet<int>(arr2);
+        return a1.UnionWith(a2) == a1.Count+a2.Count;
+    }
+
+    public string[] Itinerary(string[] src, string[] dst) {
+        if (src.Length!=dst.Length) 
+            throw new Exception("src must have the same length of dst");
+        Dictionary<string, string> toFrom = new Dictionary<string, string>();//dst -> src
+        Dictionary<string, string> fromTo = new Dictionary<string, string>(); 
+        for (int i =0;i<src.Length;i++)
+        {
+            toFrom.Add(dst, src);
+            fromTo.Add(src, dst);
+        }
+        string cur = dst[0];
+        string start = cur;
+        bool all = false;
+        List<string> reverse = new List<string>();
+        for (int i =0;i<src.Length;i++){
+            if (!toFrom.ContainsKey(cur)){//then cur is start
+                start = cur;
+                break;
+            }
+            reverse.Add(cur);
+            cur = toFrom[cur];
+            all = i == src.Length-1;
+        }
+        if (all) {
+            reverse.Reverse();
+            return reverse;
+        }
+        List<string> nextSeg = new List<string>();
+        cur = reverse[0];
+        
+        while (true) {
+            if (!fromTo.ContainsKey(cur)) {
+                nextSeg.Add(cur);
+                int l = reverse.Count;
+                List<string> fullRoute = new List<string>();
+                for (int i=l-1;i>=0;i--){
+                    fullRoute.Add(reverse[i]);
+                }
+                foreach(string str in nextSeg){
+                    fullRoute.Add(str);
+
+                }
+                return fullRoute;
+            }
+            nextSeg.Add(cur);
+            cur= fromTo[cur];
+        }
+    }
+
+
 }

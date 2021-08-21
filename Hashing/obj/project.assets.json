@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Hashing\\Hashing.csproj",
+      "projectUniqueName": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Hashing\\Hashing.csproj",
       "projectName": "Hashing",
-      "projectPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Hashing\\Hashing.csproj",
+      "projectPath": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Hashing\\Hashing.csproj",
       "packagesPath": "C:\\Users\\vothu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Hashing\\obj\\",
+      "outputPath": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\Hashing\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vothu\\AppData\\Roaming\\NuGet\\NuGet.Config",
