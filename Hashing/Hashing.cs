@@ -340,4 +340,44 @@ class GeneralHashing
     }
 
 
+    public Dictionary<string, int> NumberOfEmployeePerBoss(Dictionary<string, string> empBoss) {
+        Dictionary<string, int> result = new Dictionary<string, int>();
+        Dictionary<string, List<string>> bossEmp = new Dictionary<string, List<string>>();
+        foreach (var pair in empBoss) {
+            if (!empBoss.ContainsKey(pair.ToString))
+            {
+                List<string> empOfThisBoss = new List<string>();
+                empOfThisBoss.Add(pair.Key);
+                bossEmp.Add(pair.Value);
+            }
+            else if (pair.Value!=pair.Key) {
+                bossEmp[pair.Value].Add(pair.Key);
+            }
+        }
+        foreach (var pair in bossEmp) {
+            string boss = pair.Key;
+            FindEmployeeForBoss(boss,bossEmp, result);
+        }
+        return result;
+
+    }
+
+    private int FindEmployeeForBoss(string boss, Dictionary<string,List<string>> bossEmp, Dictionary<string, int> result ){
+        if (!bossEmp.ContainsKey(boss)){
+            result.Add(boss, 0);
+            return 0;
+        }
+        if (result.ContainsKey(boss))
+        {
+            return result[boss];
+        }
+        List<string> empList = new List<string>(bossEmp[boss]);
+        int count = empList.Count;
+        foreach (string emp in empList) {
+            count+= FindEmployeeForBoss(emp, bossEmp, result);
+        }
+        result[boss]=count;
+        return count;
+    }
+
 }
