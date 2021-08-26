@@ -36,7 +36,8 @@ namespace Hashing
             points[5] = new int[2]{3,4};
 
             int[] arr4 = {1, 2, 3, 1, 4, 5};
-            bool test = tester.DuplicateInKDistance(3, arr4);
+            int[] arr5 = {2, 7, 6, 1, 4, 5};
+            int test = tester.LongestDivisibleSubarray(arr5, 3);
             Console.WriteLine(test);
 
 

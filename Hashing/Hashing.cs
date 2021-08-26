@@ -239,7 +239,7 @@ class GeneralHashing
     public int[] ShortestSubSegmentWithAllHighestFreqElement(int[] arr) {
         List<int> valWithMaxFreq = new List<int>();//contains value as 
         int curMaxFreq = 0;
-        Dictionary<int, int[]> valFreqFirstLast= new Dictionary<int, int>();//first is freq, then first occurence, then last occurence
+        Dictionary<int, int[]> valFreqFirstLast= new Dictionary<int, int[]>();//first is freq, then first occurence, then last occurence
         
         for (int i =0;i<arr.Length;i++) {
             if (!valFreqFirstLast.ContainsKey(arr[i])){
@@ -287,97 +287,178 @@ class GeneralHashing
     public bool IsDisJoint(int[] arr1, int[] arr2) {
         HashSet<int> a1 = new HashSet<int>(arr1);
         HashSet<int> a2 = new HashSet<int>(arr2);
-        return a1.UnionWith(a2) == a1.Count+a2.Count;
+        a1.UnionWith(a2);
+        return a1.Count == a1.Count+a2.Count;
     }
 
-    public string[] Itinerary(string[] src, string[] dst) {
-        if (src.Length!=dst.Length) 
-            throw new Exception("src must have the same length of dst");
-        Dictionary<string, string> toFrom = new Dictionary<string, string>();//dst -> src
-        Dictionary<string, string> fromTo = new Dictionary<string, string>(); 
-        for (int i =0;i<src.Length;i++)
-        {
-            toFrom.Add(dst, src);
-            fromTo.Add(src, dst);
-        }
-        string cur = dst[0];
-        string start = cur;
-        bool all = false;
-        List<string> reverse = new List<string>();
-        for (int i =0;i<src.Length;i++){
-            if (!toFrom.ContainsKey(cur)){//then cur is start
-                start = cur;
-                break;
-            }
-            reverse.Add(cur);
-            cur = toFrom[cur];
-            all = i == src.Length-1;
-        }
-        if (all) {
-            reverse.Reverse();
-            return reverse;
-        }
-        List<string> nextSeg = new List<string>();
-        cur = reverse[0];
+    // public string[] Itinerary(string[] src, string[] dst) {
+    //     if (src.Length!=dst.Length) 
+    //         throw new Exception("src must have the same length of dst");
+    //     Dictionary<string, string> toFrom = new Dictionary<string, string>();//dst -> src
+    //     Dictionary<string, string> fromTo = new Dictionary<string, string>(); 
+    //     for (int i =0;i<src.Length;i++)
+    //     {
+    //         toFrom.Add(dst, src);
+    //         fromTo.Add(src, dst);
+    //     }
+    //     string cur = dst[0];
+    //     string start = cur;
+    //     bool all = false;
+    //     List<string> reverse = new List<string>();
+    //     for (int i =0;i<src.Length;i++){
+    //         if (!toFrom.ContainsKey(cur)){//then cur is start
+    //             start = cur;
+    //             break;
+    //         }
+    //         reverse.Add(cur);
+    //         cur = toFrom[cur];
+    //         all = i == src.Length-1;
+    //     }
+    //     if (all) {
+    //         reverse.Reverse();
+    //         return reverse;
+    //     }
+    //     List<string> nextSeg = new List<string>();
+    //     cur = reverse[0];
         
-        while (true) {
-            if (!fromTo.ContainsKey(cur)) {
-                nextSeg.Add(cur);
-                int l = reverse.Count;
-                List<string> fullRoute = new List<string>();
-                for (int i=l-1;i>=0;i--){
-                    fullRoute.Add(reverse[i]);
-                }
-                foreach(string str in nextSeg){
-                    fullRoute.Add(str);
+    //     while (true) {
+    //         if (!fromTo.ContainsKey(cur)) {
+    //             nextSeg.Add(cur);
+    //             int l = reverse.Count;
+    //             List<string> fullRoute = new List<string>();
+    //             for (int i=l-1;i>=0;i--){
+    //                 fullRoute.Add(reverse[i]);
+    //             }
+    //             foreach(string str in nextSeg){
+    //                 fullRoute.Add(str);
 
-                }
-                return fullRoute;
-            }
-            nextSeg.Add(cur);
-            cur= fromTo[cur];
+    //             }
+    //             return fullRoute;
+    //         }
+    //         nextSeg.Add(cur);
+    //         cur= fromTo[cur];
+    //     }
+    // }
+
+
+    // public Dictionary<string, int> NumberOfEmployeePerBoss(Dictionary<string, string> empBoss) {
+    //     Dictionary<string, int> result = new Dictionary<string, int>();
+    //     Dictionary<string, List<string>> bossEmp = new Dictionary<string, List<string>>();
+    //     foreach (var pair in empBoss) {
+    //         if (!empBoss.ContainsKey(pair.ToString))
+    //         {
+    //             List<string> empOfThisBoss = new List<string>();
+    //             empOfThisBoss.Add(pair.Key);
+    //             bossEmp.Add(pair.Value);
+    //         }
+    //         else if (pair.Value!=pair.Key) {
+    //             bossEmp[pair.Value].Add(pair.Key);
+    //         }
+    //     }
+    //     foreach (var pair in bossEmp) {
+    //         string boss = pair.Key;
+    //         FindEmployeeForBoss(boss,bossEmp, result);
+    //     }
+    //     return result;
+
+    // }
+
+    // private int FindEmployeeForBoss(string boss, Dictionary<string,List<string>> bossEmp, Dictionary<string, int> result ){
+    //     if (!bossEmp.ContainsKey(boss)){
+    //         result.Add(boss, 0);
+    //         return 0;
+    //     }
+    //     if (result.ContainsKey(boss))
+    //     {
+    //         return result[boss];
+    //     }
+    //     List<string> empList = new List<string>(bossEmp[boss]);
+    //     int count = empList.Count;
+    //     foreach (string emp in empList) {
+    //         count+= FindEmployeeForBoss(emp, bossEmp, result);
+    //     }
+    //     result[boss]=count;
+    //     return count;
+    // }
+
+    // public bool KDivisiblePair(int[] arr, int k){
+    //     if (arr.Length%2==0) return false;
+    //     //return true if arr can be divided into pairs such that sum of elements in each pair is divisible by k
+    //     Dictionary<int, List<int>> possiblePair = new Dictionary<int, List<int>>();
+    //     int countEdge = 0;
+    //     for (int i =0;i<arr.Length-1;i++)
+    //     {
+    //         int key = arr[i];
+    //         for (int j=i+1;j<arr.Length;j++)
+    //         {
+    //             int key = arr[i];
+    //             int val = arr[j];
+    //             CheckAndAdd<int, int>(key, val, possiblePair);
+    //             CheckAndAdd<int, int>(val, key, possiblePair);
+    //             countEdge++;//another edge
+    //         }
+    //         if (!possiblePair.ContainsKey(key))
+    //             return false; //if no element can form a sum with one element:
+
+    //     }
+    //     //now we have an ajacency list. let's fuck off
+    //     if (countEdge<arr.Length/2)//not enough pair
+    //         return false;
+    //     Dictionary<int, int> curMatching1 = new Dictionary<int, int>();
+        
+
+
+
+    // }
+    // private bool FindIndependentPerfectMatching(Dictionary<int, int> curMatching, int node1, int node2, Dictionary<int, List<int>> possiblePair) {
+    //     //return true if by adding an edge between node1 node2 to the matching will eventually lead to a solution
+    //     curMatching.Add(node1, node2);
+    //     curMatching.Add(node2, node1);
+    //     if(curMatching.Count>= possiblePair.Count/2) return true;
+    //     //TODO 5: Solve this shit (Hint: use perfect independent matching)
+    // }
+
+
+
+
+    // private void CheckAndAdd<T,K>(T key,K value, Dictionary<T, List<K>> dict) {//check if exist a key T. If yes
+    //     if (dict.ContainsKey(key))
+    //     {//if dict does contains key, means that someshit has been added to its list and no need to create a new shit
+    //         dict[key].Add(value);
+    //     }
+    //     else {
+    //         List<K> newList = new List<K>();
+    //         newList.Add(value);
+    //         dict.Add(key, newList);
+    //     }
+        
+    // }
+
+
+    public int LongestDivisibleSubarray(int[] arr, int k) {
+        Dictionary<int, int> modi = new Dictionary<int, int>();
+        int[] mod = new int [arr.Length];
+        int cursum =0;
+        for(int i=0;i<arr.Length;i++){
+            cursum += arr[i];
+            mod[i] = cursum%k;
         }
-    }
-
-
-    public Dictionary<string, int> NumberOfEmployeePerBoss(Dictionary<string, string> empBoss) {
-        Dictionary<string, int> result = new Dictionary<string, int>();
-        Dictionary<string, List<string>> bossEmp = new Dictionary<string, List<string>>();
-        foreach (var pair in empBoss) {
-            if (!empBoss.ContainsKey(pair.ToString))
+        int maxLength =0;
+        for (int i=0;i<arr.Length;i++){
+            if (mod[i]==0)
+                maxLength=i;
+            else if (!modi.ContainsKey(mod[i]))
             {
-                List<string> empOfThisBoss = new List<string>();
-                empOfThisBoss.Add(pair.Key);
-                bossEmp.Add(pair.Value);
+                modi.Add(mod[i], i);
             }
-            else if (pair.Value!=pair.Key) {
-                bossEmp[pair.Value].Add(pair.Key);
+            else {
+                if (i-modi[mod[i]]>maxLength)
+                    maxLength = i-modi[mod[i]];
             }
         }
-        foreach (var pair in bossEmp) {
-            string boss = pair.Key;
-            FindEmployeeForBoss(boss,bossEmp, result);
-        }
-        return result;
-
+        return maxLength;
     }
 
-    private int FindEmployeeForBoss(string boss, Dictionary<string,List<string>> bossEmp, Dictionary<string, int> result ){
-        if (!bossEmp.ContainsKey(boss)){
-            result.Add(boss, 0);
-            return 0;
-        }
-        if (result.ContainsKey(boss))
-        {
-            return result[boss];
-        }
-        List<string> empList = new List<string>(bossEmp[boss]);
-        int count = empList.Count;
-        foreach (string emp in empList) {
-            count+= FindEmployeeForBoss(emp, bossEmp, result);
-        }
-        result[boss]=count;
-        return count;
-    }
+
 
 }
