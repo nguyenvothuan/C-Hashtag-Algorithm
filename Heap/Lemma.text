@@ -1,0 +1,5 @@
+For ith node in a binary heap: 
+    Arr[(i-1)/2]	Returns the parent node
+    Arr[(2*i)+1]	Returns the left child node
+    Arr[(2*i)+2]	Returns the right child node
+Array presentation of heap is a level order serch
