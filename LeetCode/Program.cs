@@ -15,16 +15,9 @@ namespace LeetCode
             arr[1] = new int[4]{3,4,10,4};
             arr[2] = new int[4]{2,10,1,2};
             arr[3] = new int[4]{5,4,4,5};
+            int[] trash = new int[6] {1,0,0,1,0,0};
 
-
-            var listOfSquare = sol.Divide(arr,2);
-            foreach (var i in listOfSquare )
-            {
-                foreach(int j in i) {
-                    Console.Write(j);
-                }
-                Console.WriteLine();
-            }
+           Console.Write(sol.TrashBin(trash));
         }
     }
 }

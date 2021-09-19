@@ -154,34 +154,40 @@ class Solution
     {
         List<int> digits = new List<int>();
         int cur = n;
-        while (cur>9){
-            int newCur = (int)(cur/10);
-            int last = cur - newCur*10;
+        while (cur > 9)
+        {
+            int newCur = (int)(cur / 10);
+            int last = cur - newCur * 10;
             digits.Add(last);
             cur = newCur;
         }
         digits.Add(cur);
-        
+
         return digits;
     }
-    private int Sum(List<int> li) {
-        int sum =0;
-        foreach (int i in li) {
-            sum+=i;
+    private int Sum(List<int> li)
+    {
+        int sum = 0;
+        foreach (int i in li)
+        {
+            sum += i;
         }
         return sum;
     }
-    private int Multiply(List<int> li) {
+    private int Multiply(List<int> li)
+    {
         int times = 1;
-        foreach (int i in li) {
-            if (i==0)
+        foreach (int i in li)
+        {
+            if (i == 0)
                 return 0;
-            times*=i;
+            times *= i;
         }
         return times;
     }
 
-    public int digitsManipulations(int n){
+    public int digitsManipulations(int n)
+    {
         List<int> list = DigitList(n);
         int sum = Sum(list);
         int times = Multiply(list);
@@ -189,7 +195,7 @@ class Solution
     }
 
 
-///////////////////////////
+    ///////////////////////////
 
 
     public int[][] sortByBeauty(int[][] numbers, int size)
@@ -198,15 +204,20 @@ class Solution
         int count = numbers.Length / size;
         return Conquer(sortedSquare, size, count);
     }
-    public List<List<int>> Divide(int[][] numbers, int size) {
+    public List<List<int>> Divide(int[][] numbers, int size)
+    {
         List<List<int>> listOfSquare = new List<List<int>>();
         int count = numbers.Length / size;
-        for (int i=0;i<count;i++){
-            for (int j =0;j<count;j++) {
+        for (int i = 0; i < count; i++)
+        {
+            for (int j = 0; j < count; j++)
+            {
                 List<int> square = new List<int>();
-                for (int y=0;y<size;y++) {
-                    for(int x=0;x<size;x++) {
-                        square.Add(numbers[size*i+y][size*j+x]);
+                for (int y = 0; y < size; y++)
+                {
+                    for (int x = 0; x < size; x++)
+                    {
+                        square.Add(numbers[size * i + y][size * j + x]);
                     }
                 }
                 listOfSquare.Add(square);
@@ -214,52 +225,123 @@ class Solution
         }
         List<int> beauty = new List<int>();
         Dictionary<int, List<List<int>>> beautyToList = new Dictionary<int, List<List<int>>>();
-        for(int i=0;i<listOfSquare.Count;i++) {
+        for (int i = 0; i < listOfSquare.Count; i++)
+        {
             beauty.Add(FindBeauty(listOfSquare[i]));
-            if (!beautyToList.ContainsKey(beauty[i])){
+            if (!beautyToList.ContainsKey(beauty[i]))
+            {
                 List<List<int>> sameOrder = new List<List<int>>();
                 sameOrder.Add(listOfSquare[i]);
                 beautyToList.Add(beauty[i], sameOrder);
             }
-            else {
+            else
+            {
                 beautyToList[beauty[i]].Add(listOfSquare[i]);
             }
         }
         var noDuplicate = replaceDuplicate(beauty);
         noDuplicate.Sort();
         List<List<int>> sortedSquares = new List<List<int>>();
-        foreach (int i in noDuplicate) {
+        foreach (int i in noDuplicate)
+        {
             foreach (List<int> list in beautyToList[i])
                 sortedSquares.Add(list);
         }
         return sortedSquares;
     }
 
-    public List<int> replaceDuplicate(List<int> beauty) {
+    public List<int> replaceDuplicate(List<int> beauty)
+    {
         List<int> replaced = new List<int>();
-        foreach (int i in beauty){
+        foreach (int i in beauty)
+        {
             if (!replaced.Contains(i))
                 replaced.Add(i);
         }
         return replaced;
     }
-    public int FindBeauty(List<int> list) {
+    public int FindBeauty(List<int> list)
+    {
         list.Sort();
         if (list[0] != 1) return 1;
-        for (int i=1;i<list.Count;i++ ){
-            if (list[i] - list[i-1]>1)
-                return list[i-1]+1;
+        for (int i = 1; i < list.Count; i++)
+        {
+            if (list[i] - list[i - 1] > 1)
+                return list[i - 1] + 1;
         }
-        return list[list.Count-1]+1;
+        return list[list.Count - 1] + 1;
     }
 
-    public int[][] Conquer (List<List<int>> listOfSquare, int size, int count)  {//count: number of square of size in each row or columns
-        int[][] arr = new int[count*size][];
-        for (int i =0;i<count*size;i++) {
-            arr[i] = new int[count*size];
+    public int[][] Conquer(List<List<int>> listOfSquare, int size, int count)
+    {//count: number of square of size in each row or columns
+        int[][] arr = new int[count * size][];
+        for (int i = 0; i < count * size; i++)
+        {
+            arr[i] = new int[count * size];
         }
-        for (int i=0;i<size;i++ ){//populate each row fully
-            List<int> curSquare = listOfSquare.Count/si
+        for (int i = 0; i < size; i++)
+        {//populate each row fully
+            // List<int> curSquare = listOfSquare.Count/si
         }
-    }   
+        return new int[6][];
+    }
+
+    //////////////////Google kickstart F
+    public int TrashBin(int[] arr)
+    {
+        int[] dist = new int[arr.Length];
+        Array.Fill(dist, 99999999);
+        for (int i = 0; i < arr.Length; i++)
+        {
+            List<int> calculating = new List<int>();
+            TrashBinUtil(arr, ref dist, i, calculating);
+        }
+        int sum = 0;
+        foreach (int i in dist)
+        {
+            sum += i;
+        }
+        return sum;
+    }
+    private int TrashBinUtil(int[] arr, ref int[] dp, int cur, List<int> calculating)
+    {
+        if (calculating.Contains(cur))
+            return 99999999;
+        calculating.Add(cur);
+        if (dp[cur] != 99999999)
+        {
+            return dp[cur];
+        }
+        if (arr[cur] == 1)
+        {
+            dp[cur] = 0;
+        }
+        else if (cur == 0)
+        {
+            dp[cur] = TrashBinUtil(arr, ref dp, cur + 1, calculating) + 1;
+            if (dp[cur]==100000000)
+                dp[cur]= 99999999;
+        }
+        else if (cur == arr.Length - 1)
+        {
+            dp[cur] = TrashBinUtil(arr, ref dp, cur - 1, calculating) + 1;
+            if (dp[cur]==100000000)
+                dp[cur]= 99999999;
+        }
+        else
+        {
+            List<int> calculatingList = new List<int>();
+            int left, right;
+            left = TrashBinUtil(arr, ref dp, cur - 1, calculating);
+            right = TrashBinUtil(arr, ref dp, cur + 1,calculating);
+            if (left==right && left==99999999)
+                dp[cur] = 99999999;
+            else
+                dp[cur] = Math.Min(left, right) + 1;
+        }
+        return dp[cur];
+    }
+    // private int TrashBinHelper(int[] arr, int[] dp, int cur){
+
+    // }
 }
