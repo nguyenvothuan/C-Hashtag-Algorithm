@@ -18,6 +18,13 @@ namespace LeetCode
 
 
             var listOfSquare = sol.Divide(arr,2);
+            foreach (var i in listOfSquare )
+            {
+                foreach(int j in i) {
+                    Console.Write(j);
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

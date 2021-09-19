@@ -188,10 +188,16 @@ class Solution
         return times - sum;
     }
 
-    // public int[][] sortByBeauty(int numbers, int size)
-    // {
 
-    // }
+///////////////////////////
+
+
+    public int[][] sortByBeauty(int[][] numbers, int size)
+    {
+        List<List<int>> sortedSquare = Divide(numbers, size);
+        int count = numbers.Length / size;
+        return Conquer(sortedSquare, size, count);
+    }
     public List<List<int>> Divide(int[][] numbers, int size) {
         List<List<int>> listOfSquare = new List<List<int>>();
         int count = numbers.Length / size;
@@ -206,15 +212,36 @@ class Solution
                 listOfSquare.Add(square);
             }
         }
-        int[] beauty = new int[listOfSquare.Count];
-        Dictionary<int, List<int>> beautyToList = new Dictionary<int, List<int>>();
-        for(int i=0;i<beauty.Length;i++) {
-            beauty[i] = FindBeauty(listOfSquare[i]);
-            beautyToList.Add(beauty[i], listOfSquare[i]);
+        List<int> beauty = new List<int>();
+        Dictionary<int, List<List<int>>> beautyToList = new Dictionary<int, List<List<int>>>();
+        for(int i=0;i<listOfSquare.Count;i++) {
+            beauty.Add(FindBeauty(listOfSquare[i]));
+            if (!beautyToList.ContainsKey(beauty[i])){
+                List<List<int>> sameOrder = new List<List<int>>();
+                sameOrder.Add(listOfSquare[i]);
+                beautyToList.Add(beauty[i], sameOrder);
+            }
+            else {
+                beautyToList[beauty[i]].Add(listOfSquare[i]);
+            }
         }
-        OrderedDictionary bl = new OrderedDictionary();
-        
-        return listOfSquare;
+        var noDuplicate = replaceDuplicate(beauty);
+        noDuplicate.Sort();
+        List<List<int>> sortedSquares = new List<List<int>>();
+        foreach (int i in noDuplicate) {
+            foreach (List<int> list in beautyToList[i])
+                sortedSquares.Add(list);
+        }
+        return sortedSquares;
+    }
+
+    public List<int> replaceDuplicate(List<int> beauty) {
+        List<int> replaced = new List<int>();
+        foreach (int i in beauty){
+            if (!replaced.Contains(i))
+                replaced.Add(i);
+        }
+        return replaced;
     }
     public int FindBeauty(List<int> list) {
         list.Sort();
@@ -226,7 +253,13 @@ class Solution
         return list[list.Count-1]+1;
     }
 
-    public int[][] Conquer (List<List<int>> listOfSquare, int beautyOrder)  {
-        
+    public int[][] Conquer (List<List<int>> listOfSquare, int size, int count)  {//count: number of square of size in each row or columns
+        int[][] arr = new int[count*size][];
+        for (int i =0;i<count*size;i++) {
+            arr[i] = new int[count*size];
+        }
+        for (int i=0;i<size;i++ ){//populate each row fully
+            List<int> curSquare = listOfSquare.Count/si
+        }
     }   
 }
