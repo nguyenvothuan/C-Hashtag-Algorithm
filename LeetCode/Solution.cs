@@ -1,207 +1,232 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 class Solution
 {
-    public int ArrayGCD(int[] arr)
+
+
+    //1
+    public int updateTimes(List<int> signalOne, List<int> signalTwo)
     {
-        int min = arr[0];
-        int max = arr[arr.Length];
-        foreach (int i in arr)
+        int len1 = signalOne.Count;
+        int len2 = signalTwo.Count;
+        int len = len1 > len2 ? len2 : len1;
+        int maxequal = int.MinValue;
+        int count = 0;
+        for (int i = 0; i < len; i++)
         {
-            if (i > max) max = i;
-            if (i < min) min = i;
-        }
-        return GCD(min, max);
-
-    }
-    private int GCD(int n1, int n2)
-    {
-        if (n2 == 0)
-        {
-            return n1;
-        }
-        else
-        {
-            return GCD(n2, n1 % n2);
-        }
-    }
-
-    public string LeftOverBinary(string[] nums)
-    {//array of length n, element of length n
-        int[] arr = new int[nums.Length];
-        for (int i = 0; i < nums.Length; i++)
-        {
-            arr[i] = BinaryToDec(nums[i]);
-        }
-        char[] onemax = new char[nums.Length];
-        for (int i = 0; i < onemax.Length; i++) onemax[i] = '1';
-
-
-        int lim = Convert.ToInt32("11");
-        Random rand = new Random();
-        List<int> visited = new List<int>();
-        while (true)
-        {
-            int cur = rand.Next(0, lim);
-            if (!visited.Contains(cur))
+            if (signalOne[i] == signalTwo[i] && signalOne[i] > maxequal)
             {
-                if (!Contains(arr, cur))
-                    return Convert.ToString(cur, 2);
+                count++;
+                maxequal = signalOne[i];
             }
         }
+        return count;
     }
-    private bool Contains(int[] arr, int k)
-    {
-        foreach (int i in arr)
-            if (i == k)
-                return true;
-        return false;
-    }
-    private int BinaryToDec(string input)
-    {
-        char[] array = input.ToCharArray();
-        // Reverse since 16-8-4-2-1 not 1-2-4-8-16. 
-        Array.Reverse(array);
-        /*
-         * [0] = 1
-         * [1] = 2
-         * [2] = 4
-         * etc
-         */
-        int sum = 0;
 
-        for (int i = 0; i < array.Length; i++)
+    //3
+    public static int countHighlyProfitableMonths(List<int> stockPrices, int k)
+    {
+        int len = stockPrices.Count;
+        int[] greaterThanPrev = new int[len];
+        int count = 0;
+        greaterThanPrev[0] = 1;
+        for (int i = 1; i < len; i++)
         {
-            if (array[i] == '1')
+            if (stockPrices[i] > stockPrices[i - 1])
             {
-                // Method uses raising 2 to the power of the index. 
-                if (i == 0)
+                greaterThanPrev[i] = greaterThanPrev[i - 1] + 1;
+                if (i == len - 1 && greaterThanPrev[i] >= k)
                 {
-                    sum += 1;
+                    count += greaterThanPrev[i] - k + 1;
+                }
+            }
+            else
+            {//end of the wave. if i==len - 1 here, arr[i] is 
+                greaterThanPrev[i] = 1;
+                if (greaterThanPrev[i - 1] >= k)
+                {
+                    count += stockPrices[i - 1] - k + 1;//calculate in the previous wave
+                }
+            }
+        }
+        return count;
+    }
+
+
+    //4
+    public static List<int> getUnallottedUsers(List<List<int>> bids, int totalShares)
+    {
+        bids.Sort((x, y) => x[2].CompareTo(y[2]));
+        int noBidder = bids.Count;
+        for (int i = noBidder - 1; i >= 0;)
+        {//total share always greater than 0
+            int lastOne = findAllSamePrice(bids, i);
+            if (lastOne == i) //no same price bidder
+            {
+                totalShares -= bids[i][1];
+                if (totalShares <= 0)
+                {
+                    return calculateLeft(bids, i);
+                }
+                i--;
+            }
+            else
+            {
+                List<int> concludedInLoops = new List<int>();
+                int used = handleEqualPrice(bids, i, lastOne, totalShares, concludedInLoops);
+                if (used == 0)
+                {//all is used and everyone there get shared
+                    return calculateLeft(bids, lastOne);
+                }
+                else if (used == -1)
+                {//some in loops doesn't get share
+                    List<int> left = calculateLeft(bids, lastOne);
+                    //join left with concludedinloops and return here!!!!!!!!!!
+                    foreach (int j in concludedInLoops)
+                    {
+                        left.Add(j);
+                        return left;
+                    }
+
                 }
                 else
                 {
-                    sum += (int)Math.Pow(2, i);
+                    //update total share
+                    totalShares = used;
+                    i = lastOne - 1;
                 }
             }
+        }
+        return new List<int>();
+    }
 
+    private static List<int> calculateLeft(List<List<int>> bids, int index)
+    {//will not include index
+        if (index == 0) return new List<int>();//no shit, return empty
+        List<int> newList = new List<int>();
+        for (int i = 0; i < index; i++)
+        {
+            newList.Add(bids[i][0]);
+        }
+        newList.Sort();
+        return newList;
+        ;
+    }
+    private static int handleEqualPrice(List<List<int>> samePriceBidder, int start, int end, int curShare, List<int> emptylist)
+    {//return 0 if all share is used and everyone in the loops get their share, -1 if some is left and modify the emptylist, return left other wise
+        if (start - end + 1 > curShare)
+        {
+            int leftStart = start - curShare;
+            for (int i = end; i <= leftStart; i++)
+            {
+                emptylist.Add(samePriceBidder[i][0]);
+
+            }
+            return -1;
         }
 
+        for (int i = end; i < start; i++)
+        {
+            curShare -= samePriceBidder[i][1];
+        }
+        return curShare > 0 ? curShare : 0;
+
+    }
+    private static int findAllSamePrice(List<List<int>> bids, int index)
+    {//return index of the last same price bidder. return it self if no such
+
+        int cur = index;
+        // int count =1;
+        while (bids[index][2] == bids[cur][2])
+        {
+            if (cur == 0)
+            {
+                //can't go any further
+                return 0;
+            }
+            cur--;
+        }
+        return cur + 1;
+    }
+
+    public List<int> DigitList(int n)
+    {
+        List<int> digits = new List<int>();
+        int cur = n;
+        while (cur>9){
+            int newCur = (int)(cur/10);
+            int last = cur - newCur*10;
+            digits.Add(last);
+            cur = newCur;
+        }
+        digits.Add(cur);
+        
+        return digits;
+    }
+    private int Sum(List<int> li) {
+        int sum =0;
+        foreach (int i in li) {
+            sum+=i;
+        }
         return sum;
     }
-
-    private bool Contains(string[] arr, string key)
-    {
-        foreach (string str in arr)
-        {
-            if (str.Equals(key))
-                return true;
+    private int Multiply(List<int> li) {
+        int times = 1;
+        foreach (int i in li) {
+            if (i==0)
+                return 0;
+            times*=i;
         }
-        return false;
+        return times;
     }
 
-    public string FindDifferentBinaryString(string[] nums)
-    {
-        int n = nums.Length;
-        List<string> visited = new List<string>();
-        Random rand  = new Random();
-        while (true) 
-        {
-            char[] temp = new char[n];
-            for (int i =0;i<n;i++) {
-                temp[i] = Convert.ToChar(rand.Next(2));
-            }
-            string cur = new string(temp);
-            if (!visited.Contains(cur)){
-                if (!Contains(nums, cur))
-                    return cur;
-            }
-        }
-        
+    public int digitsManipulations(int n){
+        List<int> list = DigitList(n);
+        int sum = Sum(list);
+        int times = Multiply(list);
+        return times - sum;
     }
 
+    // public int[][] sortByBeauty(int numbers, int size)
+    // {
 
-
-    public int MinimumDifference(int[] nums, int k) {
-        if (nums.Length==1) return 0;
+    // }
+    public List<List<int>> Divide(int[][] numbers, int size) {
+        List<List<int>> listOfSquare = new List<List<int>>();
+        int count = numbers.Length / size;
+        for (int i=0;i<count;i++){
+            for (int j =0;j<count;j++) {
+                List<int> square = new List<int>();
+                for (int y=0;y<size;y++) {
+                    for(int x=0;x<size;x++) {
+                        square.Add(numbers[size*i+y][size*j+x]);
+                    }
+                }
+                listOfSquare.Add(square);
+            }
+        }
+        int[] beauty = new int[listOfSquare.Count];
+        Dictionary<int, List<int>> beautyToList = new Dictionary<int, List<int>>();
+        for(int i=0;i<beauty.Length;i++) {
+            beauty[i] = FindBeauty(listOfSquare[i]);
+            beautyToList.Add(beauty[i], listOfSquare[i]);
+        }
+        OrderedDictionary bl = new OrderedDictionary();
         
-        List<int> list = new List<int>(nums);
+        return listOfSquare;
+    }
+    public int FindBeauty(List<int> list) {
         list.Sort();
-        int minDist = 999999;
-        for(int i=0;i<nums.Length-k+1;i++)
-        {
-            int start = list[i];
-            int end = list[i+k-1];
-            if (end-start<minDist)
-                minDist=end-start;
+        if (list[0] != 1) return 1;
+        for (int i=1;i<list.Count;i++ ){
+            if (list[i] - list[i-1]>1)
+                return list[i-1]+1;
         }
-        return minDist; 
+        return list[list.Count-1]+1;
     }
-    public string KthLargestNum(string[] nums, int k) {
-        long[] arr = new long[nums.Length];
-        for (int i =0;i<arr.Length;i++){
-            arr[i] = Int64.Parse(nums[i]);
-        }
-        List<long> newarr = new List<long>(arr);
-        newarr.Sort();
-        return Convert.ToString(newarr[newarr.Count-k]);
-    }
-    public string KLargestNum(string[] nums, int k ){
-        Dictionary<int, List<string>> dict = new Dictionary<int, List<string>>();
-        foreach(string str in nums ){
-            int len = str.Length;
-            if (!dict.ContainsKey(len))
-            {
-                List<string> list = new List<string>();
-                list.Add(str);
-                dict.Add(len, list);
-            }
-            else {
-                dict[len].Add(str);
-            }
-        }
-        int curSum =0;
-        int match = -1;
-        int leftOver = -1;
-        foreach (int key in dict.Keys)
-        {
-            int cur = dict[key].Count;
-            curSum += cur;
-            if (curSum>=k)
-            {
-                match = key;
-                leftOver = match-key;
-                break;
-            }
-        }
-        //dict[match] now contains the k
-        //find the dict[match][leftOver] after sort
 
-
-    }
-    private string KthLargestSameLength(List<string> nums, int leftOver ){
-        if (nums[0].Length==1)
-        {
-            return nums[leftOver];
-        }
-        Dictionary<int, List<string>> dict  = new Dictionary<int, List<string>>();
-        foreach (string num in nums)
-        {
-            int len = num.Length;
-            if (!dict.ContainsKey(len))
-            {
-                List<string> newl = new List<string>();
-                newl.Add(num);
-                dict.Add(len, newl);
-            }
-            else {
-                dict[len].Add(num);
-            }
-
-        }
+    public int[][] Conquer (List<List<int>> listOfSquare, int beautyOrder)  {
         
-
-
-
-    }
+    }   
 }
