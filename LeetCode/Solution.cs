@@ -319,22 +319,22 @@ class Solution
         else if (cur == 0)
         {
             dp[cur] = TrashBinUtil(arr, ref dp, cur + 1, calculating) + 1;
-            if (dp[cur]==100000000)
-                dp[cur]= 99999999;
+            if (dp[cur] == 100000000)
+                dp[cur] = 99999999;
         }
         else if (cur == arr.Length - 1)
         {
             dp[cur] = TrashBinUtil(arr, ref dp, cur - 1, calculating) + 1;
-            if (dp[cur]==100000000)
-                dp[cur]= 99999999;
+            if (dp[cur] == 100000000)
+                dp[cur] = 99999999;
         }
         else
         {
             List<int> calculatingList = new List<int>();
             int left, right;
             left = TrashBinUtil(arr, ref dp, cur - 1, calculating);
-            right = TrashBinUtil(arr, ref dp, cur + 1,calculating);
-            if (left==right && left==99999999)
+            right = TrashBinUtil(arr, ref dp, cur + 1, calculating);
+            if (left == right && left == 99999999)
                 dp[cur] = 99999999;
             else
                 dp[cur] = Math.Min(left, right) + 1;
@@ -344,4 +344,101 @@ class Solution
     // private int TrashBinHelper(int[] arr, int[] dp, int cur){
 
     // }
+
+
+    public void Happiness(int day, int attraction, int k, int[] start, int[] end, int[] happiness)
+    {
+        List<List<int>> sum = new List<List<int>>(day);
+        for (int i = 0; i < sum.Count; i++)
+        {
+            sum[i] = new List<int>();
+        }
+        for (int i = 0; i < attraction; i++)
+        {
+            int s = start[i]; int e = end[i];
+            for (int j = s; j < e; i++)
+            {
+                sum[i].Add(happiness[j]);
+            }
+        }
+
+    }
+
+    public int Fib(int n)
+    {
+        int[] fib = new int[n + 1];
+        FibUtil(n, fib);
+        return fib[n];
+    }
+    public int FibUtil(int n, int[] fib)
+    {
+        if (n == 0) { fib[n] = 0; }
+        if (n == 1) { fib[n] = 1; }
+        if (n == 2) { fib[n] = 1; }
+        else if (fib[n] != 0) { return fib[n]; }
+        else { fib[n] = FibUtil(n - 1, fib) + FibUtil(n - 2, fib); }
+        return fib[n];
+    }
+
+    public int DistributeCandies(int[] candyType)
+    {
+        int n = candyType.Length / 2;
+        List<int> types = new List<int>();
+        foreach (int i in candyType)
+        {
+            if (Contains(types, i))
+            {
+                BubbleSort(types, i);
+            }
+        }
+        return n > types.Count ? types.Count : n;
+    }
+
+    public void BubbleSort(List<int> arr, int n)
+    {
+        int min = 0;
+        int max = arr.Count - 1;
+        while (min < max)
+        {
+            int mid = (min + max) / 2;
+            if (arr[mid] == n) return;
+            if (arr[mid] > n)
+            {
+                max = mid - 1;
+            }
+            else
+            {
+                min = mid + 1;
+            }
+        }
+        if (arr[min]==n) return;
+        if (min >= arr.Count-1)
+            arr.Add(n);
+        else
+            arr.Insert(min, n);
+    }
+    public bool Contains(List<int> inputArray, int key)
+    {
+        int min = 0;
+        int max = inputArray.Count - 1;
+        while (min <= max)
+        {
+            int mid = (min + max) / 2;
+            if (key == inputArray[mid])
+            {
+                return true;
+            }
+            else if (key < inputArray[mid])
+            {
+                max = mid - 1;
+            }
+            else
+            {
+                min = mid + 1;
+            }
+        }
+        return false;
+    }
+
+
 }
