@@ -411,8 +411,8 @@ class Solution
                 min = mid + 1;
             }
         }
-        if (arr[min]==n) return;
-        if (min >= arr.Count-1)
+        if (arr[min] == n) return;
+        if (min >= arr.Count - 1)
             arr.Add(n);
         else
             arr.Insert(min, n);
@@ -440,5 +440,43 @@ class Solution
         return false;
     }
 
+    public bool CanWinNim(int n)
+    {
+        int[] dp = new int[n + 1];
+        Array.Fill(dp, 0);//0 not decided yet, -1 100% lose, 1 winnable
+        dp[1] = 1;
+        dp[2] = 1;
+        dp[3] = 1;
+        CanWinNimUtil(n,dp);
+        return dp[n] == 1;
+
+    }
+    private int CanWinNimUtil(int n, int[] dp) {
+        if (dp[n]!=0) return dp[n];
+        dp[n-1] = CanWinNimUtil(n-1, dp);
+        
+        dp[n] = dp[n-1]==-1||dp[n-2]==-1||dp[n-3]==-1? 1: -1;
+        return dp[n];
+    }
+
+    public int HammingDistance(int x, int y) {
+        
+        string n1 = Convert.ToString(Math.Min(x,y),2);
+        string n2 = Convert.ToString(Math.Max(x,y),2);
+        int l1 = n1.Length;
+        int l2 = n2.Length;
+        int count = 0;
+        for (int i =0;i<l2;i++) {
+            
+            if (i<l2-l1) {
+                if (n2[i]=='1') 
+                    count++;
+            }
+            else {
+                count += (n1[i-l2+l1]!=n2[i]?1:0);
+            }
+        }
+        return count;
+    }
 
 }

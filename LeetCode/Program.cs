@@ -18,8 +18,7 @@ namespace LeetCode
             int[] trash = new int[6] {1,0,0,1,0,0};
             List<int> dummyList = new List<int>(arr[0]);
 
-            sol.BubbleSort(dummyList,5 );
-            foreach(int i in dummyList ) Console.Write(i+" ");
+            Console.WriteLine(sol.HammingDistance(1,4));
         }
     }
 }
