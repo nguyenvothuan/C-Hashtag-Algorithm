@@ -250,16 +250,7 @@ class Solution
         return sortedSquares;
     }
 
-    public List<int> replaceDuplicate(List<int> beauty)
-    {
-        List<int> replaced = new List<int>();
-        foreach (int i in beauty)
-        {
-            if (!replaced.Contains(i))
-                replaced.Add(i);
-        }
-        return replaced;
-    }
+
     public int FindBeauty(List<int> list)
     {
         list.Sort();
@@ -447,36 +438,239 @@ class Solution
         dp[1] = 1;
         dp[2] = 1;
         dp[3] = 1;
-        CanWinNimUtil(n,dp);
+        CanWinNimUtil(n, dp);
         return dp[n] == 1;
 
     }
-    private int CanWinNimUtil(int n, int[] dp) {
-        if (dp[n]!=0) return dp[n];
-        dp[n-1] = CanWinNimUtil(n-1, dp);
-        
-        dp[n] = dp[n-1]==-1||dp[n-2]==-1||dp[n-3]==-1? 1: -1;
+    private int CanWinNimUtil(int n, int[] dp)
+    {
+        if (dp[n] != 0) return dp[n];
+        dp[n - 1] = CanWinNimUtil(n - 1, dp);
+
+        dp[n] = dp[n - 1] == -1 || dp[n - 2] == -1 || dp[n - 3] == -1 ? 1 : -1;
         return dp[n];
     }
 
-    public int HammingDistance(int x, int y) {
-        
-        string n1 = Convert.ToString(Math.Min(x,y),2);
-        string n2 = Convert.ToString(Math.Max(x,y),2);
+    public int HammingDistance(int x, int y)
+    {
+
+        string n1 = Convert.ToString(Math.Min(x, y), 2);
+        string n2 = Convert.ToString(Math.Max(x, y), 2);
         int l1 = n1.Length;
         int l2 = n2.Length;
         int count = 0;
-        for (int i =0;i<l2;i++) {
-            
-            if (i<l2-l1) {
-                if (n2[i]=='1') 
+        for (int i = 0; i < l2; i++)
+        {
+
+            if (i < l2 - l1)
+            {
+                if (n2[i] == '1')
                     count++;
             }
-            else {
-                count += (n1[i-l2+l1]!=n2[i]?1:0);
+            else
+            {
+                count += (n1[i - l2 + l1] != n2[i] ? 1 : 0);
             }
         }
         return count;
+    }
+    public bool IsRectangleOverlap(int[] rec1, int[] rec2)
+    {
+        int x1 = rec1[0]; int y1 = rec1[1]; int x2 = rec1[2]; int y2 = rec1[3];
+        int a1 = rec2[0]; int b1 = rec2[1]; int a2 = rec2[2]; int b2 = rec2[3];
+        if (x2 <= a1 || a2 <= x1) return false;
+        if (y2 <= b1 || b2 <= y1) return false;
+        return true;
+    }
+
+    public IList<int> PartitionLabels(string s)
+    {
+
+        Dictionary<char, int[]> dict = new Dictionary<char, int[]>();//key: [start, end]
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (dict.ContainsKey(s[i]))
+            {
+                dict[s[i]][1] = i;
+            }
+            else
+            {
+                int[] startend = { i, i };
+                dict.Add(s[i], startend);
+            }
+        }
+        int cur = 0;
+        int start = dict[s[cur]][0];
+        int end = dict[s[cur]][1];
+        // int count=0;
+        List<int> record = new List<int>();
+        while (true)
+        {
+            if (dict[s[cur]][1] > end)
+            {
+                end = dict[s[cur]][1];
+                cur++;
+                if (end == s.Length - 1)
+                {
+                    record.Add(end - start + 1);
+                    break;
+                }
+            }
+            else if (cur == end)
+            {
+                record.Add(end - start + 1);
+                cur = cur + 1;
+                start = dict[s[cur]][0];
+                end = dict[s[cur]][1];
+                if (end == s.Length - 1)
+                {
+                    record.Add(end - start);
+                    break;
+                }
+            }
+            else
+            {
+                cur++;
+            }
+        }
+        return record;
+    }
+
+    public static int balancedSum(List<int> sales)
+    {
+        int sum = 0;
+        foreach (int i in sales) sum += i;
+        int curSum = 0;
+        for (int i = 0; i < sales.Count; i++)
+        {
+            if (sum - curSum - sales[i] == curSum)
+            {
+                return i;
+            }
+            curSum += sales[i];
+        }
+        return -1;
+    }
+
+    public int fountainActivation(List<int> a)
+    {
+        List<int[]> coverage = new List<int[]>(a.Count);
+        Dictionary<int, int[]> startIend = new Dictionary<int, int[]>();
+        List<int> startTime = new List<int>();
+        for (int i = 0; i < coverage.Count; i++)
+        {
+            coverage[i] = calculateCoverage(i, a[i], a.Count);
+            int start = coverage[i][0];
+            startTime.Add(start);
+            if (startIend.ContainsKey(start))
+            {
+                int lastEnd = startIend[start][1];
+                if (coverage[i][1] > lastEnd)
+                {
+                    int[] Iend = { i, coverage[i][1] };
+                    startIend[i] = Iend;
+                }
+            }
+            else
+            {
+                int[] Iend = { i, coverage[i][1] };
+                startIend.Add(start, Iend);
+            }
+        }
+        startTime = replaceDuplicate(startTime);
+        startTime.Sort();
+        int cur = 0;
+        int count = 0;
+        int next = -1;
+        while (true)
+        {
+            if (startIend.ContainsKey(cur))
+                next = startIend[cur][1];
+            else
+            {
+                for (int i = cur - 1; i > 0; i--)
+                {
+                    if (startIend.ContainsKey(i))
+                    {
+                        next = startIend[i][1];
+                    }
+                }
+            }
+            ++count;
+            if (next == a.Count - 1)
+                break;
+            cur = next + 1;
+        }
+
+
+
+        return count;
+    }
+
+    public List<int> replaceDuplicate(List<int> beauty)
+    {
+        List<int> replaced = new List<int>();
+        foreach (int i in beauty)
+        {
+            if (!replaced.Contains(i))
+                replaced.Add(i);
+        }
+        return replaced;
+    }
+
+    public int[] calculateCoverage(int i, int ai, int len)
+    {
+        int[] leftright = new int[2];
+        leftright[0] = Math.Max(i - ai, 0);
+        leftright[1] = Math.Min(i + ai, len - 1);
+        return leftright;
+    }
+
+    public int Reverse(int x)
+    {
+        if (x>Math.Pow(2, 31)-1 || x<-Math.Pow(2, 31)) 
+            return 0;
+        if (x > 0)
+        {
+            long cur = x;
+            long newX = 0;
+            while (cur > 9)
+            {
+                long rightOfCur = cur % 10;
+                newX = 10 * newX + rightOfCur;
+                if (newX>Math.Pow(2, 29)-1 || newX<-Math.Pow(2, 29)) 
+                    return 0;
+                cur = (cur - rightOfCur) / 10;
+            }
+            newX = newX * 10 + cur;
+            return (int)newX;
+        }
+        else
+        {
+            x = -x;
+            long cur = x;
+            long newX = 0;
+            while (cur > 9)
+            {
+                long rightOfCur = cur % 10;
+                newX = 10 * newX + rightOfCur;
+                if (newX>Math.Pow(2, 31)-1 || newX<-Math.Pow(2, 31)) 
+                    return 0;
+                cur = (cur - rightOfCur) / 10;
+            }
+            newX = newX * 10 + cur;
+            return -(int)newX;
+        }
+    }
+
+    public int ArrayPairSum(int[] nums) {
+        List<int> list = new List<int>(nums);
+        list.Sort();
+        int sum=0;
+        for(int i=0;i<nums.Length-1;i+=2){
+            sum+= list[i];
+        }
+        return sum;
     }
 
 }
