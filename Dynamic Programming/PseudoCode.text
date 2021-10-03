@@ -1,0 +1,13 @@
+Stock(price[], start, sum): void
+    bot:= index of the first point after start that has derivative equals 0 and second derivative > 0
+    if bot = end //all bear market
+        return; //no way to make profit
+    max:= index of the maximum price after bot
+    buyStart:= index of the first day where price is smaller than max
+    sum+= buySell(price[], buyStart, max);
+    Stock(price[], max, sum);
+    
+
+    
+
+

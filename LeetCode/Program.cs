@@ -31,7 +31,10 @@ namespace LeetCode
             // foreach (var key in newDict.Keys){
             //     Console.WriteLine(key+": "+newDict[key]);
             // }
-            Console.WriteLine(sol.Reverse(0));
-        }
+            int[] shita = {1,3,5};
+            Console.WriteLine(sol.kDifference(new List<int>(shita), 2));
+            //Console.W
+            
+            }
     }
 }

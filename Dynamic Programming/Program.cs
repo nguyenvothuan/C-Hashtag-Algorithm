@@ -12,8 +12,8 @@ namespace Dynamic_Programming
             int[] proc = {8,10,8};
             int[] task = { 2,2,3,1,8,7,4,5,8,7,4,5};
             int[] arr2 = {1, -2};
-            int[] test = dp.SubArrayWithMaxSum(arr2);
-            Console.WriteLine(test[0] +", "+test[1]);
+            long test = dp.FibonacciModified(0,1,8);
+            Console.WriteLine(test);
         }
     }
 }

@@ -628,7 +628,7 @@ class Solution
 
     public int Reverse(int x)
     {
-        if (x>Math.Pow(2, 31)-1 || x<-Math.Pow(2, 31)) 
+        if (x > Math.Pow(2, 31) - 1 || x < -Math.Pow(2, 31))
             return 0;
         if (x > 0)
         {
@@ -638,7 +638,7 @@ class Solution
             {
                 long rightOfCur = cur % 10;
                 newX = 10 * newX + rightOfCur;
-                if (newX>Math.Pow(2, 29)-1 || newX<-Math.Pow(2, 29)) 
+                if (newX > Math.Pow(2, 29) - 1 || newX < -Math.Pow(2, 29))
                     return 0;
                 cur = (cur - rightOfCur) / 10;
             }
@@ -654,7 +654,7 @@ class Solution
             {
                 long rightOfCur = cur % 10;
                 newX = 10 * newX + rightOfCur;
-                if (newX>Math.Pow(2, 31)-1 || newX<-Math.Pow(2, 31)) 
+                if (newX > Math.Pow(2, 31) - 1 || newX < -Math.Pow(2, 31))
                     return 0;
                 cur = (cur - rightOfCur) / 10;
             }
@@ -663,14 +663,72 @@ class Solution
         }
     }
 
-    public int ArrayPairSum(int[] nums) {
+    public int ArrayPairSum(int[] nums)
+    {
         List<int> list = new List<int>(nums);
         list.Sort();
-        int sum=0;
-        for(int i=0;i<nums.Length-1;i+=2){
-            sum+= list[i];
+        int sum = 0;
+        for (int i = 0; i < nums.Length - 1; i += 2)
+        {
+            sum += list[i];
         }
         return sum;
     }
 
+    public string ReverseStr(string s, int k)
+    {
+        int left = s.Length;
+        int cur = 0;
+        char[] newString = new char[s.Length];
+        while (left > 2 * k)
+        {
+            //reverse from cur to cur+k-1
+            for (int i = 0; i < k; i++)
+            {
+                newString[cur + i] = s[cur + k - 1 - i];
+            }
+            left = left - 2 * k;
+            cur = cur + 2 * k;
+        }
+        //now that left is less than 2k
+        if (left >= k)
+        {
+            for (int i = 0; i < s.Length - cur; i++)
+            {
+                newString[cur + i] = s[s.Length - i - 1];
+            }
+        }
+        return new string(newString);
+    }
+    //K-Difference
+    public int kDifference(List<int> a, int k)
+    {
+        if (a.Count==2) return Math.Abs(a[0]-a[1])==k?1:0;
+        a.Sort();
+        int count =0;
+        for (int i =0;i<a.Count-1;i++) {
+            for (int j =i+1;j<a.Count;j++){
+                if (Math.Abs(a[i]-a[j])==k){
+                    count++;
+                if (j==a.Count-1||a[j]!=a[j+1] )
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+
+
+
+    public static string canReach (int x1, int y1, int x2, int y2){
+        return canReachUtil(x1,y1, x2, y2)? "Yes": "No";
+    }
+    private static bool canReachUtil(int x1, int y1, int x2, int y2) {
+        if (x1>x2|| y1>y2) return false;
+        if (x1==x2&&y1==y2) return true;
+        return canReachUtil(x1+y1, y1, x2, y2) || canReachUtil(x1,x1+ y1,x2, y2 );
+    }
+    
 }
+

@@ -235,4 +235,19 @@ class DynamicProgramming
         return output;
     }
 
+
+    public long FibonacciModified(int n1, int n2, int term) {
+        long[] dp = new long[term+1];
+        Array.Fill(dp, int.MaxValue);
+        dp[1]=n1;dp[2]=n2;
+       
+        return FibonacciModifiedUtil(dp, term);
+    }
+    private long FibonacciModifiedUtil(long[] dp, int cur){
+        if (dp[cur]!=int.MaxValue) return dp[cur];
+        dp[cur] = FibonacciModifiedUtil(dp, cur-2)+FibonacciModifiedUtil(dp, cur-1)*FibonacciModifiedUtil(dp, cur-1);
+        return dp[cur];
+    }
+
+
 }
