@@ -793,5 +793,17 @@ class Solution
 
     }
 
+    public int MaxSubArray(int[] nums) {
+        int[] max = (int[])nums.Clone();
+        int soFar = max[0];
+        
+        for (int i=1;i<nums.Length;i++){
+            max[i] = max[i-1]>0?max[i-1]+max[i]:max[i];
+            if (max[i]>soFar) soFar=max[i];
+        }
+        return soFar;
+    }
+    public int MaxSum ()
+
 }
 
