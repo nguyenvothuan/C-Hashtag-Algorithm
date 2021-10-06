@@ -32,9 +32,9 @@ namespace LeetCode
             //     Console.WriteLine(key+": "+newDict[key]);
             // }
             int[] shita = {1,3,5};
-            Console.WriteLine(sol.kDifference(new List<int>(shita), 2));
+            // Console.WriteLine(sol.kDifference(new List<int>(shita), 2));
             //Console.W
-            
+            Console.WriteLine(sol.FractionToDecimal(1,3));
             }
     }
 }

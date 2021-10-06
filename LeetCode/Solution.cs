@@ -703,15 +703,18 @@ class Solution
     //K-Difference
     public int kDifference(List<int> a, int k)
     {
-        if (a.Count==2) return Math.Abs(a[0]-a[1])==k?1:0;
+        if (a.Count == 2) return Math.Abs(a[0] - a[1]) == k ? 1 : 0;
         a.Sort();
-        int count =0;
-        for (int i =0;i<a.Count-1;i++) {
-            for (int j =i+1;j<a.Count;j++){
-                if (Math.Abs(a[i]-a[j])==k){
+        int count = 0;
+        for (int i = 0; i < a.Count - 1; i++)
+        {
+            for (int j = i + 1; j < a.Count; j++)
+            {
+                if (Math.Abs(a[i] - a[j]) == k)
+                {
                     count++;
-                if (j==a.Count-1||a[j]!=a[j+1] )
-                    break;
+                    if (j == a.Count - 1 || a[j] != a[j + 1])
+                        break;
                 }
             }
         }
@@ -721,14 +724,74 @@ class Solution
 
 
 
-    public static string canReach (int x1, int y1, int x2, int y2){
-        return canReachUtil(x1,y1, x2, y2)? "Yes": "No";
+    public static string canReach(int x1, int y1, int x2, int y2)
+    {
+        return canReachUtil(x1, y1, x2, y2) ? "Yes" : "No";
     }
-    private static bool canReachUtil(int x1, int y1, int x2, int y2) {
-        if (x1>x2|| y1>y2) return false;
-        if (x1==x2&&y1==y2) return true;
-        return canReachUtil(x1+y1, y1, x2, y2) || canReachUtil(x1,x1+ y1,x2, y2 );
+    private static bool canReachUtil(int x1, int y1, int x2, int y2)
+    {
+        if (x1 > x2 || y1 > y2) return false;
+        if (x1 == x2 && y1 == y2) return true;
+        return canReachUtil(x1 + y1, y1, x2, y2) || canReachUtil(x1, x1 + y1, x2, y2);
     }
-    
+
+    public string FractionToDecimal(int numerator, int denominator)
+    {
+        double n = (double)numerator / denominator;
+        string str = n.ToString();
+        if (str.Length < 10) return str;
+        for (int i = 3; i < Math.Sqrt(str.Length); i++)
+        {
+            if (IsRepeat(str, 2, i, 0))
+            {
+                char[] rep = new char[i + 2];
+                rep[0] = str[0];
+                rep[1] = '.';
+                rep[2] = '(';
+                for (int j = 3; j <= i; j++)
+                {
+                    rep[j] = str[j - 1];
+                }
+                rep[i + 1] = ')';
+                return new string(rep);
+            }
+        }
+        return str;
+    }
+    private bool IsRepeat(string str, int s, int e, int count)
+    {//check if the sequence from s to e (0 based) is repeated
+        //s start at 2, srting at least 10 chars long
+        if (count > 10) return true;
+        int length = e - s + 1;
+        for (int i = 0; i < length; i++)
+        {
+            if (str[s] != str[s + length])
+            {
+                return false;
+            }
+        }
+        if (e + length > str.Length) return true;
+        return IsRepeat(str, e + 1, e + length, count + 1);
+
+    }
+
+    public IList<int> FindDuplicates(int[] nums)
+    {//I found this solution on leetcode, absolutely genius to use the index as an indicator for duplicate
+     //so the idea is that when A[i] = k is seen or the first time, go to A[k] and set it to negative to mark that k is seen once. 
+     //next time we see A[j] = k, now we know that the idicator for k is negative it has been seen, => add
+        List<int> duplicates = new List<int>();
+        for (int i =0;i<nums.Length;i++){
+            int cur = Math.Abs(nums[i]);
+            if (nums[cur-1] <0){
+                duplicates.Add(cur);
+            }
+            else {
+                nums[cur-1] = -nums[cur-1];
+            }
+        } 
+        return duplicates;
+
+    }
+
 }
 
