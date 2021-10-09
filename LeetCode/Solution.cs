@@ -780,30 +780,65 @@ class Solution
      //so the idea is that when A[i] = k is seen or the first time, go to A[k] and set it to negative to mark that k is seen once. 
      //next time we see A[j] = k, now we know that the idicator for k is negative it has been seen, => add
         List<int> duplicates = new List<int>();
-        for (int i =0;i<nums.Length;i++){
+        for (int i = 0; i < nums.Length; i++)
+        {
             int cur = Math.Abs(nums[i]);
-            if (nums[cur-1] <0){
+            if (nums[cur - 1] < 0)
+            {
                 duplicates.Add(cur);
             }
-            else {
-                nums[cur-1] = -nums[cur-1];
+            else
+            {
+                nums[cur - 1] = -nums[cur - 1];
             }
-        } 
+        }
         return duplicates;
 
     }
 
-    public int MaxSubArray(int[] nums) {
+    public int MaxSubArray(int[] nums)
+    {
         int[] max = (int[])nums.Clone();
         int soFar = max[0];
-        
-        for (int i=1;i<nums.Length;i++){
-            max[i] = max[i-1]>0?max[i-1]+max[i]:max[i];
-            if (max[i]>soFar) soFar=max[i];
+
+        for (int i = 1; i < nums.Length; i++)
+        {
+            max[i] = max[i - 1] > 0 ? max[i - 1] + max[i] : max[i];
+            if (max[i] > soFar) soFar = max[i];
         }
         return soFar;
     }
-    public int MaxSum ()
+
+    public int Jump(int[] num)
+    {
+        //https://leetcode.com/problems/jump-game-ii/
+        int[] dp = new int[num.Length];//dp[i] be the number of minimum jumps possible at index i from 0 ->n-1
+        Array.Fill(dp, 999999);
+        JumpUtil(dp,num, 0);
+        return dp[0];
+    }
+    private int JumpUtil(int[] dp, int[] nums, int cur)
+    {//calculate the minimum jump needed at index cur
+        if (dp[cur] != 999999) return dp[cur];//calculated
+        if (cur >= dp.Length - 1)
+        {
+            dp[cur] = 0;
+            return 0;
+        }
+        if (nums[cur]==0){
+            dp[cur] = int.MaxValue;
+            return int.MaxValue;
+        }
+        int min = int.MaxValue;
+        for (int i=1;i<=nums[cur];i++){
+            int curMin =1+ JumpUtil(dp, nums, cur+i);
+            if (min>curMin){
+                min = curMin;
+            }
+        }
+        dp[cur] = min;
+        return dp[cur];
+    }
 
 }
 

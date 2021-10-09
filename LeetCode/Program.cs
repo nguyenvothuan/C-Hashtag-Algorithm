@@ -34,7 +34,8 @@ namespace LeetCode
             int[] shita = {1,3,5};
             // Console.WriteLine(sol.kDifference(new List<int>(shita), 2));
             //Console.W
-            Console.WriteLine(sol.FractionToDecimal(1,3));
+            int[] j = {2,3,1,1,4};
+            Console.WriteLine(sol.Jump(j));
             }
     }
 }
