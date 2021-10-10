@@ -35,7 +35,8 @@ namespace LeetCode
             // Console.WriteLine(sol.kDifference(new List<int>(shita), 2));
             //Console.W
             int[] j = {2,3,1,1,4};
-            Console.WriteLine(sol.Jump(j));
+            int[] sorted = {1,2,3,4,5,7,9};
+            Console.WriteLine(Array.BinarySearch(sorted, 3));
             }
     }
 }
