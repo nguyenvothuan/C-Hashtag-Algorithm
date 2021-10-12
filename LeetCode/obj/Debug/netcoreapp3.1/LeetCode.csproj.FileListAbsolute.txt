@@ -1,0 +1,13 @@
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\bin\Debug\netcoreapp3.1\LeetCode.exe
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\bin\Debug\netcoreapp3.1\LeetCode.deps.json
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\bin\Debug\netcoreapp3.1\LeetCode.runtimeconfig.json
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\bin\Debug\netcoreapp3.1\LeetCode.runtimeconfig.dev.json
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\bin\Debug\netcoreapp3.1\LeetCode.dll
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\bin\Debug\netcoreapp3.1\LeetCode.pdb
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.csprojAssemblyReference.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.AssemblyInfoInputs.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.AssemblyInfo.cs
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.csproj.CoreCompileInputs.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.dll
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.pdb
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.genruntimeconfig.cache

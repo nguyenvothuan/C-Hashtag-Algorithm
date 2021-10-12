@@ -17,13 +17,13 @@ namespace LeetCode
             arr[3] = new int[4] { 5, 4, 4, 5 };
             int[] trash = new int[6] { 1, 0, 0, 1, 0, 0 };
             List<int> dummyList = new List<int>(arr[0]);
-            int[] rec1 = {0, 0, 1, 1}; int[] rec2 = {2, 2, 3, 3};
+            int[] rec1 = { 0, 0, 1, 1 }; int[] rec2 = { 2, 2, 3, 3 };
             //string s = "ababcbacade";
             Tool<char> tool = new Tool<char>();
             Dictionary<int, char> dict = new Dictionary<int, char>();
-            dict.Add(2,'b');
-            dict.Add(3,'a');
-            dict.Add(1,'c');
+            dict.Add(2, 'b');
+            dict.Add(3, 'a');
+            dict.Add(1, 'c');
             // foreach (var key in dict.Keys){
             //     Console.WriteLine(key+": "+dict[key]);
             // }
@@ -31,12 +31,12 @@ namespace LeetCode
             // foreach (var key in newDict.Keys){
             //     Console.WriteLine(key+": "+newDict[key]);
             // }
-            int[] shita = {1,3,5};
+            int[] shita = { 1, 3, 5 };
             // Console.WriteLine(sol.kDifference(new List<int>(shita), 2));
             //Console.W
-            int[] j = {2,3,1,1,4};
-            int[] sorted = {1,2,3,4,5,7,9};
-            Console.WriteLine(Array.BinarySearch(sorted, 3));
-            }
+            int[] j = { 2, 3, 1, 1, 4 };
+            int[] sorted = { 1, 2, 3, 4, 5, 7, 9 };
+            Console.WriteLine(sol.GuessNumber(20));
+        }
     }
 }
