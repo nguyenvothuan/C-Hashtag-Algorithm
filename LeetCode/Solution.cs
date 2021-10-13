@@ -862,5 +862,30 @@ class Solution
         return left;
     }
 
+    public string Reverse(string str) {
+        Stack<char> chars = new Stack<char>();
+        foreach (char i in str ){
+            chars.Push(i);
+        }
+        return new string(chars.ToArray());
+    }
+
+    public int MaxArea(int[] height) {
+        int i=0, j=height.Length-1;
+        int water =0;
+        while (i<j) {
+            water =Math.Max(water, Area(i, j, height));
+            if (height[i]<height[j]){
+                i++;
+            } else {
+                j--;
+            }
+
+        }
+        return water;
+    }
+    private int Area(int a, int b, int[] height) {
+        return Math.Abs(a-b)*Math.Min(height[a], height[b]);
+    }
 }
 
