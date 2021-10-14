@@ -887,5 +887,54 @@ class Solution
     private int Area(int a, int b, int[] height) {
         return Math.Abs(a-b)*Math.Min(height[a], height[b]);
     }
+
+    public List<int> getMinimumDifference(List<string> a, List<string> b){
+        List<int> res = new List<int>();
+        for (int i =0;i<a.Count;i++){
+            res.Add(getDifference(a[i], b[i]));
+        }
+        return res;
+    }
+    public int getDifference(string a, string b) {
+        if (a.Length!=b.Length) return -1;
+        Dictionary<char, int> dict1 = new Dictionary<char, int>();
+        Dictionary<char, int> dict2 = new Dictionary<char, int>();
+        for (int i =0;i<a.Length;i++){
+            if (dict1.ContainsKey(a[i])){
+                dict1[a[i]]++;
+            }
+            else {
+                dict1.Add(a[i], 1);
+            }
+            if (dict2.ContainsKey(b[i])){
+                dict2[b[i]]++;
+            }
+            else {
+                dict2.Add(b[i], 1);
+            }
+        }
+        int count =0;
+        foreach (char chr in dict1.Keys) {
+            if (dict2.ContainsKey(chr))
+                count += Math.Abs(dict1[chr] - dict2[chr]);
+            else 
+                count += dict1[chr];
+        }
+        foreach (char chr in dict2.Keys) {
+            if (!dict1.ContainsKey(chr))
+                count += dict2[chr];
+        }
+        return count/2;
+    }
+
+    public bool isPossible(List<int> calCounts, int requiredCals) {
+        return isPossibleUtil(calCounts, requiredCals, 0);
+    }
+    private bool isPossibleUtil(List<int> calCounts, int sum, int curInd) {
+        // if it is possible to finish at day curIndex, whehter to eat or not
+        if (sum==0) return true;
+        if (curInd >= calCounts.Count || sum<0) return false;
+        return isPossibleUtil(calCounts, sum -calCounts[curInd], curInd+1) || isPossibleUtil(calCounts, sum, curInd+1);
+    }
 }
 

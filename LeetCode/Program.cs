@@ -36,7 +36,13 @@ namespace LeetCode
             //Console.W
             int[] j = { 2, 3, 1, 1, 4 };
             int[] sorted = { 1, 2, 3, 4, 5, 7, 9 };
-            Console.WriteLine(sol.GuessNumber(20));
+            List<string> a = new List<string>(new string[5]{"a", "jk", "abb", "mn", "abc"});
+            List<string> b = new List<string>(new string[5]{"bb", "kj", "bbc", "op", "def"});
+
+            var test = sol.getMinimumDifference(a, b);
+            List<int> cal = new List<int>(new int[5]{2,3,15,1,16});
+            int req = 8;
+            Console.WriteLine(sol.isPossible(cal, req));
         }
     }
 }
