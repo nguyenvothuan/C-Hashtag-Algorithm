@@ -936,5 +936,27 @@ class Solution
         if (curInd >= calCounts.Count || sum<0) return false;
         return isPossibleUtil(calCounts, sum -calCounts[curInd], curInd+1) || isPossibleUtil(calCounts, sum, curInd+1);
     }
+
+    public int CanCompleteCircuit(int[] gas, int[] cost) {
+        //https://leetcode.com/problems/gas-station/
+        int count=0;
+        for (int i=0; i<gas.Length;i++) {
+            count+= gas[i] - cost[i];
+        }
+        if (count<0) return -1;
+        int acc = 0;
+        int cur =0;
+        for (int i=0;i<gas.Length;i++){
+            int gain = gas[i] - cost[i];
+            if (acc+gain<0) {
+                cur=i+1;
+                acc=0;
+            }
+            else {
+                acc+= gain;
+            }
+        }
+        return cur;
+    }
 }
 
