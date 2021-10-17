@@ -41,8 +41,12 @@ namespace LeetCode
 
             var test = sol.getMinimumDifference(a, b);
             List<int> cal = new List<int>(new int[5]{2,3,15,1,16});
-            int req = 8;
-            Console.WriteLine(sol.isPossible(cal, req));
+            int[][] obs = new int[1][];
+            obs[0] = new int[2]{1,1};
+            int[][] tel = new int[2][];
+            tel[0] = new int[4]{0, 2, 0, 1};
+            tel[1] =new int[4]{0,3,2,0};
+            Console.Write(sol.labyrinthEscape(3,4,obs, tel));
         }
     }
 }

@@ -814,7 +814,7 @@ class Solution
         //https://leetcode.com/problems/jump-game-ii/
         int[] dp = new int[num.Length];//dp[i] be the number of minimum jumps possible at index i from 0 ->n-1
         Array.Fill(dp, 999999);
-        JumpUtil(dp,num, 0);
+        JumpUtil(dp, num, 0);
         return dp[0];
     }
     private int JumpUtil(int[] dp, int[] nums, int cur)
@@ -825,14 +825,17 @@ class Solution
             dp[cur] = 0;
             return 0;
         }
-        if (nums[cur]==0){
+        if (nums[cur] == 0)
+        {
             dp[cur] = int.MaxValue;
             return int.MaxValue;
         }
         int min = int.MaxValue;
-        for (int i=1;i<=nums[cur];i++){
-            int curMin =1+ JumpUtil(dp, nums, cur+i);
-            if (min>curMin){
+        for (int i = 1; i <= nums[cur]; i++)
+        {
+            int curMin = 1 + JumpUtil(dp, nums, cur + i);
+            if (min > curMin)
+            {
                 min = curMin;
             }
         }
@@ -840,123 +843,190 @@ class Solution
         return dp[cur];
     }
 
-    int guess(int num) {
-        int a =9;
-        if (num==a)return 0;
-        if (num<a) return -1;
+    int guess(int num)
+    {
+        int a = 9;
+        if (num == a) return 0;
+        if (num < a) return -1;
         return 1;
     }
 
-    public int GuessNumber(int n) {
-        int left =1;int right = n;
-        while (left<=right) {
-            int mid = (left+right)/2;
-            if (guess(mid)==0) return mid;
-            else if (guess(mid)==-1) {
-                right=mid-1;
+    public int GuessNumber(int n)
+    {
+        int left = 1; int right = n;
+        while (left <= right)
+        {
+            int mid = (left + right) / 2;
+            if (guess(mid) == 0) return mid;
+            else if (guess(mid) == -1)
+            {
+                right = mid - 1;
             }
-            else{
-                left = mid+1;
+            else
+            {
+                left = mid + 1;
             }
         }
         return left;
     }
 
-    public string Reverse(string str) {
+    public string Reverse(string str)
+    {
         Stack<char> chars = new Stack<char>();
-        foreach (char i in str ){
+        foreach (char i in str)
+        {
             chars.Push(i);
         }
         return new string(chars.ToArray());
     }
 
-    public int MaxArea(int[] height) {
-        int i=0, j=height.Length-1;
-        int water =0;
-        while (i<j) {
-            water =Math.Max(water, Area(i, j, height));
-            if (height[i]<height[j]){
+    public int MaxArea(int[] height)
+    {
+        int i = 0, j = height.Length - 1;
+        int water = 0;
+        while (i < j)
+        {
+            water = Math.Max(water, Area(i, j, height));
+            if (height[i] < height[j])
+            {
                 i++;
-            } else {
+            }
+            else
+            {
                 j--;
             }
 
         }
         return water;
     }
-    private int Area(int a, int b, int[] height) {
-        return Math.Abs(a-b)*Math.Min(height[a], height[b]);
+    private int Area(int a, int b, int[] height)
+    {
+        return Math.Abs(a - b) * Math.Min(height[a], height[b]);
     }
 
-    public List<int> getMinimumDifference(List<string> a, List<string> b){
+    public List<int> getMinimumDifference(List<string> a, List<string> b)
+    {
         List<int> res = new List<int>();
-        for (int i =0;i<a.Count;i++){
+        for (int i = 0; i < a.Count; i++)
+        {
             res.Add(getDifference(a[i], b[i]));
         }
         return res;
     }
-    public int getDifference(string a, string b) {
-        if (a.Length!=b.Length) return -1;
+    public int getDifference(string a, string b)
+    {
+        if (a.Length != b.Length) return -1;
         Dictionary<char, int> dict1 = new Dictionary<char, int>();
         Dictionary<char, int> dict2 = new Dictionary<char, int>();
-        for (int i =0;i<a.Length;i++){
-            if (dict1.ContainsKey(a[i])){
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (dict1.ContainsKey(a[i]))
+            {
                 dict1[a[i]]++;
             }
-            else {
+            else
+            {
                 dict1.Add(a[i], 1);
             }
-            if (dict2.ContainsKey(b[i])){
+            if (dict2.ContainsKey(b[i]))
+            {
                 dict2[b[i]]++;
             }
-            else {
+            else
+            {
                 dict2.Add(b[i], 1);
             }
         }
-        int count =0;
-        foreach (char chr in dict1.Keys) {
+        int count = 0;
+        foreach (char chr in dict1.Keys)
+        {
             if (dict2.ContainsKey(chr))
                 count += Math.Abs(dict1[chr] - dict2[chr]);
-            else 
+            else
                 count += dict1[chr];
         }
-        foreach (char chr in dict2.Keys) {
+        foreach (char chr in dict2.Keys)
+        {
             if (!dict1.ContainsKey(chr))
                 count += dict2[chr];
         }
-        return count/2;
+        return count / 2;
     }
 
-    public bool isPossible(List<int> calCounts, int requiredCals) {
+    public bool isPossible(List<int> calCounts, int requiredCals)
+    {
         return isPossibleUtil(calCounts, requiredCals, 0);
     }
-    private bool isPossibleUtil(List<int> calCounts, int sum, int curInd) {
+    private bool isPossibleUtil(List<int> calCounts, int sum, int curInd)
+    {
         // if it is possible to finish at day curIndex, whehter to eat or not
-        if (sum==0) return true;
-        if (curInd >= calCounts.Count || sum<0) return false;
-        return isPossibleUtil(calCounts, sum -calCounts[curInd], curInd+1) || isPossibleUtil(calCounts, sum, curInd+1);
+        if (sum == 0) return true;
+        if (curInd >= calCounts.Count || sum < 0) return false;
+        return isPossibleUtil(calCounts, sum - calCounts[curInd], curInd + 1) || isPossibleUtil(calCounts, sum, curInd + 1);
     }
 
-    public int CanCompleteCircuit(int[] gas, int[] cost) {
+    public int CanCompleteCircuit(int[] gas, int[] cost)
+    {
         //https://leetcode.com/problems/gas-station/
-        int count=0;
-        for (int i=0; i<gas.Length;i++) {
-            count+= gas[i] - cost[i];
+        int count = 0;
+        for (int i = 0; i < gas.Length; i++)
+        {
+            count += gas[i] - cost[i];
         }
-        if (count<0) return -1;
+        if (count < 0) return -1;
         int acc = 0;
-        int cur =0;
-        for (int i=0;i<gas.Length;i++){
+        int cur = 0;
+        for (int i = 0; i < gas.Length; i++)
+        {
             int gain = gas[i] - cost[i];
-            if (acc+gain<0) {
-                cur=i+1;
-                acc=0;
+            if (acc + gain < 0)
+            {
+                cur = i + 1;
+                acc = 0;
             }
-            else {
-                acc+= gain;
+            else
+            {
+                acc += gain;
             }
         }
         return cur;
+    }
+
+    public bool labyrinthEscape(int n, int m, int[][] obstables, int[][] teleports)
+    {//obs[i]: obs at (obs[i][0],obs[i][1]).
+     //tel[i]: from tel[i][0], tel[i][1] to tel[i][2], tel[i][3]
+        int[,][] board = new int[n, m][];
+
+        foreach (var cor in obstables)
+        {
+            if (cor[0] < n && cor[1] < m)
+            { board[cor[0], cor[1]] = new int[2] { -1, -1 }; }
+        }
+        foreach (var cor in teleports)
+        {
+            if (cor[0] < n && cor[1] < m)
+            { board[cor[0], cor[1]] = new int[2] { cor[2], cor[3] }; }
+        }
+        int i = 0; int j = 0; //to n-1 and m-1
+        while (true)
+        {
+            if (i == n - 1 && j == m - 1) return true;
+            if (j >= m)
+            {
+                j = 0;
+                i++;
+            }
+            if (board[i, j] == null) //free 
+                j++;
+            else if (board[i, j][0] == -1)
+                return false;
+            else
+            {   int a=board[i, j][0];int b=board[i, j][1];
+                i = a;
+                j = b;
+                if (j >= m || i >= n) return false;
+            }
+        }
     }
 }
 
