@@ -1021,12 +1021,112 @@ class Solution
             else if (board[i, j][0] == -1)
                 return false;
             else
-            {   int a=board[i, j][0];int b=board[i, j][1];
+            {
+                int a = board[i, j][0]; int b = board[i, j][1];
                 i = a;
                 j = b;
                 if (j >= m || i >= n) return false;
             }
         }
     }
+    public int solution(int[] arr)
+    {
+        int[] digitSum = new int[arr.Length];
+        for (int i = 0; i < arr.Length; i++)
+        {
+            digitSum[i] = DigitSum(arr[i]);
+        }
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (dict.ContainsKey(digitSum[i]))
+            {
+                dict[digitSum[i]].Add(arr[i]);
+                dict[digitSum[i]].Sort();
+            }
+            else
+            {
+                var newList = new List<int>();
+                newList.Add(arr[i]);
+                dict.Add(digitSum[i], newList);
+            }
+        }
+        int max = -1;
+        foreach (int key in dict.Keys)
+        {
+            if (dict[key].Count > 1)
+            {
+                int len = dict[key].Count;
+                int temp = dict[key][len - 1] + dict[key][len - 2];
+                if (max < temp)
+                {
+                    max = temp;
+                }
+            }
+        }
+        return max;
+    }
+    public int DigitSum(int n)
+    {
+        int sum = 0;
+        while (n != 0)
+        {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    public int CountDuplicateForX(int[] arr)
+    {
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        foreach (int i in arr)
+        {
+            if (dict.ContainsKey(i))
+            {
+                dict[i]++;
+            }
+            else
+            {
+                dict.Add(i, 1);
+            }
+        }
+        int max = 0;
+        foreach (var pair in dict)
+        {
+            if (pair.Key == pair.Value)
+            {
+                if (pair.Key > max)
+                    max = pair.Key;
+            }
+        }
+
+        return max;
+
+    }
+
+    public int evenSubarray(List<int> numbers, int k)
+    {
+        if (k==0) return 0;
+        bool[] IsOdd = new bool[numbers.Count];
+        foreach (int i in numbers) {
+            IsOdd[i] = numbers[i]%2!=0;
+        }
+        int count=0;
+        for (int i =0;i<numbers.Count;i++){
+            int odd =0;
+            for (int j=i;j<numbers.Count;j++){
+                if (IsOdd[j]){
+                    odd++;
+                    if (odd>k){
+                        break;
+                    }
+                }
+                count++;
+            }
+        }
+        return count;
+    }
+
 }
 

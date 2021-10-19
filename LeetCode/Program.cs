@@ -31,7 +31,6 @@ namespace LeetCode
             // foreach (var key in newDict.Keys){
             //     Console.WriteLine(key+": "+newDict[key]);
             // }
-            int[] shita = { 1, 3, 5 };
             // Console.WriteLine(sol.kDifference(new List<int>(shita), 2));
             //Console.W
             int[] j = { 2, 3, 1, 1, 4 };
@@ -46,7 +45,10 @@ namespace LeetCode
             int[][] tel = new int[2][];
             tel[0] = new int[4]{0, 2, 0, 1};
             tel[1] =new int[4]{0,3,2,0};
-            Console.Write(sol.labyrinthEscape(3,4,obs, tel));
+            int[] shit = {1,2,3,4,5,9,10,11};
+            List<int> testshit = new List<int>(shit);
+            tool.BinaryInsertSortedList(testshit, 6);
+            // Console.Write(sol.solution(shita);
         }
     }
 }
