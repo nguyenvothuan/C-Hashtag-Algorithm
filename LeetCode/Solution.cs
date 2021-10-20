@@ -1149,11 +1149,12 @@ class Solution
     }
     public int NumSquares(int n)
     {
-        
+
         List<int> square = PerfectSquareToN(n);
-        int[] db = new int[n+1]; 
+        int[] db = new int[n + 1];
         Array.Fill(db, -1); //-1 is not found,0 is non-composable, >0 means yes
-        foreach (int i in square) {
+        foreach (int i in square)
+        {
             db[i] = 1;
         }
         //TODO: fix this shit
@@ -1161,18 +1162,19 @@ class Solution
     }
     int NumSquaresUtil(int n, List<int> squares, int[] db)
     {
-        if (n<0) return -9999;
+        if (n < 0) return -9999;
         if (IsSquare(n)) return 1;
         if (db[n] == -1)
         {
             int cur = 1;
             int min = int.MaxValue;
-            while (cur*cur < n / 2)
+            while (cur * cur < n / 2)
             {
-                int square = cur*cur;
+                int square = cur * cur;
                 int temp = NumSquaresUtil(n - square, squares, db);
-                if (temp!= -9999) {
-                    min = Math.Min(temp+1, min);
+                if (temp != -9999)
+                {
+                    min = Math.Min(temp + 1, min);
                 }
                 cur++;
             }
@@ -1195,18 +1197,24 @@ class Solution
         }
         return list;
     }
-    public string ReverseWords(string s) {
-        int cur =0;
-        
+    public string ReverseWords(string s)
+    {
+        int cur = 0;
+
         Stack<string> str = new Stack<string>();
         List<char> chr = new List<char>();
-        while (cur<s.Length) {
-            if (s[cur]!=' ') {
+        while (cur < s.Length)
+        {
+            if (s[cur] != ' ')
+            {
                 chr.Add(s[cur]);
-                if (cur==s.Length-1) 
+                if (cur == s.Length - 1)
                     str.Push(new string(chr.ToArray()));
-            }else {
-                if (chr.Count>0){
+            }
+            else
+            {
+                if (chr.Count > 0)
+                {
                     string word = new string(chr.ToArray());
                     str.Push(word);
                     chr.Clear();
@@ -1215,13 +1223,56 @@ class Solution
             cur++;
         }
         StringBuilder buffer = new StringBuilder();
-        while (str.Count!=0) {
+        while (str.Count != 0)
+        {
             buffer.Append(str.Pop());
-            if (str.Count!=0) {
+            if (str.Count != 0)
+            {
                 buffer.Append(" ");
             }
         }
         return buffer.ToString();
     }
+
+    public double FindMedianSortedArrays(int[] nums1, int[] nums2)
+    {
+        if (nums1 == null || nums2 == null || nums1.Length == 0 || nums2.Length == 0) return 0;
+        int m = nums1.Length; int n = nums2.Length;
+        int l = (m + n + 1) / 2;
+        int r = (m + n + 2) / 2;
+        //if m+n is odd, then l and r are the same, if m+n is even, r - l=1;
+        return (getKth(nums1, 0, nums2, 0, l) + getKth(nums1, 0, nums2, 0, r))/2;
+    }
+
+    double getKth(int[] nums1, int start1, int[] nums2, int start2, int k)
+    {
+        //return the kth elements in nums1 + nums2
+        if (start1 > nums1.Length - 1) return nums2[start2 + k - 1];
+        if (start2 > nums2.Length - 1) return nums1[start1 + k - 1];
+        if (k == 1) return Math.Min(nums1[start1], nums2[start2]);
+        int mid1 = int.MaxValue;
+        int mid2 = int.MaxValue;
+        if (start1 + k / 2 - 1 < nums1.Length) mid1 = nums1[start1 + k / 2 - 1];
+        if (start2 + k / 2 - 1 < nums2.Length) mid2 = nums2[start2 + k / 2 - 1];
+        if (mid1 < mid2)
+        {
+            //take half right of nums1 and half left of nums2
+            return getKth(nums1, start1 + k / 2, nums2, start2, k - k / 2);
+        }
+        else
+        {
+            return getKth(nums1, start1, nums2, start2 + k / 2, k - k / 2);
+        }
+
+    }
+    public int MissingNumber(int[] nums) {
+        int xor =0;
+        int i=0;
+        for (i=0;i<nums.Length;i++) {
+            xor = xor^i^nums[i];
+        }
+        return xor^i;
+    }
+
 }
 
