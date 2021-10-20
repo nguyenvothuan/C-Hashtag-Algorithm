@@ -47,8 +47,8 @@ namespace LeetCode
             tel[1] =new int[4]{0,3,2,0};
             int[] shit = {1,2,3,4,5,9,10,11};
             List<int> testshit = new List<int>(shit);
-            tool.BinaryInsertSortedList(testshit, 6);
-            // Console.Write(sol.solution(shita);
+            // tool.BinaryInsertSortedList(testshit, 6);
+            Console.Write(sol.ReverseWords("hello world"));
         }
     }
 }

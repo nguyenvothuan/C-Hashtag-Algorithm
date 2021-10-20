@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Text;
 class Solution
 {
 
@@ -1107,18 +1108,23 @@ class Solution
 
     public int evenSubarray(List<int> numbers, int k)
     {
-        if (k==0) return 0;
+        if (k == 0) return 0;
         bool[] IsOdd = new bool[numbers.Count];
-        foreach (int i in numbers) {
-            IsOdd[i] = numbers[i]%2!=0;
+        foreach (int i in numbers)
+        {
+            IsOdd[i] = numbers[i] % 2 != 0;
         }
-        int count=0;
-        for (int i =0;i<numbers.Count;i++){
-            int odd =0;
-            for (int j=i;j<numbers.Count;j++){
-                if (IsOdd[j]){
+        int count = 0;
+        for (int i = 0; i < numbers.Count; i++)
+        {
+            int odd = 0;
+            for (int j = i; j < numbers.Count; j++)
+            {
+                if (IsOdd[j])
+                {
                     odd++;
-                    if (odd>k){
+                    if (odd > k)
+                    {
                         break;
                     }
                 }
@@ -1127,8 +1133,95 @@ class Solution
         }
         return count;
     }
-
-    
-    
+    public int ClimbStairs(int n)
+    {
+        if (n <= 3) return n;
+        int[] db = new int[n + 1];
+        db[n - 1] = 1;
+        db[n - 2] = 2;
+        return ClimbUtil(0, db);
+    }
+    int ClimbUtil(int i, int[] db)
+    {
+        if (db[i] == 0)
+            db[i] = ClimbUtil(i + 1, db) + ClimbUtil(i + 2, db);
+        return db[i];
+    }
+    public int NumSquares(int n)
+    {
+        
+        List<int> square = PerfectSquareToN(n);
+        int[] db = new int[n+1]; 
+        Array.Fill(db, -1); //-1 is not found,0 is non-composable, >0 means yes
+        foreach (int i in square) {
+            db[i] = 1;
+        }
+        //TODO: fix this shit
+        return 1;
+    }
+    int NumSquaresUtil(int n, List<int> squares, int[] db)
+    {
+        if (n<0) return -9999;
+        if (IsSquare(n)) return 1;
+        if (db[n] == -1)
+        {
+            int cur = 1;
+            int min = int.MaxValue;
+            while (cur*cur < n / 2)
+            {
+                int square = cur*cur;
+                int temp = NumSquaresUtil(n - square, squares, db);
+                if (temp!= -9999) {
+                    min = Math.Min(temp+1, min);
+                }
+                cur++;
+            }
+        }
+        return db[n];
+    }
+    bool IsSquare(int n)
+    {
+        int temp = (int)Math.Sqrt(n);
+        return temp * temp == n;
+    }
+    List<int> PerfectSquareToN(int n)
+    {
+        List<int> list = new List<int>();
+        int cur = 1;
+        while (cur * cur <= n)
+        {
+            list.Add(cur * cur);
+            cur++;
+        }
+        return list;
+    }
+    public string ReverseWords(string s) {
+        int cur =0;
+        
+        Stack<string> str = new Stack<string>();
+        List<char> chr = new List<char>();
+        while (cur<s.Length) {
+            if (s[cur]!=' ') {
+                chr.Add(s[cur]);
+                if (cur==s.Length-1) 
+                    str.Push(new string(chr.ToArray()));
+            }else {
+                if (chr.Count>0){
+                    string word = new string(chr.ToArray());
+                    str.Push(word);
+                    chr.Clear();
+                }
+            }
+            cur++;
+        }
+        StringBuilder buffer = new StringBuilder();
+        while (str.Count!=0) {
+            buffer.Append(str.Pop());
+            if (str.Count!=0) {
+                buffer.Append(" ");
+            }
+        }
+        return buffer.ToString();
+    }
 }
 
