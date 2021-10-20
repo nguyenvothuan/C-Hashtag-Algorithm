@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Text;
 class Solution
 {
-
+    Tool<int> tool = new Tool<int>();
 
     //1
     public int updateTimes(List<int> signalOne, List<int> signalTwo)
@@ -1274,5 +1274,54 @@ class Solution
         return xor^i;
     }
 
+    public int RomanToInt(string s) {//in range 3999
+        Dictionary<char, int> dict = new Dictionary<char, int>();
+        dict.Add('I', 1);
+        dict.Add('V', 5);
+        dict.Add('X', 10);
+        dict.Add('L', 50);
+        dict.Add('C', 100);
+        dict.Add('D', 500);
+        dict.Add('M', 1000);
+        int cur =0;
+        int cum = 0;
+        while (cur<s.Length){
+            //handle substraction
+            if (HandleSubstraction(s, cur,ref cum, dict))
+                cur+=2;
+            else {
+                cum+= dict[s[cur]];cur++;
+            }
+        }
+        return cum;
+    }
+    bool HandleSubstraction(string s, int cur,ref int cum, Dictionary<char, int> dict) {
+        //check cur and cur + 1 is substraction. if yes then substract 
+        int before = cum;
+        if (cur==s.Length-1 || s[cur]=='M') return false;
+        if (s[cur]=='C' && s[cur+1]=='D') cum+= 400;
+        if (s[cur]=='C' && s[cur+1]=='M') cum+= 900;
+        if (s[cur]=='X' && s[cur+1]=='L') cum+= 40;
+        if (s[cur]=='X' && s[cur+1]=='C') cum+= 90;
+        if (s[cur]=='I' && s[cur+1]=='V') cum+= 4;
+        if (s[cur]=='I' && s[cur+1]=='X') cum+= 9;
+        return before!=cum;
+    }
+
+    public int[] TwoSum(int[] nums, int target) {
+        int[] order = new int[nums.Length];
+        for(int i =0;i<order.Length;i++) order[i] = i;
+        tool.QuickSort(nums, order, 0, order.Length-1);
+        List<int> sorted=new List<int>(nums);
+        for (int i =0;i<nums.Length-1;i++)
+        {
+            int cur = target - nums[i];
+            if (sorted.BinarySearch(i+1, nums.Length-i+1, cur)>0);
+            {
+                int[] result= new int[2];
+                //write binary search with indec
+            }
+        }
+    }
 }
 
