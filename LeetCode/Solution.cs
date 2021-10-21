@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 class Solution
 {
@@ -1241,7 +1242,7 @@ class Solution
         int l = (m + n + 1) / 2;
         int r = (m + n + 2) / 2;
         //if m+n is odd, then l and r are the same, if m+n is even, r - l=1;
-        return (getKth(nums1, 0, nums2, 0, l) + getKth(nums1, 0, nums2, 0, r))/2;
+        return (getKth(nums1, 0, nums2, 0, l) + getKth(nums1, 0, nums2, 0, r)) / 2;
     }
 
     double getKth(int[] nums1, int start1, int[] nums2, int start2, int k)
@@ -1265,16 +1266,19 @@ class Solution
         }
 
     }
-    public int MissingNumber(int[] nums) {
-        int xor =0;
-        int i=0;
-        for (i=0;i<nums.Length;i++) {
-            xor = xor^i^nums[i];
+    public int MissingNumber(int[] nums)
+    {
+        int xor = 0;
+        int i = 0;
+        for (i = 0; i < nums.Length; i++)
+        {
+            xor = xor ^ i ^ nums[i];
         }
-        return xor^i;
+        return xor ^ i;
     }
 
-    public int RomanToInt(string s) {//in range 3999
+    public int RomanToInt(string s)
+    {//in range 3999
         Dictionary<char, int> dict = new Dictionary<char, int>();
         dict.Add('I', 1);
         dict.Add('V', 5);
@@ -1283,45 +1287,182 @@ class Solution
         dict.Add('C', 100);
         dict.Add('D', 500);
         dict.Add('M', 1000);
-        int cur =0;
+        int cur = 0;
         int cum = 0;
-        while (cur<s.Length){
+        while (cur < s.Length)
+        {
             //handle substraction
-            if (HandleSubstraction(s, cur,ref cum, dict))
-                cur+=2;
-            else {
-                cum+= dict[s[cur]];cur++;
+            if (HandleSubstraction(s, cur, ref cum, dict))
+                cur += 2;
+            else
+            {
+                cum += dict[s[cur]]; cur++;
             }
         }
         return cum;
     }
-    bool HandleSubstraction(string s, int cur,ref int cum, Dictionary<char, int> dict) {
+    bool HandleSubstraction(string s, int cur, ref int cum, Dictionary<char, int> dict)
+    {
         //check cur and cur + 1 is substraction. if yes then substract 
         int before = cum;
-        if (cur==s.Length-1 || s[cur]=='M') return false;
-        if (s[cur]=='C' && s[cur+1]=='D') cum+= 400;
-        if (s[cur]=='C' && s[cur+1]=='M') cum+= 900;
-        if (s[cur]=='X' && s[cur+1]=='L') cum+= 40;
-        if (s[cur]=='X' && s[cur+1]=='C') cum+= 90;
-        if (s[cur]=='I' && s[cur+1]=='V') cum+= 4;
-        if (s[cur]=='I' && s[cur+1]=='X') cum+= 9;
-        return before!=cum;
+        if (cur == s.Length - 1 || s[cur] == 'M') return false;
+        if (s[cur] == 'C' && s[cur + 1] == 'D') cum += 400;
+        if (s[cur] == 'C' && s[cur + 1] == 'M') cum += 900;
+        if (s[cur] == 'X' && s[cur + 1] == 'L') cum += 40;
+        if (s[cur] == 'X' && s[cur + 1] == 'C') cum += 90;
+        if (s[cur] == 'I' && s[cur + 1] == 'V') cum += 4;
+        if (s[cur] == 'I' && s[cur + 1] == 'X') cum += 9;
+        return before != cum;
     }
 
-    public int[] TwoSum(int[] nums, int target) {
+    public int[] TwoSum(int[] nums, int target)
+    {
         int[] order = new int[nums.Length];
-        for(int i =0;i<order.Length;i++) order[i] = i;
-        tool.QuickSort(nums, order, 0, order.Length-1);
-        List<int> sorted=new List<int>(nums);
-        for (int i =0;i<nums.Length-1;i++)
+        for (int i = 0; i < order.Length; i++) order[i] = i;
+        tool.QuickSort(nums, order, 0, order.Length - 1);
+        List<int> sorted = new List<int>(nums);
+        CompareInt c = new CompareInt();
+        for (int i = 0; i < nums.Length - 1; i++)
         {
             int cur = target - nums[i];
-            if (sorted.BinarySearch(i+1, nums.Length-i+1, cur)>0);
+            int indexOfSearch = sorted.BinarySearch(cur);
+            if (indexOfSearch > 0)
             {
-                int[] result= new int[2];
-                //write binary search with indec
+                int[] result = new int[2];
+                result[0] = order[indexOfSearch];
+                result[1] = order[i];
+                return result;
             }
         }
+        return new int[0];
     }
+
+    public int RemoveOneDigit(string s, string t)
+    {
+        //now that t!= s and both of them not zero
+        StringBuilder S = new StringBuilder(s);
+        StringBuilder T = new StringBuilder(t);
+        int count = 0;
+        for (int i = 0; i < s.Length; i++)
+        {
+            S.Remove(i, 1);
+            string removed = S.ToString();
+            if (String.Compare(removed, t) < 0)
+            {//a to b. -1 if b<a, 1 if a>b
+                count++;
+            };
+            S = new StringBuilder(s);
+        }
+        for (int i = 0; i < t.Length; i++)
+        {
+            T.Remove(i, 1);
+            if (String.Compare(T.ToString(), s) > 0)
+            {
+                count++;
+            };
+            T = new StringBuilder(t);
+        }
+        return count;
+    }
+
+    int findFullLine(int[][] field, int[][] figure)
+    {
+        int colCount = field[0].Length;
+        int rowCount = field.Length;
+        //so it be from 0 to colCount -3;
+        for (int i = 0; i < colCount - 2; i++)
+        {
+            if (IsPossible(field, figure, i))
+                return i;
+        }
+        return -1;
+    }
+
+    bool IsPossible(int[][] field, int[][] figure, int cur)
+    {
+        int height = field.Length;
+        int curRow = 0;
+        for (int i = 0; i < height - 3; i++)
+        {
+            for (int a = 0; a < 3; a++)
+            {
+                for (int b = 0; b < 3; b++)
+                {
+                    if (field[curRow + a][cur + b] == figure[a][b] && figure[a][b] == 1)
+                        return false;
+
+                }
+            }
+        }
+        return true;
+    }
+
+    public int WiggleMaxLength(int[] nums)
+    {
+        int n = nums.Length;
+        if (n == 1) return n;
+        if (n==2) return nums[0]==nums[1]? 1:2;
+        int[] up = new int[n];
+        int[] down = new int[n];
+        up[n - 1] = down[n - 1] = 1;
+        up[n - 2] = nums[n - 2] < nums[n - 1] ? 2 : 1;
+        down[n - 2] = 3 - up[n - 2];
+        CalUp(nums, up, down, 0);
+        CalDown(nums,up, down, 0);
+        int max = int.MinValue;
+        foreach (int i in up)
+        {
+            if (i > max) max = i;
+        }
+        foreach (int i in down)
+        {
+            if (i > max) max = i;
+        }
+        return max;
+    }
+    int CalUp(int[] nums, int[] up, int[] down, int cur)
+    {
+        if (up[cur] == 0)
+        {
+            int max = int.MinValue;
+            for (int i = cur + 1; i < down.Length; i++)
+            {
+                if (nums[i] > nums[cur])
+                {
+                    int temp = CalDown(nums, up, down, i);
+                    max = Math.Max(max, temp);
+                }
+            }
+            up[cur] = max+1;
+        }
+        return up[cur];
+    }
+    int CalDown(int[] nums, int[] up, int[] down, int cur)
+    {
+        if (down[cur] == 0)
+        {
+            int max = int.MinValue;
+            for (int i = cur + 1; i < down.Length; i++)
+            {
+                if (nums[i] < nums[cur])
+                {
+                    int temp = CalUp(nums, up, down, i);
+                    max = Math.Max(max, temp);
+                }
+            }
+            down[cur] = max+1;
+        }
+        return down[cur];
+    }
+
 }
 
+public class CompareInt : Comparer<int>
+{
+    public override int Compare([AllowNull] int x, [AllowNull] int y)
+    {
+        if (x > y) return 1;
+        if (x < y) return -1;
+        return 0;
+    }
+}

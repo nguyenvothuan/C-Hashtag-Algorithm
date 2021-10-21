@@ -48,7 +48,8 @@ namespace LeetCode
             int[] shit = {1,2,3,4,5,9,10,11};
             List<int> testshit = new List<int>(shit);
             // tool.BinaryInsertSortedList(testshit, 6);
-            Console.Write(sol.RomanToInt("MCMXCIV"));
+            
+            Console.Write(sol.RemoveOneDigit("ab12c", "ab24z"));
         }
     }
     
