@@ -1401,14 +1401,14 @@ class Solution
     {
         int n = nums.Length;
         if (n == 1) return n;
-        if (n==2) return nums[0]==nums[1]? 1:2;
+        if (n == 2) return nums[0] == nums[1] ? 1 : 2;
         int[] up = new int[n];
         int[] down = new int[n];
         up[n - 1] = down[n - 1] = 1;
         up[n - 2] = nums[n - 2] < nums[n - 1] ? 2 : 1;
         down[n - 2] = 3 - up[n - 2];
         CalUp(nums, up, down, 0);
-        CalDown(nums,up, down, 0);
+        CalDown(nums, up, down, 0);
         int max = int.MinValue;
         foreach (int i in up)
         {
@@ -1433,7 +1433,7 @@ class Solution
                     max = Math.Max(max, temp);
                 }
             }
-            up[cur] = max+1;
+            up[cur] = max + 1;
         }
         return up[cur];
     }
@@ -1450,11 +1450,74 @@ class Solution
                     max = Math.Max(max, temp);
                 }
             }
-            down[cur] = max+1;
+            down[cur] = max + 1;
         }
         return down[cur];
     }
 
+    public bool IsSubsequence(string s, string t)
+    {//check if s is a subseq of t
+        if (s.Length==0) return true;
+        if (t.Length==0) return false;
+        int[] dp = new int [t.Length];
+        //dp recieve 0 - s.length, indicates the current number it contains
+        //dp[i] be the largest subseq length end at ith, to return dp[t.length-1];
+        dp[0] = t[0] == s[0]?1:0;
+        for (int i =1;i<dp.Length;i++) {
+            int cur = dp[i-1];
+            if (t[i]==s[dp[i-1]])
+                dp[i] = dp[i-1]+1;
+            else 
+                dp[i]=dp[i-1];
+            if (dp[i]==s.Length)
+                return true;
+        }
+        return false;
+    }
+
+    public static int getMostVisited(int n, List<int> sprints) {
+        //sprints 2n from
+        int[] arr = new int[n];
+        for(int i=0;i<sprints.Count-1;i++) {
+            int low = sprints[i]-1;
+            int high =  sprints[i+1]-1;
+            bool forward = high>low;
+            if (forward){
+                while (high>=low) {
+                    arr[low] ++;
+                    low++;
+                }
+            }
+            else {
+                while(high<=low) {
+                    arr[low]++;
+                    low--;
+                }
+            }
+        }
+        int ind = 0;
+        int max = arr[0];
+        for(int i =1;i<arr.Length;i++) {
+            if (arr[i]>max) {
+                ind =i;
+                max =arr[i];
+            }
+        }
+        return ind+1;
+    }
+
+    public long maxValue(int n, List<List<int>> rounds){
+        long max =0;
+        long[] overtime = new long[n];
+        foreach (List<int> day in rounds) {
+            int left = day[0]-1; int right=day[1]-1; int contribution = day[2];
+            for(int i=left; i<right+1;i++) {
+                overtime[i] += contribution;
+                max = Math.Max(max, overtime[i]);
+            }
+        }
+        return max;
+    }
 }
 
 public class CompareInt : Comparer<int>

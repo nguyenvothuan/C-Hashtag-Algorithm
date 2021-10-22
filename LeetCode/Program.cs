@@ -45,11 +45,15 @@ namespace LeetCode
             int[][] tel = new int[2][];
             tel[0] = new int[4]{0, 2, 0, 1};
             tel[1] =new int[4]{0,3,2,0};
-            int[] shit = {1,2,3,4,5,9,10,11};
+            int[] shit = {9,7,3,1};
             List<int> testshit = new List<int>(shit);
             // tool.BinaryInsertSortedList(testshit, 6);
-            
-            Console.Write(sol.RemoveOneDigit("ab12c", "ab24z"));
+            List<List<int>> testfuck = new List<List<int>>();
+            testfuck.Add(new List<int>(new int[3]{1,2,100}));
+            testfuck.Add(new List<int>(new int[3]{2,5,100}));
+            testfuck.Add(new List<int>(new int[3]{3,4,100}));
+
+            Console.Write(sol.maxValue(5, testfuck));
         }
     }
     
