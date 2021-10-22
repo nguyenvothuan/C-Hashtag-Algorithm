@@ -1518,6 +1518,42 @@ class Solution
         }
         return max;
     }
+
+    void Swap(ref int a, ref int b) {
+        int temp = a;
+        a=b;b=a;
+    }
+
+    public int RemoveDuplicates(int[] nums) {
+        if (nums.Length<2) return nums.Length;
+        int curIndex = 1;
+        int curNum = nums[0];
+        for(int i =0;i<nums.Length;i++) {
+            if (nums[i]>curNum) {
+                curNum=nums[i];
+                nums[curIndex] = nums[i];
+                curIndex++;
+            }
+        }
+        return curIndex;
+    }
+
+    public int RemoveElement(int[] nums, int val) {
+        
+        int moveLeft = 0;
+        int count =0;
+        for(int i =0;i<nums.Length;i++){
+            if (nums[i]==val) {
+                moveLeft++;
+            }
+            else {
+                nums[i-moveLeft] = nums[i];
+                count++;
+            }
+        }
+        return count;
+
+    }
 }
 
 public class CompareInt : Comparer<int>
