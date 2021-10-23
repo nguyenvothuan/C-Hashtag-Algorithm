@@ -1457,39 +1457,46 @@ class Solution
 
     public bool IsSubsequence(string s, string t)
     {//check if s is a subseq of t
-        if (s.Length==0) return true;
-        if (t.Length==0) return false;
-        int[] dp = new int [t.Length];
+        if (s.Length == 0) return true;
+        if (t.Length == 0) return false;
+        int[] dp = new int[t.Length];
         //dp recieve 0 - s.length, indicates the current number it contains
         //dp[i] be the largest subseq length end at ith, to return dp[t.length-1];
-        dp[0] = t[0] == s[0]?1:0;
-        for (int i =1;i<dp.Length;i++) {
-            int cur = dp[i-1];
-            if (t[i]==s[dp[i-1]])
-                dp[i] = dp[i-1]+1;
-            else 
-                dp[i]=dp[i-1];
-            if (dp[i]==s.Length)
+        dp[0] = t[0] == s[0] ? 1 : 0;
+        for (int i = 1; i < dp.Length; i++)
+        {
+            int cur = dp[i - 1];
+            if (t[i] == s[dp[i - 1]])
+                dp[i] = dp[i - 1] + 1;
+            else
+                dp[i] = dp[i - 1];
+            if (dp[i] == s.Length)
                 return true;
         }
         return false;
     }
 
-    public static int getMostVisited(int n, List<int> sprints) {
+    public static int getMostVisited(int n, List<int> sprints)
+    {
         //sprints 2n from
         int[] arr = new int[n];
-        for(int i=0;i<sprints.Count-1;i++) {
-            int low = sprints[i]-1;
-            int high =  sprints[i+1]-1;
-            bool forward = high>low;
-            if (forward){
-                while (high>=low) {
-                    arr[low] ++;
+        for (int i = 0; i < sprints.Count - 1; i++)
+        {
+            int low = sprints[i] - 1;
+            int high = sprints[i + 1] - 1;
+            bool forward = high > low;
+            if (forward)
+            {
+                while (high >= low)
+                {
+                    arr[low]++;
                     low++;
                 }
             }
-            else {
-                while(high<=low) {
+            else
+            {
+                while (high <= low)
+                {
                     arr[low]++;
                     low--;
                 }
@@ -1497,21 +1504,26 @@ class Solution
         }
         int ind = 0;
         int max = arr[0];
-        for(int i =1;i<arr.Length;i++) {
-            if (arr[i]>max) {
-                ind =i;
-                max =arr[i];
+        for (int i = 1; i < arr.Length; i++)
+        {
+            if (arr[i] > max)
+            {
+                ind = i;
+                max = arr[i];
             }
         }
-        return ind+1;
+        return ind + 1;
     }
 
-    public long maxValue(int n, List<List<int>> rounds){
-        long max =0;
+    public long maxValue(int n, List<List<int>> rounds)
+    {
+        long max = 0;
         long[] overtime = new long[n];
-        foreach (List<int> day in rounds) {
-            int left = day[0]-1; int right=day[1]-1; int contribution = day[2];
-            for(int i=left; i<right+1;i++) {
+        foreach (List<int> day in rounds)
+        {
+            int left = day[0] - 1; int right = day[1] - 1; int contribution = day[2];
+            for (int i = left; i < right + 1; i++)
+            {
                 overtime[i] += contribution;
                 max = Math.Max(max, overtime[i]);
             }
@@ -1519,18 +1531,22 @@ class Solution
         return max;
     }
 
-    void Swap(ref int a, ref int b) {
+    void Swap(ref int a, ref int b)
+    {
         int temp = a;
-        a=b;b=a;
+        a = b; b = a;
     }
 
-    public int RemoveDuplicates(int[] nums) {
-        if (nums.Length<2) return nums.Length;
+    public int RemoveDuplicates(int[] nums)
+    {
+        if (nums.Length < 2) return nums.Length;
         int curIndex = 1;
         int curNum = nums[0];
-        for(int i =0;i<nums.Length;i++) {
-            if (nums[i]>curNum) {
-                curNum=nums[i];
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] > curNum)
+            {
+                curNum = nums[i];
                 nums[curIndex] = nums[i];
                 curIndex++;
             }
@@ -1538,30 +1554,145 @@ class Solution
         return curIndex;
     }
 
-    public int RemoveElement(int[] nums, int val) {
-        
+    public int RemoveElement(int[] nums, int val)
+    {
+
         int moveLeft = 0;
-        int count =0;
-        for(int i =0;i<nums.Length;i++){
-            if (nums[i]==val) {
+        int count = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] == val)
+            {
                 moveLeft++;
             }
-            else {
-                nums[i-moveLeft] = nums[i];
+            else
+            {
+                nums[i - moveLeft] = nums[i];
                 count++;
             }
         }
         return count;
 
     }
+    public int[][] meanGroups(int[][] a)
+    {
+        Dictionary<double, List<int>> dict = new Dictionary<double, List<int>>();
+        for (int i = 0; i < a.Length; i++)
+        {
+            double avg = 0;
+            foreach (int j in a[i])
+            {
+                avg += j;
+            }
+            avg /= (double)a[i].Length;
+            if (dict.ContainsKey(avg))
+            {
+                AddLastSort(dict[avg], i);
+            }
+            else
+            {
+                List<int> newl = new List<int>(); newl.Add(i);
+                dict.Add(avg, newl);
+            }
+        }
+        List<int[]> res = new List<int[]>();
+        foreach (var pair in dict)
+        {
+            res.Add(pair.Value.ToArray());
+        }
+        return res.ToArray();
+
+
+    }
+    public void AddLastSort(List<int> list, int key)
+    {
+        //append key then sort
+        int index = list.BinarySearch(0, list.Count, key, new CompareInt());
+        if (index >= 0)
+        {
+            list.Insert(index, key);
+        }
+        else if (index == -list.Count)
+        {
+            list.Add(key);
+        }
+        else
+        {
+            index = 0 - index;
+            index -= 1;
+            list.Insert(index, key);
+        }
+    }
+
+    public int[] isZigzag(int[] numbers)
+    {
+        int[] zz = new int[numbers.Length - 2];
+        for (int i = 0; i < numbers.Length - 2; i++)
+        {
+            int a = numbers[i];
+            int b = numbers[i + 1];
+            int c = numbers[i + 2];
+            if ((a < b && b > c) || (a > b && b < c))
+                zz[i] = 1;
+        }
+        return zz;
+    }
+
+    public bool makeIncreasing(int[] numbers)
+    {
+        bool swapped = false;
+        for (int i = 1; i < numbers.Length; i++)
+        {
+            if (numbers[i] <= numbers[i - 1])
+            {
+                if (!swapped)
+                {
+                    if (Swappable(numbers[i - 2], numbers[i], numbers[i - 1]))
+                    {
+                        swapped = true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+        }
+        return true;
+    }
+
+    bool Swappable(int a, int b, int c)
+    {//right now b>c or a>b but a<c
+        //true if b can be swapped to be strictly greater than a and strictly smaller than c
+        char[] A = new char[FindNumberOfDigit(a)];
+        char[] B = new char[FindNumberOfDigit(b)];
+        //TODO this shit
+        return true;
+    }
+
+    private int FindNumberOfDigit(int number)
+    {
+        int count = 0;
+        while (number > 0)
+        {
+            number /= 10;
+            count++;
+        }
+        return count;
+    }
+
+    public long subarraysCountBySum(int[] arr, int k, long s)
+    {//return number of contiguous array of length at most k and sum equals s
+        int count=0;
+        for (int i =0;i<arr.Length;i++) {//must have i
+            int cur = 0;
+            for (int j=i;j<Math.Min(i+k,arr.Length);j++){
+                cur += arr[i];
+                if (cur==s)
+                    count++;
+            }
+        }
+        return count;
+    }
+
 }
 
-public class CompareInt : Comparer<int>
-{
-    public override int Compare([AllowNull] int x, [AllowNull] int y)
-    {
-        if (x > y) return 1;
-        if (x < y) return -1;
-        return 0;
-    }
-}
+

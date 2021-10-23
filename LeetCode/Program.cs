@@ -47,7 +47,7 @@ namespace LeetCode
             tel[1] =new int[4]{0,3,2,0};
 
 
-            int[] shit = {0,1,2,2,3,0,4,2};
+            int[] shit = {0,1,2,2,3,3,5, 8, 9};
             List<int> testshit = new List<int>(shit);
             // tool.BinaryInsertSortedList(testshit, 6);
             List<List<int>> testfuck = new List<List<int>>();
@@ -55,7 +55,8 @@ namespace LeetCode
             testfuck.Add(new List<int>(new int[3]{2,5,100}));
             testfuck.Add(new List<int>(new int[3]{3,4,100}));
 
-            Console.Write(sol.RemoveElement(shit, 2));
+            // Console.Write(sol.RemoveElement(shit, 2));
+            sol.AddLastSort(testshit, 4);
         }
     }
     
