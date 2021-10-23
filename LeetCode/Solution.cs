@@ -1681,17 +1681,48 @@ class Solution
 
     public long subarraysCountBySum(int[] arr, int k, long s)
     {//return number of contiguous array of length at most k and sum equals s
-        int count=0;
-        for (int i =0;i<arr.Length;i++) {//must have i
+        int count = 0;
+        for (int i = 0; i < arr.Length; i++)
+        {//must have i
             int cur = 0;
-            for (int j=i;j<Math.Min(i+k,arr.Length);j++){
+            for (int j = i; j < Math.Min(i + k, arr.Length); j++)
+            {
                 cur += arr[i];
-                if (cur==s)
+                if (cur == s)
                     count++;
             }
         }
         return count;
     }
+
+    public static int StockPairs(List<int> stocksProfit, long target)
+    {
+        int count = 0;
+        stocksProfit.Sort();
+        int curDup = -1;
+
+        for (int i = 0; i < stocksProfit.Count - 1; i++)
+        {
+            if (stocksProfit[i] != curDup && stocksProfit[i]<=target/2)
+            {
+                if (stocksProfit[i] == stocksProfit[i + 1])
+                {//new dup
+                    curDup = stocksProfit[i];
+                }
+                    for (int j = i + 1; j < stocksProfit.Count; j++)
+                    {
+                        if (stocksProfit[i] + stocksProfit[j] == target)
+                        {
+                            count++;
+                        }
+                    }
+
+            }
+        }
+
+        return count;
+    }
+
 
 }
 
