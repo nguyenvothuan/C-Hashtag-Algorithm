@@ -1703,19 +1703,19 @@ class Solution
 
         for (int i = 0; i < stocksProfit.Count - 1; i++)
         {
-            if (stocksProfit[i] != curDup && stocksProfit[i]<=target/2)
+            if (stocksProfit[i] != curDup && stocksProfit[i] <= target / 2)
             {
                 if (stocksProfit[i] == stocksProfit[i + 1])
                 {//new dup
                     curDup = stocksProfit[i];
                 }
-                    for (int j = i + 1; j < stocksProfit.Count; j++)
+                for (int j = i + 1; j < stocksProfit.Count; j++)
+                {
+                    if (stocksProfit[i] + stocksProfit[j] == target)
                     {
-                        if (stocksProfit[i] + stocksProfit[j] == target)
-                        {
-                            count++;
-                        }
+                        count++;
                     }
+                }
 
             }
         }
@@ -1723,6 +1723,62 @@ class Solution
         return count;
     }
 
+    public bool camelCaseSeparation(string[] words, string variableName)
+    {
+        Dictionary<char, List<string>> startWith = new Dictionary<char, List<string>>();
+        foreach (string word in words)
+        {
+            char first = word[0];
+            if (startWith.ContainsKey(first))
+            {
+                startWith[first].Add(word);
+            }
+            else
+            {
+                List<string> newl = new List<string>();
+                newl.Add(word);
+                startWith.Add(first, newl);
+            }
+
+        }
+        
+        List<string> split = getWord(variableName);
+        foreach (string word in split) {
+            char first = word[0];
+            if (!startWith.ContainsKey(first)) return false;
+            if (!startWith[first].Contains(word)) return false;
+        }
+        return true;
+    }
+
+    public List<string> getWord(string str)
+    {
+        //split by the capital one
+        StringBuilder buffer = new StringBuilder("");
+        int cur = 0;
+        List<string> final = new List<string>();
+        while (cur < str.Length)
+        {
+            if (Char.IsUpper(str[cur]) && cur != 0)
+            {
+                final.Add(buffer.ToString());
+                buffer.Clear();
+            }
+            buffer.Append(Char.ToLower(str[cur]));
+            cur++;
+        }
+        final.Add(buffer.ToString());
+        return final;
+    }
+
+    int[] cryptoTrading(int[] deposits, string[] operations)
+    {
+        return new int[1];
+    }
+
+    public int Trap(int[] height) {
+        
+    }
 
 }
 
