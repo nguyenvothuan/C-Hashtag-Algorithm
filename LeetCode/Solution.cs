@@ -1771,13 +1771,27 @@ class Solution
         return final;
     }
 
-    int[] cryptoTrading(int[] deposits, string[] operations)
-    {
-        return new int[1];
-    }
-
-    public int Trap(int[] height) {
-        
+    public int Trap(int[] height) {//super two pointers
+        if (height.Length<3) return 0;
+        int count =0;
+        int l = 0;
+        int r = height.Length-1;
+        while (l<r && height[l]<=height[l+1]) l++;
+        while (r>l && height[r]<= height[r-1]) r--;
+        while (l<r) {
+            int left = height[l];
+            int right =height[r];
+            if (left<=right) {
+                while (l<r && left>= height[++l]) {
+                        count+= left - height[l];
+                }
+            } else {
+                while (l<r &&right>=height[--r]) {
+                        count+= right-height[r];
+                }
+            }
+        }
+        return count;
     }
 
 }
