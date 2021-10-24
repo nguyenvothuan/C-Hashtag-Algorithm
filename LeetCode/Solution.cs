@@ -1741,9 +1741,10 @@ class Solution
             }
 
         }
-        
+
         List<string> split = getWord(variableName);
-        foreach (string word in split) {
+        foreach (string word in split)
+        {
             char first = word[0];
             if (!startWith.ContainsKey(first)) return false;
             if (!startWith[first].Contains(word)) return false;
@@ -1771,29 +1772,67 @@ class Solution
         return final;
     }
 
-    public int Trap(int[] height) {//super two pointers
-        if (height.Length<3) return 0;
-        int count =0;
+    public int Trap(int[] height)
+    {//super two pointers
+        if (height.Length < 3) return 0;
+        int count = 0;
         int l = 0;
-        int r = height.Length-1;
-        while (l<r && height[l]<=height[l+1]) l++;
-        while (r>l && height[r]<= height[r-1]) r--;
-        while (l<r) {
+        int r = height.Length - 1;
+        while (l < r && height[l] <= height[l + 1]) l++;
+        while (r > l && height[r] <= height[r - 1]) r--;
+        while (l < r)
+        {
             int left = height[l];
-            int right =height[r];
-            if (left<=right) {
-                while (l<r && left>= height[++l]) {
-                        count+= left - height[l];
+            int right = height[r];
+            if (left <= right)
+            {
+                while (l < r && left >= height[++l])
+                {
+                    count += left - height[l];
                 }
-            } else {
-                while (l<r &&right>=height[--r]) {
-                        count+= right-height[r];
+            }
+            else
+            {
+                while (l < r && right >= height[--r])
+                {
+                    count += right - height[r];
                 }
             }
         }
         return count;
     }
 
+    public bool EnoughParentheses(string s)
+    {
+        Stack<char> stack = new Stack<char>();
+        foreach (char chr in s)
+        {
+            if (chr == '(' || chr == '[' || chr == '{')
+                stack.Push(chr);
+            else
+            {
+                if (stack.Count == 0) return false;
+                char cur = stack.Peek();
+
+                if (cur == '(')
+                {
+                    if (chr == ')') stack.Pop();
+                    else return false;
+                }
+                else if (cur == '[')
+                {
+                    if (chr == ']') stack.Pop();
+                    else return false;
+                }
+                else
+                {
+                    if (chr == '}') stack.Pop();
+                    else return false;
+                }
+            }
+        }
+        return stack.Count==0;
+    }
 }
 
 

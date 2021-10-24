@@ -56,7 +56,8 @@ namespace LeetCode
             testfuck.Add(new List<int>(new int[3]{3,4,100}));
 
             // Console.Write(sol.RemoveElement(shit, 2));
-            Console.WriteLine(sol.camelCaseSeparation(new string[1]{"a"}, "AAAAAA"));
+            // Console.WriteLine(sol.camelCaseSeparation(new string[1]{"a"}, "AAAAAA"));
+            Console.Write(sol.EnoughParentheses("({}}])))"));
         }
     }
     
