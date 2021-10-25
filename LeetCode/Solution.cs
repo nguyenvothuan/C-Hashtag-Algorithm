@@ -1898,21 +1898,21 @@ class Solution
         {
             while (nums[l] + nums[r] < target && l < r)
             {
-                ++l;   
+                ++l;
             }
             while (nums[l] + nums[r] > target && l < r)
             {
                 --r;
             }
 
-            if (nums[l] + nums[r] == target && l!=r && nums[l]!=lastLeft)
+            if (nums[l] + nums[r] == target && l != r && nums[l] != lastLeft)
             {
-                lastLeft=nums[l];
+                lastLeft = nums[l];
                 IList<int> list = new List<int>(new int[3] { nums[cur], nums[l], nums[r] });
                 final.Add(list);
                 ++l;
             }
-            else 
+            else
             {
                 ++l;
             }
@@ -1920,14 +1920,54 @@ class Solution
         return final;
     }
 
-    public void SortColors(int[] nums) {
-        int second = nums.Length-1; int zero=0;
-        for(int i =0;i<=second;i++) {
-            while (nums[i]==2 && i<second) Swap(ref nums[i],ref nums[second--]);
-            while (nums[i]==0 && i>zero) Swap(ref nums[i], ref nums[zero++]);
+    public void SortColors(int[] nums)
+    {
+        int second = nums.Length - 1; int zero = 0;
+        for (int i = 0; i <= second; i++)
+        {
+            while (nums[i] == 2 && i < second) Swap(ref nums[i], ref nums[second--]);
+            while (nums[i] == 0 && i > zero) Swap(ref nums[i], ref nums[zero++]);
         }
     }
 
+    public int ThreeSumClosest(int[] nums, int target)
+    {
+
+        Array.Sort(nums);
+        int closest = nums[0]+nums[1]+nums[2];
+        for (int i = 0; i < nums.Length - 3; i++)
+        {
+            if ((i != 0 && nums[i] != nums[i - 1])||i==0)
+            {
+                int curClosest = ThreeSomeClosestUtil(nums, target, i);
+                if (Dist(curClosest, target)< Dist(closest, target))
+                    closest = curClosest;
+            }
+        }
+        return closest;
+    }
+
+    int ThreeSomeClosestUtil(int[] nums, int target, int cur)
+    {
+        //given the chain start with cur, find the closest one to it
+        int l = cur+1;
+        int r =nums.Length-1;
+        int final = nums[l] + nums[r];
+        target-=nums[cur];
+        int closest = Dist(final, target);//distance from cur to target
+        while (l<r) {
+            int curSum = nums[l] + nums[r];
+            if (curSum<target)
+                ++l;
+            else 
+                --r;
+            if (Dist(curSum, target)<closest){
+                final = curSum; closest = Dist(curSum, target);}
+        }
+        return final;
+    }
+
+    int Dist(int a, int b) { return Math.Abs(a - b); }
 
 }
 

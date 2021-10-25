@@ -58,13 +58,14 @@ namespace LeetCode
             // Console.Write(sol.RemoveElement(shit, 2));
             // Console.WriteLine(sol.camelCaseSeparation(new string[1]{"a"}, "AAAAAA"));
             // Console.Write(sol.EnoughParentheses("({}}])))"));
-            var threesome = sol.ThreeSum(new int[6] { -1, 0, 1, 2, -1, -4 });
-            foreach (var list in threesome)
-            {
-                foreach (var item in list)
-                    Console.Write(item +", ");
-                Console.WriteLine();
-            }
+            // var threesome = sol.ThreeSum(new int[6] { -1, 0, 1, 2, -1, -4 });
+            // foreach (var list in threesome)
+            // {
+            //     foreach (var item in list)
+            //         Console.Write(item +", ");
+            //     Console.WriteLine();
+            // }
+            Console.WriteLine(sol.testStuff());
         }
     }
 
