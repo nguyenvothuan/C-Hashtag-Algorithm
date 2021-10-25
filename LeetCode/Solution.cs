@@ -1920,6 +1920,14 @@ class Solution
         return final;
     }
 
+    public void SortColors(int[] nums) {
+        int second = nums.Length-1; int zero=0;
+        for(int i =0;i<=second;i++) {
+            while (nums[i]==2 && i<second) Swap(ref nums[i],ref nums[second--]);
+            while (nums[i]==0 && i>zero) Swap(ref nums[i], ref nums[zero++]);
+        }
+    }
+
 
 }
 
