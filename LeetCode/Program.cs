@@ -35,30 +35,37 @@ namespace LeetCode
             //Console.W
             int[] j = { 2, 3, 1, 1, 4 };
             int[] sorted = { 1, 2, 3, 4, 5, 7, 9 };
-            List<string> a = new List<string>(new string[5]{"a", "jk", "abb", "mn", "abc"});
-            List<string> b = new List<string>(new string[5]{"bb", "kj", "bbc", "op", "def"});
+            List<string> a = new List<string>(new string[5] { "a", "jk", "abb", "mn", "abc" });
+            List<string> b = new List<string>(new string[5] { "bb", "kj", "bbc", "op", "def" });
 
             var test = sol.getMinimumDifference(a, b);
-            List<int> cal = new List<int>(new int[5]{2,3,15,1,16});
+            List<int> cal = new List<int>(new int[5] { 2, 3, 15, 1, 16 });
             int[][] obs = new int[1][];
-            obs[0] = new int[2]{1,1};
+            obs[0] = new int[2] { 1, 1 };
             int[][] tel = new int[2][];
-            tel[0] = new int[4]{0, 2, 0, 1};
-            tel[1] =new int[4]{0,3,2,0};
+            tel[0] = new int[4] { 0, 2, 0, 1 };
+            tel[1] = new int[4] { 0, 3, 2, 0 };
 
 
-            int[] shit = {0,1,2,2,3,3,5, 8, 9};
+            int[] shit = { 0, 1, 2, 2, 3, 3, 5, 8, 9 };
             List<int> testshit = new List<int>(shit);
             // tool.BinaryInsertSortedList(testshit, 6);
             List<List<int>> testfuck = new List<List<int>>();
-            testfuck.Add(new List<int>(new int[3]{1,2,100}));
-            testfuck.Add(new List<int>(new int[3]{2,5,100}));
-            testfuck.Add(new List<int>(new int[3]{3,4,100}));
+            testfuck.Add(new List<int>(new int[3] { 1, 2, 100 }));
+            testfuck.Add(new List<int>(new int[3] { 2, 5, 100 }));
+            testfuck.Add(new List<int>(new int[3] { 3, 4, 100 }));
 
             // Console.Write(sol.RemoveElement(shit, 2));
             // Console.WriteLine(sol.camelCaseSeparation(new string[1]{"a"}, "AAAAAA"));
-            Console.Write(sol.EnoughParentheses("({}}])))"));
+            // Console.Write(sol.EnoughParentheses("({}}])))"));
+            var threesome = sol.ThreeSum(new int[6] { -1, 0, 1, 2, -1, -4 });
+            foreach (var list in threesome)
+            {
+                foreach (var item in list)
+                    Console.Write(item +", ");
+                Console.WriteLine();
+            }
         }
     }
-    
+
 }

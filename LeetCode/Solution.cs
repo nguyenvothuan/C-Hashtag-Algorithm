@@ -1836,15 +1836,15 @@ class Solution
     public string LongestPalindrome(string s)
     {
         //dp[i] for the last index of the longest palindrome that starts at i
-        if (s.Length<=1) return s;
-        if (s.Length==2) return s[0]==s[1]? s : s[0].ToString();
-        if (s.Length==3) return s[0]==s[2]? s: s[0]==s[1]||s[1]==s[2]? new string(new char[2]{s[0], s[1]}): new string(new char[2]{s[1], s[2]});
+        if (s.Length <= 1) return s;
+        if (s.Length == 2) return s[0] == s[1] ? s : s[0].ToString();
+        if (s.Length == 3) return s[0] == s[2] ? s : s[0] == s[1] || s[1] == s[2] ? new string(new char[2] { s[0], s[1] }) : new string(new char[2] { s[1], s[2] });
         int n = s.Length;
         int[] dp = new int[n];
         dp[n - 2] = dp[n - 1] == dp[n - 2] ? 2 : 1;
         dp[n - 3] = dp[n - 3] == dp[n - 1] ? 3 : dp[n - 3] == dp[n - 2] ? 2 : 1;
         int max = 0;//longest length encountered
-        int maxIndex =-1;
+        int maxIndex = -1;
         for (int i = n - 4; i >= 0; i--)
         {
             int next = dp[i + 1];
@@ -1852,16 +1852,72 @@ class Solution
                 dp[i] = i;
             else
             {
-                dp[i] = s[dp[i + 1] + 1]==s[i]? dp[i+1]+1 : i;
-                if (max<dp[i] - i+1) {
-                    max = dp[i]-i+1;
+                dp[i] = s[dp[i + 1] + 1] == s[i] ? dp[i + 1] + 1 : i;
+                if (max < dp[i] - i + 1)
+                {
+                    max = dp[i] - i + 1;
                     maxIndex = i;
                 }
             }
         }
-        StringBuilder final = new StringBuilder(s,maxIndex, max, maxIndex+max+1 );
+        StringBuilder final = new StringBuilder(s, maxIndex, max, maxIndex + max + 1);
         return final.ToString();
         //this is returning shit but you get it so yh, fuk it anyhow.
+    }
+
+    public IList<IList<int>> ThreeSum(int[] nums)
+    {
+        Array.Sort(nums);
+        int cur = 0;
+        int n = nums.Length;
+        var final = new List<IList<int>>();
+        while (cur < n - 2)
+        {
+            if (cur != 0 && nums[cur] == nums[cur - 1])
+                cur++;//duplicate detected
+            else
+            {
+                var supasum = ThreeSome(nums, cur);
+                if (supasum.Count != 0)
+                    foreach (var list in supasum)
+                        final.Add(list);
+                cur++;
+            }
+        }
+        return final;
+    }
+    IList<IList<int>> ThreeSome(int[] nums, int cur)
+    {//cur is sure <=n-3
+        //find from cur + 1 to n-1 for -nums[cur]
+        int l = cur + 1;
+        int r = nums.Length - 1;
+        int target = -nums[cur];
+        int lastLeft = -99;
+        IList<IList<int>> final = new List<IList<int>>();
+        while (l < r)
+        {
+            while (nums[l] + nums[r] < target && l < r)
+            {
+                ++l;   
+            }
+            while (nums[l] + nums[r] > target && l < r)
+            {
+                --r;
+            }
+
+            if (nums[l] + nums[r] == target && l!=r && nums[l]!=lastLeft)
+            {
+                lastLeft=nums[l];
+                IList<int> list = new List<int>(new int[3] { nums[cur], nums[l], nums[r] });
+                final.Add(list);
+                ++l;
+            }
+            else 
+            {
+                ++l;
+            }
+        }
+        return final;
     }
 
 
