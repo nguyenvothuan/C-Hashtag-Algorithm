@@ -65,7 +65,8 @@ namespace LeetCode
             //         Console.Write(item +", ");
             //     Console.WriteLine();
             // }
-            Console.WriteLine(sol.testStuff());
+            // Console.WriteLine(sol.testStuff());
+            Console.WriteLine(sol.StrStr("mississippi", "issip"));
         }
     }
 

@@ -1934,13 +1934,13 @@ class Solution
     {
 
         Array.Sort(nums);
-        int closest = nums[0]+nums[1]+nums[2];
+        int closest = nums[0] + nums[1] + nums[2];
         for (int i = 0; i < nums.Length - 3; i++)
         {
-            if ((i != 0 && nums[i] != nums[i - 1])||i==0)
+            if ((i != 0 && nums[i] != nums[i - 1]) || i == 0)
             {
                 int curClosest = ThreeSomeClosestUtil(nums, target, i);
-                if (Dist(curClosest, target)< Dist(closest, target))
+                if (Dist(curClosest, target) < Dist(closest, target))
                     closest = curClosest;
             }
         }
@@ -1950,24 +1950,75 @@ class Solution
     int ThreeSomeClosestUtil(int[] nums, int target, int cur)
     {
         //given the chain start with cur, find the closest one to it
-        int l = cur+1;
-        int r =nums.Length-1;
+        int l = cur + 1;
+        int r = nums.Length - 1;
         int final = nums[l] + nums[r];
-        target-=nums[cur];
+        target -= nums[cur];
         int closest = Dist(final, target);//distance from cur to target
-        while (l<r) {
+        while (l < r)
+        {
             int curSum = nums[l] + nums[r];
-            if (curSum<target)
+            if (curSum < target)
                 ++l;
-            else 
+            else
                 --r;
-            if (Dist(curSum, target)<closest){
-                final = curSum; closest = Dist(curSum, target);}
+            if (Dist(curSum, target) < closest)
+            {
+                final = curSum; closest = Dist(curSum, target);
+            }
         }
         return final;
     }
 
     int Dist(int a, int b) { return Math.Abs(a - b); }
+
+    public int StrStr(string haystack, string needle)
+    {
+        if (needle.Length == 0 || needle == null) return 0;
+        if (haystack.Length < needle.Length) return -1;
+
+        for (int i = 0; i < haystack.Length; i++)
+        {
+            if (StrStrUtil(haystack, needle, i))
+                return i;
+        }
+        return -1;
+    }
+
+    bool StrStrUtil(string a, string b, int cur)
+    {
+        if (cur + b.Length - 1 >= a.Length) return false;
+        for (int i = cur; i < cur + b.Length; i++)
+            if (a[i] != b[i - cur])
+                return false;
+        return true;
+    }
+
+    public void NextPermutation(int[] nums)
+    {
+        //search for k that k is the largest int such that arr[k]<arr[k+1]
+        int k;
+        for (k=nums.Length-2;k>=0;k--){//since we are interested in the largest k, saerch from the end of the array saves more time
+            if (nums[k+1]>nums[k]){
+                break;
+            }
+        }
+        //then search from k+1 to n-1 for the largest l such that arr[l] > arr[k]
+        if (k<0) 
+            Array.Reverse(nums);
+        else {
+            int l;
+            for (l =nums.Length-1; l>k;l--) {
+                if (nums[l]>nums[k])
+                    break;
+            }
+            Swap(ref nums[l], ref nums[k]);
+            Array.Reverse(nums, k+1, nums.Length-k-1);
+        }
+            
+    }
+
+
 
 }
 
