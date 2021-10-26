@@ -66,7 +66,10 @@ namespace LeetCode
             //     Console.WriteLine();
             // }
             // Console.WriteLine(sol.testStuff());
-            Console.WriteLine(sol.StrStr("mississippi", "issip"));
+            // Console.WriteLine(sol.StrStr("mississippi", "issip"));
+            var genpar = sol.GenerateParenthesis(4);
+            foreach(string str in genpar)
+                Console.WriteLine(str);
         }
     }
 

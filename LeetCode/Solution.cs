@@ -2041,6 +2041,72 @@ class Solution
         return dp[m,n];
     }
 
+    public IList<string> GenerateParenthesisFuck(int n) {
+        //base case: n=1 n=2
+
+        List<string>[] dp = new List<string>[n+1];
+        Array.Fill(dp, new List<string>());
+        //dp[i] be the list of well formed parentheses with i pairs. 1-based indexing
+        dp[0] = new List<string>(new string[1]{""});
+        dp[1] = new List<string>(new string[1]{"()"});
+        dp[2] = new List<string>(new string[2]{"()()", "(())"});
+        if (n<=2) return dp[n];
+        GenerateParenthesisUtil(n, dp);
+        return dp[n];
+
+    }
+
+    List<string> GenerateParenthesisUtil(int n, List<string>[] dp) {
+        if (dp[n].Count!=0) return dp[n];
+        List<string> final = new List<string>();
+        StringBuilder coverCase = new StringBuilder();
+        var inside = GenerateParenthesisUtil(n-1, dp);
+        foreach (string str in inside) {
+            coverCase.Append("(");
+            coverCase.Append(str);
+            coverCase.Append(")");
+            final.Add(coverCase.ToString());
+            coverCase.Clear();
+        }
+        for(int i =1;i<n;i++) {
+            var left = GenerateParenthesisUtil(i, dp);
+            var right = GenerateParenthesisUtil(n-i, dp);
+            foreach(string leftPart in left) {
+                foreach(string rightPart in right) {
+                    coverCase.Append(leftPart);
+                    coverCase.Append(rightPart);
+                    final.Add(coverCase.ToString());
+                    coverCase.Clear();
+                }
+            }
+        }
+        dp[n] = final;
+        return final;
+    }//this shit got overlapping solution. GOD DAMN IT FUCCKKKKK
+
+    public IList<string> GenerateParenthesis(int n) {
+        List<string> final = new List<string>();
+        GenerateParenthesisBacktrack(final,new StringBuilder(""), 0, 0, n);
+        return final;
+    }
+
+    void GenerateParenthesisBacktrack(List<string> final,StringBuilder str, int open, int close, int max ){
+        if (str.Length==max*2)
+        {
+            final.Add(str.ToString());
+            return;
+        }
+        if (open<max) {
+            str.Append("(");
+            GenerateParenthesisBacktrack(final,str, open+1, close, max);
+            str.Remove(str.Length-1, 1);
+        }
+        if (close<open) {
+            str.Append(")");
+            GenerateParenthesisBacktrack(final, str, open, close+1, max);
+            str.Remove(str.Length-1, 1);
+        }
+    }
 
 }
 
