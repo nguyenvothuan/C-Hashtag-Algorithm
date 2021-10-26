@@ -1998,26 +1998,48 @@ class Solution
     {
         //search for k that k is the largest int such that arr[k]<arr[k+1]
         int k;
-        for (k=nums.Length-2;k>=0;k--){//since we are interested in the largest k, saerch from the end of the array saves more time
-            if (nums[k+1]>nums[k]){
+        for (k = nums.Length - 2; k >= 0; k--)
+        {//since we are interested in the largest k, saerch from the end of the array saves more time
+            if (nums[k + 1] > nums[k])
+            {
                 break;
             }
         }
         //then search from k+1 to n-1 for the largest l such that arr[l] > arr[k]
-        if (k<0) 
+        if (k < 0)
             Array.Reverse(nums);
-        else {
+        else
+        {
             int l;
-            for (l =nums.Length-1; l>k;l--) {
-                if (nums[l]>nums[k])
+            for (l = nums.Length - 1; l > k; l--)
+            {
+                if (nums[l] > nums[k])
                     break;
             }
             Swap(ref nums[l], ref nums[k]);
-            Array.Reverse(nums, k+1, nums.Length-k-1);
+            Array.Reverse(nums, k + 1, nums.Length - k - 1);
         }
-            
+
     }
 
+    public int UniquePaths(int m, int n)
+    {
+        //from 0,0 to m-1, n-1
+        if (m==1) return 1;
+        if (n==1) return 1;
+        int[,] dp = new int[m+1,n+1];//number of way to move if there is only i x j cells
+        for(int i =0;i<=n;i++)
+            dp[1, i] = 1;
+        for (int i=0;i<=m;i++)
+            dp[i,1] =1;
+        UniquePathsUtil(m,n, dp);
+        return dp[m,n];
+    }
+    int UniquePathsUtil(int m, int n, int[,] dp) {
+        if (dp[m, n]!=0) return dp[m,n];
+        dp[m, n] = UniquePathsUtil(m-1, n, dp) + UniquePathsUtil(m, n-1, dp);
+        return dp[m,n];
+    }
 
 
 }
