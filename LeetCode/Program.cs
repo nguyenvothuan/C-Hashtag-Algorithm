@@ -67,9 +67,10 @@ namespace LeetCode
             // }
             // Console.WriteLine(sol.testStuff());
             // Console.WriteLine(sol.StrStr("mississippi", "issip"));
-            var genpar = sol.GenerateParenthesis(4);
-            foreach(string str in genpar)
-                Console.WriteLine(str);
+            // var genpar = sol.GenerateParenthesis(4);
+            // foreach(string str in genpar)
+            //     Console.WriteLine(str);
+            Console.Write(sol.NewLongestPalindrome("ababa"));
         }
     }
 

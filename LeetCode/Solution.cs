@@ -2108,6 +2108,36 @@ class Solution
         }
     }
 
+    public string NewLongestPalindrome(string s) {
+        int n = s.Length;
+        if (n<=2) return s[0].ToString();
+        int[] dp = new int[n];
+        dp[n-1] = n-1;
+        dp[n-2] = s[n-1] == s[n-2]? n-1: n-2;
+        int maxIndex = n-1;
+        int maxLength = 1;
+        for (int i =n-3;i>=0;i--){
+            //compare i with i+1
+            if (dp[i+1] == n-1) {
+                dp[i] = i;
+            }
+            else {
+                dp[i] = s[dp[i+1]+1] == s[i]? dp[i+1]+1: i;
+                if (dp[i]-i+1>maxLength)//length greater than max
+                {
+                    maxLength = dp[i]-i+1;
+                    maxIndex = i;
+                }
+            }
+        }
+        StringBuilder buffer = new StringBuilder();
+        for(int i =maxIndex;i<=dp[maxIndex];i++)
+            buffer.Append(s[i]);
+        return buffer.ToString();
+
+    }
 }
+
+
 
 
