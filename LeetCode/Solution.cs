@@ -2025,54 +2025,61 @@ class Solution
     public int UniquePaths(int m, int n)
     {
         //from 0,0 to m-1, n-1
-        if (m==1) return 1;
-        if (n==1) return 1;
-        int[,] dp = new int[m+1,n+1];//number of way to move if there is only i x j cells
-        for(int i =0;i<=n;i++)
+        if (m == 1) return 1;
+        if (n == 1) return 1;
+        int[,] dp = new int[m + 1, n + 1];//number of way to move if there is only i x j cells
+        for (int i = 0; i <= n; i++)
             dp[1, i] = 1;
-        for (int i=0;i<=m;i++)
-            dp[i,1] =1;
-        UniquePathsUtil(m,n, dp);
-        return dp[m,n];
+        for (int i = 0; i <= m; i++)
+            dp[i, 1] = 1;
+        UniquePathsUtil(m, n, dp);
+        return dp[m, n];
     }
-    int UniquePathsUtil(int m, int n, int[,] dp) {
-        if (dp[m, n]!=0) return dp[m,n];
-        dp[m, n] = UniquePathsUtil(m-1, n, dp) + UniquePathsUtil(m, n-1, dp);
-        return dp[m,n];
+    int UniquePathsUtil(int m, int n, int[,] dp)
+    {
+        if (dp[m, n] != 0) return dp[m, n];
+        dp[m, n] = UniquePathsUtil(m - 1, n, dp) + UniquePathsUtil(m, n - 1, dp);
+        return dp[m, n];
     }
 
-    public IList<string> GenerateParenthesisFuck(int n) {
+    public IList<string> GenerateParenthesisFuck(int n)
+    {
         //base case: n=1 n=2
 
-        List<string>[] dp = new List<string>[n+1];
+        List<string>[] dp = new List<string>[n + 1];
         Array.Fill(dp, new List<string>());
         //dp[i] be the list of well formed parentheses with i pairs. 1-based indexing
-        dp[0] = new List<string>(new string[1]{""});
-        dp[1] = new List<string>(new string[1]{"()"});
-        dp[2] = new List<string>(new string[2]{"()()", "(())"});
-        if (n<=2) return dp[n];
+        dp[0] = new List<string>(new string[1] { "" });
+        dp[1] = new List<string>(new string[1] { "()" });
+        dp[2] = new List<string>(new string[2] { "()()", "(())" });
+        if (n <= 2) return dp[n];
         GenerateParenthesisUtil(n, dp);
         return dp[n];
 
     }
 
-    List<string> GenerateParenthesisUtil(int n, List<string>[] dp) {
-        if (dp[n].Count!=0) return dp[n];
+    List<string> GenerateParenthesisUtil(int n, List<string>[] dp)
+    {
+        if (dp[n].Count != 0) return dp[n];
         List<string> final = new List<string>();
         StringBuilder coverCase = new StringBuilder();
-        var inside = GenerateParenthesisUtil(n-1, dp);
-        foreach (string str in inside) {
+        var inside = GenerateParenthesisUtil(n - 1, dp);
+        foreach (string str in inside)
+        {
             coverCase.Append("(");
             coverCase.Append(str);
             coverCase.Append(")");
             final.Add(coverCase.ToString());
             coverCase.Clear();
         }
-        for(int i =1;i<n;i++) {
+        for (int i = 1; i < n; i++)
+        {
             var left = GenerateParenthesisUtil(i, dp);
-            var right = GenerateParenthesisUtil(n-i, dp);
-            foreach(string leftPart in left) {
-                foreach(string rightPart in right) {
+            var right = GenerateParenthesisUtil(n - i, dp);
+            foreach (string leftPart in left)
+            {
+                foreach (string rightPart in right)
+                {
                     coverCase.Append(leftPart);
                     coverCase.Append(rightPart);
                     final.Add(coverCase.ToString());
@@ -2084,57 +2091,58 @@ class Solution
         return final;
     }//this shit got overlapping solution. GOD DAMN IT FUCCKKKKK
 
-    public IList<string> GenerateParenthesis(int n) {
+    public IList<string> GenerateParenthesis(int n)
+    {
         List<string> final = new List<string>();
-        GenerateParenthesisBacktrack(final,new StringBuilder(""), 0, 0, n);
+        GenerateParenthesisBacktrack(final, new StringBuilder(""), 0, 0, n);
         return final;
     }
 
-    void GenerateParenthesisBacktrack(List<string> final,StringBuilder str, int open, int close, int max ){
-        if (str.Length==max*2)
+    void GenerateParenthesisBacktrack(List<string> final, StringBuilder str, int open, int close, int max)
+    {
+        if (str.Length == max * 2)
         {
             final.Add(str.ToString());
             return;
         }
-        if (open<max) {
+        if (open < max)
+        {
             str.Append("(");
-            GenerateParenthesisBacktrack(final,str, open+1, close, max);
-            str.Remove(str.Length-1, 1);
+            GenerateParenthesisBacktrack(final, str, open + 1, close, max);
+            str.Remove(str.Length - 1, 1);
         }
-        if (close<open) {
+        if (close < open)
+        {
             str.Append(")");
-            GenerateParenthesisBacktrack(final, str, open, close+1, max);
-            str.Remove(str.Length-1, 1);
+            GenerateParenthesisBacktrack(final, str, open, close + 1, max);
+            str.Remove(str.Length - 1, 1);
         }
     }
-
-    public string NewLongestPalindrome(string s) {
+    int start=0;
+    int maxLength=0;
+    public string NewLongestPalindrome(string s)
+    {
         int n = s.Length;
-        if (n<=2) return s[0].ToString();
-        int[] dp = new int[n];
-        dp[n-1] = n-1;
-        dp[n-2] = s[n-1] == s[n-2]? n-1: n-2;
-        int maxIndex = n-1;
-        int maxLength = 1;
-        for (int i =n-3;i>=0;i--){
-            //compare i with i+1
-            if (dp[i+1] == n-1) {
-                dp[i] = i;
-            }
-            else {
-                dp[i] = s[dp[i+1]+1] == s[i]? dp[i+1]+1: i;
-                if (dp[i]-i+1>maxLength)//length greater than max
-                {
-                    maxLength = dp[i]-i+1;
-                    maxIndex = i;
-                }
-            }
-        }
-        StringBuilder buffer = new StringBuilder();
-        for(int i =maxIndex;i<=dp[maxIndex];i++)
-            buffer.Append(s[i]);
-        return buffer.ToString();
+        if (n < 2) return s;
 
+        for (int i = 0; i < n - 1; i++)
+        {//repeatedly find the palindrome with center be i
+            ExtendPalindrome(s, i, i);
+            ExtendPalindrome(s, i, i+1);
+        }
+        return s.Substring(start,maxLength);
+    }
+
+    public void ExtendPalindrome(string s, int j, int k)
+    {
+        while (j >= 0 && k < s.Length && s[j]==s[k]) { 
+            j--;
+            k++;
+        }
+        if (maxLength<k-j-1){
+            start = j+1;
+            maxLength = k -j -1;
+        }
     }
 }
 
