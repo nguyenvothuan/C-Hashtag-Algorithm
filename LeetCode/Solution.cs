@@ -2118,8 +2118,8 @@ class Solution
             str.Remove(str.Length - 1, 1);
         }
     }
-    int start=0;
-    int maxLength=0;
+    int start = 0;
+    int maxLength = 0;
     public string NewLongestPalindrome(string s)
     {
         int n = s.Length;
@@ -2128,49 +2128,76 @@ class Solution
         for (int i = 0; i < n - 1; i++)
         {//repeatedly find the palindrome with center be i
             ExtendPalindrome(s, i, i);
-            ExtendPalindrome(s, i, i+1);
+            ExtendPalindrome(s, i, i + 1);
         }
-        return s.Substring(start,maxLength);
+        return s.Substring(start, maxLength);
     }
 
     public void ExtendPalindrome(string s, int j, int k)
     {
-        while (j >= 0 && k < s.Length && s[j]==s[k]) { 
+        while (j >= 0 && k < s.Length && s[j] == s[k])
+        {
             j--;
             k++;
         }
-        if (maxLength<k-j-1){
-            start = j+1;
-            maxLength = k -j -1;
+        if (maxLength < k - j - 1)
+        {
+            start = j + 1;
+            maxLength = k - j - 1;
         }
     }
-    public int MinPathSum(int[][] grid) {
+    public int MinPathSum(int[][] grid)
+    {
         int m = grid.Length;
         int n = grid[0].Length;
-        if (m==1) {
-            int cum =0;
-            foreach(int i in grid[0])
-                cum+= i;
+        if (m == 1)
+        {
+            int cum = 0;
+            foreach (int i in grid[0])
+                cum += i;
             return cum;
         }
-        int[,] dp = new int[m,n];
-        for(int i =0;i<m;i++)
-            for(int j=0;j<n;j++)
-                dp[i,j] = -1;
-        dp[m-1,n-1] = grid[m-1][n-1];
-        MinPathSumUtil(dp, grid, 0,0);
-        return dp[0,0];
+        int[,] dp = new int[m, n];
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                dp[i, j] = -1;
+        dp[m - 1, n - 1] = grid[m - 1][n - 1];
+        MinPathSumUtil(dp, grid, 0, 0);
+        return dp[0, 0];
     }
-    int MinPathSumUtil(int[,] dp, int[][] grid, int i, int j) {
-        if (i>=grid.Length || j>= grid[0].Length) return int.MaxValue;
-        if (dp[i,j]!=-1) return dp[i,j];
-        dp[i,j] = grid[i][j] + Math.Min(MinPathSumUtil(dp, grid, i+1, j), MinPathSumUtil(dp, grid, i, j+1));
-        return dp[i,j];
+    int MinPathSumUtil(int[,] dp, int[][] grid, int i, int j)
+    {
+        if (i >= grid.Length || j >= grid[0].Length) return int.MaxValue;
+        if (dp[i, j] != -1) return dp[i, j];
+        dp[i, j] = grid[i][j] + Math.Min(MinPathSumUtil(dp, grid, i + 1, j), MinPathSumUtil(dp, grid, i, j + 1));
+        return dp[i, j];
     }
 
-    public int LengthOfLongestSubstring(string s) {
-        
+    public int LengthOfLongestSubstring(string s)
+    {
+        int n = s.Length;
+        if (n <= 1) return n;
+        if (n == 2) return s[0] != s[1] ? 2 : 1;
+        int[] dp = new int[n];
+        dp[n - 1] = n - 1;
+        int max = 1;
+        for (int i = n - 2; i >= 0; i--)
+        {
+            char cur = s[i];
+            for (int j = i + 1; j <= dp[i + 1]; j++)
+            {
+                if (j==dp[i+1] && cur!=s[j])
+                    dp[i]=j;
+                if (cur == s[j])
+                { dp[i] = j - 1; break; }
+                
+            }
+            int curLength = dp[i]-i+1;
+            max = Math.Max(curLength, max);
+        }
+        return max;
     }
+
 }
 
 
