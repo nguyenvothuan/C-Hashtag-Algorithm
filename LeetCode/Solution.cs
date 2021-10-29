@@ -2144,6 +2144,33 @@ class Solution
             maxLength = k -j -1;
         }
     }
+    public int MinPathSum(int[][] grid) {
+        int m = grid.Length;
+        int n = grid[0].Length;
+        if (m==1) {
+            int cum =0;
+            foreach(int i in grid[0])
+                cum+= i;
+            return cum;
+        }
+        int[,] dp = new int[m,n];
+        for(int i =0;i<m;i++)
+            for(int j=0;j<n;j++)
+                dp[i,j] = -1;
+        dp[m-1,n-1] = grid[m-1][n-1];
+        MinPathSumUtil(dp, grid, 0,0);
+        return dp[0,0];
+    }
+    int MinPathSumUtil(int[,] dp, int[][] grid, int i, int j) {
+        if (i>=grid.Length || j>= grid[0].Length) return int.MaxValue;
+        if (dp[i,j]!=-1) return dp[i,j];
+        dp[i,j] = grid[i][j] + Math.Min(MinPathSumUtil(dp, grid, i+1, j), MinPathSumUtil(dp, grid, i, j+1));
+        return dp[i,j];
+    }
+
+    public int LengthOfLongestSubstring(string s) {
+        
+    }
 }
 
 
