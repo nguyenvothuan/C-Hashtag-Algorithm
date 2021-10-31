@@ -70,7 +70,7 @@ namespace LeetCode
             // var genpar = sol.GenerateParenthesis(4);
             // foreach(string str in genpar)
             //     Console.WriteLine(str);
-            Console.Write(sol.LengthOfLongestSubstring("aab"));
+            Console.Write(sol.NumDecodings("1"));
         }
     }
 

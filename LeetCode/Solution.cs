@@ -2186,18 +2186,67 @@ class Solution
             char cur = s[i];
             for (int j = i + 1; j <= dp[i + 1]; j++)
             {
-                if (j==dp[i+1] && cur!=s[j])
-                    dp[i]=j;
+                if (j == dp[i + 1] && cur != s[j])
+                    dp[i] = j;
                 if (cur == s[j])
                 { dp[i] = j - 1; break; }
-                
+
             }
-            int curLength = dp[i]-i+1;
+            int curLength = dp[i] - i + 1;
             max = Math.Max(curLength, max);
         }
         return max;
     }
+    public int FirstMissingPositive(int[] nums)
+    {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            while (nums[i] > 0 && nums[i] <= nums.Length && nums[nums[i] - 1] != nums[i])
+                Swap(ref nums[i], ref nums[nums[i] - 1]);
+        }
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] != i + 1)
+                return i + 1;
+        }
+        return nums.Length + 1;
+    }
 
+    public int NumDecodings(string s)
+    {
+        int n = s.Length;
+        if (n==1) return s[0]!=0?1:0;
+        if (n == 2)
+        {
+            if (CharToInt(s[0]) == 0) return 0;
+            return StringToInt(s) <= 27 ? 2 : 1;
+        }
+        int[] dp = new int[n];
+        if (CharToInt(s[n - 1]) == 0) return 0;
+        dp[n - 1] = 1;
+        dp[n - 2] = CharToInt(s[n - 2]) == 0 ? 0 : StringToInt(s, n - 2, 2) <= 26 ? 2 : 1;
+        for (int i = n - 3; i >= 0; i--)
+        {
+            if (CharToInt(s[i]) == 0) dp[i] = 0;
+            else
+            {
+                if (dp[i + 1] == 0) return 0;//impossible to handle
+                if (StringToInt(s, i, 2) <= 26)
+                {
+                    dp[i] = dp[i + 1] + dp[i + 2];
+                }
+                else
+                {
+                    dp[i] = dp[i + 1];
+                }
+            }
+        }
+        return dp[0];
+    }
+
+    int CharToInt(char chr) { return (int)char.GetNumericValue(chr); }
+    int StringToInt(string str) { return Int32.Parse(str); }
+    int StringToInt(string str, int start, int length) { return Int32.Parse(str.Substring(start, length)); }
 }
 
 
