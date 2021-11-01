@@ -2247,6 +2247,26 @@ class Solution
     int CharToInt(char chr) { return (int)char.GetNumericValue(chr); }
     int StringToInt(string str) { return Int32.Parse(str); }
     int StringToInt(string str, int start, int length) { return Int32.Parse(str.Substring(start, length)); }
+
+    public IList<IList<int>> CombinationSum(int[] candidates, int target) {
+        Array.Sort(candidates);
+        //TODO: Finish this one
+        return null;
+    }
+
+    public string RemoveDuplicateLetters(string s) {
+        int[] hash = new int[26];
+        int pos =0;//position of the smallest s[i]
+        for(int i =0;i<s.Length;i++) hash[s[i]-'a']++;
+        for(int i =0;i<s.Length;i++) {
+            if (s[i]<s[pos]) pos=i;
+            if (--hash[s[i]-'a']==0) break;
+        }
+        return s.Length==0? "" : s[pos] + RemoveDuplicateLetters(s.Substring(pos+1).Replace(""+s[pos], ""));
+    }
+
+    
+
 }
 
 
