@@ -2329,52 +2329,70 @@ class Solution
         int curLeft = 0;
         ListNode final = new ListNode();
         var next1 = l1; var next2 = l2;
+        var curNode = final;
         while (next1!=null && next2!= null) {
             int sum =curLeft + next1.val + next2.val;
             if (sum<= 9) {
                 curLeft=0;
-                final.next = new ListNode(sum);
+                curNode.next = new ListNode(sum);
             }
             else {
-                final.next=new ListNode(sum-=10);
-                curLeft=sum;
+                curNode.next=new ListNode(sum-10);
+                curLeft=1;
             }
-            next1=next1.next; next2=next2.next;
+            next1=next1.next; next2=next2.next;curNode=curNode.next;
         }
         if (next1==null && next2==null) 
         {
             if (curLeft!=0)
-                final.next = new ListNode(curLeft);
+                curNode.next = new ListNode(curLeft);
         }
         else if (next1==null) {//next1 exhausted
             while (next2!=null) {
                 int sum = next2.val + curLeft;
                 if (sum<=9) {
-                    final.next = new ListNode(sum-=10);
-                    curLeft=sum;
+                    curNode.next = new ListNode(sum);
+                    curLeft=0;
+                }
+                else {
+                    curNode.next = new ListNode(sum-10);
+                    curLeft=1;
                 }
                 next2 = next2.next;
             }
             if (curLeft!=0){
-                final.next=new ListNode(curLeft);
+                curNode.next=new ListNode(curLeft);
             }
         }
         else {//next2 exhausted
             while (next1!=null) {
                 int sum = next1.val + curLeft;
                 if (sum<=9) {
-                    final.next = new ListNode(sum-=10);
-                    curLeft=sum;
+                    curNode.next = new ListNode(sum);
+                    curLeft=0;
+                }
+                else {
+                    curNode.next=new ListNode(sum-10);
+                    curLeft=1;
                 }
                 next1 = next1.next;
             }
             if (curLeft!=0){
-                final.next=new ListNode(curLeft);
+                curNode.next=new ListNode(curLeft);
             }
         }
         return final.next;
     }
 
+    public bool IsPalindrome(int x) {
+        if (x<0) return false;
+        if (x<10) return true;
+        return IsPalindrome(x.ToString(), 0, x.ToString().Length-1);
+    }
+    bool IsPalindrome(string str, int l, int r) {
+        if (l==r || r-l+1==2) return str[l]==str[r];
+        return str[l]==str[r] && IsPalindrome(str, l+1, r-1);
+    }
 }
 
 

@@ -70,8 +70,17 @@ namespace LeetCode
             // var genpar = sol.GenerateParenthesis(4);
             // foreach(string str in genpar)
             //     Console.WriteLine(str);
-            int[] nums = {3,30,34,5,9};
-            Console.Write(sol.LongestCommonPrefix(new string[3]{"flower","flow","flight"}));
+            // int[] nums = {3,30,34,5,9};
+            // ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
+            // ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
+            // var test1 = sol.AddTwoNumbers(l1, l2);
+            // var cur = test1;
+            // while (cur!=null)
+            // {
+            //     Console.WriteLine(cur.val);
+            //     cur = cur.next;
+            // }
+            Console.Write(sol.IsPalindrome(1200021));
         }
     }
 
