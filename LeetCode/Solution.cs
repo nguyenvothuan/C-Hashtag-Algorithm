@@ -2265,7 +2265,115 @@ class Solution
         return s.Length==0? "" : s[pos] + RemoveDuplicateLetters(s.Substring(pos+1).Replace(""+s[pos], ""));
     }
 
-    
+    public string LargestNumber(int[] nums) {
+        int n = nums.Length;
+        if (n==0) return "";
+        if (n==1) return nums[0].ToString();
+        CompareLexiString comparer = new CompareLexiString();
+        string[] arr = new string[n];
+        for(int i =0;i<n;i++) arr[i] = nums[i].ToString();
+        Array.Sort(arr, comparer);
+        StringBuilder buffer = new StringBuilder();
+        for (int i =n-1;i>=0;i--)
+            buffer.Append(arr[i]);
+        return buffer.ToString();
+    }
+
+    public string LongestCommonPrefix(string[] strs) {
+        char[] cur = strs[0].ToCharArray();
+        if (cur.Length==0) return "";
+        int curIndex = cur.Length;
+        foreach (string str in strs) {
+            curIndex = Math.Min(curIndex, str.Length);
+            for(int i=0;i<curIndex;i++) {
+                if (cur[i]!=str[i]) {
+                    curIndex = i;
+                    if (curIndex==0) return "";
+                }
+            }
+        }
+        return new string(cur, 0, curIndex);
+    }
+
+    int treeSum = 0;
+    public int SumNumbers(TreeNode root) {
+        if (root==null) return 0;
+        SumNumbersUtil(root, 0);
+        return treeSum;
+    }
+
+    void SumNumbersUtil(TreeNode root, int sofar) {
+        //with the presence of root, factorize it into sofar and continues and add to treeSum
+        if (root==null) return;
+        if (root.left==null&&root.right==null) treeSum+=sofar*10+root.val;
+        SumNumbersUtil(root.left, sofar*10+root.val);
+        SumNumbersUtil(root.right, sofar*10+root.val);
+
+    }
+
+    public int SumOfLeftLeaves(TreeNode root) {
+        return LeftSum(root, false);
+    }
+
+    public int LeftSum(TreeNode cur, bool isLeft) {
+        if (cur.right==null && cur.left==null){
+            if (isLeft) return cur.val;
+            else return 0;
+        }
+        if (cur.left==null) return LeftSum(cur.right, false);
+        if (cur.right==null) return LeftSum(cur.left, true);
+        return LeftSum(cur.right, false) + LeftSum(cur.left, true);
+    }
+   
+    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
+        int curLeft = 0;
+        ListNode final = new ListNode();
+        var next1 = l1; var next2 = l2;
+        while (next1!=null && next2!= null) {
+            int sum =curLeft + next1.val + next2.val;
+            if (sum<= 9) {
+                curLeft=0;
+                final.next = new ListNode(sum);
+            }
+            else {
+                final.next=new ListNode(sum-=10);
+                curLeft=sum;
+            }
+            next1=next1.next; next2=next2.next;
+        }
+        if (next1==null && next2==null) 
+        {
+            if (curLeft!=0)
+                final.next = new ListNode(curLeft);
+        }
+        else if (next1==null) {//next1 exhausted
+            while (next2!=null) {
+                int sum = next2.val + curLeft;
+                if (sum<=9) {
+                    final.next = new ListNode(sum-=10);
+                    curLeft=sum;
+                }
+                next2 = next2.next;
+            }
+            if (curLeft!=0){
+                final.next=new ListNode(curLeft);
+            }
+        }
+        else {//next2 exhausted
+            while (next1!=null) {
+                int sum = next1.val + curLeft;
+                if (sum<=9) {
+                    final.next = new ListNode(sum-=10);
+                    curLeft=sum;
+                }
+                next1 = next1.next;
+            }
+            if (curLeft!=0){
+                final.next=new ListNode(curLeft);
+            }
+        }
+        return final.next;
+    }
 
 }
 

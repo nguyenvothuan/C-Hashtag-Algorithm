@@ -70,7 +70,8 @@ namespace LeetCode
             // var genpar = sol.GenerateParenthesis(4);
             // foreach(string str in genpar)
             //     Console.WriteLine(str);
-            Console.Write(sol.NumDecodings("1"));
+            int[] nums = {3,30,34,5,9};
+            Console.Write(sol.LongestCommonPrefix(new string[3]{"flower","flow","flight"}));
         }
     }
 

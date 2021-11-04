@@ -105,4 +105,7 @@ class Tool<T>
         }
     }
 
+    public int CharToInt(char chr) { return (int)char.GetNumericValue(chr); }
+    public int StringToInt(string str) { return Int32.Parse(str); }
+    public int StringToInt(string str, int start, int length) { return Int32.Parse(str.Substring(start, length)); }
 }
