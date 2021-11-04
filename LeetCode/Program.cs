@@ -80,7 +80,9 @@ namespace LeetCode
             //     Console.WriteLine(cur.val);
             //     cur = cur.next;
             // }
-            Console.Write(sol.IsPalindrome(1200021));
+            // Console.Write(sol.IsPalindrome(1200021));
+            var head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
+            sol.SwapPairs(head);
         }
     }
 

@@ -2393,6 +2393,15 @@ class Solution
         if (l==r || r-l+1==2) return str[l]==str[r];
         return str[l]==str[r] && IsPalindrome(str, l+1, r-1);
     }
+
+    public ListNode SwapPairs(ListNode head) {
+        if (head==null) return null;
+        if (head.next==null) return head;
+        var n = head.next;
+        head.next = SwapPairs(head.next.next);
+        n.next = head;
+        return n;
+    }
 }
 
 
