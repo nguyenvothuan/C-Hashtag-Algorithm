@@ -2437,21 +2437,78 @@ class Solution
     {
         if (n <= 2) return 1;
         int k = ((int)Math.Sqrt(8 * n) - 1) / 2;
-        return Math.Floor((double) ((k + 1) * (k + 2) / 2) )> n ? k : k + 1;
+        return Math.Floor((double)((k + 1) * (k + 2) / 2)) > n ? k : k + 1;
     }
 
-    public int[] SingleNumber(int[] nums) {
+    public int[] SingleNumber(int[] nums)
+    {
         int xor = 0;
         foreach (int i in nums)
-            xor^=i;
+            xor ^= i;
         int rightSetBit = xor & -xor;
         int a = 0;
         foreach (int i in nums)
-            if ((i&rightSetBit)!=0)
-                a^=i;
-        return new int[2]{a, xor^a};
+            if ((i & rightSetBit) != 0)
+                a ^= i;
+        return new int[2] { a, xor ^ a };
     }
+
+    public void SolveSudoku(char[][] board)
+    {
+
+    }
+
+    public bool IsValidSudoku(char[][] board)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            //row first
+            for (int j = 0; j < 8; j++)
+            {
+                for (int t = j + 1; t < 9; t++)
+                {
+                    if (board[i][j] == board[i][t] && board[i][t] != '.') return false;
+                }
+            }
+        }
+        for (var i = 0; i < 9; i++)
+        {
+            //col 
+            for (int j = 0; j < 8; j++)
+            {
+                for (int t = j + 1; t < 9; t++)
+                {
+                    if (board[j][i] == board[t][i] && board[t][i] != '.') return false;
+                }
+            }
+        }
+        List<int> list = new List<int>();
+        for (int i = 0; i <= 6; i += 3)
+        {
+            for (int j = 0; j <= 6; j += 3)
+            {
+                //start at (i,j) => (i+2, j+2);
+                for (int x = 0; x < 3; x++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        if (board[i + x][j + y] != '.')
+                        {
+                            if (list.Contains(board[i+x][j+y]))
+                                return false;
+                            list.Add(board[i+x][j+y]);
+                        }
+                    }
+                }
+                list.Clear();
+
+            }
+        }
+        return true;
+    }
+
 }
+
 
 
 

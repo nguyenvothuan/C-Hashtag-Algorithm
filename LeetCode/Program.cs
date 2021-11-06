@@ -83,8 +83,18 @@ namespace LeetCode
             // Console.Write(sol.IsPalindrome(1200021));
             // var head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
             // sol.SwapPairs(head);
-            Console.WriteLine(Convert.ToString(-6, 2));
-            //Console.WriteLine(5^4);
+            char[][] board = new char[9][];
+            board[0] = new char[9] {'5','3','.','.','7','.','.','.','.'};
+            board[1] = new char[9] {'6','.','.','1','9','5','.','.','.'};
+            board[2] = new char[9] {'.','9','8','.','.','.','.','6','.'};
+            board[3] = new char[9] {'8','.','.','.','6','.','.','.','3'};
+            board[4] = new char[9] {'4','.','.','8','.','3','.','.','1'};
+            board[5] = new char[9] {'7','.','.','.','.','.','.','.','6'};
+            board[6] = new char[9] {'.','6','.','.','.','.','2','8','.'};
+            board[7] = new char[9] {'.','.','.','4','1','9','.','.','5'};
+            board[8] = new char[9] {'.','.','.','.','2','.','.','7','9'};
+            Console.Write(sol.IsValidSudoku(board));
+            
         }
     }
 
