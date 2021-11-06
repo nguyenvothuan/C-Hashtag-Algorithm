@@ -2215,7 +2215,7 @@ class Solution
     public int NumDecodings(string s)
     {
         int n = s.Length;
-        if (n==1) return s[0]!=0?1:0;
+        if (n == 1) return s[0] != 0 ? 1 : 0;
         if (n == 2)
         {
             if (CharToInt(s[0]) == 0) return 0;
@@ -2248,47 +2248,55 @@ class Solution
     int StringToInt(string str) { return Int32.Parse(str); }
     int StringToInt(string str, int start, int length) { return Int32.Parse(str.Substring(start, length)); }
 
-    public IList<IList<int>> CombinationSum(int[] candidates, int target) {
+    public IList<IList<int>> CombinationSum(int[] candidates, int target)
+    {
         Array.Sort(candidates);
         //TODO: Finish this one
         return null;
     }
 
-    public string RemoveDuplicateLetters(string s) {
+    public string RemoveDuplicateLetters(string s)
+    {
         int[] hash = new int[26];
-        int pos =0;//position of the smallest s[i]
-        for(int i =0;i<s.Length;i++) hash[s[i]-'a']++;
-        for(int i =0;i<s.Length;i++) {
-            if (s[i]<s[pos]) pos=i;
-            if (--hash[s[i]-'a']==0) break;
+        int pos = 0;//position of the smallest s[i]
+        for (int i = 0; i < s.Length; i++) hash[s[i] - 'a']++;
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] < s[pos]) pos = i;
+            if (--hash[s[i] - 'a'] == 0) break;
         }
-        return s.Length==0? "" : s[pos] + RemoveDuplicateLetters(s.Substring(pos+1).Replace(""+s[pos], ""));
+        return s.Length == 0 ? "" : s[pos] + RemoveDuplicateLetters(s.Substring(pos + 1).Replace("" + s[pos], ""));
     }
 
-    public string LargestNumber(int[] nums) {
+    public string LargestNumber(int[] nums)
+    {
         int n = nums.Length;
-        if (n==0) return "";
-        if (n==1) return nums[0].ToString();
+        if (n == 0) return "";
+        if (n == 1) return nums[0].ToString();
         CompareLexiString comparer = new CompareLexiString();
         string[] arr = new string[n];
-        for(int i =0;i<n;i++) arr[i] = nums[i].ToString();
+        for (int i = 0; i < n; i++) arr[i] = nums[i].ToString();
         Array.Sort(arr, comparer);
         StringBuilder buffer = new StringBuilder();
-        for (int i =n-1;i>=0;i--)
+        for (int i = n - 1; i >= 0; i--)
             buffer.Append(arr[i]);
         return buffer.ToString();
     }
 
-    public string LongestCommonPrefix(string[] strs) {
+    public string LongestCommonPrefix(string[] strs)
+    {
         char[] cur = strs[0].ToCharArray();
-        if (cur.Length==0) return "";
+        if (cur.Length == 0) return "";
         int curIndex = cur.Length;
-        foreach (string str in strs) {
+        foreach (string str in strs)
+        {
             curIndex = Math.Min(curIndex, str.Length);
-            for(int i=0;i<curIndex;i++) {
-                if (cur[i]!=str[i]) {
+            for (int i = 0; i < curIndex; i++)
+            {
+                if (cur[i] != str[i])
+                {
                     curIndex = i;
-                    if (curIndex==0) return "";
+                    if (curIndex == 0) return "";
                 }
             }
         }
@@ -2296,111 +2304,152 @@ class Solution
     }
 
     int treeSum = 0;
-    public int SumNumbers(TreeNode root) {
-        if (root==null) return 0;
+    public int SumNumbers(TreeNode root)
+    {
+        if (root == null) return 0;
         SumNumbersUtil(root, 0);
         return treeSum;
     }
 
-    void SumNumbersUtil(TreeNode root, int sofar) {
+    void SumNumbersUtil(TreeNode root, int sofar)
+    {
         //with the presence of root, factorize it into sofar and continues and add to treeSum
-        if (root==null) return;
-        if (root.left==null&&root.right==null) treeSum+=sofar*10+root.val;
-        SumNumbersUtil(root.left, sofar*10+root.val);
-        SumNumbersUtil(root.right, sofar*10+root.val);
+        if (root == null) return;
+        if (root.left == null && root.right == null) treeSum += sofar * 10 + root.val;
+        SumNumbersUtil(root.left, sofar * 10 + root.val);
+        SumNumbersUtil(root.right, sofar * 10 + root.val);
 
     }
 
-    public int SumOfLeftLeaves(TreeNode root) {
+    public int SumOfLeftLeaves(TreeNode root)
+    {
         return LeftSum(root, false);
     }
 
-    public int LeftSum(TreeNode cur, bool isLeft) {
-        if (cur.right==null && cur.left==null){
+    public int LeftSum(TreeNode cur, bool isLeft)
+    {
+        if (cur.right == null && cur.left == null)
+        {
             if (isLeft) return cur.val;
             else return 0;
         }
-        if (cur.left==null) return LeftSum(cur.right, false);
-        if (cur.right==null) return LeftSum(cur.left, true);
+        if (cur.left == null) return LeftSum(cur.right, false);
+        if (cur.right == null) return LeftSum(cur.left, true);
         return LeftSum(cur.right, false) + LeftSum(cur.left, true);
     }
-   
-    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
+
+    public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+    {
         int curLeft = 0;
         ListNode final = new ListNode();
         var next1 = l1; var next2 = l2;
         var curNode = final;
-        while (next1!=null && next2!= null) {
-            int sum =curLeft + next1.val + next2.val;
-            if (sum<= 9) {
-                curLeft=0;
+        while (next1 != null && next2 != null)
+        {
+            int sum = curLeft + next1.val + next2.val;
+            if (sum <= 9)
+            {
+                curLeft = 0;
                 curNode.next = new ListNode(sum);
             }
-            else {
-                curNode.next=new ListNode(sum-10);
-                curLeft=1;
+            else
+            {
+                curNode.next = new ListNode(sum - 10);
+                curLeft = 1;
             }
-            next1=next1.next; next2=next2.next;curNode=curNode.next;
+            next1 = next1.next; next2 = next2.next; curNode = curNode.next;
         }
-        if (next1==null && next2==null) 
+        if (next1 == null && next2 == null)
         {
-            if (curLeft!=0)
+            if (curLeft != 0)
                 curNode.next = new ListNode(curLeft);
         }
-        else if (next1==null) {//next1 exhausted
-            while (next2!=null) {
+        else if (next1 == null)
+        {//next1 exhausted
+            while (next2 != null)
+            {
                 int sum = next2.val + curLeft;
-                if (sum<=9) {
+                if (sum <= 9)
+                {
                     curNode.next = new ListNode(sum);
-                    curLeft=0;
+                    curLeft = 0;
                 }
-                else {
-                    curNode.next = new ListNode(sum-10);
-                    curLeft=1;
+                else
+                {
+                    curNode.next = new ListNode(sum - 10);
+                    curLeft = 1;
                 }
                 next2 = next2.next;
             }
-            if (curLeft!=0){
-                curNode.next=new ListNode(curLeft);
+            if (curLeft != 0)
+            {
+                curNode.next = new ListNode(curLeft);
             }
         }
-        else {//next2 exhausted
-            while (next1!=null) {
+        else
+        {//next2 exhausted
+            while (next1 != null)
+            {
                 int sum = next1.val + curLeft;
-                if (sum<=9) {
+                if (sum <= 9)
+                {
                     curNode.next = new ListNode(sum);
-                    curLeft=0;
+                    curLeft = 0;
                 }
-                else {
-                    curNode.next=new ListNode(sum-10);
-                    curLeft=1;
+                else
+                {
+                    curNode.next = new ListNode(sum - 10);
+                    curLeft = 1;
                 }
                 next1 = next1.next;
             }
-            if (curLeft!=0){
-                curNode.next=new ListNode(curLeft);
+            if (curLeft != 0)
+            {
+                curNode.next = new ListNode(curLeft);
             }
         }
         return final.next;
     }
 
-    public bool IsPalindrome(int x) {
-        if (x<0) return false;
-        if (x<10) return true;
-        return IsPalindrome(x.ToString(), 0, x.ToString().Length-1);
+    public bool IsPalindrome(int x)
+    {
+        if (x < 0) return false;
+        if (x < 10) return true;
+        return IsPalindrome(x.ToString(), 0, x.ToString().Length - 1);
     }
-    bool IsPalindrome(string str, int l, int r) {
-        if (l==r || r-l+1==2) return str[l]==str[r];
-        return str[l]==str[r] && IsPalindrome(str, l+1, r-1);
+    bool IsPalindrome(string str, int l, int r)
+    {
+        if (l == r || r - l + 1 == 2) return str[l] == str[r];
+        return str[l] == str[r] && IsPalindrome(str, l + 1, r - 1);
     }
 
-    public ListNode SwapPairs(ListNode head) {
-        if (head==null) return null;
-        if (head.next==null) return head;
+    public ListNode SwapPairs(ListNode head)
+    {
+        if (head == null) return null;
+        if (head.next == null) return head;
         var n = head.next;
         head.next = SwapPairs(head.next.next);
         n.next = head;
         return n;
+    }
+
+    public int ArrangeCoins(long n)
+    {
+        if (n <= 2) return 1;
+        int k = ((int)Math.Sqrt(8 * n) - 1) / 2;
+        return Math.Floor((double) ((k + 1) * (k + 2) / 2) )> n ? k : k + 1;
+    }
+
+    public int[] SingleNumber(int[] nums) {
+        int xor = 0;
+        foreach (int i in nums)
+            xor^=i;
+        int rightSetBit = xor & -xor;
+        int a = 0;
+        foreach (int i in nums)
+            if ((i&rightSetBit)!=0)
+                a^=i;
+        return new int[2]{a, xor^a};
     }
 }
 
