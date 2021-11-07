@@ -94,7 +94,13 @@ namespace LeetCode
             board[7] = new char[9] {'.','.','.','4','1','9','.','.','5'};
             board[8] = new char[9] {'.','.','.','.','2','.','.','7','9'};
             // Console.Write(sol.IsValidSudoku(board));
-            Console.Write(sol.Multiply("12","10" ));
+            // Console.Write(sol.Multiply("12","10" ));
+            int[][] matrix = new int[2][];
+            matrix[0] = new int[2] {1,1};
+            matrix[1] = new int[2] {2,2};
+        
+
+            Console.Write(sol.SearchMatrix(matrix, 0));
         }
     }
 

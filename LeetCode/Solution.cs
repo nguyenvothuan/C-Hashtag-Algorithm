@@ -2507,26 +2507,74 @@ class Solution
         return true;
     }
 
-    
+
 
     public string Multiply(string num1, string num2)
     {
-        if (num1=="0" || num2=="0") return "0";
+        if (num1 == "0" || num2 == "0") return "0";
         //set num1 to be longer than num2. num.length>1
-        int[] final = new int[num1.Length+num2.Length];
-        for(int i =num1.Length-1;i>=0;i--) {
-            for(int j=num2.Length-1;j>=0;j--) {
-                final[i+j+1] += (num1[i]-'0')*(num2[j]-'0');
-                final[i+j] += final[i+j+1]/10;
-                final[i+j+1] %= 10;
+        int[] final = new int[num1.Length + num2.Length];
+        for (int i = num1.Length - 1; i >= 0; i--)
+        {
+            for (int j = num2.Length - 1; j >= 0; j--)
+            {
+                final[i + j + 1] += (num1[i] - '0') * (num2[j] - '0');
+                final[i + j] += final[i + j + 1] / 10;
+                final[i + j + 1] %= 10;
             }
         }
         StringBuilder buffer = new StringBuilder();
         int start = 0;
-        while (final[start]==0) start++;
-        for(int i=start;i<final.Length;i++)
+        while (final[start] == 0) start++;
+        for (int i = start; i < final.Length; i++)
             buffer.Append(final[i]);
         return buffer.ToString();
+    }
+
+    Random randomSeed = new Random();
+    public T[][] MatrixGenerator<T> (int width, int length, int range, Type type) {
+        //TODO: Add more functionality and generic to this shit
+        if (type.Equals(typeof(System.Int32))){
+            int[][] matrix = new int[width][];
+            for(int i =0;i<width;i++) {
+                matrix[i] = new int[length];
+                for(int j=0;j<length;j++)
+                    matrix[i][j] = randomSeed.Next(range+1);
+            }
+        }  
+        return null;
+    }
+
+    public bool SearchMatrix(int[][] matrix, int target)
+    {
+        int numRow = matrix.Length;
+        int numCol = matrix[0].Length;
+        if (numRow == 1 && numCol == 1) return matrix[0][0] == target;
+        if (numRow == 1) return Array.BinarySearch(matrix[0], target) > 0;
+        //binary search row
+        int l = 0; int r = numRow - 1;
+        while (l < r)
+        {
+            int m = (l + r) / 2;
+            if (matrix[m][0] == target) return true;
+            if (matrix[m][0] > target)
+            {
+                r = m - 1;
+            }
+            else
+            {
+                l = m + 1;
+            }
+        }
+
+        int row;
+        if (matrix[l][0] == target) return true;
+        if (numCol == 1) return false;
+        if (matrix[l][0] > target) row = l - 1;
+        else row = l;
+        if (row<0) return false;
+        //search in row from 0 -> numCol-1
+        return Array.BinarySearch(matrix[row], target) > 0;
     }
 
 }
