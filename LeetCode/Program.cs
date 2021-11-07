@@ -93,8 +93,8 @@ namespace LeetCode
             board[6] = new char[9] {'.','6','.','.','.','.','2','8','.'};
             board[7] = new char[9] {'.','.','.','4','1','9','.','.','5'};
             board[8] = new char[9] {'.','.','.','.','2','.','.','7','9'};
-            Console.Write(sol.IsValidSudoku(board));
-            
+            // Console.Write(sol.IsValidSudoku(board));
+            Console.Write(sol.Multiply("12","10" ));
         }
     }
 

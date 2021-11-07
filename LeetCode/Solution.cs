@@ -2494,9 +2494,9 @@ class Solution
                     {
                         if (board[i + x][j + y] != '.')
                         {
-                            if (list.Contains(board[i+x][j+y]))
+                            if (list.Contains(board[i + x][j + y]))
                                 return false;
-                            list.Add(board[i+x][j+y]);
+                            list.Add(board[i + x][j + y]);
                         }
                     }
                 }
@@ -2505,6 +2505,28 @@ class Solution
             }
         }
         return true;
+    }
+
+    
+
+    public string Multiply(string num1, string num2)
+    {
+        if (num1=="0" || num2=="0") return "0";
+        //set num1 to be longer than num2. num.length>1
+        int[] final = new int[num1.Length+num2.Length];
+        for(int i =num1.Length-1;i>=0;i--) {
+            for(int j=num2.Length-1;j>=0;j--) {
+                final[i+j+1] += (num1[i]-'0')*(num2[j]-'0');
+                final[i+j] += final[i+j+1]/10;
+                final[i+j+1] %= 10;
+            }
+        }
+        StringBuilder buffer = new StringBuilder();
+        int start = 0;
+        while (final[start]==0) start++;
+        for(int i=start;i<final.Length;i++)
+            buffer.Append(final[i]);
+        return buffer.ToString();
     }
 
 }
