@@ -2577,7 +2577,57 @@ class Solution
         return Array.BinarySearch(matrix[row], target) > 0;
     }
 
+    public ListNode ReverseKGroup(ListNode head, int k) {
+        //TODO: Solve this shit
+        if (k==1) return head;
+        //when there are less than k nodes, return fully
+        
+        //else 
+        return null;
+    }
+    public int NumTrees(int n) {
+        if (n<=1) return n;
+        int[] dp = new int[n+1];//dp[n] no way to have n
+        dp[0] = dp[1] = 1;
+        dp[2] = 2;
+        NumTreesUtil(n, dp);
+        return dp[n];
+    }
+    int NumTreesUtil(int n, int[] dp){
+        if (dp[n]!=0) return dp[n];
+        for(int k=0;k<=n-1;k++) {
+            dp[n] += NumTreesUtil(k, dp)*NumTreesUtil(n-1-k, dp);
+        }
+        return dp[n];
+    }
+
+    public ListNode RemoveNthFromEnd(ListNode head, int n) {
+        if (head==null||head.next==null) return null;
+        if (head.next.next==null) {
+            if (n==1) {
+                head.next=null; return head;
+            }
+            if (n==2) return head.next;
+        }
+        ListNode maybeLast = head;
+        ListNode maybeN = head;
+        for (int i=0;i<n;i++) {
+            maybeLast = maybeLast.next;
+        }
+        if (maybeLast==null) //point to head 
+        {
+            return head.next;
+        }
+        while (maybeLast.next !=null) {
+            maybeLast= maybeLast.next;
+            maybeN = maybeN.next;
+        }
+        maybeN.next = maybeN.next.next;
+        return head;
+    }
+
 }
+
 
 
 

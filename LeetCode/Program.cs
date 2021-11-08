@@ -95,12 +95,18 @@ namespace LeetCode
             board[8] = new char[9] {'.','.','.','.','2','.','.','7','9'};
             // Console.Write(sol.IsValidSudoku(board));
             // Console.Write(sol.Multiply("12","10" ));
-            int[][] matrix = new int[2][];
-            matrix[0] = new int[2] {1,1};
-            matrix[1] = new int[2] {2,2};
+            // int[][] matrix = new int[2][];
+            // matrix[0] = new int[2] {1,1};
+            // matrix[1] = new int[2] {2,2};
         
 
-            Console.Write(sol.SearchMatrix(matrix, 0));
+            //Console.Write(sol.SearchMatrix(matrix, 0));
+            ListNode head = new ListNode(1, new ListNode(2, new ListNode(3)));
+            var test1 = sol.RemoveNthFromEnd(head, 3);
+            while (test1!=null) {
+                Console.Write(test1.val);
+                test1 = test1.next;
+            }
         }
     }
 
