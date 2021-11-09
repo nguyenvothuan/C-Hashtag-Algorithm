@@ -124,10 +124,10 @@ namespace LeetCode
             //         Console.Write(i + ", ");
             //     Console.WriteLine();
             // }
-            int[] arr1 = {1,2,3,1};
-            var test = sol.Rob(arr1);
-            Console.WriteLine(test);
-
+            // int[] arr1 = {1,2,3,1};
+            // var test = sol.Rob(arr1);
+            // Console.WriteLine(test);
+            Console.Write(sol.FindRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"));
         }
     }
 

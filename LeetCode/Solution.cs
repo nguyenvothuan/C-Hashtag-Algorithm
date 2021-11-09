@@ -2742,6 +2742,23 @@ class Solution
         }
         return Math.Max(dp[0], dp[1]);
     }
+
+    public IList<string> FindRepeatedDnaSequences(string s) {
+        int n = s.Length;
+        if (n<=10) return new List<string>();
+        List<string> final = new List<string>();
+        Dictionary<string, int> dict = new Dictionary<string, int>();
+        for (int i =0;i<=n-10;i++){
+            var cur = s.Substring(i, 10);
+            if (!dict.ContainsKey(cur)){
+                dict.Add(cur, 1);
+            } else {
+                if (dict[cur]==1)
+                {final.Add(cur);dict[cur]++;}
+            }
+        }
+        return final;
+    }
 }
 
 
