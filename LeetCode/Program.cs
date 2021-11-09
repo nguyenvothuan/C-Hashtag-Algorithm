@@ -84,28 +84,45 @@ namespace LeetCode
             // var head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
             // sol.SwapPairs(head);
             char[][] board = new char[9][];
-            board[0] = new char[9] {'5','3','.','.','7','.','.','.','.'};
-            board[1] = new char[9] {'6','.','.','1','9','5','.','.','.'};
-            board[2] = new char[9] {'.','9','8','.','.','.','.','6','.'};
-            board[3] = new char[9] {'8','.','.','.','6','.','.','.','3'};
-            board[4] = new char[9] {'4','.','.','8','.','3','.','.','1'};
-            board[5] = new char[9] {'7','.','.','.','.','.','.','.','6'};
-            board[6] = new char[9] {'.','6','.','.','.','.','2','8','.'};
-            board[7] = new char[9] {'.','.','.','4','1','9','.','.','5'};
-            board[8] = new char[9] {'.','.','.','.','2','.','.','7','9'};
+            board[0] = new char[9] { '5', '3', '.', '.', '7', '.', '.', '.', '.' };
+            board[1] = new char[9] { '6', '.', '.', '1', '9', '5', '.', '.', '.' };
+            board[2] = new char[9] { '.', '9', '8', '.', '.', '.', '.', '6', '.' };
+            board[3] = new char[9] { '8', '.', '.', '.', '6', '.', '.', '.', '3' };
+            board[4] = new char[9] { '4', '.', '.', '8', '.', '3', '.', '.', '1' };
+            board[5] = new char[9] { '7', '.', '.', '.', '.', '.', '.', '.', '6' };
+            board[6] = new char[9] { '.', '6', '.', '.', '.', '.', '2', '8', '.' };
+            board[7] = new char[9] { '.', '.', '.', '4', '1', '9', '.', '.', '5' };
+            board[8] = new char[9] { '.', '.', '.', '.', '2', '.', '.', '7', '9' };
             // Console.Write(sol.IsValidSudoku(board));
             // Console.Write(sol.Multiply("12","10" ));
             // int[][] matrix = new int[2][];
             // matrix[0] = new int[2] {1,1};
             // matrix[1] = new int[2] {2,2};
-        
+
 
             //Console.Write(sol.SearchMatrix(matrix, 0));
-            ListNode head = new ListNode(1, new ListNode(2, new ListNode(3)));
-            var test1 = sol.RemoveNthFromEnd(head, 3);
-            while (test1!=null) {
-                Console.Write(test1.val);
-                test1 = test1.next;
+            // ListNode head = new ListNode(1, new ListNode(2, new ListNode(3)));
+            // var test1 = sol.RemoveNthFromEnd(head, 3);
+            // while (test1!=null) {
+            //     Console.Write(test1.val);
+            //     test1 = test1.next;
+            // }
+            // var test1 = sol.CommaSeperator(",,,");
+            // foreach (var str in test1) 
+            //     Console.WriteLine(str);
+            var test1 = new List<string>(new string[5] { "A,B,G", "A,B,C", "D,E,", "A,B,", "D,E,F" });
+            var test3 = new List<string>(new string[3] { "A,,", ",,C", "A,B,C" });
+            var test4 = new List<string>(new string[4] {"BACELNXGH9,TGZ7MNVJTY,W2H3B0ZJ6S",
+            "BACELNXGH9,TGZ7MNVJTY,W2H3B0ZJ6S",
+            "9A9AH5OTJ4,AM70384WO1,K281AQCQ1O",
+            "9A9AH5OTJ4,AM70384WO1,K281AQCQ1O"
+            });
+             var test2 = sol.match_records(test4);
+            foreach (var list in test2)
+            {
+                foreach (int i in list)
+                    Console.Write(i + ", ");
+                Console.WriteLine();
             }
         }
     }

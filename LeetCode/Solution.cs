@@ -2532,16 +2532,19 @@ class Solution
     }
 
     Random randomSeed = new Random();
-    public T[][] MatrixGenerator<T> (int width, int length, int range, Type type) {
+    public T[][] MatrixGenerator<T>(int width, int length, int range, Type type)
+    {
         //TODO: Add more functionality and generic to this shit
-        if (type.Equals(typeof(System.Int32))){
+        if (type.Equals(typeof(System.Int32)))
+        {
             int[][] matrix = new int[width][];
-            for(int i =0;i<width;i++) {
+            for (int i = 0; i < width; i++)
+            {
                 matrix[i] = new int[length];
-                for(int j=0;j<length;j++)
-                    matrix[i][j] = randomSeed.Next(range+1);
+                for (int j = 0; j < length; j++)
+                    matrix[i][j] = randomSeed.Next(range + 1);
             }
-        }  
+        }
         return null;
     }
 
@@ -2572,58 +2575,138 @@ class Solution
         if (numCol == 1) return false;
         if (matrix[l][0] > target) row = l - 1;
         else row = l;
-        if (row<0) return false;
+        if (row < 0) return false;
         //search in row from 0 -> numCol-1
         return Array.BinarySearch(matrix[row], target) > 0;
     }
 
-    public ListNode ReverseKGroup(ListNode head, int k) {
+    public ListNode ReverseKGroup(ListNode head, int k)
+    {
         //TODO: Solve this shit
-        if (k==1) return head;
+        if (k == 1) return head;
         //when there are less than k nodes, return fully
-        
+
         //else 
         return null;
     }
-    public int NumTrees(int n) {
-        if (n<=1) return n;
-        int[] dp = new int[n+1];//dp[n] no way to have n
+    public int NumTrees(int n)
+    {
+        if (n <= 1) return n;
+        int[] dp = new int[n + 1];//dp[n] no way to have n
         dp[0] = dp[1] = 1;
         dp[2] = 2;
         NumTreesUtil(n, dp);
         return dp[n];
     }
-    int NumTreesUtil(int n, int[] dp){
-        if (dp[n]!=0) return dp[n];
-        for(int k=0;k<=n-1;k++) {
-            dp[n] += NumTreesUtil(k, dp)*NumTreesUtil(n-1-k, dp);
+    int NumTreesUtil(int n, int[] dp)
+    {
+        if (dp[n] != 0) return dp[n];
+        for (int k = 0; k <= n - 1; k++)
+        {
+            dp[n] += NumTreesUtil(k, dp) * NumTreesUtil(n - 1 - k, dp);
         }
         return dp[n];
     }
 
-    public ListNode RemoveNthFromEnd(ListNode head, int n) {
-        if (head==null||head.next==null) return null;
-        if (head.next.next==null) {
-            if (n==1) {
-                head.next=null; return head;
+    public ListNode RemoveNthFromEnd(ListNode head, int n)
+    {
+        if (head == null || head.next == null) return null;
+        if (head.next.next == null)
+        {
+            if (n == 1)
+            {
+                head.next = null; return head;
             }
-            if (n==2) return head.next;
+            if (n == 2) return head.next;
         }
         ListNode maybeLast = head;
         ListNode maybeN = head;
-        for (int i=0;i<n;i++) {
+        for (int i = 0; i < n; i++)
+        {
             maybeLast = maybeLast.next;
         }
-        if (maybeLast==null) //point to head 
+        if (maybeLast == null) //point to head 
         {
             return head.next;
         }
-        while (maybeLast.next !=null) {
-            maybeLast= maybeLast.next;
+        while (maybeLast.next != null)
+        {
+            maybeLast = maybeLast.next;
             maybeN = maybeN.next;
         }
         maybeN.next = maybeN.next.next;
         return head;
+    }
+
+    public List<List<int>> match_records(List<string> input_data)
+    {
+        int n = input_data.Count;
+        int[][] adj = new int[n][];
+        for (int i = 0; i < n; i++)
+        { adj[i] = new int[n]; adj[i][i] = 1; }
+        for (int i = 0; i < n - 1; i++)
+        {
+            for (int j = i + 1; j < n; j++)
+            {
+                if (CompareTokens(input_data[i], input_data[j]))
+                {
+                    adj[i][j] = 1;
+                    adj[j][i] = 1;
+                }
+            }
+        }
+        int[][] closure = new int[n][];
+
+        for (int i = 0; i < n; i++)
+        {
+            closure[i] = new int[n];
+            for(int j=0;j<n;j++) {
+                closure[i][j] = adj[i][j];
+            }
+        }
+        for (int k = 0; k < n; k++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    closure[i][j] = (closure[i][j] != 0 || (closure[i][k] != 0 && closure[k][j] != 0)) ? 1 : 0;
+                }
+            }
+        }
+        List<List<int>> final = new List<List<int>>();
+        for (int i = 0; i < n; i++)
+            final.Add(new List<int>(closure[i]));
+        return final;
+    }
+
+    public bool CompareTokens(string str1, string str2)
+    {
+        var t1 = CommaSeperator(str1);
+        var t2 = CommaSeperator(str2);
+        for (int i = 0; i <= 2; i++)
+            for (int j = 0; j <= 2; j++)
+                if (t1[i] == t2[j] && t1[i] != "")
+                    return true;
+        return false;
+    }
+    public string[] CommaSeperator(string str)
+    {
+        List<string> final = new List<string>();
+        StringBuilder buffer = new StringBuilder();
+        foreach (char chr in str)
+        {
+            if (chr == ',')
+            {
+                final.Add(buffer.ToString()); buffer.Clear();
+            }
+            else
+            {
+                buffer.Append(chr);
+            }
+        }
+        if (buffer.Length > 0 || (str[str.Length - 1] == ',')) final.Add(buffer.ToString());
+        return final.ToArray();
     }
 
 }
