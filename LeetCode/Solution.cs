@@ -2679,7 +2679,6 @@ class Solution
             final.Add(new List<int>(closure[i]));
         return final;
     }
-
     public bool CompareTokens(string str1, string str2)
     {
         var t1 = CommaSeperator(str1);
@@ -2709,6 +2708,40 @@ class Solution
         return final.ToArray();
     }
 
+    public IList<int> FindNumOfValidWords(string[] words, string[] puzzles) {
+        //TODO: Solve after studying Trie
+        return null;
+    }
+
+    Dictionary<int, Node> mapForClone = new Dictionary<int, Node>();
+    public Node CloneGraph(Node node) {
+        // var cur = node;
+        if (node==null) return null;
+        if (mapForClone.ContainsKey(node.val)) return mapForClone[node.val];
+
+        var clone = new Node(node.val);
+        mapForClone.Add(clone.val, clone);
+        foreach (var neighbor in node.neighbors){
+            clone.neighbors.Add(CloneGraph(neighbor));
+        }
+        return clone;
+    }
+
+    public int Rob(int[] nums) {
+        int  n = nums.Length;
+        int[] dp = new int[n];
+        dp[n-1] = nums[n-1]; 
+        if (n==1) return dp[n-1]; 
+        dp[n-2]=nums[n-2];
+        if (n==2) return Math.Max(dp[n-2], dp[n-1]);
+        dp[n-3] = nums[n-3] + nums[n-1];
+        if (n==3) return Math.Max(dp[n-3], dp[n-2]);
+
+        for (int i =n-4;i>=0;i--) {
+            dp[i] = nums[i] + Math.Max(dp[i+2], dp[i+3]);
+        }
+        return Math.Max(dp[0], dp[1]);
+    }
 }
 
 
