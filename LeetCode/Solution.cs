@@ -2660,7 +2660,8 @@ class Solution
         for (int i = 0; i < n; i++)
         {
             closure[i] = new int[n];
-            for(int j=0;j<n;j++) {
+            for (int j = 0; j < n; j++)
+            {
                 closure[i][j] = adj[i][j];
             }
         }
@@ -2708,56 +2709,134 @@ class Solution
         return final.ToArray();
     }
 
-    public IList<int> FindNumOfValidWords(string[] words, string[] puzzles) {
+    public IList<int> FindNumOfValidWords(string[] words, string[] puzzles)
+    {
         //TODO: Solve after studying Trie
         return null;
     }
 
     Dictionary<int, Node> mapForClone = new Dictionary<int, Node>();
-    public Node CloneGraph(Node node) {
+    public Node CloneGraph(Node node)
+    {
         // var cur = node;
-        if (node==null) return null;
+        if (node == null) return null;
         if (mapForClone.ContainsKey(node.val)) return mapForClone[node.val];
 
         var clone = new Node(node.val);
         mapForClone.Add(clone.val, clone);
-        foreach (var neighbor in node.neighbors){
+        foreach (var neighbor in node.neighbors)
+        {
             clone.neighbors.Add(CloneGraph(neighbor));
         }
         return clone;
     }
 
-    public int Rob(int[] nums) {
-        int  n = nums.Length;
+    public int Rob(int[] nums)
+    {
+        int n = nums.Length;
         int[] dp = new int[n];
-        dp[n-1] = nums[n-1]; 
-        if (n==1) return dp[n-1]; 
-        dp[n-2]=nums[n-2];
-        if (n==2) return Math.Max(dp[n-2], dp[n-1]);
-        dp[n-3] = nums[n-3] + nums[n-1];
-        if (n==3) return Math.Max(dp[n-3], dp[n-2]);
+        dp[n - 1] = nums[n - 1];
+        if (n == 1) return dp[n - 1];
+        dp[n - 2] = nums[n - 2];
+        if (n == 2) return Math.Max(dp[n - 2], dp[n - 1]);
+        dp[n - 3] = nums[n - 3] + nums[n - 1];
+        if (n == 3) return Math.Max(dp[n - 3], dp[n - 2]);
 
-        for (int i =n-4;i>=0;i--) {
-            dp[i] = nums[i] + Math.Max(dp[i+2], dp[i+3]);
+        for (int i = n - 4; i >= 0; i--)
+        {
+            dp[i] = nums[i] + Math.Max(dp[i + 2], dp[i + 3]);
         }
         return Math.Max(dp[0], dp[1]);
     }
 
-    public IList<string> FindRepeatedDnaSequences(string s) {
+    public IList<string> FindRepeatedDnaSequences(string s)
+    {
         int n = s.Length;
-        if (n<=10) return new List<string>();
+        if (n <= 10) return new List<string>();
         List<string> final = new List<string>();
         Dictionary<string, int> dict = new Dictionary<string, int>();
-        for (int i =0;i<=n-10;i++){
+        for (int i = 0; i <= n - 10; i++)
+        {
             var cur = s.Substring(i, 10);
-            if (!dict.ContainsKey(cur)){
+            if (!dict.ContainsKey(cur))
+            {
                 dict.Add(cur, 1);
-            } else {
-                if (dict[cur]==1)
-                {final.Add(cur);dict[cur]++;}
+            }
+            else
+            {
+                if (dict[cur] == 1)
+                { final.Add(cur); dict[cur]++; }
             }
         }
         return final;
+    }
+
+    public int MaxProfit(int[] prices)
+    {
+        int n = prices.Length;
+        if (n == 2) return prices[1] > prices[0] ? prices[1] - prices[0] : 0;
+        int l = 0;
+        while (l + 1 < n && prices[l] >= prices[l + 1])
+        {
+            l++;
+        }
+        int r = n - 1;
+        while (r - 1 >= 0 && prices[r - 1] >= prices[r])
+        {
+            r--;
+        }
+        if (l >= r) return 0;
+        int cur = 0;
+        int sum = 0;
+        for (int i = l; i <= r;)
+        {
+            cur = prices[i];
+            while (i + 1 <= r && prices[i] < prices[i + 1])
+            {
+                i++;
+            }
+            sum += prices[i] - cur;
+            i++;
+        }
+        return sum;
+    }
+
+    public IList<int> FindMinHeightTrees(int n, int[][] edges)
+    {
+        if (n == 0) return new List<int>();
+        HashSet<int>[] adj = new HashSet<int>[n];
+        for (int i = 0; i < n; i++) adj[i] = new HashSet<int>();
+        foreach (var edge in edges)
+        {
+            adj[edge[1]].Add(edge[0]);
+            adj[edge[0]].Add(edge[1]);
+        }
+        List<int> leaves = new List<int>();
+        // add leaves
+        for (int i = 0; i < n; i++)
+            if (adj[i].Count == 1)
+                leaves.Add(i);
+        while (n > 2)
+        {
+            n -= leaves.Count; List<int> newLeaves = new List<int>();
+            foreach (int leaf in leaves)
+            {
+                // remove current leaves and add next leaves
+
+                var neighborOfLeaf = adj[leaf];
+                foreach (int i in neighborOfLeaf)
+                {
+                    adj[i].Remove(leaf);
+                    if (adj[i].Count == 1)
+                    {
+                        newLeaves.Add(i);
+                    }
+                }
+
+            }
+            leaves = newLeaves;
+        }
+        return leaves;
     }
 }
 
