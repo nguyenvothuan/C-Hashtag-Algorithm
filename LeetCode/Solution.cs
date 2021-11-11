@@ -2886,6 +2886,20 @@ class Solution
         if (min>=1) return 1;
         return 1-min;
     }
+
+    public int BalancedStringSplit(string s) {
+        if (s.Length<=1) return 0;
+        int L =0, R=0, count=0;
+        foreach (char chr in s) {
+            if (chr=='L') L++;
+            if (chr=='R') R++;
+            if (L==R) {
+                count++; L=0; R=0;
+            }
+        }
+        return count;
+
+    }
 }
 
 
