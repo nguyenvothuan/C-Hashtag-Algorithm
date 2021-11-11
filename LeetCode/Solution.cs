@@ -2452,10 +2452,26 @@ class Solution
                 a ^= i;
         return new int[2] { a, xor ^ a };
     }
-
-    public void SolveSudoku(char[][] board)
+    
+    public bool SolveSudoku(char[][] board)
     {
-
+        for (int i=0;i<9;i++) {
+            for (int j =0;j<9;j++) {
+                if (board[i][j]=='.'){
+                    for(char k='1';k<'9';k++) {
+                        board[i][j] = k;
+                        if (IsValidSudoku(board)) {
+                            if (SolveSudoku(board))
+                                return true;
+                            board[i][j]='.';
+                        }
+                    }
+                    return false;//after trying all 9 numbers
+                }
+            
+            }
+        }
+        return false;
     }
 
     public bool IsValidSudoku(char[][] board)
@@ -2837,6 +2853,38 @@ class Solution
             leaves = newLeaves;
         }
         return leaves;
+    }
+
+    public int MinPatches(int[] nums, int n) {
+       long miss=1;int added=0, i=0;
+       while (miss<=n) {
+           if (i<nums.Length && nums[i]<=miss) {// miss>=num[i] means nums[i] is just too big to cover miss
+               miss+= nums[i++];
+           }
+           else {
+               miss+= miss;
+               added++;
+           }
+       } 
+       return added;
+    }
+
+    public int Search(int[] nums, int target) {//todo later
+        return 0;
+    }
+
+    public int MinStartValue(int[] nums) {
+        //find the smallest number 
+        int min = 1;
+        int sofar = 0;
+        foreach (int i in nums) {
+            sofar+=i;
+            if (sofar<1) {//if we spot a place that needed to be added to be greaeter than or equals 1
+                min = Math.Min(sofar, min);
+            }
+        }
+        if (min>=1) return 1;
+        return 1-min;
     }
 }
 

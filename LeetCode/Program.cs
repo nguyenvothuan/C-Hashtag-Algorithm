@@ -127,13 +127,14 @@ namespace LeetCode
             // int[] arr1 = {1,2,3,1};
             // var test = sol.Rob(arr1);
             // Console.WriteLine(test);
-            int[][] edges = new int[3][];
-            edges[1]=new int[2]{1,2};
-            edges[2]=new int[2]{1,3};
-            edges[0]=new int[2]{1,0}; 
-           var test = sol.FindMinHeightTrees(4, edges);
-           foreach (int i in test) Console.WriteLine(test);
-        }
+        //     int[][] edges = new int[3][];
+        //     edges[1]=new int[2]{1,2};
+        //     edges[2]=new int[2]{1,3};
+        //     edges[0]=new int[2]{1,0}; 
+        //    var test = sol.FindMinHeightTrees(4, edges);
+        //    foreach (int i in test) Console.WriteLine(test);
+        Console.Write(sol.MinStartValue(new int[2]{1,2}));
+        }   
     }
 
 }
