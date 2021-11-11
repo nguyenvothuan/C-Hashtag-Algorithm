@@ -140,7 +140,9 @@ namespace LeetCode
         //    var test = sol.FindMinHeightTrees(4, edges);
         //    foreach (int i in test) Console.WriteLine(test);
         //Console.Write(sol.MinStartValue(new int[2]{1,2}));
-        Console.Write(sol.BalancedStringSplit("RLRRRLLRLL"));
+        // Console.Write(sol.BalancedStringSplit("RLRRRLLRLL"));
+        // Console.WriteLine(sol.Maximum69Number(9969));
+        Console.Write(sol.LemonadeChange(new int[5]{5,5,10,10,20}));
         }   
     }
 

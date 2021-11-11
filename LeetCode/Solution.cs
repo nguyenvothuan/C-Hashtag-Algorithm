@@ -2900,6 +2900,33 @@ class Solution
         return count;
 
     }
+
+    public int Maximum69Number (int num) {
+        char[] arr = num.ToString().ToCharArray();
+        for(int i=0;i<arr.Length;i++) 
+            if (arr[i]=='6')
+            {
+                arr[i]='9';
+                break;
+            }
+       
+        return Int32.Parse(new string(arr));
+    }
+
+    public bool LemonadeChange(int[] bills) {
+        int five = 0, ten =0;
+        foreach (int i in bills) {
+            if (i==5) five++;
+            if(i==10) {five--; ten++;}
+            if (i==20){
+                five--;
+                if (ten==0) five-=2;
+                else ten--;
+            }
+            if (ten<0||five<0) return false;
+        }
+        return true;
+    }
 }
 
 
