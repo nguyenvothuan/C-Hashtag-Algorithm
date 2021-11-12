@@ -2927,6 +2927,68 @@ class Solution
         }
         return true;
     }
+
+    public ListNode RemoveElements(ListNode head, int val) {
+        if (head==null) return null;
+        head.next = RemoveElements(head.next, val);
+        if (head.val==val) return head.next;
+        return head;
+    }
+    
+    public bool CanPlaceFlowers(int[] flowerbed, int n) {
+        int count =0;
+        if (n==0) return true;
+        if (flowerbed.Length==0) return true;
+        for(int i =0;i<flowerbed.Length;) {
+            if (flowerbed[i]==0) {
+                if ((i==0|| flowerbed[i-1]==0)&&(i==flowerbed.Length-1||flowerbed[i+1]==0)){
+                    count++; flowerbed[i]=1;
+                    if (count>=n) return true;
+                    i+=2;
+                }
+                else i++;    
+            }
+            else i++;
+        }
+        return count>=n;
+    }
+
+    public int FindContentChildren(int[] g, int[] s) {
+        if (s.Length==0) return 0;
+        Array.Sort(g); Array.Sort(s);
+        int gPointer =0;
+        int sPointer = 0;
+        while (true) {
+            while (g[gPointer]>s[sPointer]) {
+                sPointer++;
+                if (sPointer>=s.Length) return gPointer;
+            }
+            //s[sPointer] now is greater or equal to g[gPointer]
+            gPointer++;sPointer++; 
+            if (gPointer>=g.Length||sPointer>=s.Length) return gPointer;
+        }
+    }
+
+    public int LongestPalindromeCaseSensitive(string s) {
+       Dictionary<char, int> dict  = new Dictionary<char, int>();
+       foreach (char chr in s) {
+           if (!dict.ContainsKey(chr)) {
+               dict.Add(chr, 1);
+           }
+           else {
+               dict[chr]++;
+           }
+       }
+       int sum =0;
+       foreach (var pair in dict) {
+           if (pair.Value%2==0) sum+=pair.Value;
+           else {
+               if (sum%2!=0) sum+= pair.Value-1;
+               else sum+=pair.Value;
+           }
+       }
+       return sum;
+    }
 }
 
 

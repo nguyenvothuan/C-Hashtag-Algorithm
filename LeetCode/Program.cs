@@ -133,17 +133,28 @@ namespace LeetCode
             // int[] arr1 = {1,2,3,1};
             // var test = sol.Rob(arr1);
             // Console.WriteLine(test);
-        //     int[][] edges = new int[3][];
-        //     edges[1]=new int[2]{1,2};
-        //     edges[2]=new int[2]{1,3};
-        //     edges[0]=new int[2]{1,0}; 
-        //    var test = sol.FindMinHeightTrees(4, edges);
-        //    foreach (int i in test) Console.WriteLine(test);
-        //Console.Write(sol.MinStartValue(new int[2]{1,2}));
-        // Console.Write(sol.BalancedStringSplit("RLRRRLLRLL"));
-        // Console.WriteLine(sol.Maximum69Number(9969));
-        Console.Write(sol.LemonadeChange(new int[5]{5,5,10,10,20}));
-        }   
-    }
+            //     int[][] edges = new int[3][];
+            //     edges[1]=new int[2]{1,2};
+            //     edges[2]=new int[2]{1,3};
+            //     edges[0]=new int[2]{1,0}; 
+            //    var test = sol.FindMinHeightTrees(4, edges);
+            //    foreach (int i in test) Console.WriteLine(test);
+            //Console.Write(sol.MinStartValue(new int[2]{1,2}));
+            // Console.Write(sol.BalancedStringSplit("RLRRRLLRLL"));
+            // Console.WriteLine(sol.Maximum69Number(9969));
+            // Console.Write(sol.LemonadeChange(new int[5]{5,5,10,10,20}));
+            // var test = new ListNode(7, new ListNode(7, new ListNode(7, new ListNode(7))));
+            // var test1 = sol.RemoveElements(test, 7);
+            // var cur = test1;
+            // while(cur!=null) {
+            //     Console.WriteLine(cur.val);
+            //     cur =cur.next;
+            // }
+            // }   
+            // Console.WriteLine(sol.CanPlaceFlowers(new int[5] { 1, 0, 0, 0, 1 }, 2));
+            // Console.Write(sol.FindContentChildren(new int[4]{10, 9, 8,7}, new int[4]{5,6,7,8}));
+            Console.Write(sol.LongestPalindromeCaseSensitive("bb"));
+        }
 
+    }
 }
