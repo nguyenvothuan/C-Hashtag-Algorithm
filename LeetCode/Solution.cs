@@ -3095,7 +3095,7 @@ class Solution
     {
         Array.Sort(arr);
         int n = arr.Length;
-        int l = 0; int r = n-1;
+        int l = 0; int r = n - 1;
         int count = 0;
         while (r > l)
         {
@@ -3118,6 +3118,44 @@ class Solution
         }
         return count;
     }
+
+    public int NumberOfWaysHash(int[] arr, int target)
+    {
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        foreach (int i in arr)
+        {
+            if (!dict.ContainsKey(i))
+                dict.Add(i, 1);
+            else
+                dict[i]++;
+        }
+        int sum = 0;
+        foreach (var pair in dict)
+        {
+            int key = pair.Key;
+            if (dict.ContainsKey(target - key))
+            {
+                if (key == target - key)
+                { sum += pair.Value * (pair.Value - 1) / 2; }
+                else
+                { sum += pair.Value * dict[target - key]; }
+            }
+        }
+        return sum;
+    }
+
+    public string EncryptFacebook(string str) {
+        int length = str.Length;
+        if (length<=2) return str;
+        int mid = (length-1)/2; // 3-> 1, 4->1; 5->2, 6->2
+        StringBuilder buffer = new StringBuilder();
+        buffer.Append(str[mid].ToString());
+        buffer.Append(EncryptFacebook(str.Substring(0, mid)));
+        buffer.Append(EncryptFacebook(str.Substring(mid+1, length-1-mid-1+1)));
+        return buffer.ToString();
+    }
+
+
 }
 
 

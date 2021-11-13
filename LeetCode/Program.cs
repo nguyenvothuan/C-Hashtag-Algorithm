@@ -156,9 +156,9 @@ namespace LeetCode
             // var test= sol.DailyTemperatures(new int[8]{73,74,75,71,69,72,76,73});
             // var test = sol.NextGreaterElement(new int[3]{4,1,2}, new int[5]{2,1,2,4,3});
             //var test = sol.FinalPrices(new int[5]{8,4,6,2,3});
-            int test = sol.NumberOfWays2Sum(new int[6]{1,2,3,4,3,5}, 6);
+            // int test = sol.NumberOfWaysHash(new int[7]{1,2,3,3,4,3,5}, 6);
             // foreach(int i in test) Console.WriteLine(i);
-            Console.Write(test);
+            Console.Write(sol.EncryptFacebook("abc"));
         }
 
     }
