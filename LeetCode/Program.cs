@@ -153,7 +153,9 @@ namespace LeetCode
             // }   
             // Console.WriteLine(sol.CanPlaceFlowers(new int[5] { 1, 0, 0, 0, 1 }, 2));
             // Console.Write(sol.FindContentChildren(new int[4]{10, 9, 8,7}, new int[4]{5,6,7,8}));
-            Console.Write(sol.LongestPalindromeCaseSensitive("bb"));
+            // var test= sol.DailyTemperatures(new int[8]{73,74,75,71,69,72,76,73});
+            var test = sol.NextGreaterElement(new int[3]{4,1,2}, new int[5]{2,1,2,4,3});
+            foreach(int i in test) Console.WriteLine(i);
         }
 
     }

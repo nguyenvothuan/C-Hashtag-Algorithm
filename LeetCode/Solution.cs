@@ -2989,6 +2989,54 @@ class Solution
        }
        return sum;
     }
+
+    public int[] DailyTemperatures(int[] temperatures) {
+        int[] ans = new int[temperatures.Length];
+        Stack<int> stack = new Stack<int>();
+        for (int i =temperatures.Length-1;i>=0;i--) 
+        {
+            while (stack.Count!=0&&temperatures[stack.Peek()]<=temperatures[i]) 
+                stack.Pop();
+            ans[i] = stack.Count!=0?stack.Peek():0;
+            stack.Push(i);
+        }
+        for(int i =0;i<temperatures.Length;i++) 
+            ans[i] = ans[i]!=0? ans[i]-i:0;
+        return ans;
+    }
+
+    public int[] NextGreaterElement(int[] nums) {
+        int[] ans = new int[nums.Length];
+        Stack<int> stack = new Stack<int>();
+        for(int i =ans.Length-1;i>=0;i--) {
+            while (stack.Count!=0&&stack.Peek()<=nums[i])
+                stack.Pop();
+            ans[i] = stack.Count!=0?stack.Peek():-1;
+            stack.Push(nums[i]);
+        }
+        return ans;
+    }
+
+    public int[] NextGreaterElement(int[] nums1, int[] nums2) {
+        int[] ans = new int[nums2.Length];
+        Stack<int> stack = new Stack<int>();
+        for(int i =nums2.Length-1;i>=0;i--) {
+            while(stack.Count!=0&&stack.Peek()<=nums2[i]) {
+                stack.Pop();
+            }
+            ans[i]=stack.Count!=0?stack.Peek():-1;
+            stack.Push(nums2[i]);
+        }
+        for(int i =0;i<nums1.Length;i++) {
+            int index = Array.FindIndex(nums2, x=> x == nums1[i]);
+            nums1[i] = ans[index];
+        }
+        return nums1;
+
+    }
+    public int[] FinalPrices(int[] prices) {
+        
+    }
 }
 
 
