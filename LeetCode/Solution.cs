@@ -2452,23 +2452,28 @@ class Solution
                 a ^= i;
         return new int[2] { a, xor ^ a };
     }
-    
+
     public bool SolveSudoku(char[][] board)
     {
-        for (int i=0;i<9;i++) {
-            for (int j =0;j<9;j++) {
-                if (board[i][j]=='.'){
-                    for(char k='1';k<'9';k++) {
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                if (board[i][j] == '.')
+                {
+                    for (char k = '1'; k < '9'; k++)
+                    {
                         board[i][j] = k;
-                        if (IsValidSudoku(board)) {
+                        if (IsValidSudoku(board))
+                        {
                             if (SolveSudoku(board))
                                 return true;
-                            board[i][j]='.';
+                            board[i][j] = '.';
                         }
                     }
                     return false;//after trying all 9 numbers
                 }
-            
+
             }
         }
         return false;
@@ -2855,187 +2860,263 @@ class Solution
         return leaves;
     }
 
-    public int MinPatches(int[] nums, int n) {
-       long miss=1;int added=0, i=0;
-       while (miss<=n) {
-           if (i<nums.Length && nums[i]<=miss) {// miss>=num[i] means nums[i] is just too big to cover miss
-               miss+= nums[i++];
-           }
-           else {
-               miss+= miss;
-               added++;
-           }
-       } 
-       return added;
+    public int MinPatches(int[] nums, int n)
+    {
+        long miss = 1; int added = 0, i = 0;
+        while (miss <= n)
+        {
+            if (i < nums.Length && nums[i] <= miss)
+            {// miss>=num[i] means nums[i] is just too big to cover miss
+                miss += nums[i++];
+            }
+            else
+            {
+                miss += miss;
+                added++;
+            }
+        }
+        return added;
     }
 
-    public int Search(int[] nums, int target) {//todo later
+    public int Search(int[] nums, int target)
+    {//todo later
         return 0;
     }
 
-    public int MinStartValue(int[] nums) {
+    public int MinStartValue(int[] nums)
+    {
         //find the smallest number 
         int min = 1;
         int sofar = 0;
-        foreach (int i in nums) {
-            sofar+=i;
-            if (sofar<1) {//if we spot a place that needed to be added to be greaeter than or equals 1
+        foreach (int i in nums)
+        {
+            sofar += i;
+            if (sofar < 1)
+            {//if we spot a place that needed to be added to be greaeter than or equals 1
                 min = Math.Min(sofar, min);
             }
         }
-        if (min>=1) return 1;
-        return 1-min;
+        if (min >= 1) return 1;
+        return 1 - min;
     }
 
-    public int BalancedStringSplit(string s) {
-        if (s.Length<=1) return 0;
-        int L =0, R=0, count=0;
-        foreach (char chr in s) {
-            if (chr=='L') L++;
-            if (chr=='R') R++;
-            if (L==R) {
-                count++; L=0; R=0;
+    public int BalancedStringSplit(string s)
+    {
+        if (s.Length <= 1) return 0;
+        int L = 0, R = 0, count = 0;
+        foreach (char chr in s)
+        {
+            if (chr == 'L') L++;
+            if (chr == 'R') R++;
+            if (L == R)
+            {
+                count++; L = 0; R = 0;
             }
         }
         return count;
 
     }
 
-    public int Maximum69Number (int num) {
+    public int Maximum69Number(int num)
+    {
         char[] arr = num.ToString().ToCharArray();
-        for(int i=0;i<arr.Length;i++) 
-            if (arr[i]=='6')
+        for (int i = 0; i < arr.Length; i++)
+            if (arr[i] == '6')
             {
-                arr[i]='9';
+                arr[i] = '9';
                 break;
             }
-       
+
         return Int32.Parse(new string(arr));
     }
 
-    public bool LemonadeChange(int[] bills) {
-        int five = 0, ten =0;
-        foreach (int i in bills) {
-            if (i==5) five++;
-            if(i==10) {five--; ten++;}
-            if (i==20){
+    public bool LemonadeChange(int[] bills)
+    {
+        int five = 0, ten = 0;
+        foreach (int i in bills)
+        {
+            if (i == 5) five++;
+            if (i == 10) { five--; ten++; }
+            if (i == 20)
+            {
                 five--;
-                if (ten==0) five-=2;
+                if (ten == 0) five -= 2;
                 else ten--;
             }
-            if (ten<0||five<0) return false;
+            if (ten < 0 || five < 0) return false;
         }
         return true;
     }
 
-    public ListNode RemoveElements(ListNode head, int val) {
-        if (head==null) return null;
+    public ListNode RemoveElements(ListNode head, int val)
+    {
+        if (head == null) return null;
         head.next = RemoveElements(head.next, val);
-        if (head.val==val) return head.next;
+        if (head.val == val) return head.next;
         return head;
     }
-    
-    public bool CanPlaceFlowers(int[] flowerbed, int n) {
-        int count =0;
-        if (n==0) return true;
-        if (flowerbed.Length==0) return true;
-        for(int i =0;i<flowerbed.Length;) {
-            if (flowerbed[i]==0) {
-                if ((i==0|| flowerbed[i-1]==0)&&(i==flowerbed.Length-1||flowerbed[i+1]==0)){
-                    count++; flowerbed[i]=1;
-                    if (count>=n) return true;
-                    i+=2;
+
+    public bool CanPlaceFlowers(int[] flowerbed, int n)
+    {
+        int count = 0;
+        if (n == 0) return true;
+        if (flowerbed.Length == 0) return true;
+        for (int i = 0; i < flowerbed.Length;)
+        {
+            if (flowerbed[i] == 0)
+            {
+                if ((i == 0 || flowerbed[i - 1] == 0) && (i == flowerbed.Length - 1 || flowerbed[i + 1] == 0))
+                {
+                    count++; flowerbed[i] = 1;
+                    if (count >= n) return true;
+                    i += 2;
                 }
-                else i++;    
+                else i++;
             }
             else i++;
         }
-        return count>=n;
+        return count >= n;
     }
 
-    public int FindContentChildren(int[] g, int[] s) {
-        if (s.Length==0) return 0;
+    public int FindContentChildren(int[] g, int[] s)
+    {
+        if (s.Length == 0) return 0;
         Array.Sort(g); Array.Sort(s);
-        int gPointer =0;
+        int gPointer = 0;
         int sPointer = 0;
-        while (true) {
-            while (g[gPointer]>s[sPointer]) {
+        while (true)
+        {
+            while (g[gPointer] > s[sPointer])
+            {
                 sPointer++;
-                if (sPointer>=s.Length) return gPointer;
+                if (sPointer >= s.Length) return gPointer;
             }
             //s[sPointer] now is greater or equal to g[gPointer]
-            gPointer++;sPointer++; 
-            if (gPointer>=g.Length||sPointer>=s.Length) return gPointer;
+            gPointer++; sPointer++;
+            if (gPointer >= g.Length || sPointer >= s.Length) return gPointer;
         }
     }
 
-    public int LongestPalindromeCaseSensitive(string s) {
-       Dictionary<char, int> dict  = new Dictionary<char, int>();
-       foreach (char chr in s) {
-           if (!dict.ContainsKey(chr)) {
-               dict.Add(chr, 1);
-           }
-           else {
-               dict[chr]++;
-           }
-       }
-       int sum =0;
-       foreach (var pair in dict) {
-           if (pair.Value%2==0) sum+=pair.Value;
-           else {
-               if (sum%2!=0) sum+= pair.Value-1;
-               else sum+=pair.Value;
-           }
-       }
-       return sum;
+    public int LongestPalindromeCaseSensitive(string s)
+    {
+        Dictionary<char, int> dict = new Dictionary<char, int>();
+        foreach (char chr in s)
+        {
+            if (!dict.ContainsKey(chr))
+            {
+                dict.Add(chr, 1);
+            }
+            else
+            {
+                dict[chr]++;
+            }
+        }
+        int sum = 0;
+        foreach (var pair in dict)
+        {
+            if (pair.Value % 2 == 0) sum += pair.Value;
+            else
+            {
+                if (sum % 2 != 0) sum += pair.Value - 1;
+                else sum += pair.Value;
+            }
+        }
+        return sum;
     }
 
-    public int[] DailyTemperatures(int[] temperatures) {
+    public int[] DailyTemperatures(int[] temperatures)
+    {
         int[] ans = new int[temperatures.Length];
         Stack<int> stack = new Stack<int>();
-        for (int i =temperatures.Length-1;i>=0;i--) 
+        for (int i = temperatures.Length - 1; i >= 0; i--)
         {
-            while (stack.Count!=0&&temperatures[stack.Peek()]<=temperatures[i]) 
+            while (stack.Count != 0 && temperatures[stack.Peek()] <= temperatures[i])
                 stack.Pop();
-            ans[i] = stack.Count!=0?stack.Peek():0;
+            ans[i] = stack.Count != 0 ? stack.Peek() : 0;
             stack.Push(i);
         }
-        for(int i =0;i<temperatures.Length;i++) 
-            ans[i] = ans[i]!=0? ans[i]-i:0;
+        for (int i = 0; i < temperatures.Length; i++)
+            ans[i] = ans[i] != 0 ? ans[i] - i : 0;
         return ans;
     }
 
-    public int[] NextGreaterElement(int[] nums) {
+    public int[] NextGreaterElement(int[] nums)
+    {
         int[] ans = new int[nums.Length];
         Stack<int> stack = new Stack<int>();
-        for(int i =ans.Length-1;i>=0;i--) {
-            while (stack.Count!=0&&stack.Peek()<=nums[i])
+        for (int i = ans.Length - 1; i >= 0; i--)
+        {
+            while (stack.Count != 0 && stack.Peek() <= nums[i])
                 stack.Pop();
-            ans[i] = stack.Count!=0?stack.Peek():-1;
+            ans[i] = stack.Count != 0 ? stack.Peek() : -1;
             stack.Push(nums[i]);
         }
         return ans;
     }
 
-    public int[] NextGreaterElement(int[] nums1, int[] nums2) {
+    public int[] NextGreaterElement(int[] nums1, int[] nums2)
+    {
         int[] ans = new int[nums2.Length];
         Stack<int> stack = new Stack<int>();
-        for(int i =nums2.Length-1;i>=0;i--) {
-            while(stack.Count!=0&&stack.Peek()<=nums2[i]) {
+        for (int i = nums2.Length - 1; i >= 0; i--)
+        {
+            while (stack.Count != 0 && stack.Peek() <= nums2[i])
+            {
                 stack.Pop();
             }
-            ans[i]=stack.Count!=0?stack.Peek():-1;
+            ans[i] = stack.Count != 0 ? stack.Peek() : -1;
             stack.Push(nums2[i]);
         }
-        for(int i =0;i<nums1.Length;i++) {
-            int index = Array.FindIndex(nums2, x=> x == nums1[i]);
+        for (int i = 0; i < nums1.Length; i++)
+        {
+            int index = Array.FindIndex(nums2, x => x == nums1[i]);
             nums1[i] = ans[index];
         }
         return nums1;
 
     }
-    public int[] FinalPrices(int[] prices) {
-        
+    public int[] FinalPrices(int[] prices)
+    {
+        int[] ans = new int[prices.Length];
+        Stack<int> stack = new Stack<int>();
+        for (int i = prices.Length - 1; i >= 0; i--)
+        {
+            while (stack.Count != 0 && stack.Peek() >= prices[i])
+            {
+                stack.Pop();
+            }
+            ans[i] = prices[i] - (stack.Count != 0 ? stack.Peek() : 0);
+            stack.Push(prices[i]);
+        }
+        return ans;
+    }
+
+    public int NumberOfWays2Sum(int[] arr, int target)
+    {
+        Array.Sort(arr);
+        int n = arr.Length;
+        int l = 0; int r = n-1;
+        int count = 0;
+        while (r > l)
+        {
+            while (l > 0 && l < r && arr[l] == arr[l - 1])
+                l++;//remove duplicate
+            while (r < n - 1 && r > l && arr[r] == arr[r + 1])
+                r--;//remove duplicate in the right part
+            if (r > l)
+            {
+                if (arr[r] + arr[l] == target)
+                {
+                    count++;
+                    r--;
+                }
+                else if (arr[r] + arr[l] > target)
+                    r--;
+                else
+                    l++;
+            }
+        }
+        return count;
     }
 }
 
