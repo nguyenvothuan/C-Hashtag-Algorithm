@@ -158,7 +158,12 @@ namespace LeetCode
             //var test = sol.FinalPrices(new int[5]{8,4,6,2,3});
             // int test = sol.NumberOfWaysHash(new int[7]{1,2,3,3,4,3,5}, 6);
             // foreach(int i in test) Console.WriteLine(i);
-            Console.Write(sol.EncryptFacebook("abc"));
+            // Console.Write(sol.EncryptFacebook("abc"));
+            //Console.Write(sol.CheckAlmostEquivalent("cccddabba", "babababab"));
+            //Console.Write(sol.BalancedSplitExists(new int[6]{1,2,3,4,5,5}));
+            int[] test ={1,2,3,4,5,6,7,8};
+            var test1 = sol.LargestDivisibleSubset(test);
+            foreach (int i in test1) Console.WriteLine(i);
         }
 
     }

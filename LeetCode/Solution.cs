@@ -3144,20 +3144,190 @@ class Solution
         return sum;
     }
 
-    public string EncryptFacebook(string str) {
+    public string EncryptFacebook(string str)
+    {
         int length = str.Length;
-        if (length<=2) return str;
-        int mid = (length-1)/2; // 3-> 1, 4->1; 5->2, 6->2
+        if (length <= 2) return str;
+        int mid = (length - 1) / 2; // 3-> 1, 4->1; 5->2, 6->2
         StringBuilder buffer = new StringBuilder();
         buffer.Append(str[mid].ToString());
         buffer.Append(EncryptFacebook(str.Substring(0, mid)));
-        buffer.Append(EncryptFacebook(str.Substring(mid+1, length-1-mid-1+1)));
+        buffer.Append(EncryptFacebook(str.Substring(mid + 1, length - 1 - mid - 1 + 1)));
         return buffer.ToString();
     }
 
+    public IList<int> InorderTraversal(TreeNode root)
+    {
+        //TODO: Solve this shit with Stack
+        return null;
+    }
 
+    public bool CheckAlmostEquivalent(string word1, string word2)
+    {
+        if (word1.Length != word2.Length) return false;
+        if (word1.Length == 0) return true;
+        Dictionary<char, int> dict1 = new Dictionary<char, int>();
+        Dictionary<char, int> dict2 = new Dictionary<char, int>();
+        foreach (char chr in word1)
+        {
+            if (dict1.ContainsKey(chr))
+                dict1[chr]++;
+            else
+                dict1.Add(chr, 1);
+        }
+        foreach (char chr in word2)
+        {
+            if (dict2.ContainsKey(chr))
+                dict2[chr]++;
+            else
+                dict2.Add(chr, 1);
+        }
+        for (char chr = 'a'; chr <= 'z'; chr++)
+        {
+            if (dict1.ContainsKey(chr) && dict2.ContainsKey(chr))
+            {
+                if (Math.Abs(dict1[chr] - dict2[chr]) > 3) return false;
+            }
+            if (!dict1.ContainsKey(chr) && dict2.ContainsKey(chr))
+                if (dict2[chr] > 3) return false;
+            if (!dict2.ContainsKey(chr) && dict1.ContainsKey(chr))
+                if (dict1[chr] > 3) return false;
+        }
+        return true;
+    }
+
+    public void TestRobot()
+    {
+        Robot robot = new Robot(6, 3);
+        robot.Move(7);
+        var pos = robot.GetPos();
+        Console.WriteLine("(x,y): ", pos[0], pos[1]);
+        Console.WriteLine("Direction: ", robot.GetDir());
+    }
+
+    public bool BalancedSplitExists(int[] arr) {
+        int sum =0;
+        foreach (int i in arr) sum+=i;
+        if (sum%2==1) return false;
+        Array.Sort(arr);
+        int sofar =0;
+        foreach (int i in arr) {
+            sofar+=i;
+            if (sofar==sum/2) return true;
+            if (sofar>sum/2) return false;
+        }
+        return true;
+    }
+
+    public int CountDistinctTriangles(int[][] arr) {
+        Dictionary<int, int> dict= new Dictionary<int, int>();
+        CompareThreeArray comparer = new CompareThreeArray();
+        //Array.Sort(dict, comparer);
+        return 1; //TODO: solve this shit
+    }
+
+    public IList<int> LargestDivisibleSubset(int[] nums) {
+        int n = nums.Length;
+        int[] pre = new int[n];//keep track of the previous divisible element index
+        int[] count = new int[n];//count[i] = max length that the top one is nums[i]
+        Array.Sort(nums);
+        int max=0, maxIndex = -1;
+        for (int i=0;i<n;i++){
+            pre[i] = -1; count[i] = 1;
+            for (int j = i-1;j>=0;j--) {
+                if (nums[i]%nums[j]==0) {
+                    if (count[i]<count[j]+1){
+                        count[i] = count[j]+1;
+                        pre[i] = j;
+                    }
+                }
+            }
+            if (count[i]>max) {max=count[i];maxIndex=i;}
+        }
+        List<int> list = new List<int>();
+        while (maxIndex!=-1){
+            list.Add(nums[maxIndex]);
+            maxIndex = pre[maxIndex];
+        }
+        return list;
+    }
+}
+public class Robot
+{
+
+    int width; int height;
+    int x = 0; int y = 0;
+    string Dir = "East";
+    void ChangeDirection()
+    {
+        if (Dir == "East") Dir = "North";
+        else if (Dir == "North") Dir = "West";
+        else if (Dir == "West") Dir = "South";
+        else Dir = "East";
+    }
+    void NStepForward(int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            if (Dir == "East")
+            {
+                if (x == width - 1) { ChangeDirection(); y++; }
+                else x++;
+            }
+            else if (Dir == "North")
+            {
+                if (y == height - 1) { ChangeDirection(); x--; }
+                else y++;
+            }
+            else if (Dir == "West")
+            {
+                if (x == 0) { ChangeDirection(); y--; }
+                else x--;
+            }
+            else if (Dir == "South")
+            {
+                if (y == 0) { ChangeDirection(); x++; }
+                else y--;
+            }
+        }
+    }
+    public Robot(int width, int height)
+    {// (0,0)=> (width-1, height-1)
+        this.width = width; this.height = height;
+    }
+
+    public void Move(int num)
+    {
+        num %= 2 * (width + height) - 4;
+        NStepForward(num);
+    }
+
+    public int[] GetPos()
+    {
+        return new int[2] { x, y };
+    }
+
+    public string GetDir()
+    {
+        return Dir;
+    }
 }
 
+// public class CombinationIterator {
+        //TODO1: Finish this shit
+//     List<char> list = 
+//     public CombinationIterator(string characters, int combinationLength) {
+        
+//     }
+    
+//     public string Next() {
+        
+//     }
+    
+//     public bool HasNext() {
+        
+//     }
+// }
 
 
 

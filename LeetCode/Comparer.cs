@@ -28,5 +28,17 @@ public class CompareLexiString : Comparer<string>
     public int StringToInt(string str) { return Int32.Parse(str); }
 
     
-    
+}
+
+public class CompareThreeArray : Comparer<int[]>
+{
+    public override int Compare([AllowNull] int[] x, [AllowNull] int[] y)
+    {
+        Array.Sort(x); Array.Sort(y);
+        for(int i =0;i<3;i++) {
+            if (x[i]<y[i]) return -1;
+            if (x[i]>y[i]) return 1;
+        }
+        return 0;
+    }
 }
