@@ -161,9 +161,15 @@ namespace LeetCode
             // Console.Write(sol.EncryptFacebook("abc"));
             //Console.Write(sol.CheckAlmostEquivalent("cccddabba", "babababab"));
             //Console.Write(sol.BalancedSplitExists(new int[6]{1,2,3,4,5,5}));
-            int[] test ={1,2,3,4,5,6,7,8};
-            var test1 = sol.LargestDivisibleSubset(test);
-            foreach (int i in test1) Console.WriteLine(i);
+            // int[] test ={1,2,3,4,5,6,7,8};
+            // var test1 = sol.LargestDivisibleSubset(test);
+            // foreach (int i in test1) Console.WriteLine(i);
+            // Console.Write(sol.MinCostClimbingStairs(new int[3]{10,15,20}));
+            // int[] test = {0,1,2,0,12,0,3,0};
+            // sol.MoveZeroes(test);
+            // foreach (int i in test) Console.WriteLine(i);
+            var root = new TreeNode(5, new TreeNode(4, new TreeNode(11, new TreeNode(7), new TreeNode(2))), new TreeNode(8, new TreeNode(13), new TreeNode(4, null, new TreeNode(1))));
+            Console.WriteLine(sol.HasPathSum(root, 22));
         }
 
     }

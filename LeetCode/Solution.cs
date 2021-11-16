@@ -3205,127 +3205,233 @@ class Solution
         Console.WriteLine("Direction: ", robot.GetDir());
     }
 
-    public bool BalancedSplitExists(int[] arr) {
-        int sum =0;
-        foreach (int i in arr) sum+=i;
-        if (sum%2==1) return false;
+    public bool BalancedSplitExists(int[] arr)
+    {
+        int sum = 0;
+        foreach (int i in arr) sum += i;
+        if (sum % 2 == 1) return false;
         Array.Sort(arr);
-        int sofar =0;
-        foreach (int i in arr) {
-            sofar+=i;
-            if (sofar==sum/2) return true;
-            if (sofar>sum/2) return false;
+        int sofar = 0;
+        foreach (int i in arr)
+        {
+            sofar += i;
+            if (sofar == sum / 2) return true;
+            if (sofar > sum / 2) return false;
         }
         return true;
     }
 
-    public int CountDistinctTriangles(int[][] arr) {
-        Dictionary<int, int> dict= new Dictionary<int, int>();
+    public int CountDistinctTriangles(int[][] arr)
+    {
+        Dictionary<int, int> dict = new Dictionary<int, int>();
         CompareThreeArray comparer = new CompareThreeArray();
         //Array.Sort(dict, comparer);
         return 1; //TODO: solve this shit
     }
 
-    public IList<int> LargestDivisibleSubset(int[] nums) {
+    public IList<int> LargestDivisibleSubset(int[] nums)
+    {
         int n = nums.Length;
         int[] pre = new int[n];//keep track of the previous divisible element index
         int[] count = new int[n];//count[i] = max length that the top one is nums[i]
         Array.Sort(nums);
-        int max=0, maxIndex = -1;
-        for (int i=0;i<n;i++){
+        int max = 0, maxIndex = -1;
+        for (int i = 0; i < n; i++)
+        {
             pre[i] = -1; count[i] = 1;
-            for (int j = i-1;j>=0;j--) {
-                if (nums[i]%nums[j]==0) {
-                    if (count[i]<count[j]+1){
-                        count[i] = count[j]+1;
+            for (int j = i - 1; j >= 0; j--)
+            {
+                if (nums[i] % nums[j] == 0)
+                {
+                    if (count[i] < count[j] + 1)
+                    {
+                        count[i] = count[j] + 1;
                         pre[i] = j;
                     }
                 }
             }
-            if (count[i]>max) {max=count[i];maxIndex=i;}
+            if (count[i] > max) { max = count[i]; maxIndex = i; }
         }
         List<int> list = new List<int>();
-        while (maxIndex!=-1){
+        while (maxIndex != -1)
+        {
             list.Add(nums[maxIndex]);
             maxIndex = pre[maxIndex];
         }
         return list;
     }
-}
-public class Robot
-{
 
-    int width; int height;
-    int x = 0; int y = 0;
-    string Dir = "East";
-    void ChangeDirection()
+    public bool Enough(int x, int m, int n, int k)
     {
-        if (Dir == "East") Dir = "North";
-        else if (Dir == "North") Dir = "West";
-        else if (Dir == "West") Dir = "South";
-        else Dir = "East";
-    }
-    void NStepForward(int num)
-    {
-        for (int i = 0; i < num; i++)
+        int count = 0;
+        for (int i = 0; i <= m; i++)
         {
-            if (Dir == "East")
+            count += Math.Min(x / i, n);
+        }
+        return count >= k;
+    }
+
+    public int FindKthNumber(int m, int n, int k)
+    {
+        int l = 1; int r = m * n;
+        while (l < r)
+        {
+            int mid = l + (r - l) / 2;
+            if (!Enough(mid, m, n, k)) l = mid + 1;
+            else r = mid;
+
+        }
+        return l;
+    }
+
+    public IList<IList<int>> CombinationSumBT(int[] candidates, int target)
+    {
+        List<IList<int>> final = new List<IList<int>>();
+        Array.Sort(candidates);
+        CombinationSumUtil(final, new List<int>(), candidates, target, 0);
+        return final;
+    }
+    void CombinationSumUtil(List<IList<int>> final, List<int> sofar, int[] candidates, int target, int start)
+    {//only hceck from start
+        if (target < 0) return;
+        if (target == 0) { final.Add(sofar); return; }
+        else
+        {
+            for (int i = start; i < candidates.Length; i++)
             {
-                if (x == width - 1) { ChangeDirection(); y++; }
-                else x++;
-            }
-            else if (Dir == "North")
-            {
-                if (y == height - 1) { ChangeDirection(); x--; }
-                else y++;
-            }
-            else if (Dir == "West")
-            {
-                if (x == 0) { ChangeDirection(); y--; }
-                else x--;
-            }
-            else if (Dir == "South")
-            {
-                if (y == 0) { ChangeDirection(); x++; }
-                else y--;
+                sofar.Add(candidates[i]);
+                CombinationSumUtil(final, sofar, candidates, target - candidates[i], start);
+                sofar.RemoveAt(sofar.Count - 1);
             }
         }
     }
-    public Robot(int width, int height)
-    {// (0,0)=> (width-1, height-1)
-        this.width = width; this.height = height;
+
+    public int MinCostClimbingStairs(int[] cost)
+    {
+        int n = cost.Length;
+        if (n == 1) return cost[0];
+        int[] dp = new int[n];
+        dp[n - 1] = cost[n - 1];
+        dp[n - 2] = cost[n - 2];
+        for (int i = n - 3; i >= 0; i--)
+        {
+            dp[i] = cost[i] + Math.Min(dp[i + 1], dp[i + 2]);
+        }
+        return Math.Min(dp[0], dp[1]);
     }
 
-    public void Move(int num)
+    public void MoveZeroes(int[] nums)
     {
-        num %= 2 * (width + height) - 4;
-        NStepForward(num);
+        if (nums.Length <= 1) return;
+        int insertPos = 0;
+        foreach (int i in nums)
+            if (i != 0)
+                nums[insertPos++] = i;
+        while (insertPos < nums.Length)
+            nums[insertPos++] = 0;
     }
 
-    public int[] GetPos()
+    public bool HasPathSum(TreeNode root, int targetSum)
     {
-        return new int[2] { x, y };
+        if (root == null)
+        {
+            if (targetSum == 0) return true;
+            else return false;
+        }
+        return HasPathSum(root.left, targetSum - root.val) || HasPathSum(root.right, targetSum - root.val);
     }
 
-    public string GetDir()
+    public IList<IList<int>> Permute(int[] nums)
     {
-        return Dir;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public class Robot
+    {
+
+        int width; int height;
+        int x = 0; int y = 0;
+        string Dir = "East";
+        void ChangeDirection()
+        {
+            if (Dir == "East") Dir = "North";
+            else if (Dir == "North") Dir = "West";
+            else if (Dir == "West") Dir = "South";
+            else Dir = "East";
+        }
+        void NStepForward(int num)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                if (Dir == "East")
+                {
+                    if (x == width - 1) { ChangeDirection(); y++; }
+                    else x++;
+                }
+                else if (Dir == "North")
+                {
+                    if (y == height - 1) { ChangeDirection(); x--; }
+                    else y++;
+                }
+                else if (Dir == "West")
+                {
+                    if (x == 0) { ChangeDirection(); y--; }
+                    else x--;
+                }
+                else if (Dir == "South")
+                {
+                    if (y == 0) { ChangeDirection(); x++; }
+                    else y--;
+                }
+            }
+        }
+        public Robot(int width, int height)
+        {// (0,0)=> (width-1, height-1)
+            this.width = width; this.height = height;
+        }
+
+        public void Move(int num)
+        {
+            num %= 2 * (width + height) - 4;
+            NStepForward(num);
+        }
+
+        public int[] GetPos()
+        {
+            return new int[2] { x, y };
+        }
+
+        public string GetDir()
+        {
+            return Dir;
+        }
     }
 }
-
 // public class CombinationIterator {
-        //TODO1: Finish this shit
+//TODO1: Finish this shit
 //     List<char> list = 
 //     public CombinationIterator(string characters, int combinationLength) {
-        
+
 //     }
-    
+
 //     public string Next() {
-        
+
 //     }
-    
+
 //     public bool HasNext() {
-        
+
 //     }
 // }
 
