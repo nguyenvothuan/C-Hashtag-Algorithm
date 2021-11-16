@@ -168,8 +168,14 @@ namespace LeetCode
             // int[] test = {0,1,2,0,12,0,3,0};
             // sol.MoveZeroes(test);
             // foreach (int i in test) Console.WriteLine(i);
-            var root = new TreeNode(5, new TreeNode(4, new TreeNode(11, new TreeNode(7), new TreeNode(2))), new TreeNode(8, new TreeNode(13), new TreeNode(4, null, new TreeNode(1))));
-            Console.WriteLine(sol.HasPathSum(root, 22));
+            // var root = new TreeNode(5, new TreeNode(4, new TreeNode(11, new TreeNode(7), new TreeNode(2))), new TreeNode(8, new TreeNode(13), new TreeNode(4, null, new TreeNode(1))));
+            //Console.WriteLine(sol.HasPathSum(root, 22));
+            var test = sol.Permute(new int[3]{1,2,3});
+            foreach (var list in test) {
+                foreach (int i in list)
+                    Console.Write(i + " ");
+                Console.WriteLine();
+            }
         }
 
     }

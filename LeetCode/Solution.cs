@@ -3344,6 +3344,32 @@ class Solution
     public IList<IList<int>> Permute(int[] nums)
     {
 
+        List<IList<int>> final = new List<IList<int>>();
+        if (nums.Length == 1)
+        {
+            final.Add(new List<int>(nums));
+        }
+        else
+            PermuteUtil(final, new List<int>(), new List<int>(nums));
+        return final;
+    }
+    void PermuteUtil(List<IList<int>> final, List<int> sofar, List<int> notUsedYet)
+    {
+        //start choosing number 
+        if (notUsedYet.Count == 0)
+        {
+            final.Add(new List<int>(sofar.ToArray()));
+            return;
+        }
+        for (int i = 0; i < notUsedYet.Count; i++)
+        {
+            int temp = notUsedYet[i];
+            sofar.Add(notUsedYet[i]);
+            notUsedYet.RemoveAt(i);
+            PermuteUtil(final, sofar, notUsedYet);
+            sofar.RemoveAt(sofar.Count - 1);
+            notUsedYet.Insert(i, temp);
+        }
     }
 
 
