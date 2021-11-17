@@ -3372,6 +3372,113 @@ class Solution
         }
     }
 
+    public int[] FindSignatureCounts(int[] arr)
+    {
+        int[] count = new int[arr.Length];
+        while (true)
+        {
+            foreach (int i in arr)
+            {
+                if (i != -1)
+                {
+                    //TODO: solve this shit
+                }
+            }
+        }
+    }
+
+    public bool CanJump(int[] nums)
+    {
+        int n = nums.Length;
+        if (n <= 1)
+        {
+            return true;
+        }
+        bool[] dp = new bool[n];//dp[i] = true if can jump to n-1 if start at i;
+        Array.Fill(dp, false);
+        dp[n - 1] = true;
+        for (int i = n - 2; i >= 0; i--)
+        {
+            for (int j = 1; j <= nums[i]; j++)
+            {//if dp[i+j] -> dp[i+nums[j]] is tru
+                if (dp[i + j]) { dp[i] = true; break; }
+            }
+        }
+        return dp[0];
+    }
+
+    int CanJump(int[] nums, int start, int[] dp)
+    {
+        if (start >= nums.Length - 1) return 1;// base case
+        if (dp[start] != 0) return dp[start];// computed, just return
+        for (int i = 1; i <= nums[start]; i++)
+        {
+            if (CanJump(nums, start + i, dp) == 1)
+            {
+                dp[start] = 1; break;
+            }
+        }
+        return -1;
+    }
+
+    public bool CanJumpRecursion(int[] nums)
+    {
+        int[] dp = new int[nums.Length];
+        //dp[i]=1 true, dp[i] =-1 flase, 0 
+        CanJump(nums, 0, dp);
+        return dp[0] == 1;
+    }
+
+    public IList<IList<int>> Combine(int n, int k)
+    {
+        List<IList<int>> final = new List<IList<int>>();
+        List<int> notUseYet = new List<int>();
+        for (int i = 1; i <= n; i++) notUseYet.Add(i);
+        CombineUtil(final, 0, k, notUseYet, new List<int>());//so start from index 0, end at index n-1
+        return final;
+    }
+    void CombineUtil(List<IList<int>> final, int start, int k, List<int> notUsedYet, List<int> sofar)
+    {
+        if (k == 0)
+        {
+            final.Add(new List<int>(sofar.ToArray()));
+        }
+        for (int i = start; i < notUsedYet.Count; i++)
+        {
+            int temp = notUsedYet[i];
+            sofar.Add(temp);
+            notUsedYet.RemoveAt(i);
+            CombineUtil(final, i, k - 1, notUsedYet, sofar);
+            sofar.RemoveAt(sofar.Count - 1);
+            notUsedYet.Insert(i, temp);
+        }
+    }
+    public bool WordExist(char[][] board, string word)
+    {
+        //say board only contains uppercae
+        int m = board.Length; int n = board[0].Length;
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (WordExistUtil(board, word, i, j, m, n))
+                    return true;
+        return false;
+    }
+    bool WordExistUtil(char[][] boardSofar, string remain, int row, int col, int m, int n)
+    {
+        if (remain.Length == 0) return true;//done
+        if (row >= m || col >= n || row < 0 || col < 0) return false;//out of bound
+        if (boardSofar[row][col] < 0) return false; //moved
+        if (boardSofar[row][col] != remain[0]) return false; //if this move can't match the first character of remain
+        boardSofar[row][col] = (char)-boardSofar[row][col]; //now it does, mark it as visited
+        if (WordExistUtil(boardSofar, remain.Substring(1), row + 1, col, m, n) ||
+            WordExistUtil(boardSofar, remain.Substring(1), row - 1, col, m, n) ||
+            WordExistUtil(boardSofar, remain.Substring(1), row, col + 1, m, n) ||
+            WordExistUtil(boardSofar, remain.Substring(1), row, col - 1, m, n)) return true;
+        //now this move is not true, backtracking
+        boardSofar[row][col] = (char)-boardSofar[row][col];
+        return false;
+    }
+    
 
 
 

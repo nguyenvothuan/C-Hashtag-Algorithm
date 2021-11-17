@@ -170,12 +170,27 @@ namespace LeetCode
             // foreach (int i in test) Console.WriteLine(i);
             // var root = new TreeNode(5, new TreeNode(4, new TreeNode(11, new TreeNode(7), new TreeNode(2))), new TreeNode(8, new TreeNode(13), new TreeNode(4, null, new TreeNode(1))));
             //Console.WriteLine(sol.HasPathSum(root, 22));
-            var test = sol.Permute(new int[3]{1,2,3});
-            foreach (var list in test) {
-                foreach (int i in list)
-                    Console.Write(i + " ");
-                Console.WriteLine();
-            }
+            // var test = sol.Permute(new int[3]{1,2,3});
+            // foreach (var list in test) {
+            //     foreach (int i in list)
+            //         Console.Write(i + " ");
+            //     Console.WriteLine();
+            // }
+            // Console.Write(sol.CanJump(new int[5]{3,2,1,0,4}));
+            // var test = sol.Combine(5,3);
+            // foreach (var i in test) {
+            //     foreach (int j in i)
+            //         Console.Write(j+" ");
+            //     Console.WriteLine();
+            // }
+            // Console.WriteLine("A: " + (int)'A');
+            // Console.WriteLine("a: "+(int)'a');
+            // Console.WriteLine("-A: "+(int)-'A');
+            char[][] matrix = new char[3][];
+            matrix[0] = new char[4] { 'A', 'B', 'C', 'E' };
+            matrix[1] = new char[4] { 'S', 'F', 'C', 'S' };
+            matrix[2] = new char[4] { 'A', 'D', 'E', 'E' };
+            Console.Write(sol.WordExist(matrix, "ABCCD"));
         }
 
     }
