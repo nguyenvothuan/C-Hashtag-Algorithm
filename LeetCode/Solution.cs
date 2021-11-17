@@ -3478,10 +3478,26 @@ class Solution
         boardSofar[row][col] = (char)-boardSofar[row][col];
         return false;
     }
-    
 
+    public int[] KSwapSmallestArray(int[] arr, int k)
+    {
+        //TODO: solve this shit
+        return new int[0];   
+    }
 
-
+    public ListNode Partition(ListNode head, int x) {
+        List<int> garbage = new List<int>();
+        ListNode whereToInsert;
+        var cur = head.next;
+        var pre = head;
+        while (cur!=null) {
+            if (cur.val<x)
+                break;
+            pre=cur; 
+            cur=cur.next;
+        }
+        
+    }
 
 
 
