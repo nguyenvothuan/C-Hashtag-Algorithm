@@ -3482,53 +3482,91 @@ class Solution
     public int[] KSwapSmallestArray(int[] arr, int k)
     {
         //TODO: solve this shit
-        return new int[0];   
+        return new int[0];
     }
 
-    public ListNode Partition(ListNode head, int x) {
+    public ListNode Partition(ListNode head, int x)
+    {
         //howy, think simple
         ListNode smallerHead = new ListNode(), biggerHead = new ListNode();
-        ListNode smaller=smallerHead, bigger = biggerHead;
-        while (head!=null) {
-            if (head.val<x){
+        ListNode smaller = smallerHead, bigger = biggerHead;
+        while (head != null)
+        {
+            if (head.val < x)
+            {
                 smaller = smaller.next = head;
-            } else {
+            }
+            else
+            {
                 bigger = bigger.next = head;
             }
-            head=head.next;
+            head = head.next;
         }
         smaller.next = biggerHead.next;
         bigger.next = null;
         return smallerHead.next;
     }
 
-    public IList<int> FindDisappearedNumbers(int[] nums) {
-        int[] appear = new int[nums.Length+1];
-        foreach (int i in nums){
+    public IList<int> FindDisappearedNumbers(int[] nums)
+    {
+        int[] appear = new int[nums.Length + 1];
+        foreach (int i in nums)
+        {
             appear[i]++;
         }
         List<int> final = new List<int>();
-        for(int i =1;i<=nums.Length;i++)
-            if (appear[i]==0)
+        for (int i = 1; i <= nums.Length; i++)
+            if (appear[i] == 0)
                 final.Add(i);
         return final;
     }
 
-    public IList<int> ConstantSpaceMissingNumber(int[] nums) {
+    public IList<int> ConstantSpaceMissingNumber(int[] nums)
+    {
         //to mark i has appeared, goes to num[i-1] and negate the number
-        for(int i =0;i<nums.Length;i++) {
+        for (int i = 0; i < nums.Length; i++)
+        {
             int cur = Math.Abs(nums[i]);
-            if (nums[cur-1]>0) nums[cur-1] = -nums[cur-1];
+            if (nums[cur - 1] > 0) nums[cur - 1] = -nums[cur - 1];
         }
-        List<int> final=new List<int>();
-        for (int i =0;i<nums.Length;i++) {
-            if (nums[i]>0)
-                final.Add(i+1);//index i set to negative means i+1 is positive
+        List<int> final = new List<int>();
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] > 0)
+                final.Add(i + 1);//index i set to negative means i+1 is positive
         }
         return final;
     }
 
-    
+    public IList<string> LetterCombinations(string digits)
+    {
+        if (String.Compare(digits, "")==0) return new List<string>(new string[0]);
+        Dictionary<int, List<char>> dict = new Dictionary<int, List<char>>();
+        dict.Add(2, new List<char>(new char[3]{'a','b','c'}));
+        dict.Add(3, new List<char>(new char[3]{'d','e','f'}));
+        dict.Add(4, new List<char>(new char[3]{'g','h','i'}));
+        dict.Add(5, new List<char>(new char[3]{'j','k','l'}));
+        dict.Add(6, new List<char>(new char[3]{'m','n','o'}));
+        dict.Add(7, new List<char>(new char[4]{'p','q','r','s'}));
+        dict.Add(8, new List<char>(new char[3]{'t','u','v'}));
+        dict.Add(9, new List<char>(new char[4]{'w','x','y','z'}));
+        List<string> final = new List<string>();
+        LetterCombinationsUtil(digits, new List<char>(), final, dict);
+        return final;
+    }
+
+    void LetterCombinationsUtil(string remain, List<char> sofar, List<string> final, Dictionary<int, List<char>> dict) {
+        if (remain==""){
+            final.Add(new string(sofar.ToArray()));
+            return;
+        }
+        int cur = (int)Char.GetNumericValue(remain[0]);
+        foreach (char chr in dict[cur]) {
+            sofar.Add(chr);
+            LetterCombinationsUtil(remain.Substring(1), sofar, final, dict);
+            sofar.RemoveAt(sofar.Count-1);
+        }
+    }   
 
 
 

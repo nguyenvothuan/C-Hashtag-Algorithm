@@ -198,8 +198,12 @@ namespace LeetCode
             //     Console.WriteLine(test.val);
             //     test = test.next;
             // }
-            var test = sol.ConstantSpaceMissingNumber(new int[8]{4,3,2,7,8,2,3,1});
-            foreach (int i in test) Console.Write(i+ " ");
+            // var test = sol.ConstantSpaceMissingNumber(new int[8]{4,3,2,7,8,2,3,1});
+            // foreach (int i in test) Console.Write(i+ " ");
+
+            var test = sol.LetterCombinations("");
+            foreach (var str in test)
+                Console.WriteLine(str);
         }
 
     }
