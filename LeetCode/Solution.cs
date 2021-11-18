@@ -3156,12 +3156,6 @@ class Solution
         return buffer.ToString();
     }
 
-    public IList<int> InorderTraversal(TreeNode root)
-    {
-        //TODO: Solve this shit with Stack
-        return null;
-    }
-
     public bool CheckAlmostEquivalent(string word1, string word2)
     {
         if (word1.Length != word2.Length) return false;
@@ -3540,37 +3534,75 @@ class Solution
 
     public IList<string> LetterCombinations(string digits)
     {
-        if (String.Compare(digits, "")==0) return new List<string>(new string[0]);
+        if (String.Compare(digits, "") == 0) return new List<string>(new string[0]);
         Dictionary<int, List<char>> dict = new Dictionary<int, List<char>>();
-        dict.Add(2, new List<char>(new char[3]{'a','b','c'}));
-        dict.Add(3, new List<char>(new char[3]{'d','e','f'}));
-        dict.Add(4, new List<char>(new char[3]{'g','h','i'}));
-        dict.Add(5, new List<char>(new char[3]{'j','k','l'}));
-        dict.Add(6, new List<char>(new char[3]{'m','n','o'}));
-        dict.Add(7, new List<char>(new char[4]{'p','q','r','s'}));
-        dict.Add(8, new List<char>(new char[3]{'t','u','v'}));
-        dict.Add(9, new List<char>(new char[4]{'w','x','y','z'}));
+        dict.Add(2, new List<char>(new char[3] { 'a', 'b', 'c' }));
+        dict.Add(3, new List<char>(new char[3] { 'd', 'e', 'f' }));
+        dict.Add(4, new List<char>(new char[3] { 'g', 'h', 'i' }));
+        dict.Add(5, new List<char>(new char[3] { 'j', 'k', 'l' }));
+        dict.Add(6, new List<char>(new char[3] { 'm', 'n', 'o' }));
+        dict.Add(7, new List<char>(new char[4] { 'p', 'q', 'r', 's' }));
+        dict.Add(8, new List<char>(new char[3] { 't', 'u', 'v' }));
+        dict.Add(9, new List<char>(new char[4] { 'w', 'x', 'y', 'z' }));
         List<string> final = new List<string>();
         LetterCombinationsUtil(digits, new List<char>(), final, dict);
         return final;
     }
 
-    void LetterCombinationsUtil(string remain, List<char> sofar, List<string> final, Dictionary<int, List<char>> dict) {
-        if (remain==""){
+    void LetterCombinationsUtil(string remain, List<char> sofar, List<string> final, Dictionary<int, List<char>> dict)
+    {
+        if (remain == "")
+        {
             final.Add(new string(sofar.ToArray()));
             return;
         }
         int cur = (int)Char.GetNumericValue(remain[0]);
-        foreach (char chr in dict[cur]) {
+        foreach (char chr in dict[cur])
+        {
             sofar.Add(chr);
             LetterCombinationsUtil(remain.Substring(1), sofar, final, dict);
-            sofar.RemoveAt(sofar.Count-1);
+            sofar.RemoveAt(sofar.Count - 1);
         }
-    }   
+    }
 
+    public IList<int> InorderTraversal(TreeNode root)
+    {
+        List<int> final = new List<int>();
+        InorderTraversalUtil(root, final);
+        return final;
+    }
+    void InorderTraversalUtil(TreeNode cur, List<int> final)
+    {
+        if (cur == null) return;
+        InorderTraversalUtil(cur.left, final);
+        final.Add(cur.val);
+        InorderTraversalUtil(cur.right, final);
+    }
 
+    public bool IsSameTree(TreeNode p, TreeNode q)
+    {
+        if (p == null && q == null) return true;
+        if (p == null || q == null) return false;
+        if (p.val != q.val) return false;
+        return IsSameTree(p.left, q.left) && IsSameTree(p.right, q.right);
+    }
 
-
+    public bool IsSymmetric(TreeNode root)
+    {
+        if (root == null) return true;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.Push(root.left);
+        stack.Push(root.right);
+        while (stack.Count > 0)
+        {
+            var n1 = stack.Pop(); var n2 = stack.Pop(); //we always push 2 nodes each repeat, so this will not RTE
+            if (n1 == null && null == n2) continue;
+            if (n1 ==null || n2==null || n1.val!=n2.val) return false;
+            stack.Push(n1.left); stack.Push(n2.right);
+            stack.Push(n1.right); stack.Push(n2.left);
+        }
+        return true;
+    }
 
 
 
