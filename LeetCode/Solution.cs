@@ -3486,18 +3486,52 @@ class Solution
     }
 
     public ListNode Partition(ListNode head, int x) {
-        List<int> garbage = new List<int>();
-        ListNode whereToInsert;
-        var cur = head.next;
-        var pre = head;
-        while (cur!=null) {
-            if (cur.val<x)
-                break;
-            pre=cur; 
-            cur=cur.next;
+        //howy, think simple
+        ListNode smallerHead = new ListNode(), biggerHead = new ListNode();
+        ListNode smaller=smallerHead, bigger = biggerHead;
+        while (head!=null) {
+            if (head.val<x){
+                smaller = smaller.next = head;
+            } else {
+                bigger = bigger.next = head;
+            }
+            head=head.next;
         }
-        
+        smaller.next = biggerHead.next;
+        bigger.next = null;
+        return smallerHead.next;
     }
+
+    public IList<int> FindDisappearedNumbers(int[] nums) {
+        int[] appear = new int[nums.Length+1];
+        foreach (int i in nums){
+            appear[i]++;
+        }
+        List<int> final = new List<int>();
+        for(int i =1;i<=nums.Length;i++)
+            if (appear[i]==0)
+                final.Add(i);
+        return final;
+    }
+
+    public IList<int> ConstantSpaceMissingNumber(int[] nums) {
+        //to mark i has appeared, goes to num[i-1] and negate the number
+        for(int i =0;i<nums.Length;i++) {
+            int cur = Math.Abs(nums[i]);
+            if (nums[cur-1]>0) nums[cur-1] = -nums[cur-1];
+        }
+        List<int> final=new List<int>();
+        for (int i =0;i<nums.Length;i++) {
+            if (nums[i]>0)
+                final.Add(i+1);//index i set to negative means i+1 is positive
+        }
+        return final;
+    }
+
+    
+
+
+
 
 
 

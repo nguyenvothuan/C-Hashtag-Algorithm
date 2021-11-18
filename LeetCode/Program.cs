@@ -186,11 +186,20 @@ namespace LeetCode
             // Console.WriteLine("A: " + (int)'A');
             // Console.WriteLine("a: "+(int)'a');
             // Console.WriteLine("-A: "+(int)-'A');
-            char[][] matrix = new char[3][];
-            matrix[0] = new char[4] { 'A', 'B', 'C', 'E' };
-            matrix[1] = new char[4] { 'S', 'F', 'C', 'S' };
-            matrix[2] = new char[4] { 'A', 'D', 'E', 'E' };
-            Console.Write(sol.WordExist(matrix, "ABCCD"));
+            // char[][] matrix = new char[3][];
+            // matrix[0] = new char[4] { 'A', 'B', 'C', 'E' };
+            // matrix[1] = new char[4] { 'S', 'F', 'C', 'S' };
+            // matrix[2] = new char[4] { 'A', 'D', 'E', 'E' };
+            // Console.Write(sol.WordExist(matrix, "ABCCD"));
+
+            // var list = new ListNode(1, new ListNode(4, new ListNode(3, new ListNode(2, new ListNode(5, new ListNode(2))))));
+            // var test = sol.Partition(list,3);
+            // while (test!=null) {
+            //     Console.WriteLine(test.val);
+            //     test = test.next;
+            // }
+            var test = sol.ConstantSpaceMissingNumber(new int[8]{4,3,2,7,8,2,3,1});
+            foreach (int i in test) Console.Write(i+ " ");
         }
 
     }
