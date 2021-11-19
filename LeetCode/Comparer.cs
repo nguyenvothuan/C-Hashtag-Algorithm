@@ -42,3 +42,12 @@ public class CompareThreeArray : Comparer<int[]>
         return 0;
     }
 }
+
+public class CompareConcatString : Comparer<string>{
+    public override int Compare([AllowNull] string x, [AllowNull] string y)
+    {
+        string str1 = String.Concat(x, y);
+        string str2=string.Concat(y,x);
+        return String.Compare(str1, str2);
+    }
+}

@@ -3597,14 +3597,43 @@ class Solution
         {
             var n1 = stack.Pop(); var n2 = stack.Pop(); //we always push 2 nodes each repeat, so this will not RTE
             if (n1 == null && null == n2) continue;
-            if (n1 ==null || n2==null || n1.val!=n2.val) return false;
+            if (n1 == null || n2 == null || n1.val != n2.val) return false;
             stack.Push(n1.left); stack.Push(n2.right);
             stack.Push(n1.right); stack.Push(n2.left);
         }
         return true;
     }
 
+    public string LargestNumber1(int[] num)
+    {
+        if (num == null || num.Length == 0) return "";
+        var strArr = new string[num.Length];
+        for (int i = 0; i < num.Length; i++)
+            strArr[i] = num[i].ToString();
+        var comparer = new CompareConcatString();
+        Array.Sort(strArr, comparer);
+        if (strArr[0] == "0") return "0";
+        StringBuilder buffer = new StringBuilder();
+        for (int i = num.Length - 1; i >= 0; i--)
+            buffer.Append(strArr[i]);
+        return buffer.ToString();
+    }
 
+    public bool CanThreePartsEqualSum(int[] arr)
+    {
+        int sum =0;
+        foreach (int i in arr) sum+= i;
+        if (sum%3!=0) return false;
+        int count =0; //if count == 2 return true since we have 2 parts that euqal sum/3 so the rest is also euqla sum/3
+        int curSum = 0;
+        for(int i =0;i<arr.Length;i++) {
+            curSum+= arr[i] ;
+            if (curSum==sum/3) {count++;
+            if (count==2&&i!=arr.Length-1) return true;
+            curSum=0;}
+        }
+        return false;
+    }
 
 
 
