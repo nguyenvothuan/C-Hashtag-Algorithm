@@ -3621,23 +3621,77 @@ class Solution
 
     public bool CanThreePartsEqualSum(int[] arr)
     {
-        int sum =0;
-        foreach (int i in arr) sum+= i;
-        if (sum%3!=0) return false;
-        int count =0; //if count == 2 return true since we have 2 parts that euqal sum/3 so the rest is also euqla sum/3
+        int sum = 0;
+        foreach (int i in arr) sum += i;
+        if (sum % 3 != 0) return false;
+        int count = 0; //if count == 2 return true since we have 2 parts that euqal sum/3 so the rest is also euqla sum/3
         int curSum = 0;
-        for(int i =0;i<arr.Length;i++) {
-            curSum+= arr[i] ;
-            if (curSum==sum/3) {count++;
-            if (count==2&&i!=arr.Length-1) return true;
-            curSum=0;}
+        for (int i = 0; i < arr.Length; i++)
+        {
+            curSum += arr[i];
+            if (curSum == sum / 3)
+            {
+                count++;
+                if (count == 2 && i != arr.Length - 1) return true;
+                curSum = 0;
+            }
         }
         return false;
     }
 
+    // public int SingleNonDuplicate(int[] nums)
+    // {
+    //     int n = nums.Length;
+    //     if (n <= 2) return -1;
+    //     int l = 0, r = n - 1;
+    //     while (r > l)
+    //     {//at least 3 numbers left
+    //         int mid = (l + r) / 2;
+    //         if (mid == 0 && nums[0] != nums[1]) return nums[0];
+    //         if (mid == n - 1 && nums[n - 2] != nums[n - 1]) return nums[n - 1];
+    //         if (mid!=0 && nums[mid] != nums[mid - 1] && mid!=n-1 && nums[mid] != nums[mid + 1])
+    //             return nums[mid];
+    //         if (mid!=0 && nums[mid] == nums[mid - 1])
+    //         {
+    //             if (mid - l + 1 % 2 == 0) l = mid + 1;
+    //             else r = mid - 2;
+    //         }
+    //         else if (mid!=n-1 && nums[mid] == nums[mid + 1])
+    //         {
+    //             if (r - mid + 1 % 2 == 0) r = mid - 1; //from right to mid, there are an even number of elements
+    //             else l = mid + 2;
+    //         }
+    //     }
+    //     return nums[l];
+    // }
 
+    public int SingleNonDuplicate1(int[] nums)
+    {
+        int l =0, r = nums.Length-1;
+        while (l<r) {
+            int mid = (l+r)/2;
+            if (mid%2==1) mid--;// odd number of element in the left
+            if (nums[mid]!=nums[mid+1]) r = mid;
+            else l = mid+2;
+        }
+        return nums[l];
+    }
 
-
+    public int SearchInsert(int[] nums, int target) {
+        if (nums.Length==1) {
+            if (nums[0]>=target)return 0;
+            else return 1;
+        }
+        int l=0, r = nums.Length-1;
+        int mid;
+        while (l<r) {
+            mid = (l+r)/2;
+            if (nums[mid]==target) return mid;
+            if (nums[mid]>target) r = mid-1;
+            else l = mid+1;
+        }
+        return target<=nums[l]? l : l+1;
+    }
 
 
     public class Robot
