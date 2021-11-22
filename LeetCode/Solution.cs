@@ -3693,6 +3693,84 @@ class Solution
         return target<=nums[l]? l : l+1;
     }
 
+    public int SqrtWithBinarySearch(long x) {
+        //search from 1 to x/2;
+        long l =1, r =x/2;
+        while (r>l) {
+            long mid =(l+r)/2;
+            if (mid*mid==x) return (int)mid;
+            if (mid*mid<x) l = mid+1;
+            else r = mid-1;
+        }  
+        return (int)(l*l>x? l-1: l);
+    }
+
+    public int[] FairCandySwap(int[] aliceSizes, int[] bobSizes) {
+        Array.Sort(aliceSizes); Array.Sort(bobSizes);
+        int sum1 =0, sum2 =0;
+        foreach (int i in aliceSizes)sum1+=i;
+        foreach (int i in bobSizes)sum2+=i;
+        int halfSum = sum1-sum2/2;
+        if (aliceSizes.Length>bobSizes.Length) {
+            //search in the greater array
+            foreach (int i in bobSizes)
+            {
+                // int complement = half
+            }
+        }
+        return new int[0];
+    }
+
+    public void ReverseString(char[] s) {
+        ReverseStringUtil(s, 0, s.Length-1);
+    }
+    void ReverseStringUtil(char[] s, int l, int r) {
+        if (l>=r) return;
+        Swap(ref s[l],ref s[r]);
+        ReverseStringUtil(s, l+1, r-1);
+    }
+
+    void Swap(ref char c1, ref char c2) {
+        char temp = c1;c1=c2;c2=temp;
+    }
+    public bool HasPathSum1(TreeNode root, int targetSum) {
+        if (targetSum==0) return true;
+        targetSum -= root.val;
+        if (targetSum<0) return false;
+        return HasPathSum1(root.left, targetSum) || HasPathSum1(root.right, targetSum);
+    }
+
+    public TreeNode SortedArrayToBSTNonBalanced(int[] nums) {
+        TreeNode root = new TreeNode(nums[0]);
+        foreach (int i in nums) {
+            var cur = root;
+            var pre = root;
+            while (cur!=null) {
+                if (cur.val>i) {pre = cur; cur=cur.left;}
+                else {pre=cur; cur = cur.right;}
+            }
+            if (pre.val>i) pre.left = new TreeNode(i);
+            else pre.right=new TreeNode(i);
+        }
+        return root;
+    }
+
+    TreeNode SortedArrayToBSTUtil(int[] nums, int start, int end) {
+        if (end<start || end>=nums.Length || start<0) return null;
+        if (end==start) return new TreeNode(nums[start]);
+        int mid =(end+start)/2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.right = SortedArrayToBSTUtil(nums, mid+1, end);
+        root.left=SortedArrayToBSTUtil(nums, mid-1, start);
+        return root;
+    }
+
+    public TreeNode SortedArrayToBST(int[] nums) {
+        return SortedArrayToBSTUtil(nums, 0, nums.Length-1);
+    }
+    
+    
+}
 
     public class Robot
     {
@@ -3754,7 +3832,7 @@ class Solution
             return Dir;
         }
     }
-}
+
 // public class CombinationIterator {
 //TODO1: Finish this shit
 //     List<char> list = 

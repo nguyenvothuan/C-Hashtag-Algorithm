@@ -207,7 +207,12 @@ namespace LeetCode
             // Console.Write(sol.HammingDistance2(4,1));
             // Console.Write(sol.CanThreePartsEqualSum(new int[11]{0,2,1,-6,6,-7,9,1,2,0,1}));
             // Console.Write(sol.SingleNonDuplicate1(new int[9]{3,3,7,7,9,9,10,11,11}));
-            Console.Write(sol.SearchInsert(new int[4]{1,3,5,6}, 5));
+            // Console.Write(sol.SearchInsert(new int[4]{1,3,5,6}, 5));
+            // Console.Write(sol.SqrtWithBinarySearch(0));
+            var str = new char[5] { 'h', 'e', 'l', 'l', 'o' };
+            sol.ReverseString(str);
+            foreach (char chr in str)
+                Console.WriteLine(chr);
         }
 
     }
