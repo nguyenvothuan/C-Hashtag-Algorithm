@@ -209,10 +209,40 @@ namespace LeetCode
             // Console.Write(sol.SingleNonDuplicate1(new int[9]{3,3,7,7,9,9,10,11,11}));
             // Console.Write(sol.SearchInsert(new int[4]{1,3,5,6}, 5));
             // Console.Write(sol.SqrtWithBinarySearch(0));
-            var str = new char[5] { 'h', 'e', 'l', 'l', 'o' };
-            sol.ReverseString(str);
-            foreach (char chr in str)
-                Console.WriteLine(chr);
+            // var str = new char[5] { 'h', 'e', 'l', 'l', 'o' };
+            // sol.ReverseString(str);
+            // foreach (char chr in str)
+            //     Console.WriteLine(chr);
+            // Console.Write(sol.IsPalindrome(".,"));
+            // int[][] list1 = new int[4][];
+            // list1[0] = new int[2] { 0, 2 };
+            // list1[1] = new int[2] { 5, 10 };
+            // list1[2] = new int[2] { 13, 23 };
+            // list1[3] = new int[2] { 24, 25 };
+            // int[][] list2 = new int[4][];
+            // list2[0] = new int[2] { 1, 5 };
+            // list2[1] = new int[2] { 8, 12 };
+            // list2[2] = new int[2] { 15, 24 };
+            // list2[3] = new int[2] { 25, 26 };
+            // var test = sol.IntervalIntersection(list1, list2);
+            // foreach (var arr in test)
+            // {
+            //     foreach (int i in arr) { Console.Write(i + " ");}
+            //     Console.WriteLine();
+            // }
+            int[] test1 = {1,2,1};
+            int[] test2 = {-3,-3};
+            Console.Write(sol.CastleInTheSky(test1));
+            // Console.Write(sol.RetrieveTaskName("codi3lity"));
+            // string[] T = {"test1a", "test2","test1b","test1c","test3"};
+            // string[] R = {"Wrong answer", "OK", "RE", "OK", "TL"};
+            // Console.Write(sol.ScoreFromTestCase(T, R));
+            // int[] A = {3,2,4,3};
+            // int F = 2; int M = 4;
+            // var test = sol.ForgottenShootingDice(A, F, M);
+            // foreach(int i in test) 
+            //     Console.WriteLine(i);
+           
         }
 
     }

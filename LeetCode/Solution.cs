@@ -3667,51 +3667,59 @@ class Solution
 
     public int SingleNonDuplicate1(int[] nums)
     {
-        int l =0, r = nums.Length-1;
-        while (l<r) {
-            int mid = (l+r)/2;
-            if (mid%2==1) mid--;// odd number of element in the left
-            if (nums[mid]!=nums[mid+1]) r = mid;
-            else l = mid+2;
+        int l = 0, r = nums.Length - 1;
+        while (l < r)
+        {
+            int mid = (l + r) / 2;
+            if (mid % 2 == 1) mid--;// odd number of element in the left
+            if (nums[mid] != nums[mid + 1]) r = mid;
+            else l = mid + 2;
         }
         return nums[l];
     }
 
-    public int SearchInsert(int[] nums, int target) {
-        if (nums.Length==1) {
-            if (nums[0]>=target)return 0;
+    public int SearchInsert(int[] nums, int target)
+    {
+        if (nums.Length == 1)
+        {
+            if (nums[0] >= target) return 0;
             else return 1;
         }
-        int l=0, r = nums.Length-1;
+        int l = 0, r = nums.Length - 1;
         int mid;
-        while (l<r) {
-            mid = (l+r)/2;
-            if (nums[mid]==target) return mid;
-            if (nums[mid]>target) r = mid-1;
-            else l = mid+1;
+        while (l < r)
+        {
+            mid = (l + r) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[mid] > target) r = mid - 1;
+            else l = mid + 1;
         }
-        return target<=nums[l]? l : l+1;
+        return target <= nums[l] ? l : l + 1;
     }
 
-    public int SqrtWithBinarySearch(long x) {
+    public int SqrtWithBinarySearch(long x)
+    {
         //search from 1 to x/2;
-        long l =1, r =x/2;
-        while (r>l) {
-            long mid =(l+r)/2;
-            if (mid*mid==x) return (int)mid;
-            if (mid*mid<x) l = mid+1;
-            else r = mid-1;
-        }  
-        return (int)(l*l>x? l-1: l);
+        long l = 1, r = x / 2;
+        while (r > l)
+        {
+            long mid = (l + r) / 2;
+            if (mid * mid == x) return (int)mid;
+            if (mid * mid < x) l = mid + 1;
+            else r = mid - 1;
+        }
+        return (int)(l * l > x ? l - 1 : l);
     }
 
-    public int[] FairCandySwap(int[] aliceSizes, int[] bobSizes) {
+    public int[] FairCandySwap(int[] aliceSizes, int[] bobSizes)
+    {
         Array.Sort(aliceSizes); Array.Sort(bobSizes);
-        int sum1 =0, sum2 =0;
-        foreach (int i in aliceSizes)sum1+=i;
-        foreach (int i in bobSizes)sum2+=i;
-        int halfSum = sum1-sum2/2;
-        if (aliceSizes.Length>bobSizes.Length) {
+        int sum1 = 0, sum2 = 0;
+        foreach (int i in aliceSizes) sum1 += i;
+        foreach (int i in bobSizes) sum2 += i;
+        int halfSum = sum1 - sum2 / 2;
+        if (aliceSizes.Length > bobSizes.Length)
+        {
             //search in the greater array
             foreach (int i in bobSizes)
             {
@@ -3721,117 +3729,304 @@ class Solution
         return new int[0];
     }
 
-    public void ReverseString(char[] s) {
-        ReverseStringUtil(s, 0, s.Length-1);
+    public void ReverseString(char[] s)
+    {
+        ReverseStringUtil(s, 0, s.Length - 1);
     }
-    void ReverseStringUtil(char[] s, int l, int r) {
-        if (l>=r) return;
-        Swap(ref s[l],ref s[r]);
-        ReverseStringUtil(s, l+1, r-1);
+    void ReverseStringUtil(char[] s, int l, int r)
+    {
+        if (l >= r) return;
+        Swap(ref s[l], ref s[r]);
+        ReverseStringUtil(s, l + 1, r - 1);
     }
 
-    void Swap(ref char c1, ref char c2) {
-        char temp = c1;c1=c2;c2=temp;
+    void Swap(ref char c1, ref char c2)
+    {
+        char temp = c1; c1 = c2; c2 = temp;
     }
-    public bool HasPathSum1(TreeNode root, int targetSum) {
-        if (targetSum==0) return true;
+    public bool HasPathSum1(TreeNode root, int targetSum)
+    {
+        if (targetSum == 0) return true;
         targetSum -= root.val;
-        if (targetSum<0) return false;
+        if (targetSum < 0) return false;
         return HasPathSum1(root.left, targetSum) || HasPathSum1(root.right, targetSum);
     }
 
-    public TreeNode SortedArrayToBSTNonBalanced(int[] nums) {
+    public TreeNode SortedArrayToBSTNonBalanced(int[] nums)
+    {
         TreeNode root = new TreeNode(nums[0]);
-        foreach (int i in nums) {
+        foreach (int i in nums)
+        {
             var cur = root;
             var pre = root;
-            while (cur!=null) {
-                if (cur.val>i) {pre = cur; cur=cur.left;}
-                else {pre=cur; cur = cur.right;}
+            while (cur != null)
+            {
+                if (cur.val > i) { pre = cur; cur = cur.left; }
+                else { pre = cur; cur = cur.right; }
             }
-            if (pre.val>i) pre.left = new TreeNode(i);
-            else pre.right=new TreeNode(i);
+            if (pre.val > i) pre.left = new TreeNode(i);
+            else pre.right = new TreeNode(i);
         }
         return root;
     }
 
-    TreeNode SortedArrayToBSTUtil(int[] nums, int start, int end) {
-        if (end<start || end>=nums.Length || start<0) return null;
-        if (end==start) return new TreeNode(nums[start]);
-        int mid =(end+start)/2;
+    TreeNode SortedArrayToBSTUtil(int[] nums, int start, int end)
+    {
+        if (end < start || end >= nums.Length || start < 0) return null;
+        if (end == start) return new TreeNode(nums[start]);
+        int mid = (end + start) / 2;
         TreeNode root = new TreeNode(nums[mid]);
-        root.right = SortedArrayToBSTUtil(nums, mid+1, end);
-        root.left=SortedArrayToBSTUtil(nums, mid-1, start);
+        root.right = SortedArrayToBSTUtil(nums, mid + 1, end);
+        root.left = SortedArrayToBSTUtil(nums, mid - 1, start);
         return root;
     }
 
-    public TreeNode SortedArrayToBST(int[] nums) {
-        return SortedArrayToBSTUtil(nums, 0, nums.Length-1);
+    public TreeNode SortedArrayToBST(int[] nums)
+    {
+        return SortedArrayToBSTUtil(nums, 0, nums.Length - 1);
     }
-    
-    
+
+    public bool IsPalindrome(string s)
+    {
+        if (s.Length <= 1) return true;
+        int l = 0; int r = s.Length - 1;
+        while (r >= l)
+        {
+            while (Char.ToLower(s[r]) > 'z' || Char.ToLower(s[r]) < 'a' && r >= l && r > 0)
+                r--;
+            while (Char.ToLower(s[l]) > 'z' || Char.ToLower(s[l]) < 'a' && l <= r && l < s.Length - 1)
+                l++;
+            if (Char.ToLower(s[l]) != Char.ToLower(s[r])) return false;
+            l++; r--;
+        }
+        return true;
+    }
+
+    public int[][] IntervalIntersection(int[][] firstList, int[][] secondList)
+    {
+        int first = 0;
+        int second = 0;
+        List<int[]> final = new List<int[]>();
+        while (second < secondList.Length && first < firstList.Length)
+        {
+            var union = IntervalUnion(firstList[first], secondList[second]);
+            if (union.Length == 1)
+            {
+                if (union[0] == 0) first++;
+                else second++;
+            }
+            else
+            {
+                final.Add(union);
+                if (union[1] == secondList[second][1]) second++;
+                else first++;
+            }
+        }
+        return final.ToArray();
+    }
+    int[] IntervalUnion(int[] i1, int[] i2)
+    {
+        if (i2[0] > i1[1]) return new int[1] { 0 };// 1 is exhausted
+        if (i1[0] > i2[1]) return new int[1] { 1 }; //2 is exhausted
+        return new int[2] { Math.Max(i1[0], i2[0]), Math.Min(i1[1], i2[1]) };
+    }
+
+    public int CastleOnTheHill(int[] arr)
+    {
+        int count = 1;
+        int trend = arr[1] > arr[0] ? 1 : -1; // 1 for up, -1 for down;
+        for (int i = 1; i < arr.Length; i++)
+        {
+            if (arr[i] == arr[i - 1]) continue; //nothing happens
+            else
+            {
+                if (arr[i] > arr[i - 1] && trend < 0)
+                {
+                    count++;
+                    trend = 1; // up again
+                }
+                else if (arr[i] < arr[i - 1] && trend > 0)
+                {
+                    count++;
+                    trend = -1;
+                }
+            }
+        }
+        return count;
+    }
+
+    public int ScoreFromTestCase(string[] T, string[] R)
+    {
+        Dictionary<string, int> dict = new Dictionary<string, int>();
+        // dict[taskname] = score of the current task name, if set to negative, take 0
+        for (int i = 0; i < T.Length; i++)
+        {
+            string taskname = RetrieveTaskName(T[i]);
+            if (dict.ContainsKey(taskname))
+            {
+                if (dict[taskname] > 0)
+                {
+                    if (R[i] == "OK") dict[taskname]++;
+                    else dict[T[i]] = -1;
+                }
+            }
+            else
+            {
+                if (R[i] == "OK")
+                {
+                    dict.Add(taskname, 1);
+                }
+                else
+                {
+                    dict.Add(taskname, -1);
+                }
+            }
+        }
+        int count = 0;
+        foreach (var pair in dict)
+        {
+            if (pair.Value > 0) count++;
+        }
+        return (int)count * 100 / dict.Count;
+    }
+    public string RetrieveTaskName(string str)
+    {
+        int i = 0;
+        bool passed = false;
+        for (i = 0; i < str.Length; i++)
+        {
+            if (Char.IsNumber(str[i]))
+                passed = true;
+            if (passed && Char.IsLetter(str[i])) break;
+        }
+        return str.Substring(0, i);
+    }
+
+    public int[] ForgottenShootingDice(int[] A, int F, int M)
+    {
+        int sum = 0;
+        foreach (int i in A) sum += i;
+        int remain = M * (F + A.Length) - sum;
+        List<int> final = new List<int>();
+        if (ForgottenShootingDiceUtil(remain, F, final))
+            return final.ToArray();
+        return new int[1] { 0 };
+    }
+    bool ForgottenShootingDiceUtil(int sofar, int stepRemain, List<int> final)
+    {//sofar is the sum left to be accumulated, stepRemain is the number of roll left
+        if (sofar < 0 || stepRemain < 0) return false;
+        if (sofar == 0 && stepRemain == 0) return true; //path found
+        if (sofar == 0 || stepRemain == 0) return false;
+        for (int i = 1; i <= 6; i++)
+        {
+            sofar -= i;
+            final.Add(i);
+            if (ForgottenShootingDiceUtil(sofar, stepRemain - 1, final)) return true;
+            //backtracking
+            sofar += i;
+            final.RemoveAt(final.Count - 1);
+        }
+        //try all path without success
+        return false;
+    }
+
+    public int CastleInTheSky(int[] arr)
+    {
+        if (arr.Length<2) return arr.Length;
+        int count = 1;
+        int trend = 0;
+        //count plus at the end of trend.
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (trend == 0)
+            {
+                if (i != 0 && arr[i] != arr[i - 1])
+                {
+                    count++;
+                    trend = arr[i] > arr[i - 1] ? 1 : -1;
+                }
+            }
+            else {
+                if (trend>0 && arr[i]<arr[i-1]) {
+                    trend = -1;
+                    count++;
+                }
+                else if (trend<0 && arr[i]>arr[i-1])
+                {
+                    trend = 1;
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public bool CanBeIncreasing(int[] nums) {
+        
+    }
+
 }
 
-    public class Robot
-    {
+public class Robot
+{
 
-        int width; int height;
-        int x = 0; int y = 0;
-        string Dir = "East";
-        void ChangeDirection()
+    int width; int height;
+    int x = 0; int y = 0;
+    string Dir = "East";
+    void ChangeDirection()
+    {
+        if (Dir == "East") Dir = "North";
+        else if (Dir == "North") Dir = "West";
+        else if (Dir == "West") Dir = "South";
+        else Dir = "East";
+    }
+    void NStepForward(int num)
+    {
+        for (int i = 0; i < num; i++)
         {
-            if (Dir == "East") Dir = "North";
-            else if (Dir == "North") Dir = "West";
-            else if (Dir == "West") Dir = "South";
-            else Dir = "East";
-        }
-        void NStepForward(int num)
-        {
-            for (int i = 0; i < num; i++)
+            if (Dir == "East")
             {
-                if (Dir == "East")
-                {
-                    if (x == width - 1) { ChangeDirection(); y++; }
-                    else x++;
-                }
-                else if (Dir == "North")
-                {
-                    if (y == height - 1) { ChangeDirection(); x--; }
-                    else y++;
-                }
-                else if (Dir == "West")
-                {
-                    if (x == 0) { ChangeDirection(); y--; }
-                    else x--;
-                }
-                else if (Dir == "South")
-                {
-                    if (y == 0) { ChangeDirection(); x++; }
-                    else y--;
-                }
+                if (x == width - 1) { ChangeDirection(); y++; }
+                else x++;
+            }
+            else if (Dir == "North")
+            {
+                if (y == height - 1) { ChangeDirection(); x--; }
+                else y++;
+            }
+            else if (Dir == "West")
+            {
+                if (x == 0) { ChangeDirection(); y--; }
+                else x--;
+            }
+            else if (Dir == "South")
+            {
+                if (y == 0) { ChangeDirection(); x++; }
+                else y--;
             }
         }
-        public Robot(int width, int height)
-        {// (0,0)=> (width-1, height-1)
-            this.width = width; this.height = height;
-        }
-
-        public void Move(int num)
-        {
-            num %= 2 * (width + height) - 4;
-            NStepForward(num);
-        }
-
-        public int[] GetPos()
-        {
-            return new int[2] { x, y };
-        }
-
-        public string GetDir()
-        {
-            return Dir;
-        }
     }
+    public Robot(int width, int height)
+    {// (0,0)=> (width-1, height-1)
+        this.width = width; this.height = height;
+    }
+
+    public void Move(int num)
+    {
+        num %= 2 * (width + height) - 4;
+        NStepForward(num);
+    }
+
+    public int[] GetPos()
+    {
+        return new int[2] { x, y };
+    }
+
+    public string GetDir()
+    {
+        return Dir;
+    }
+}
 
 // public class CombinationIterator {
 //TODO1: Finish this shit
