@@ -3932,7 +3932,7 @@ class Solution
 
     public int CastleInTheSky(int[] arr)
     {
-        if (arr.Length<2) return arr.Length;
+        if (arr.Length < 2) return arr.Length;
         int count = 1;
         int trend = 0;
         //count plus at the end of trend.
@@ -3946,12 +3946,14 @@ class Solution
                     trend = arr[i] > arr[i - 1] ? 1 : -1;
                 }
             }
-            else {
-                if (trend>0 && arr[i]<arr[i-1]) {
+            else
+            {
+                if (trend > 0 && arr[i] < arr[i - 1])
+                {
                     trend = -1;
                     count++;
                 }
-                else if (trend<0 && arr[i]>arr[i-1])
+                else if (trend < 0 && arr[i] > arr[i - 1])
                 {
                     trend = 1;
                     count++;
@@ -3961,8 +3963,51 @@ class Solution
         return count;
     }
 
-    public bool CanBeIncreasing(int[] nums) {
-        
+    public bool CanBeIncreasing(int[] nums)
+    {
+        // nums is increasing, means 
+        // 1. 
+        if (nums.Length <= 2) return true;
+        int count = 0;
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] < nums[i - 1]) count++;
+            if (count > 1) return false;
+        }
+        return true;
+    }
+
+    public int MinPairSum(int[] nums)
+    {
+        Array.Sort(nums);
+        int maxSum = 0;
+        for (int i = 0; i < nums.Length / 2; i++)
+        {
+            maxSum = Math.Max(nums[i] + nums[nums.Length - i - 1], maxSum);
+        }
+        return maxSum;
+    }
+
+    public bool IsHappy(int n) { return IsHappy(new List<int>(), n); }
+    public bool IsHappy(List<int> sofar, int n)
+    {
+        if (n == 1) return true;
+        int index = sofar.BinarySearch(n);
+        if (index > 0) return false;
+        index = -index;
+        if (index>=sofar.Count) sofar.Add(n);
+        else sofar.Insert(index, n);
+        return IsHappy(sofar, SquareDigitSum(n));
+    }
+    int SquareDigitSum(int n)
+    {
+        string str = n.ToString();
+        int sum = 0;
+        foreach (char chr in str)
+        {
+            sum += (int)Char.GetNumericValue(chr) * (int)Char.GetNumericValue(chr);
+        }
+        return sum;
     }
 
 }

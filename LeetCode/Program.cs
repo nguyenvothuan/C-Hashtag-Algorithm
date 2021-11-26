@@ -230,9 +230,9 @@ namespace LeetCode
             //     foreach (int i in arr) { Console.Write(i + " ");}
             //     Console.WriteLine();
             // }
-            int[] test1 = {1,2,1};
-            int[] test2 = {-3,-3};
-            Console.Write(sol.CastleInTheSky(test1));
+            // int[] test1 = {1,2,1};
+            // int[] test2 = {-3,-3};
+            // Console.Write(sol.CastleInTheSky(test1));
             // Console.Write(sol.RetrieveTaskName("codi3lity"));
             // string[] T = {"test1a", "test2","test1b","test1c","test3"};
             // string[] R = {"Wrong answer", "OK", "RE", "OK", "TL"};
@@ -242,7 +242,7 @@ namespace LeetCode
             // var test = sol.ForgottenShootingDice(A, F, M);
             // foreach(int i in test) 
             //     Console.WriteLine(i);
-           
+           Console.Write(sol.IsHappy(19));
         }
 
     }
