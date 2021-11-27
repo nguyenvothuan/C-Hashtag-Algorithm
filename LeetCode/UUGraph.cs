@@ -35,6 +35,9 @@ public class UUGraph
     }
     public UUGraph(int V)
     {
+        this.V = V;
+        adj = new List<int>[V];
+        for(int i =0;i<V;i++) adj[i] =new List<int>();
         //TODO: Do this later
     }
 
@@ -54,6 +57,7 @@ public class UUGraph
         Queue<int> queue = new Queue<int>();
         bool[] visited = new bool[V];
         queue.Enqueue(s);
+        visited[s] = true;
         List<int> final = new List<int>();
         while (queue.Count != 0)
         {
@@ -61,8 +65,28 @@ public class UUGraph
             final.Add(cur);
             if (log) Console.Write(cur + " ");
             foreach (int i in adj[cur])
-                if (!visited[i]) queue.Enqueue(i);
+                if (!visited[i]) {queue.Enqueue(i);visited[i] = true;}
         }
         return final;
     }
+
+    public IList<int> DFS(int s, bool log = false) {
+        Stack<int> stack = new Stack<int>();
+        bool[] visited= new bool[V];
+        stack.Push(s);
+        visited[s] = true;
+        List<int> final = new List<int>();
+        while (stack.Count!=0){
+            int cur = stack.Pop();
+            if (log) Console.Write(cur+" ");
+            final.Add(cur);
+            foreach (int i in adj[cur])
+                if (!visited[i]) {
+                    stack.Push(i);
+                    visited[i] = true;
+                }
+        }
+        return final;
+    }
+
 }

@@ -257,8 +257,18 @@ namespace LeetCode
             // Console.WriteLine("Number of 0:" + count0);
             // Console.WriteLine("Number of 1:" + count1);
             // Console.WriteLine("Number of 2:" + count2);
-            
-            
+            UUGraph uugraph = new UUGraph(5);
+            uugraph.AddEdge(0,1); uugraph.AddEdge(0,2); uugraph.AddEdge(0,3);
+            uugraph.AddEdge(1,4); uugraph.AddEdge(4,2);
+            // graph.BFS(0, true);
+            // graph.DFS(0, true);
+            UDGraph udGraph = new UDGraph(5);
+            udGraph.AddEdge(0,2);
+            udGraph.AddEdge(2,3);
+            udGraph.AddEdge(4,3);
+            udGraph.AddEdge(0,1); 
+            // Console.Write(udGraph.MotherVertex());
+            udGraph.TransitiveClosure(true);
         }
 
     }
