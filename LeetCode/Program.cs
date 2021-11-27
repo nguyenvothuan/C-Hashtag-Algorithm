@@ -242,7 +242,23 @@ namespace LeetCode
             // var test = sol.ForgottenShootingDice(A, F, M);
             // foreach(int i in test) 
             //     Console.WriteLine(i);
-           Console.Write(sol.IsHappy(19));
+            //    Console.Write(sol.IsHappy(19));
+            // Console.Write(sol.IsValidAbbreviation("solution", "s6n"));
+            //    / int a =1;
+            //     Console.Write(a+=2);
+            // var Picker = new RandomWeightPicker(new int[3]{1,3,4});
+            // int count0 =0, count1=0,count2=0;
+            // for(int i =0;i<8000;i++) {
+            //     int cur = Picker.PickIndex();
+            //     if(cur==0) count0++;
+            //     if (cur==1) count1++;
+            //     if (cur==2) count2++;
+            // }
+            // Console.WriteLine("Number of 0:" + count0);
+            // Console.WriteLine("Number of 1:" + count1);
+            // Console.WriteLine("Number of 2:" + count2);
+            
+            
         }
 
     }

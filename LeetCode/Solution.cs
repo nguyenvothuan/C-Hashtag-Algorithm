@@ -3995,7 +3995,7 @@ class Solution
         int index = sofar.BinarySearch(n);
         if (index > 0) return false;
         index = -index;
-        if (index>=sofar.Count) sofar.Add(n);
+        if (index >= sofar.Count) sofar.Add(n);
         else sofar.Insert(index, n);
         return IsHappy(sofar, SquareDigitSum(n));
     }
@@ -4009,6 +4009,102 @@ class Solution
         }
         return sum;
     }
+
+    public bool IsValidAbbreviation(string str1, string str2)
+    {
+        if (str1 == str2) return true;
+        if (str1.Length == str2.Length) return false;
+        if (str1.Length < str2.Length) return IsValidAbbreviation(str2, str2);
+        int p1 = 0; int p2 = 0;
+        while (p1 < str1.Length && p2 < str2.Length)
+        {
+            int jump = 0;
+            while (p2 < str2.Length && Char.IsNumber(str2[p2])) { jump += 10 * jump + Int32.Parse(str2[p2].ToString()); p2++; }
+
+            //now that p2 is pointing to the next character after the abbreviated string
+            p1 += jump;
+            if (p1 >= str1.Length) return false; //fake abbreviation
+            if (p2 == str2.Length) return true; // 
+            if (str1[p1] != str2[p2]) return false;
+            jump = 0;
+            while (p2 < str2.Length && Char.IsLetter(str2[p2]))
+                if (str1[p1++] != str2[p2++]) return false;
+            //now p2 is pointing the next character in p2, which is a number, the cycle continues or str2 is exhausted
+        }
+        return p1 == str1.Length;
+    }
+
+    public int[] ProductExceptSelf(int[] nums)
+    {
+        int countZero = 0;
+        int zeroIndex = 0;
+        int product = 1;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] == 0) { zeroIndex = i; countZero++; }
+            else product *= nums[i];
+        }
+        int[] final = new int[nums.Length];
+        if (countZero > 1) return final;
+        if (countZero == 1)
+        {
+            final[zeroIndex] = product;
+            return final;
+        }
+        for (int i = 0; i < final.Length; i++)
+        {
+            final[i] = product / nums[i];
+        }
+        return final;
+    }
+
+    
+}
+
+public class RandomWeightPicker
+{
+    int[] weight;
+    int sum = 0;
+    Random seed = new Random();
+    int[][] fromTo;
+    public RandomWeightPicker(int[] w)
+    {
+        this.weight = w;
+        fromTo = new int[w.Length][];
+        int cur = 0;
+        foreach (int i in w) sum += i;
+        for (int i = 0; i < fromTo.Length; i++)
+        {
+            fromTo[i] = new int[2] { cur += 1, cur += weight[i] - 1 };
+        }
+    }
+
+    public void LookInside()
+    {
+        foreach (var a in fromTo)
+        {
+            Console.WriteLine("Sum: " + sum);
+            foreach (int i in a)
+                Console.Write(i + " ");
+            Console.WriteLine();
+        }
+    }
+
+
+    public int PickIndex()
+    {
+        int index = seed.Next(0, sum + 1);
+        int l = 0; int r = fromTo.Length - 1;
+        while (r > l)
+        {
+            int mid = (l + r) / 2;
+            if (fromTo[mid][0] <= index && index <= fromTo[mid][1]) return mid;
+            if (index > fromTo[mid][1]) l = mid + 1;
+            else r = mid - 1;
+        }
+        return l;
+    }
+
 
 }
 
