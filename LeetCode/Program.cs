@@ -274,19 +274,28 @@ namespace LeetCode
             // Console.Write(Convert.ToChar(1+48));
             // Console.Write(sol.AddStrings("132", "128"));
             // Console.Write(new int[0] == null);
-            int[][] graph = new int[5][];
-            graph[0] = new int[3]{4,3,1};
-            graph[1] = new int[3]{3,2,4};
-            graph[2] = new int[1]{3};
-            graph[3] = new int[1]{4};
-            graph[4] = new int[0];
-            var test = sol.AllPathsSourceTarget(graph);
-            foreach (var list in test)
-            {
-                foreach(int i in list)
-                    Console.Write(i+" ");
-                Console.WriteLine();
-            }
+            // int[][] graph = new int[5][];
+            // graph[0] = new int[3]{4,3,1};
+            // graph[1] = new int[3]{3,2,4};
+            // graph[2] = new int[1]{3};
+            // graph[3] = new int[1]{4};
+            // graph[4] = new int[0];
+            // var test = sol.AllPathsSourceTarget(graph);
+            // foreach (var list in test)
+            // {
+            //     foreach(int i in list)
+            //         Console.Write(i+" ");
+            //     Console.WriteLine();
+            // }
+            // var test = sol.SplittingArray(new int[6]{2, 1, 2, 3, 3, 4});
+            // foreach(var a in test)
+            // {
+            //     foreach (int i in a)
+            //         Console.Write(i+" ");
+            //     Console.WriteLine();
+            // }
+            var test = sol.FullJustify(new string[7]{"This", "is", "an", "example", "of", "text", "justification."}, 16);
+            foreach 
 
         }
 

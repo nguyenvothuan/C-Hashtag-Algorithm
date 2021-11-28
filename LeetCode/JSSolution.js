@@ -1,3 +1,0 @@
-var validPalindrome = function(s) {
-    
-};

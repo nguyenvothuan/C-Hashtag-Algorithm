@@ -4159,7 +4159,7 @@ class Solution
             List<int> final = new List<int>();
             foreach (int neighborOfU in graph[u])
             {
-                if (neighborOfU == graph.Length - 1||Reachable(neighborOfU, dp, graph).Length > 0)
+                if (neighborOfU == graph.Length - 1 || Reachable(neighborOfU, dp, graph).Length > 0)
                 {
                     final.Add(neighborOfU);
                 }
@@ -4168,6 +4168,174 @@ class Solution
         }
         return dp[u];
     }
+
+    public int[][] SplittingArray(int[] arr)
+    {
+        Array.Sort(arr);
+        int cur = 0;
+        int[][] final = new int[2][];
+        final[0] = new int[arr.Length / 2];
+        final[1] = new int[arr.Length / 2];
+        int p1 = 0; int p2 = 0;
+
+        while (cur < arr.Length)
+        {
+            if (cur < arr.Length - 2 && arr[cur] == arr[cur + 1] && arr[cur + 1] == arr[cur + 2])// more than 2
+                return new int[0][];
+            if (cur < arr.Length - 1 && arr[cur] == arr[cur + 1])
+            {
+                final[0][p1++] = arr[cur++];
+                final[1][p2++] = arr[cur++];
+            }
+            else
+            {
+                if (p1 > p2) final[1][p2++] = arr[cur++];
+                else final[0][p1++] = arr[cur++];
+            }
+
+        }
+        return final;
+    }
+
+    public string[] FullJustify(string[] words, int l)
+    {
+        List<string> final = new List<string>();
+        if (words == null || words.Length == 0)
+            return final.ToArray();
+
+        int i = 0;
+        int n = words.Length;
+
+        while (i < n)
+        {
+            int j = i + 1;
+            int lineLength = words[i].Length;
+            int spaces = j - i - 1;
+
+            while (j < n && (lineLength + words[j].Length + (j - i - 1)) < l)
+            {
+
+                lineLength += words[j].Length;
+                ++j;
+            }
+
+            int diff = l - lineLength;
+            int numberOfWords = j - i;
+
+            if (numberOfWords == 1 || j >= n) final.Add(LeftJustify(words, diff, i, j));
+            else
+                final.Add(MidJustify(words, diff, i, j));
+
+            i = j;
+        }
+        return final.ToArray();
+    }
+
+    public string LeftJustify(string[] words, int diff, int i, int j)
+    {
+        int spacesOnRight = diff - (j - i - 1);
+        StringBuilder result = new StringBuilder(words[i]);
+
+        for (int k = i + 1; k < j; k++)
+        {
+            result.Append(" " + words[k]);
+        }
+        for (int k = 1; k <= spacesOnRight; k++)
+        {
+            result.Append(" ");
+        }
+
+        return result.ToString();
+    }
+
+    public string MidJustify(string[] words, int diff, int i, int j)
+    {
+        int spaceNeeded = j - i - 1;
+        int spaces = diff / spaceNeeded;
+        int extraSpace = diff % spaceNeeded;
+
+        StringBuilder result = new StringBuilder(words[i]);
+
+        for (int k = i + 1; k < j; k++)
+        {
+            int spacesToApply = spaces + (extraSpace-- > 0 ? 1 : 0);
+            for (int l = 1; l <= spacesToApply; l++)
+            {
+                result.Append(" ");
+            }
+            result.Append(words[k]);
+        }
+
+        return result.ToString();
+    }
+
+    public int WordTransformation(string beginWord, string endWord, string[] wordList)
+    {
+        Dictionary<string, List<string>> adj = new Dictionary<string, List<string>>();
+        //adj list to save connectivity of each word
+        for (int i = 0; i < wordList.Length; i++)
+        {
+            if (!adj.ContainsKey(wordList[i])) adj.Add(wordList[i], new List<string>());
+            for (int j = i + 1; j < wordList.Length; j++)
+            {
+                if (IsConnectedWord(wordList[i], wordList[j]))
+                {
+                    adj[wordList[i]].Add(wordList[j]);
+                    if (adj.ContainsKey(wordList[j])) adj[wordList[j]].Add(wordList[i]);
+                    else adj.Add(wordList[j], new List<string>(new string[1] { wordList[i] }));
+                }
+            }
+        }
+        List<string> neighborOfBegin = new List<string>();
+        foreach (string str in wordList)
+        {
+            if (IsConnectedWord(beginWord, str)) neighborOfBegin.Add(str);
+        }
+        List<string> neighborOfEnd = new List<string>();
+        foreach (string str in wordList)
+        {
+            if (IsConnectedWord(endWord, str)) neighborOfEnd.Add(str);
+        }
+        adj.Add(beginWord, neighborOfBegin); adj.Add(endWord, neighborOfEnd);
+        //BFS
+        Queue<string> queue = new Queue<string>();
+        queue.Enqueue(beginWord);
+        queue.Enqueue(null);
+        int count = 0;
+        while (queue.Count != 0)
+        {
+            string cur = queue.Dequeue();
+            if (cur == endWord) return count;
+            if (cur == null)
+            {
+                queue.Enqueue(null);
+                count++;
+            }
+            else
+            {
+                foreach (string neighbor in adj[cur])
+                {
+                    queue.Enqueue(neighbor);
+
+                }
+            }
+        }
+        return count;
+    }
+
+    bool IsConnectedWord(string str1, string str2)
+    {
+        int count = 0;
+        for (int i = 0; i < str1.Length; i++)
+        {
+            if (str1[i] != str2[i]) count++;
+            if (count > 1) return false;
+        }
+        return count != 0;
+    }
+
+
+
 }
 
 public class RandomWeightPicker
