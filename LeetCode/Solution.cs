@@ -4058,7 +4058,116 @@ class Solution
         return final;
     }
 
-    
+    public int CountBinarySubstrings(string s)
+    {
+        List<int> list = new List<int>();
+        int cur = 48;
+        int countCur = 0;
+        foreach (char i in s)
+        {
+            if (i == cur) countCur++;
+            else
+            {
+                cur = i;
+                list.Add(countCur);
+                countCur = 1;
+            }
+        }
+        list.Add(countCur);
+        if (list.Count == 1) return 0;
+        if (list.Count == 2) return Math.Min(list[0], list[1]);
+
+        int final = 0;
+        for (int i = 0; i < list.Count - 1; i++)
+        {
+            final += Math.Min(list[i], list[i + 1]);
+        }
+        return final;
+    }
+
+    public void DuplicateZeros(int[] arr)
+    {
+        //TODO: review this shit
+    }
+
+    char IntToChar(int a)
+    {
+        return (char)(a + 48);
+    }
+
+    public string AddStrings(string num1, string num2)
+    {
+        if (num2.Length > num1.Length) return AddStrings(num2, num1);
+        //num1 > num2
+        int left = 0;
+        int p1 = num1.Length - 1, p2 = num2.Length - 1;
+        List<char> list = new List<char>();
+        while (p1 >= 0 && p2 >= 0)
+        {
+            int cur = CharToInt(num1[p1]) + CharToInt(num2[p2]) + left;
+            if (cur >= 10) { cur -= 10; left = 1; }
+            list.Add(IntToChar(cur));
+            p1--; p2--;
+        }
+        if (p1 < 0 && p2 < 0)
+        {
+            if (left != 0) list.Add(IntToChar(1));
+        }
+        while (p1 >= 0)
+        {
+            int cur = IntToChar(CharToInt(num1[p1--]) + left);
+            if (cur >= 10) cur -= 10; left = 1;
+        }
+        if (left != 0) list.Add(IntToChar(1));
+        list.Reverse();
+        return new string(list.ToArray());
+    }
+
+    public IList<IList<int>> AllPathsSourceTarget(int[][] graph)
+    {
+        int V = graph.Length;
+        int[][] dp = new int[V][];
+        for (int i = 0; i < V; i++) dp[i] = null;
+        Reachable(0, dp, graph);
+        Stack<int> stack = new Stack<int>();
+        stack.Push(0);
+        List<IList<int>> final = new List<IList<int>>();
+        DFSReachableUtil(final, new List<int>(), 0, graph.Length, dp);
+        return final;
+    }
+    void DFSReachableUtil(List<IList<int>> final, List<int> sofar, int cur, int n, int[][] dp)
+    {// n is the size of graph, not n-1
+        sofar.Add(cur);
+        if (cur == n - 1)
+        {
+            final.Add(new List<int>(sofar));
+            sofar.RemoveAt(sofar.Count - 1);
+            return;
+        }
+
+        foreach (int i in dp[cur])
+        {
+            DFSReachableUtil(final, sofar, i, n, dp);
+        }
+        sofar.RemoveAt(sofar.Count - 1);
+    }
+
+    int[] Reachable(int u, int[][] dp, int[][] graph)
+    {
+        if (dp[u] == null)
+        {//now it is null
+            List<int> final = new List<int>();
+            foreach (int neighborOfU in graph[u])
+            {
+                if (neighborOfU == graph.Length - 1||Reachable(neighborOfU, dp, graph).Length > 0)
+                {
+                    final.Add(neighborOfU);
+                }
+            }
+            dp[u] = final.ToArray();
+        }
+        return dp[u];
+    }
 }
 
 public class RandomWeightPicker
