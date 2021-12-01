@@ -294,9 +294,33 @@ namespace LeetCode
             //         Console.Write(i+" ");
             //     Console.WriteLine();
             // }
-            var test = sol.FullJustify(new string[7]{"This", "is", "an", "example", "of", "text", "justification."}, 16);
-            foreach 
+            // var test = sol.FullJustify(new string[7]{"This", "is", "an", "example", "of", "text", "justification."}, 16);
+            // foreach 
+            //IList<IList<string>> test = new List<IList<string>>();
+            // test.Add(new List<string>(new string[4]{"Gabe","Gabe0@m.co","Gabe3@m.co","Gabe1@m.co"}));
+            // test.Add(new List<string>(new string[4]{"Kevin","Kevin3@m.co","Kevin5@m.co","Kevin0@m.co"}));
+            // test.Add(new List<string>(new string[4]{"Ethan","Ethan5@m.co","Ethan4@m.co","Ethan0@m.co"}));
+            // test.Add(new List<string>(new string[4]{"Hanzo","Hanzo3@m.co","Hanzo1@m.co","Hanzo0@m.co"}));
+            // test.Add(new List<string>(new string[4]{"Fern","Fern5@m.co","Fern1@m.co","Fern0@m.co"}));
+            // test.Add(new List<string>(new string[3] {"John","johnsmith@mail.com","john_newyork@mail.com"}));
+            // test.Add(new List<string>(new string[3] {"John","johnsmith@mail.com","john00@mail.com"}));
+            // test.Add(new List<string>(new string[2] {"Mary","mary@mail.com"}));
+            // test.Add(new List<string>(new string[2] {"John","johnnybravo@mail.com"}));
 
+
+            // var res = sol.AccountsMerge(test);
+            // foreach (var arr in res) {
+            //     foreach (string str in arr)
+            //         Console.Write(str + " ");
+            //     Console.WriteLine();
+            // }
+            // var test = sol.FindKSmallest(3,new int[8]{1,9,2,4,5,6,3,7});
+            // foreach (int i in test)
+            //     Console.WriteLine(i);
+            TreeNode root =new TreeNode(1,new TreeNode(2, null, new TreeNode(5)), new TreeNode(3, null, new TreeNode(4)));
+            var test = sol.RightSideView(root);
+            foreach(int i in test)
+                Console.Write(i+" ");
         }
 
     }

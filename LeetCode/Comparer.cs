@@ -43,6 +43,17 @@ public class CompareThreeArray : Comparer<int[]>
     }
 }
 
+public class EmailComparer : Comparer<string> {
+    public override int Compare([AllowNull] string x, [AllowNull] string y)
+    {
+        for (int i =0;i<Math.Min(x.Length, y.Length);i++) {
+            if (x[i]>y[i]) return 1;
+            if (x[i]<y[i]) return -1;
+        }
+        return 0;
+    }
+}
+
 public class CompareConcatString : Comparer<string>{
     public override int Compare([AllowNull] string x, [AllowNull] string y)
     {

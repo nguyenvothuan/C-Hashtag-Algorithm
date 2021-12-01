@@ -2019,7 +2019,6 @@ class Solution
             Swap(ref nums[l], ref nums[k]);
             Array.Reverse(nums, k + 1, nums.Length - k - 1);
         }
-
     }
 
     public int UniquePaths(int m, int n)
@@ -4334,7 +4333,134 @@ class Solution
         return count != 0;
     }
 
+    public IList<IList<string>> AccountsMerge(IList<IList<string>> accounts)
+    {
+        int n = accounts.Count;
+        bool[,] adj = new bool[n, n];
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = i + 1; j < n; j++)
+            {
+                if (accounts[i][0] == accounts[j][0])
+                {
+                    if (CheckCommonEmail(accounts[i], accounts[j]))
+                    {
+                        adj[i, j] = adj[j, i] = true;
+                    }
+                }
+            }
+        }
+        bool[] visited = new bool[n];
+        IList<IList<string>> final = new List<IList<string>>();
+        EmailComparer comp = new EmailComparer();
+        for (int i = 0; i < n; i++)
+        {
+            if (!visited[i])
+            {
+                List<string> sofar = new List<string>();
+                sofar.Add(accounts[i][0]);//name first
+                DFSEmailUtil(i, visited, adj, accounts, sofar);
+                final.Add(sofar);
+                sofar.Sort(1, sofar.Count - 1, comp);
+            }
+        }
+        return final;
+    }
+    void DFSEmailUtil(int cur, bool[] visited, bool[,] adj, IList<IList<string>> accounts, List<string> sofar)
+    {
+        //run dfs for the current accounts, each time encounter a new descendant, add all its email to sofar.
+        foreach (string email in accounts[cur])
+            if (!sofar.Contains(email)) sofar.Add(email);
+        visited[cur] = true;
+        for (int i = 0; i < accounts.Count; i++)
+        {
+            if (adj[cur, i] && !visited[i])
+            {
+                DFSEmailUtil(i, visited, adj, accounts, sofar);
+            }
+        }
+    }
+    bool CheckCommonEmail(IList<string> acc1, IList<string> acc2)
+    {
+        for (int i = 1; i < acc1.Count; i++)
+        {
+            for (int j = 1; j < acc2.Count; j++)
+            {
+                if (acc1[i] == acc2[j])
+                    return true;
+            }
+        }
+        return false;
+    }
+    public int LargestSumAfterKNegations(int[] nums, int k)
+    {
+        int[] toNegate = FindKSmallest(k, nums);
+        int sum = 0; foreach (int i in toNegate) sum += i;
+        int final = 0;
+        foreach (int i in nums) final += i;
+        final -= 2 * sum;
+        return final;
+    }
 
+    public int[] FindKSmallest(int k, int[] arr)
+    {
+        if (arr.Length <= k) return new int[0];
+        //repeat k time. Push smallest to the right furthest.
+        int[] final = new int[k];
+        for (int i = 0; i < k; i++)
+        {
+            //finding the ith smallest index
+            for (int j = 0; j < arr.Length - 1 - i; j++)
+            {
+                if (arr[j] < arr[j + 1])
+                {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < k; i++)
+        {
+            final[i] = arr[arr.Length - 1 - i];
+        }
+        return final;
+    }
+
+    public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
+    {
+        if (root == null || root == p || root == q) return root;
+        TreeNode left = LowestCommonAncestor(root.left, p, q);
+        TreeNode right = LowestCommonAncestor(root.right, p, q);
+        return left == null ? right : right == null ? left : root;
+    }
+
+    public int MaximalRectangle(char[][] matrix) {
+        return 1;
+    }
+
+    public IList<int> RightSideView(TreeNode root) {
+        if (root==null) return new List<int>();
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        queue.Enqueue(null);
+        TreeNode prev = null;
+        List<int> final = new List<int>();
+        while (queue.Count!=0) {
+            TreeNode cur = queue.Dequeue();
+            if (cur==null) {
+                final.Add(prev.val);
+                if (queue.Count!=0)
+                    queue.Enqueue(null);
+            }
+            else {
+                if (cur.left!=null) queue.Enqueue(cur.left);
+                if (cur.right!=null) queue.Enqueue(cur.right);
+                prev = cur;
+            }
+        }
+        return final;
+    }
 
 }
 
