@@ -4535,6 +4535,23 @@ class Solution
         return false;
     }
 
+    public bool CheckSubarraySum(int[] nums, int k) {
+        if (k==0 )return false;
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        //(running sum at index mod k, index)
+        dict.Add(0, -1); //initially 0;
+        int running=0;
+        for(int i =0;i<nums.Length;i++) {
+            running+=nums[i];
+            running %=k;
+            if (dict.ContainsKey(running)) {
+                if (i - dict[running]>1) return true;
+            }
+            else dict.Add(running, i);
+        }
+        return false;
+    }
+
 }
 
 
