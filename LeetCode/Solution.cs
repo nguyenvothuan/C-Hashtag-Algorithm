@@ -4435,33 +4435,153 @@ class Solution
         return left == null ? right : right == null ? left : root;
     }
 
-    public int MaximalRectangle(char[][] matrix) {
+    public int MaximalRectangle(char[][] matrix)
+    {
         return 1;
     }
 
-    public IList<int> RightSideView(TreeNode root) {
-        if (root==null) return new List<int>();
+    public IList<int> RightSideView(TreeNode root)
+    {
+        if (root == null) return new List<int>();
         Queue<TreeNode> queue = new Queue<TreeNode>();
         queue.Enqueue(root);
         queue.Enqueue(null);
         TreeNode prev = null;
         List<int> final = new List<int>();
-        while (queue.Count!=0) {
+        while (queue.Count != 0)
+        {
             TreeNode cur = queue.Dequeue();
-            if (cur==null) {
+            if (cur == null)
+            {
                 final.Add(prev.val);
-                if (queue.Count!=0)
+                if (queue.Count != 0)
                     queue.Enqueue(null);
             }
-            else {
-                if (cur.left!=null) queue.Enqueue(cur.left);
-                if (cur.right!=null) queue.Enqueue(cur.right);
+            else
+            {
+                if (cur.left != null) queue.Enqueue(cur.left);
+                if (cur.right != null) queue.Enqueue(cur.right);
                 prev = cur;
             }
         }
         return final;
     }
 
+    public int FindTilt(TreeNode root)
+    {
+        if (root == null) return 0;
+        return Math.Abs(SubtreeSum(root.left) - SubtreeSum(root.right)) + FindTilt(root.left) + FindTilt(root.right);
+    }
+    int SubtreeSum(TreeNode root)
+    {
+        if (root == null) return 0;
+        return root.val + SubtreeSum(root.left) + SubtreeSum(root.right);
+    }
+
+    public bool IsCousins(TreeNode root, int x, int y)
+    {
+        //bfs for root
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        queue.Enqueue(null);
+        bool foundX = false, foundY = false;
+        bool justAdded = false;
+        while (queue.Count != 0)
+        {
+            TreeNode cur = queue.Dequeue();
+            if (cur == null) //end of a lv 
+            {
+                if (foundX ^ foundY) return false;
+                if (foundX && foundY) return true;
+                if (queue.Count != 0) queue.Enqueue(null);
+            }
+            else
+            {
+                if (!justAdded)
+                {
+                    if (cur.val == x) { foundX = true; justAdded = true; }
+                    else if (cur.val == y) { foundY = true; justAdded = true; }
+                    else justAdded = false;
+                }
+                else
+                {
+                    justAdded = false;
+                }
+
+                if (foundX && foundY) return true;
+
+                if (cur.left != null) queue.Enqueue(cur.left);
+                if (cur.right != null) queue.Enqueue(cur.right);
+            }
+        }
+        return foundX && foundY;
+    }
+
+    public bool LeafSimilar(TreeNode root1, TreeNode root2)
+    {
+        //https://leetcode.com/problems/leaf-similar-trees/
+        return false;
+    }
+
+    public int MinimumTotal(IList<IList<int>> triangle)
+    {
+        //https://leetcode.com/problems/triangle/
+        return 1;
+    }
+
+    public bool IsInterleave(string s1, string s2, string s3)
+    {
+        //https://leetcode.com/problems/interleaving-string/
+        return false;
+    }
+
+}
+
+
+public class NestedInteger
+{
+    List<NestedInteger> list = new List<NestedInteger>();
+    public NestedInteger() { }
+    public NestedInteger(int value)
+    {
+        NestedInteger cur = new NestedInteger(value);
+        list.Add(cur);
+    }
+    public bool IsInteger()
+    {
+        return false;
+    }
+    public int GetInteger() { return 1; }
+    public void SetInteger(int value) { }
+    public void Add(NestedInteger ni) { }
+    public IList<NestedInteger> GetList()
+    {
+        return list;
+    }
+}
+
+public class Nest
+{
+    public int DepthSum(IList<NestedInteger> nestedList)
+    {
+        int final = 0;
+        foreach (var nest in nestedList)
+        {
+            final += DepthSumUtil(nest, 1);
+        }
+        return final;
+    }
+    int DepthSumUtil(NestedInteger nest, int curDepth)
+    {
+        if (nest.IsInteger()) return curDepth * nest.GetInteger();
+        //if not a single integer, then it is a list
+        int sum = 0;
+        foreach (NestedInteger childnest in nest.GetList())
+        {
+            sum += DepthSumUtil(childnest, curDepth + 1);
+        }
+        return sum;
+    }
 }
 
 public class RandomWeightPicker
