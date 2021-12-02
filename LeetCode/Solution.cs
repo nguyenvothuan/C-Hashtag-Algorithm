@@ -4531,37 +4531,57 @@ class Solution
 
     public bool IsInterleave(string s1, string s2, string s3)
     {
+        if (s1.Length + s2.Length != s3.Length) return false;
         //https://leetcode.com/problems/interleaving-string/
-        return false;
+        int[,] dp = new int[s1.Length, s2.Length];//dp[i,j] is whether we can solve this problem if we choose to break at i and j.
+        // that being said, given s1[i, n-1] and s2[j, m-1] if we can create a target from s3[i+j, m+n-1];
+        //this util goes 1 character per recursion.
+        return IsInterleavingUtil(s1, 0, s2, 0, s3, 0, dp);
+    }
+    bool IsInterleavingUtil(string s1, int i, string s2, int j, string s3, int k, int[,] dp)
+    {
+        //start at i for s1, j s2, and i+j for s3 
+        if (i==s1.Length) return s2.Substring(j) == s3.Substring(k);
+        if (j==s2.Length) return s1.Substring(i) == s3.Substring(k);
+        if (dp[i,j]!=0) return dp[i,j]==1;
+        bool ans = (s1[i]==s3[k] && IsInterleavingUtil(s1, i+1, s2, j, s3, k+1, dp)) || (s2[j]==s3[k] && IsInterleavingUtil(s1, i, s2, j+1, s3, k+1 , dp));
+        dp[i, j] = ans? 1 : -1;
+        return ans;
     }
 
-    public bool CheckSubarraySum(int[] nums, int k) {
-        if (k==0 )return false;
+
+    public bool CheckSubarraySum(int[] nums, int k)
+    {
+        if (k == 0) return false;
         Dictionary<int, int> dict = new Dictionary<int, int>();
         //(running sum at index mod k, index)
         dict.Add(0, -1); //initially 0;
-        int running=0;
-        for(int i =0;i<nums.Length;i++) {
-            running+=nums[i];
-            running %=k;
-            if (dict.ContainsKey(running)) {
-                if (i - dict[running]>1) return true;
+        int running = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            running += nums[i];
+            running %= k;
+            if (dict.ContainsKey(running))
+            {
+                if (i - dict[running] > 1) return true;
             }
             else dict.Add(running, i);
         }
         return false;
     }
 
-    public ListNode OddEvenList(ListNode head) {
-        if (head==null) return null;
+    public ListNode OddEvenList(ListNode head)
+    {
+        if (head == null) return null;
         ListNode odd = head;
         ListNode evenHead = head.next;
         ListNode even = evenHead;
-        while (even!=null && even.next!=null) {
-            odd.next = odd.next.next;  
+        while (even != null && even.next != null)
+        {
+            odd.next = odd.next.next;
             even.next = even.next.next;
             odd = odd.next;
-            even=even.next;
+            even = even.next;
         }
         odd.next = evenHead;
         return head;

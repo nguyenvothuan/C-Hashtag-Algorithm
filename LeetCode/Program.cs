@@ -321,12 +321,13 @@ namespace LeetCode
             // var test = sol.RightSideView(root);
             // foreach(int i in test)
             //     Console.Write(i+" ");
-            var test = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
-            var res = sol.OddEvenList(test);
-            while (res!=null) {
-                Console.Write(res.val +" ");
-                res = res.next;
-            }
+            // var test = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+            // var res = sol.OddEvenList(test);
+            // while (res!=null) {
+            //     Console.Write(res.val +" ");
+            //     res = res.next;
+            // }
+            Console.Write(sol.IsInterleave("aabcc", "dbbca", "aadbbcbcac"));
         }
 
     }
