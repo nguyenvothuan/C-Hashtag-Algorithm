@@ -317,10 +317,16 @@ namespace LeetCode
             // var test = sol.FindKSmallest(3,new int[8]{1,9,2,4,5,6,3,7});
             // foreach (int i in test)
             //     Console.WriteLine(i);
-            TreeNode root =new TreeNode(1,new TreeNode(2, null, new TreeNode(5)), new TreeNode(3, null, new TreeNode(4)));
-            var test = sol.RightSideView(root);
-            foreach(int i in test)
-                Console.Write(i+" ");
+            // TreeNode root =new TreeNode(1,new TreeNode(2, null, new TreeNode(5)), new TreeNode(3, null, new TreeNode(4)));
+            // var test = sol.RightSideView(root);
+            // foreach(int i in test)
+            //     Console.Write(i+" ");
+            var test = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+            var res = sol.OddEvenList(test);
+            while (res!=null) {
+                Console.Write(res.val +" ");
+                res = res.next;
+            }
         }
 
     }

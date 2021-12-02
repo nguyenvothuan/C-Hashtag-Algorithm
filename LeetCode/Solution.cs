@@ -4552,7 +4552,20 @@ class Solution
         return false;
     }
 
-    
+    public ListNode OddEvenList(ListNode head) {
+        if (head==null) return null;
+        ListNode odd = head;
+        ListNode evenHead = head.next;
+        ListNode even = evenHead;
+        while (even!=null && even.next!=null) {
+            odd.next = odd.next.next;  
+            even.next = even.next.next;
+            odd = odd.next;
+            even=even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
 
 }
 
@@ -4635,7 +4648,7 @@ public class RandomWeightPicker
 
     public int PickIndex()
     {
-        int index = seed.next(0, sum + 1);
+        int index = seed.Next(0, sum + 1);
         int l = 0; int r = fromTo.Length - 1;
         while (r > l)
         {
