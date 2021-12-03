@@ -327,7 +327,8 @@ namespace LeetCode
             //     Console.Write(res.val +" ");
             //     res = res.next;
             // }
-            Console.Write(sol.IsInterleave("aabcc", "dbbca", "aadbbcbcac"));
+            // Console.Write(sol.IsInterleave("aabcc", "dbbca", "aadbbcbcac"));
+            Console.Write(sol.MaxProduct(new int[3]{-2,-1,-1}));
         }
 
     }

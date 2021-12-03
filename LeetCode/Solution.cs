@@ -4541,11 +4541,11 @@ class Solution
     bool IsInterleavingUtil(string s1, int i, string s2, int j, string s3, int k, int[,] dp)
     {
         //start at i for s1, j s2, and i+j for s3 
-        if (i==s1.Length) return s2.Substring(j) == s3.Substring(k);
-        if (j==s2.Length) return s1.Substring(i) == s3.Substring(k);
-        if (dp[i,j]!=0) return dp[i,j]==1;
-        bool ans = (s1[i]==s3[k] && IsInterleavingUtil(s1, i+1, s2, j, s3, k+1, dp)) || (s2[j]==s3[k] && IsInterleavingUtil(s1, i, s2, j+1, s3, k+1 , dp));
-        dp[i, j] = ans? 1 : -1;
+        if (i == s1.Length) return s2.Substring(j) == s3.Substring(k);
+        if (j == s2.Length) return s1.Substring(i) == s3.Substring(k);
+        if (dp[i, j] != 0) return dp[i, j] == 1;
+        bool ans = (s1[i] == s3[k] && IsInterleavingUtil(s1, i + 1, s2, j, s3, k + 1, dp)) || (s2[j] == s3[k] && IsInterleavingUtil(s1, i, s2, j + 1, s3, k + 1, dp));
+        dp[i, j] = ans ? 1 : -1;
         return ans;
     }
 
@@ -4585,6 +4585,32 @@ class Solution
         }
         odd.next = evenHead;
         return head;
+    }
+
+    public int MaxProduct(int[] nums)
+    {
+        if (nums.Length == 1) return nums[0];
+        int[] dpPos = new int[nums.Length]; //dp[i] = largest product that must end at i
+        int[] dpNeg = new int[nums.Length]; //in case nums[i] is negative, we will want dp[i-1] to be  negative too. SO for this one, we store the smallest product ever that end at i
+        for(int i =0;i<nums.Length;i++)
+        {
+            dpPos[i] = nums[i];
+            dpNeg[i]=nums[i];
+        }
+        int max = dpPos[0];
+        bool hasZero = nums[0] == 0;
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] == 0) hasZero = true;
+            if (nums[i - 1] == 0 || nums[i] == 0){ dpNeg[i] =  nums[i];dpPos[i] =nums[i];}
+            else
+            {//let's not take 0 into account
+                dpPos[i] = Math.Max(nums[i], Math.Max(dpPos[i - 1] * nums[i], dpNeg[i - 1] * nums[i]));
+                dpNeg[i] = Math.Min(nums[i], Math.Min(dpPos[i - 1] * nums[i], dpNeg[i - 1] * nums[i]));
+            }
+            max = Math.Max(max, dpPos[i]);
+        }
+        return hasZero? Math.Max(0,max):max;
     }
 
 }
