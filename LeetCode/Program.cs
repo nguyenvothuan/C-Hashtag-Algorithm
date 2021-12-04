@@ -330,7 +330,16 @@ namespace LeetCode
             // Console.Write(sol.IsInterleave("aabcc", "dbbca", "aadbbcbcac"));
             // Console.Write(sol.MaxProduct(new int[3]{-2,-1,-1}));
             // Console.Write(sol.CompareVersion("7.5.2", "7.5.2.4"));
-            Console.Write(sol.FindDuplicate(new int[5]{1,3,4,2,2}));
+            // Console.Write(sol.FindDuplicate(new int[5]{1,3,4,2,2}));
+            // List<IList<int>> triangle = new List<IList<int>>();
+            // triangle.Add(new List<int>(new int[1]{2}));
+            // triangle.Add(new List<int>(new int[2]{3,4}));
+            // triangle.Add(new List<int>(new int[3]{6,5,7}));
+            // triangle.Add(new List<int>(new int[4]{4,1,8,3}));
+            // Console.Write(sol.MinimumTotal(triangle));
+            TreeNode t1 = new TreeNode(3, new TreeNode(5,new TreeNode(6), new TreeNode(2, new TreeNode(7), new TreeNode(4))), new TreeNode(1, new TreeNode(9), new TreeNode(8)));
+            TreeNode t2 = new TreeNode(3, new TreeNode(5, new TreeNode(6), new TreeNode(7)), new TreeNode(1, new TreeNode(4), new TreeNode(2, new TreeNode(9), new TreeNode(8))));
+            Console.Write(sol.LeafSimilar(t1, t2));
         }
 
     }

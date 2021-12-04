@@ -4519,14 +4519,58 @@ class Solution
 
     public bool LeafSimilar(TreeNode root1, TreeNode root2)
     {
+        if (root1==root2) return true;
         //https://leetcode.com/problems/leaf-similar-trees/
-        return false;
+        List<int> l1 = LeafSequence(root1), l2 = LeafSequence(root2);
+        if (l1.Count!=l2.Count) return false;
+        for(int i =0;i<l1.Count;i++)
+            if (l1[i]!=l2[i]) 
+                return false;
+        return true;
+    }
+    List<int> LeafSequence(TreeNode root)
+    {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.Push(root);
+        List<int> final = new List<int>();
+        while(stack.Count!=0){
+            var cur = stack.Pop();
+            var children = Children(cur);
+            if (children==null) final.Add(cur.val);
+            else {
+                foreach (var child in children) stack.Push(child);
+            }
+        }
+        return final;
+    }
+    TreeNode[] Children(TreeNode root)
+    {
+        if (root == null || (root.left == null && root.right == null)) return null;
+        if (root.left == null) return new TreeNode[1] { root.right };
+        if (root.right == null) return new TreeNode[1] { root.left };
+        return new TreeNode[2]{root.left, root.right};
     }
 
     public int MinimumTotal(IList<IList<int>> triangle)
     {
+        if (triangle.Count == 1) return triangle[0][0];
         //https://leetcode.com/problems/triangle/
-        return 1;
+        int[][] dp = new int[triangle.Count][];
+        for (int i = 0; i < triangle.Count; i++)
+        {
+            dp[i] = new int[i + 1];
+            Array.Fill(dp[i], int.MaxValue);
+        }
+        MinimumTotalUtil(0, 0, dp, triangle);
+        return dp[0][0];
+    }
+    int MinimumTotalUtil(int i, int j, int[][] dp, IList<IList<int>> triangle)
+    {
+        if (j > i || i >= dp.Length) return int.MaxValue;
+        if (dp[i][j] != int.MaxValue) return dp[i][j];
+        if (i == dp.Length - 1) return triangle[i][j];
+        dp[i][j] = triangle[i][j] + Math.Min(MinimumTotalUtil(i + 1, j, dp, triangle), MinimumTotalUtil(i + 1, j + 1, dp, triangle));
+        return dp[i][j];
     }
 
     public bool IsInterleave(string s1, string s2, string s3)
@@ -4592,17 +4636,17 @@ class Solution
         if (nums.Length == 1) return nums[0];
         int[] dpPos = new int[nums.Length]; //dp[i] = largest product that must end at i
         int[] dpNeg = new int[nums.Length]; //in case nums[i] is negative, we will want dp[i-1] to be  negative too. SO for this one, we store the smallest product ever that end at i
-        for(int i =0;i<nums.Length;i++)
+        for (int i = 0; i < nums.Length; i++)
         {
             dpPos[i] = nums[i];
-            dpNeg[i]=nums[i];
+            dpNeg[i] = nums[i];
         }
         int max = dpPos[0];
         bool hasZero = nums[0] == 0;
         for (int i = 1; i < nums.Length; i++)
         {
             if (nums[i] == 0) hasZero = true;
-            if (nums[i - 1] == 0 || nums[i] == 0){ dpNeg[i] =  nums[i];dpPos[i] =nums[i];}
+            if (nums[i - 1] == 0 || nums[i] == 0) { dpNeg[i] = nums[i]; dpPos[i] = nums[i]; }
             else
             {//let's not take 0 into account
                 dpPos[i] = Math.Max(nums[i], Math.Max(dpPos[i - 1] * nums[i], dpNeg[i - 1] * nums[i]));
@@ -4610,33 +4654,59 @@ class Solution
             }
             max = Math.Max(max, dpPos[i]);
         }
-        return hasZero? Math.Max(0,max):max;
+        return hasZero ? Math.Max(0, max) : max;
     }
-    public int CompareVersion(string version1, string version2) {
-        int cur1=0;
-        int cur2=0;
-        int p1=0, p2=0;
-        while (p1<version1.Length && p2<version2.Length) {
-            int last1 = cur1; int last2=cur2;
-            while (p1<version1.Length &&version1[p1]!='.') p1++;//after this p1 is pointing to .
-            while (p2<version2.Length &&version2[p2]!='.') p2++;//after this p1 is pointing to .
-            int res = String.Compare(version1.Substring(last1, cur1-last1),version2.Substring(last2, cur2-last2));
-            if (res!=0) return res;
+    public int CompareVersion(string version1, string version2)
+    {
+        int cur1 = 0;
+        int cur2 = 0;
+        int p1 = 0, p2 = 0;
+        while (p1 < version1.Length && p2 < version2.Length)
+        {
+            int last1 = cur1; int last2 = cur2;
+            while (p1 < version1.Length && version1[p1] != '.') p1++;//after this p1 is pointing to .
+            while (p2 < version2.Length && version2[p2] != '.') p2++;//after this p1 is pointing to .
+            int res = String.Compare(version1.Substring(last1, cur1 - last1), version2.Substring(last2, cur2 - last2));
+            if (res != 0) return res;
             p1++; p2++;
         }
-        if(p1==version1.Length && p2==version2.Length) return 0;
-        return p1==version1.Length ? -1 : 1;
+        if (p1 == version1.Length && p2 == version2.Length) return 0;
+        return p1 == version1.Length ? -1 : 1;
     }
 
-    public int FindDuplicate(int[] nums) {
+    public int FindDuplicate(int[] nums)
+    {
         int XOR = 0;
-        int XORshouldbe =0;
-        foreach (int i in nums) XOR ^=i;
-        for(int i=1;i<=nums.Length;i++) XORshouldbe ^= i;
-        return XORshouldbe^XOR;
+        int XORshouldbe = 0;
+        foreach (int i in nums) XOR ^= i;
+        for (int i = 1; i <= nums.Length; i++) XORshouldbe ^= i;
+        return XORshouldbe ^ XOR;
     }
 
-    
+    public int ShipWithinDays(int[] weights, int days)
+    {
+        //https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+        int left = 0, right = 0;
+        for (int i = 0; i < weights.Length; i++)
+        {
+            right += weights[i];
+            left = Math.Max(left, weights[i]);
+        }
+        while (left < right)
+        {
+            int mid = (left + right) / 2, need = 1, cur = 0;
+            foreach (int weight in weights)
+            {
+                if (cur + weight > mid) { need += 1; cur = 0; }//once the cargo exceeds the ship's load
+                cur += weight;
+            }
+            if (need > days) left = mid + 1;
+            else right = mid;
+        }
+        return left;
+    }
+
+
 
 }
 
