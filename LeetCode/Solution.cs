@@ -4710,28 +4710,129 @@ class Solution
 
     bool IsVowel(char chr)
     {
-        return chr == 'a' || chr == 'e' || chr == 'i' || chr == 'o' || chr == 'u' ||chr == 'A' || chr == 'E' || chr == 'I' || chr == 'O' || chr == 'U';
+        return chr == 'a' || chr == 'e' || chr == 'i' || chr == 'o' || chr == 'u' || chr == 'A' || chr == 'E' || chr == 'I' || chr == 'O' || chr == 'U';
     }
 
     public string ReverseVowels(string s)
     {
-        if (s.Length==1) return s;
-        if (s.Length==2) {
-            if (IsVowel(s[0]) && IsVowel(s[1])) return new string(new char[2]{s[1], s[0]});
+        if (s.Length == 1) return s;
+        if (s.Length == 2)
+        {
+            if (IsVowel(s[0]) && IsVowel(s[1])) return new string(new char[2] { s[1], s[0] });
             return s;
         }
 
         StringBuilder buffer = new StringBuilder(s);
-        int left =0, right = s.Length-1;
-        while (right>left){
-            while (left<right && !IsVowel(s[left]))left++;
-            while (right>left && !IsVowel(s[right]))right--;
-            char temp = buffer[left]; buffer[left++] = buffer[right]; buffer[right--] = temp; 
+        int left = 0, right = s.Length - 1;
+        while (right > left)
+        {
+            while (left < right && !IsVowel(s[left])) left++;
+            while (right > left && !IsVowel(s[right])) right--;
+            char temp = buffer[left]; buffer[left++] = buffer[right]; buffer[right--] = temp;
         }
         return buffer.ToString();
     }
 
-    
+    public string PushDominoes(string dominoes)
+    {
+        //https://leetcode.com/problems/push-dominoes/
+        return "";
+
+    }
+    public int FindPeakElement(int[] nums)
+    {
+        //https://leetcode.com/problems/find-peak-element/
+        return 0;
+    }
+
+    public int CountNodes(TreeNode root)
+    {
+        //https://leetcode.com/problems/count-complete-tree-nodes/
+        return 01;
+    }
+
+    public string Translate(string test)
+    {
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < test.Length; i++)
+        {
+            if (IsVowel(test[i]) && i > 0 && !IsVowel(test[i - 1]))
+            {
+                buffer.Append("av");
+
+            }
+            buffer.Append(test[i]);
+        }
+        return buffer.ToString();
+    }
+
+    public int FindNetworkEndpoint(int startNodeId, int[] fromIds, int[] toIds)
+    {
+        Dictionary<int, List<int>> adj = new Dictionary<int, List<int>>();
+        for (int i = 0; i < fromIds.Length; i++)
+        {
+            int from = fromIds[i], to = toIds[i];
+            if (adj.ContainsKey(from)) adj[i].Add(to);
+            else adj.Add(from, new List<int>(new int[1] { to }));
+        }
+        return DFSUtil(adj, new List<int>(), startNodeId);
+    }
+    int DFSUtil(Dictionary<int, List<int>> adj, List<int> visited, int cur)
+    {
+        //from current, visit all of its neighbors, if all are visited, return itself. Else, repeat the dfs for each neighbor, if a neighor is spotted to be an endpoint, return that neighbor
+        if (!adj.ContainsKey(cur)) return -cur;
+        visited.Add(cur);
+        bool flag = false;
+        int waiting = -1;
+        foreach (int i in adj[cur]){
+            if (!visited.Contains(i)){
+                flag = true;
+                int ran = DFSUtil(adj, visited, i);
+                if (ran<0) return -ran;
+                if (waiting<0) waiting=ran;
+            }
+        }
+        if (!flag) return cur;
+        //here no node is spotted means this is a circle
+        return waiting;
+
+
+    }
+
+    public int FindSmallestInterval(int[] numbers) {
+        Array.Sort(numbers);
+        int min = int.MaxValue;
+        for(int i =1;i<numbers.Length;i++) {
+            if (numbers[i]-numbers[i-1]<min)
+                min = numbers[i] - numbers[i-1];
+        }
+        return min;
+    }
+
+    public int ComputeJoinPoint(int s1, int s2) {
+        if (s1==s2) return s1;
+        while(s1!=s2) {
+            if (s1==0 || s2==0) return -1;// no way
+            if (s1>s2) {
+                s2 = GetSum(s2);
+            } else {
+                s1 = GetSum(s1);
+            }
+        }
+        return s1;
+    }
+
+    public int GetSum(int num) {
+        int sum =num;
+        while (num>0) {
+            sum+= num%10;
+            num/=10;
+        }
+        sum+=num ;
+        return sum;
+    }
+
+
 }
 
 

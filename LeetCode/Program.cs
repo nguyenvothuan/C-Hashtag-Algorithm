@@ -340,7 +340,14 @@ namespace LeetCode
             // TreeNode t1 = new TreeNode(3, new TreeNode(5,new TreeNode(6), new TreeNode(2, new TreeNode(7), new TreeNode(4))), new TreeNode(1, new TreeNode(9), new TreeNode(8)));
             // TreeNode t2 = new TreeNode(3, new TreeNode(5, new TreeNode(6), new TreeNode(7)), new TreeNode(1, new TreeNode(4), new TreeNode(2, new TreeNode(9), new TreeNode(8))));
             // Console.Write(sol.LeafSimilar(t1, t2));
-            Console.Write(sol.ReverseVowels("aA"));
+            // Console.Write(sol.ReverseVowels("aA"));
+            // Console.Write(sol.Translate("hello, secret meeting tongith"));
+            // int[] from = {4,9,6,1};
+            // int[] to = {9,5,1,4};
+            // Console.Write(sol.FindNetworkEndpoint(4, from, to));
+            // int[] test = {1,6,4,8,2};
+            // Console.Write(sol.FindSmallestInterval(test));
+            Console.Write(sol.ComputeJoinPoint(471, 480));
         }
 
     }
