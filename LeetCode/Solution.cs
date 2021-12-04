@@ -4735,14 +4735,50 @@ class Solution
 
     public string PushDominoes(string dominoes)
     {
-        //https://leetcode.com/problems/push-dominoes/
+        //TODO: https://leetcode.com/problems/push-dominoes/
         return "";
 
     }
     public int FindPeakElement(int[] nums)
     {
         //https://leetcode.com/problems/find-peak-element/
-        return 0;
+        int left = 0, right = nums.Length - 1;
+        while (nums[left + 1] > nums[left]) { left++; if (left == nums.Length-1) return nums.Length - 1; }
+        while (nums[right - 1] > nums[right]){ right--; if (right==0) return 0;}
+        while (left < right)
+        {
+            int mid = (left + right) / 2;
+            if (nums[mid] > nums[mid - 1])
+            {
+                if (nums[mid] > nums[mid + 1]) return mid;
+                else left = mid;
+            }
+            else
+            {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    
+
+    public bool IsNumber(string str)
+    {
+        bool flagDot = str[0] == '.';
+        for (int i = 1; i < str.Length; i++)
+        {
+            if (str[i] == '.')
+            {
+                if (flagDot) return false;
+                else flagDot = true;
+            }
+            else
+            {
+                if (str[i] > '9' || str[i] < '0') return false;
+            }
+        }
+        return true;
     }
 
     public int CountNodes(TreeNode root)
@@ -4784,12 +4820,14 @@ class Solution
         visited.Add(cur);
         bool flag = false;
         int waiting = -1;
-        foreach (int i in adj[cur]){
-            if (!visited.Contains(i)){
+        foreach (int i in adj[cur])
+        {
+            if (!visited.Contains(i))
+            {
                 flag = true;
                 int ran = DFSUtil(adj, visited, i);
-                if (ran<0) return -ran;
-                if (waiting<0) waiting=ran;
+                if (ran < 0) return -ran;
+                if (waiting < 0) waiting = ran;
             }
         }
         if (!flag) return cur;
@@ -4799,36 +4837,45 @@ class Solution
 
     }
 
-    public int FindSmallestInterval(int[] numbers) {
+    public int FindSmallestInterval(int[] numbers)
+    {
         Array.Sort(numbers);
         int min = int.MaxValue;
-        for(int i =1;i<numbers.Length;i++) {
-            if (numbers[i]-numbers[i-1]<min)
-                min = numbers[i] - numbers[i-1];
+        for (int i = 1; i < numbers.Length; i++)
+        {
+            if (numbers[i] - numbers[i - 1] < min)
+                min = numbers[i] - numbers[i - 1];
         }
         return min;
     }
 
-    public int ComputeJoinPoint(int s1, int s2) {
-        if (s1==s2) return s1;
-        while(s1!=s2) {
-            if (s1==0 || s2==0) return -1;// no way
-            if (s1>s2) {
+    public int ComputeJoinPoint(int s1, int s2)
+    {
+        if (s1 == s2) return s1;
+        while (s1 != s2)
+        {
+            if (s1 == 0 || s2 == 0) return -1;// no way
+            if (s1 > s2)
+            {
                 s2 = GetSum(s2);
-            } else {
+            }
+            else
+            {
                 s1 = GetSum(s1);
             }
         }
         return s1;
     }
 
-    public int GetSum(int num) {
-        int sum =num;
-        while (num>0) {
-            sum+= num%10;
-            num/=10;
+    public int GetSum(int num)
+    {
+        int sum = num;
+        while (num > 0)
+        {
+            sum += num % 10;
+            num /= 10;
         }
-        sum+=num ;
+        sum += num;
         return sum;
     }
 

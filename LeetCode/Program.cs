@@ -347,7 +347,8 @@ namespace LeetCode
             // Console.Write(sol.FindNetworkEndpoint(4, from, to));
             // int[] test = {1,6,4,8,2};
             // Console.Write(sol.FindSmallestInterval(test));
-            Console.Write(sol.ComputeJoinPoint(471, 480));
+            // Console.Write(sol.IsNumber("123.-"));
+            Console.Write(sol.FindPeakElement(new int[9]{8,1,3,4,5,6,7,8,9}));
         }
 
     }
