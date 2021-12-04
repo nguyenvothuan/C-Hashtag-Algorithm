@@ -328,7 +328,9 @@ namespace LeetCode
             //     res = res.next;
             // }
             // Console.Write(sol.IsInterleave("aabcc", "dbbca", "aadbbcbcac"));
-            Console.Write(sol.MaxProduct(new int[3]{-2,-1,-1}));
+            // Console.Write(sol.MaxProduct(new int[3]{-2,-1,-1}));
+            // Console.Write(sol.CompareVersion("7.5.2", "7.5.2.4"));
+            Console.Write(sol.FindDuplicate(new int[5]{1,3,4,2,2}));
         }
 
     }

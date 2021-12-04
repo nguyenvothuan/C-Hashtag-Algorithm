@@ -4612,6 +4612,31 @@ class Solution
         }
         return hasZero? Math.Max(0,max):max;
     }
+    public int CompareVersion(string version1, string version2) {
+        int cur1=0;
+        int cur2=0;
+        int p1=0, p2=0;
+        while (p1<version1.Length && p2<version2.Length) {
+            int last1 = cur1; int last2=cur2;
+            while (p1<version1.Length &&version1[p1]!='.') p1++;//after this p1 is pointing to .
+            while (p2<version2.Length &&version2[p2]!='.') p2++;//after this p1 is pointing to .
+            int res = String.Compare(version1.Substring(last1, cur1-last1),version2.Substring(last2, cur2-last2));
+            if (res!=0) return res;
+            p1++; p2++;
+        }
+        if(p1==version1.Length && p2==version2.Length) return 0;
+        return p1==version1.Length ? -1 : 1;
+    }
+
+    public int FindDuplicate(int[] nums) {
+        int XOR = 0;
+        int XORshouldbe =0;
+        foreach (int i in nums) XOR ^=i;
+        for(int i=1;i<=nums.Length;i++) XORshouldbe ^= i;
+        return XORshouldbe^XOR;
+    }
+
+    
 
 }
 
