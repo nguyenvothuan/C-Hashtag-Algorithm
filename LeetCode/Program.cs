@@ -337,9 +337,10 @@ namespace LeetCode
             // triangle.Add(new List<int>(new int[3]{6,5,7}));
             // triangle.Add(new List<int>(new int[4]{4,1,8,3}));
             // Console.Write(sol.MinimumTotal(triangle));
-            TreeNode t1 = new TreeNode(3, new TreeNode(5,new TreeNode(6), new TreeNode(2, new TreeNode(7), new TreeNode(4))), new TreeNode(1, new TreeNode(9), new TreeNode(8)));
-            TreeNode t2 = new TreeNode(3, new TreeNode(5, new TreeNode(6), new TreeNode(7)), new TreeNode(1, new TreeNode(4), new TreeNode(2, new TreeNode(9), new TreeNode(8))));
-            Console.Write(sol.LeafSimilar(t1, t2));
+            // TreeNode t1 = new TreeNode(3, new TreeNode(5,new TreeNode(6), new TreeNode(2, new TreeNode(7), new TreeNode(4))), new TreeNode(1, new TreeNode(9), new TreeNode(8)));
+            // TreeNode t2 = new TreeNode(3, new TreeNode(5, new TreeNode(6), new TreeNode(7)), new TreeNode(1, new TreeNode(4), new TreeNode(2, new TreeNode(9), new TreeNode(8))));
+            // Console.Write(sol.LeafSimilar(t1, t2));
+            Console.Write(sol.ReverseVowels("aA"));
         }
 
     }

@@ -4519,12 +4519,12 @@ class Solution
 
     public bool LeafSimilar(TreeNode root1, TreeNode root2)
     {
-        if (root1==root2) return true;
+        if (root1 == root2) return true;
         //https://leetcode.com/problems/leaf-similar-trees/
         List<int> l1 = LeafSequence(root1), l2 = LeafSequence(root2);
-        if (l1.Count!=l2.Count) return false;
-        for(int i =0;i<l1.Count;i++)
-            if (l1[i]!=l2[i]) 
+        if (l1.Count != l2.Count) return false;
+        for (int i = 0; i < l1.Count; i++)
+            if (l1[i] != l2[i])
                 return false;
         return true;
     }
@@ -4533,11 +4533,13 @@ class Solution
         Stack<TreeNode> stack = new Stack<TreeNode>();
         stack.Push(root);
         List<int> final = new List<int>();
-        while(stack.Count!=0){
+        while (stack.Count != 0)
+        {
             var cur = stack.Pop();
             var children = Children(cur);
-            if (children==null) final.Add(cur.val);
-            else {
+            if (children == null) final.Add(cur.val);
+            else
+            {
                 foreach (var child in children) stack.Push(child);
             }
         }
@@ -4548,7 +4550,7 @@ class Solution
         if (root == null || (root.left == null && root.right == null)) return null;
         if (root.left == null) return new TreeNode[1] { root.right };
         if (root.right == null) return new TreeNode[1] { root.left };
-        return new TreeNode[2]{root.left, root.right};
+        return new TreeNode[2] { root.left, root.right };
     }
 
     public int MinimumTotal(IList<IList<int>> triangle)
@@ -4706,8 +4708,30 @@ class Solution
         return left;
     }
 
+    bool IsVowel(char chr)
+    {
+        return chr == 'a' || chr == 'e' || chr == 'i' || chr == 'o' || chr == 'u' ||chr == 'A' || chr == 'E' || chr == 'I' || chr == 'O' || chr == 'U';
+    }
 
+    public string ReverseVowels(string s)
+    {
+        if (s.Length==1) return s;
+        if (s.Length==2) {
+            if (IsVowel(s[0]) && IsVowel(s[1])) return new string(new char[2]{s[1], s[0]});
+            return s;
+        }
 
+        StringBuilder buffer = new StringBuilder(s);
+        int left =0, right = s.Length-1;
+        while (right>left){
+            while (left<right && !IsVowel(s[left]))left++;
+            while (right>left && !IsVowel(s[right]))right--;
+            char temp = buffer[left]; buffer[left++] = buffer[right]; buffer[right--] = temp; 
+        }
+        return buffer.ToString();
+    }
+
+    
 }
 
 
