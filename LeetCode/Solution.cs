@@ -4877,7 +4877,45 @@ class Solution
     public int Rob(TreeNode root)
     {
         //https://leetcode.com/problems/house-robber-iii/
-        return 1;
+        Dictionary<TreeNode, int> withThisNode = new Dictionary<TreeNode, int>();
+        Dictionary<TreeNode, int> withoutThisNode = new Dictionary<TreeNode, int>();
+        return Math.Max(RobWithUtil(withThisNode, withoutThisNode, root), RobWithoutUtil(withThisNode, withoutThisNode, root));
+    }
+    int RobWithUtil(Dictionary<TreeNode, int> withThisNode, Dictionary<TreeNode, int> withoutThisNode, TreeNode cur)
+    {
+        if (cur == null) return 0;
+        if (!withThisNode.ContainsKey(cur))
+        {
+            int withoutLeftWithoutRight = cur.val + RobWithoutUtil(withThisNode, withoutThisNode, cur.left) + RobWithoutUtil(withThisNode, withoutThisNode, cur.right);
+            withThisNode.Add(cur, withoutLeftWithoutRight);
+        }
+        return withThisNode[cur];
+    }
+    int RobWithoutUtil(Dictionary<TreeNode, int> withThisNode, Dictionary<TreeNode, int> withoutThisNode, TreeNode cur)
+    {
+        if (cur == null) return 0;
+        if (!withoutThisNode.ContainsKey(cur))
+        {
+            int withLeftWithRight = RobWithUtil(withThisNode, withoutThisNode, cur.left) + RobWithUtil(withThisNode, withoutThisNode, cur.right);
+            int withoutLeftWithRight = RobWithoutUtil(withThisNode, withoutThisNode, cur.left) + RobWithUtil(withThisNode, withoutThisNode, cur.right);
+            int withoutRightWithLeft = RobWithoutUtil(withThisNode, withoutThisNode, cur.right) + RobWithUtil(withThisNode, withoutThisNode, cur.left);
+            withoutThisNode.Add(cur,Math.Max(withLeftWithRight, Math.Max(withoutLeftWithRight, withoutRightWithLeft)));
+        }
+        return withoutThisNode[cur];
+    }
+
+    public int MoreElegantRob(TreeNode root) {
+        int[] num = DFSRobUtil(root);
+        return Math.Max(num[0], num[1]);
+    }
+    int[] DFSRobUtil(TreeNode root) {
+        if (root==null) return new int[2];
+        int[] left = DFSRobUtil(root.left);
+        int[] right = DFSRobUtil(root.right);
+        int[] res= new int[2];
+        res[0] = left[1]+right[1]+root.val;
+        res[1] = Math.Max(left[0], left[1]) + Math.Max(right[0], right[1]);
+        return res;
     }
 
     public int[] FindEvenNumbers(int[] digits)
@@ -4958,38 +4996,44 @@ class Solution
         TreeNode lca = LowestCommonAncestor(root, startValue, destValue);
         //search both side of root to look for start and end;
         //if end is in the right reverse a and prepend a to b, else set flag to false, as flag is false, reverse b and prepend to a
-        if (lca.val==startValue) {
+        if (lca.val == startValue)
+        {
             //search in left
             StringBuilder buffer = new StringBuilder();
-            string ifDestInLeft =  PathFromRootToValue(new StringBuilder(), destValue, lca.left);
-            if (ifDestInLeft==null) {
+            string ifDestInLeft = PathFromRootToValue(new StringBuilder(), destValue, lca.left);
+            if (ifDestInLeft == null)
+            {
                 string destInRight = PathFromRootToValue(new StringBuilder(), destValue, lca.right);
                 buffer.Append("R");
                 buffer.Append(destInRight);
                 return buffer.ToString();
             }
-            else {
+            else
+            {
                 buffer.Append("L");
                 buffer.Append(ifDestInLeft);
                 return buffer.ToString();
             }
         }
-        if (lca.val==destValue) {
+        if (lca.val == destValue)
+        {
             //search left for start
             StringBuilder buffer = new StringBuilder();
             buffer.Append("U"); //start now is not root so it must go up at least 1 node to be at root
-            string ifStartInLeft = PathFromRootToValue(new StringBuilder(), startValue, lca.left) ;
-            if (ifStartInLeft==null) {
+            string ifStartInLeft = PathFromRootToValue(new StringBuilder(), startValue, lca.left);
+            if (ifStartInLeft == null)
+            {
                 string startInRight = PathFromRootToValue(new StringBuilder(), startValue, lca.right);
-                foreach (char chr in  startInRight) buffer.Append("U");
+                foreach (char chr in startInRight) buffer.Append("U");
                 return buffer.ToString();
             }
-            else {
-                foreach(char chr in ifStartInLeft) buffer.Append("U");
+            else
+            {
+                foreach (char chr in ifStartInLeft) buffer.Append("U");
                 return buffer.ToString();
             }
         }
-        
+
         string checkIfAIsInTheLeft = PathFromRootToValue(new StringBuilder(), startValue, lca.left);
         if (checkIfAIsInTheLeft == null)
         {
@@ -4997,7 +5041,7 @@ class Solution
             string rightBranchSearchForA = PathFromRootToValue(new StringBuilder(), startValue, lca.right);
             StringBuilder buffer = new StringBuilder();
             buffer.Append("U");//had to go down to enter right branch
-            foreach(char chr in rightBranchSearchForA) buffer.Append("U");
+            foreach (char chr in rightBranchSearchForA) buffer.Append("U");
             buffer.Append("L");
             buffer.Append(PathFromRootToValue(new StringBuilder(), destValue, lca.left));
             return buffer.ToString();
@@ -5044,13 +5088,16 @@ class Solution
         return left == null ? right : right == null ? left : root;//if both left and right are nonnull mean each of them contains either a or b return root.
     }
 
-    public int[][] ValidArrangement(int[][] pairs) {
+    public int[][] ValidArrangement(int[][] pairs)
+    {
         //https://leetcode.com/contest/weekly-contest-270/problems/valid-arrangement-of-pairs/
         List<int[]> adj = new List<int[]>();
-        for (int i =0;i<pairs.Length;i++) {
+        for (int i = 0; i < pairs.Length; i++)
+        {
             List<int> curAdjOfI = new List<int>();
-            for(int j=0;j<pairs.Length;j++) {
-                if (pairs[i][1]==pairs[j][0]) 
+            for (int j = 0; j < pairs.Length; j++)
+            {
+                if (pairs[i][1] == pairs[j][0])
                     curAdjOfI.Add(j);
             }
             adj.Add(curAdjOfI.ToArray());
