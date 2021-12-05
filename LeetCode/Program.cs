@@ -348,7 +348,34 @@ namespace LeetCode
             // int[] test = {1,6,4,8,2};
             // Console.Write(sol.FindSmallestInterval(test));
             // Console.Write(sol.IsNumber("123.-"));
-            Console.Write(sol.FindPeakElement(new int[9]{8,1,3,4,5,6,7,8,9}));
+            // Console.Write(sol.FindPeakElement(new int[9]{8,1,3,4,5,6,7,8,9}));
+            // var test = sol.FindEvenNumbers(new int[4]{2,1,3,0});
+            // foreach (int i in test) 
+            //     Console.WriteLine(i);
+            // var test = sol.DeleteMiddle(new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6, new ListNode(7))))))));
+            // var cur = test;
+            // while (cur!=null)
+            // {
+            //     Console.Write(cur.val);
+            //     cur = cur.next;
+            // }
+
+            // var tree = new TreeNode(5, new TreeNode(1, new TreeNode(3)), new TreeNode(2, new TreeNode(6, new TreeNode(4))));
+            // Console.Write(sol.GetDirections(tree, 5,6));
+            int[][] test = new int[4][];
+            test[0] = new int[2]{5,1};
+            test[1] = new int[2]{4,5};
+            test[2] = new int[2]{11,9};
+            test[3] = new int[2]{9,4};
+            var aftertest = sol.ValidArrangement(test);
+            for(int i =0;i<test.Length;i++) {
+                Console.Write(i +": ");
+                foreach(int j in aftertest[i]) {
+                    Console.Write(j+" ");
+                }
+                Console.WriteLine();
+            } 
+
         }
 
     }

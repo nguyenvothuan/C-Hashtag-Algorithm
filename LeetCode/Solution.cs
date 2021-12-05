@@ -4427,13 +4427,7 @@ class Solution
         return final;
     }
 
-    public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
-    {
-        if (root == null || root == p || root == q) return root;
-        TreeNode left = LowestCommonAncestor(root.left, p, q);
-        TreeNode right = LowestCommonAncestor(root.right, p, q);
-        return left == null ? right : right == null ? left : root;
-    }
+
 
     public int MaximalRectangle(char[][] matrix)
     {
@@ -4743,8 +4737,8 @@ class Solution
     {
         //https://leetcode.com/problems/find-peak-element/
         int left = 0, right = nums.Length - 1;
-        while (nums[left + 1] > nums[left]) { left++; if (left == nums.Length-1) return nums.Length - 1; }
-        while (nums[right - 1] > nums[right]){ right--; if (right==0) return 0;}
+        while (nums[left + 1] > nums[left]) { left++; if (left == nums.Length - 1) return nums.Length - 1; }
+        while (nums[right - 1] > nums[right]) { right--; if (right == 0) return 0; }
         while (left < right)
         {
             int mid = (left + right) / 2;
@@ -4761,7 +4755,7 @@ class Solution
         return left;
     }
 
-    
+
 
     public bool IsNumber(string str)
     {
@@ -4879,6 +4873,193 @@ class Solution
         return sum;
     }
 
+
+    public int Rob(TreeNode root)
+    {
+        //https://leetcode.com/problems/house-robber-iii/
+        return 1;
+    }
+
+    public int[] FindEvenNumbers(int[] digits)
+    {
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        foreach (int i in digits)
+        {
+            if (dict.ContainsKey(i)) dict[i]++;
+            else dict.Add(i, 1);
+        }
+        List<int> final = new List<int>();
+        for (int i = 1; i < 10; i++)
+        {
+            if (dict.ContainsKey(i))
+            {
+                dict[i]--;
+                for (int j = 0; j < 10; j++)
+                {
+                    if (dict.ContainsKey(j) && dict[j] > 0)
+                    {
+                        dict[j]--;
+                        for (int k = 0; k < 9; k += 2)
+                        {
+                            if (dict.ContainsKey(k) && dict[k] > 0)
+                            {
+                                int cur = 100 * i + 10 * j + k;
+                                final.Add(cur);
+                            }
+                        }
+                        dict[j]++;
+                    }
+                }
+                dict[i]++;
+            }
+        }
+
+        return final.ToArray();
+    }
+
+    public ListNode DeleteMiddle(ListNode head)
+    {
+
+        if (head.next == null) return null;
+        if (head.next.next == null)
+        {
+            head.next = null;
+            return head;
+        }
+        int count = 0;
+        var cur = head;
+        while (cur != null)
+        {
+            cur = cur.next;
+            count++;
+        }
+        cur = head;
+        ListNode prev = head;
+        int curCount = 0;
+        while (curCount < count / 2)
+        {
+            prev = cur;
+            cur = cur.next; curCount++;
+        }
+        prev.next = cur.next;
+        return head;
+    }
+
+    public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
+    {
+        if (root == null || root == p || root == q) return root;
+        TreeNode left = LowestCommonAncestor(root.left, p, q);
+        TreeNode right = LowestCommonAncestor(root.right, p, q);
+        return left == null ? right : right == null ? left : root;
+    }
+
+    public string GetDirections(TreeNode root, int startValue, int destValue)
+    {
+        TreeNode lca = LowestCommonAncestor(root, startValue, destValue);
+        //search both side of root to look for start and end;
+        //if end is in the right reverse a and prepend a to b, else set flag to false, as flag is false, reverse b and prepend to a
+        if (lca.val==startValue) {
+            //search in left
+            StringBuilder buffer = new StringBuilder();
+            string ifDestInLeft =  PathFromRootToValue(new StringBuilder(), destValue, lca.left);
+            if (ifDestInLeft==null) {
+                string destInRight = PathFromRootToValue(new StringBuilder(), destValue, lca.right);
+                buffer.Append("R");
+                buffer.Append(destInRight);
+                return buffer.ToString();
+            }
+            else {
+                buffer.Append("L");
+                buffer.Append(ifDestInLeft);
+                return buffer.ToString();
+            }
+        }
+        if (lca.val==destValue) {
+            //search left for start
+            StringBuilder buffer = new StringBuilder();
+            buffer.Append("U"); //start now is not root so it must go up at least 1 node to be at root
+            string ifStartInLeft = PathFromRootToValue(new StringBuilder(), startValue, lca.left) ;
+            if (ifStartInLeft==null) {
+                string startInRight = PathFromRootToValue(new StringBuilder(), startValue, lca.right);
+                foreach (char chr in  startInRight) buffer.Append("U");
+                return buffer.ToString();
+            }
+            else {
+                foreach(char chr in ifStartInLeft) buffer.Append("U");
+                return buffer.ToString();
+            }
+        }
+        
+        string checkIfAIsInTheLeft = PathFromRootToValue(new StringBuilder(), startValue, lca.left);
+        if (checkIfAIsInTheLeft == null)
+        {
+            //start is in the right branch
+            string rightBranchSearchForA = PathFromRootToValue(new StringBuilder(), startValue, lca.right);
+            StringBuilder buffer = new StringBuilder();
+            buffer.Append("U");//had to go down to enter right branch
+            foreach(char chr in rightBranchSearchForA) buffer.Append("U");
+            buffer.Append("L");
+            buffer.Append(PathFromRootToValue(new StringBuilder(), destValue, lca.left));
+            return buffer.ToString();
+        }
+        else
+        {//start in the left, reverse to all U
+            StringBuilder buffer = new StringBuilder();
+            foreach (char i in checkIfAIsInTheLeft) buffer.Append("U");
+            buffer.Append("U");//go left to enter start's branch
+            string noNeedToChangeForDest = PathFromRootToValue(new StringBuilder(), destValue, lca.right);
+            buffer.Append("R");
+            buffer.Append(noNeedToChangeForDest);
+            return buffer.ToString();
+        }
+    }
+
+    string PathFromRootToValue(StringBuilder sofar, int target, TreeNode cur)
+    {//cur added in previous loop
+        if (cur == null) return null;
+        if (cur.val == target) return sofar.ToString();
+        else
+        {
+            //left
+            sofar.Append("L");
+            string left = PathFromRootToValue(sofar, target, cur.left);
+            if (left != null) return left;
+            sofar.Remove(sofar.Length - 1, 1);
+            //right
+            sofar.Append("R");
+            string right = PathFromRootToValue(sofar, target, cur.right);
+            if (right != null) return right;
+            sofar.Remove(sofar.Length - 1, 1);
+        }
+        //try all left and right and found shit
+        return null;
+    }
+
+
+    public TreeNode LowestCommonAncestor(TreeNode root, int a, int b)
+    {
+        if (root == null || root.val == a || root.val == b) return root;
+        TreeNode left = LowestCommonAncestor(root.left, a, b);
+        TreeNode right = LowestCommonAncestor(root.right, a, b);
+        return left == null ? right : right == null ? left : root;//if both left and right are nonnull mean each of them contains either a or b return root.
+    }
+
+    public int[][] ValidArrangement(int[][] pairs) {
+        //https://leetcode.com/contest/weekly-contest-270/problems/valid-arrangement-of-pairs/
+        List<int[]> adj = new List<int[]>();
+        for (int i =0;i<pairs.Length;i++) {
+            List<int> curAdjOfI = new List<int>();
+            for(int j=0;j<pairs.Length;j++) {
+                if (pairs[i][1]==pairs[j][0]) 
+                    curAdjOfI.Add(j);
+            }
+            adj.Add(curAdjOfI.ToArray());
+        }
+
+
+        //this is just an adj list, use SCC to find such walk
+        return adj.ToArray();
+    }
 
 }
 
