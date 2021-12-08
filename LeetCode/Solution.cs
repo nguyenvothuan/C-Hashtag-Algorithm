@@ -4899,21 +4899,23 @@ class Solution
             int withLeftWithRight = RobWithUtil(withThisNode, withoutThisNode, cur.left) + RobWithUtil(withThisNode, withoutThisNode, cur.right);
             int withoutLeftWithRight = RobWithoutUtil(withThisNode, withoutThisNode, cur.left) + RobWithUtil(withThisNode, withoutThisNode, cur.right);
             int withoutRightWithLeft = RobWithoutUtil(withThisNode, withoutThisNode, cur.right) + RobWithUtil(withThisNode, withoutThisNode, cur.left);
-            withoutThisNode.Add(cur,Math.Max(withLeftWithRight, Math.Max(withoutLeftWithRight, withoutRightWithLeft)));
+            withoutThisNode.Add(cur, Math.Max(withLeftWithRight, Math.Max(withoutLeftWithRight, withoutRightWithLeft)));
         }
         return withoutThisNode[cur];
     }
 
-    public int MoreElegantRob(TreeNode root) {
+    public int MoreElegantRob(TreeNode root)
+    {
         int[] num = DFSRobUtil(root);
         return Math.Max(num[0], num[1]);
     }
-    int[] DFSRobUtil(TreeNode root) {
-        if (root==null) return new int[2];
+    int[] DFSRobUtil(TreeNode root)
+    {
+        if (root == null) return new int[2];
         int[] left = DFSRobUtil(root.left);
         int[] right = DFSRobUtil(root.right);
-        int[] res= new int[2];
-        res[0] = left[1]+right[1]+root.val;
+        int[] res = new int[2];
+        res[0] = left[1] + right[1] + root.val;
         res[1] = Math.Max(left[0], left[1]) + Math.Max(right[0], right[1]);
         return res;
     }
@@ -5108,6 +5110,124 @@ class Solution
         return adj.ToArray();
     }
 
+    public int[] TwoSumSorted(int[] numbers, int target)
+    {
+        int l = 0, r = numbers.Length - 1;
+        while (r > l)
+        {
+            if (numbers[l] + numbers[r] == target) return new int[2] { l, r };
+            if (numbers[l] + numbers[r] > target) r--;
+            else l++;
+        }
+        return new int[2];
+    }
+
+    bool IsBadVersion(int version)
+    {
+        return version >= 170;
+    }
+    public int FirstBadVersion(int n)
+    {
+        if (n==1) return n;
+        int l=1, r=n;
+        while (r>l) {
+            int mid =l +(r-l)/2;
+            if (IsBadVersion(mid)) {
+                if (!IsBadVersion(mid-1)) return mid;
+                r = mid-1;
+            }
+            else {
+                l = mid+1;
+            }
+        }
+        return l;
+    }
+    public int[] Intersection(int[] nums1, int[] nums2) {
+        //make sure first array is longer than second 
+        if (nums1.Length<nums2.Length) return Intersection(nums2, nums1);
+        Array.Sort(nums1);
+        HashSet<int> set = new HashSet<int>();
+        foreach(int i in nums2) {
+            if (!set.Contains(i)) {
+                if (BinarySearch(nums1, i))
+                    set.Add(i);
+            }
+        }
+        int[] final = new int[set.Count];
+        int cur=0;
+        foreach(int i in set) {
+            final[cur++] = i;
+        }
+        return final;
+    }
+    bool BinarySearch(int[] nums, int target) {
+        int l=0, r= nums.Length-1;
+        while(r>l) {
+            int mid = (r+l)/2;
+            if (nums[mid]==target) return true;
+            if (nums[mid]>target) r = mid-1;
+            else l = mid+1;
+        }
+        return nums[l]==target;
+    }
+
+    public bool IsPerfectSquare(int num) {
+        if (num==1||num==4) return true;
+        if (num<9) return false;
+        long l = 1; long r = num;
+        while (r>l) {
+            long mid =l+(r-l)/2;
+            if (mid*mid==num) return true;
+            if (mid*mid>num) r = mid-1;
+            else l = mid+1;
+        }
+        return l*l==num;
+    }
+
+    public int LengthOfLIS(int[] nums) {
+        //TODO:https://leetcode.com/problems/longest-increasing-subsequence/
+        int[] dp = new int[nums.Length];
+        //dp[i] is the longest lis starting at i
+        return 1;
+        
+    }
+    public int[] FindRightInterval(int[][] intervals) {
+        //TODO:https://leetcode.com/problems/find-right-interval/
+        return new int[0];
+    }
+
+    public int MinCostToMoveChips(int[] position) {
+        int even =0, odd = 0;
+        for(int i=0;i<position.Length;i++) {
+            if(position[i]%2==0) even++;
+            else odd++;
+        }
+        return Math.Min(odd, even);
+    }
+
+    public int LongestConsecutive(int[] nums) {
+        HashSet<int> set = new HashSet<int>();
+        foreach (int num in nums) set.Add(num);
+        int longestStreak = 1;
+        foreach(int num in nums) {
+            if (!set.Contains(num-1)) {
+                int curNum = num, streak = 1;
+                while (set.Contains(curNum+1)) {
+                    curNum++;
+                    streak++;
+                }
+                longestStreak = Math.Max(longestStreak, streak);
+            }
+        }
+        return longestStreak;
+    }
+
+    
+
+    public void SurroundedRegion(char[][] board) {
+        //TODO:https://leetcode.com/problems/surrounded-regions/
+    }
+    
 }
 
 

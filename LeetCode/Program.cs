@@ -362,20 +362,28 @@ namespace LeetCode
 
             // var tree = new TreeNode(5, new TreeNode(1, new TreeNode(3)), new TreeNode(2, new TreeNode(6, new TreeNode(4))));
             // Console.Write(sol.GetDirections(tree, 5,6));
-            int[][] test = new int[4][];
-            test[0] = new int[2]{5,1};
-            test[1] = new int[2]{4,5};
-            test[2] = new int[2]{11,9};
-            test[3] = new int[2]{9,4};
-            var aftertest = sol.ValidArrangement(test);
-            for(int i =0;i<test.Length;i++) {
-                Console.Write(i +": ");
-                foreach(int j in aftertest[i]) {
-                    Console.Write(j+" ");
-                }
-                Console.WriteLine();
-            } 
+            // int[][] test = new int[4][];
+            // test[0] = new int[2]{5,1};
+            // test[1] = new int[2]{4,5};
+            // test[2] = new int[2]{11,9};
+            // test[3] = new int[2]{9,4};
+            // var aftertest = sol.ValidArrangement(test);
+            // for(int i =0;i<test.Length;i++) {
+            //     Console.Write(i +": ");
+            //     foreach(int j in aftertest[i]) {
+            //         Console.Write(j+" ");
+            //     }
+            //     Console.WriteLine();
+            // } 
+            // var test=sol.TwoSumSorted(new int[6]{1,2,3,4,6,20}, 10);
+            // Console.Write(test[0]+", "+test[1]);
 
+            // Console.Write(sol.FirstBadVersion(212675));
+            // int[] n1 = {1,2,2,3,1}, n2 = {2,3,2};
+            // int[] test = sol.Intersection(n1, n2);
+            // foreach (int i in test) Console.WriteLine(i);
+            // Console.Write(sol.IsPerfectSquare(808201));
+            Console.Write(sol.MinCostToMoveChips(new int[5]{2,2,2,3,3}));
         }
 
     }
