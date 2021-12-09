@@ -384,7 +384,13 @@ namespace LeetCode
             // foreach (int i in test) Console.WriteLine(i);
             // Console.Write(sol.IsPerfectSquare(808201));
             // Console.Write(sol.MinCostToMoveChips(new int[5]{2,2,2,3,3}));
-            Console.Write(sol.CanReach(new int[5]{3,0,2,1,2},2));
+            // Console.Write(sol.CanReachOneLiner(new int[5]{3,0,2,1,2},2));
+            char[][] grid = new char[4][];
+            grid[0] = new char[5] {'1','1','0','0','0'};
+            grid[1] = new char[5] {'1','1','0','0','0'};
+            grid[2] = new char[5] {'0','0','1','0','0'};
+            grid[3] = new char[5] {'0','0','0','1','1'};
+            Console.Write(sol.NumIslands(grid));
         }
 
     }

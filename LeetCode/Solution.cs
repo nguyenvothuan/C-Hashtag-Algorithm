@@ -5284,8 +5284,85 @@ class Solution
     public int NumIslands(char[][] grid)
     {
         //TODO: https://leetcode.com/problems/number-of-islands/
-        return 0;
+
+        int rows = grid.Length, cols = grid[0].Length;
+        if (rows==1 && cols==1) return grid[0][0]-48;
+        if (rows==1) {
+            int count=grid[0][0]-48;
+            for (int j =1;j<cols;j++) {
+                if (grid[0][j]=='1' && grid[0][j-1]=='0') count++;
+            }return count;
+        }
+        if (cols==1) {
+            int count=grid[0][0]-48;
+            for(int i=1;i<rows;i++) {
+                if(grid[i][0]=='1'&&grid[i-1][0]=='0') count++;
+            }
+            return count;
+        }
+        int Node(int row, int col)
+        {
+            return row * cols + col;
+        }
+        UnionFindSurroundedRegion uf = new UnionFindSurroundedRegion(rows * cols);
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (grid[i][j] == '1')
+                {
+                    int cur = Node(i, j);
+                    if (i == 0)
+                    {
+
+                        if (j!=cols-1 && grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
+                        if (grid[i + 1][j] == '1') uf.Union(cur, Node(i + 1, j));
+                        if (j!=0 &&grid[i][j-1]=='1') uf.Union(cur, Node(i, j-1));
+                    }
+                    else if (i == rows - 1)
+                    {
+                        if (j!=cols-1&&grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
+                        if (grid[i - 1][j] == '1') uf.Union(cur, Node(i - 1, j));
+                        if (j!=0 &&grid[i][j-1]=='1') uf.Union(cur, Node(i, j-1));
+                    }
+                    else if (j == 0)
+                    {
+                        if (grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
+                        if (i!=rows-1&&grid[i + 1][j] == '1') uf.Union(cur, Node(i + 1, j));
+                        if (i!=0&&grid[i-1][j]=='1')uf.Union(cur, Node(i - 1, j));
+                    }
+                    else if (j == cols - 1)
+                    {
+                        if (grid[i][j - 1] == '1') uf.Union(cur, Node(i, j - 1));
+                        if (i!=0&&grid[i - 1][j] == '1') uf.Union(cur, Node(i - 1, j));
+                        if (i!=rows-1&&grid[i+1][j]=='1')uf.Union(cur, Node(i + 1, j));
+                    }
+                    else
+                    {
+                        if (grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
+                        if (grid[i + 1][j] == '1') uf.Union(cur, Node(i + 1, j));
+                        if (grid[i][j - 1] == '1') uf.Union(cur, Node(i, j - 1));
+                        if (grid[i - 1][j] == '1') uf.Union(cur, Node(i - 1, j));
+                    }
+                }
+            }
+        }
+        HashSet<int> islands = new HashSet<int>();
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (grid[i][j]=='1') {
+                    int parent = uf.FindRepresentative(Node(i,j));
+                    if (!islands.Contains(parent)) {
+                        islands.Add(parent);
+                    }
+                }
+            }
+        }
+        return islands.Count;
     }
+
 
     public int MaxProfitStock(int[] prices)
     {
@@ -5294,21 +5371,28 @@ class Solution
     }
 
     public bool CanReach(int[] arr, int start)
-    {   
-        
+    {
+
         bool res = CanReachUtil(arr, start, new int[arr.Length], new bool[arr.Length]);
         return res;
     }
 
     bool CanReachUtil(int[] arr, int cur, int[] visited, bool[] calculating)
     {
-        if (cur < 0 || cur >= arr.Length||calculating[cur]) return false;
+        if (cur < 0 || cur >= arr.Length || calculating[cur]) return false;
         if (arr[cur] == 0) return true;
         if (visited[cur] != 0) return visited[cur] == 1;
         calculating[cur] = true;
         visited[cur] = (CanReachUtil(arr, cur + arr[cur], visited, calculating) || CanReachUtil(arr, cur - arr[cur], visited, calculating)) ? 1 : -1;
-        return visited[cur]==1;
+        return visited[cur] == 1;
     }
+
+    public bool CanReachOneLiner(int[] arr, int start)
+    {
+        return 0 <= start && start <= arr.Length - 1 && arr[start] >= 0 && ((arr[start] = -arr[start]) == 0 || CanReachOneLiner(arr, start + arr[start]) || CanReachOneLiner(arr, start - arr[start]));
+    }
+
+
 
 }
 
