@@ -383,7 +383,8 @@ namespace LeetCode
             // int[] test = sol.Intersection(n1, n2);
             // foreach (int i in test) Console.WriteLine(i);
             // Console.Write(sol.IsPerfectSquare(808201));
-            Console.Write(sol.MinCostToMoveChips(new int[5]{2,2,2,3,3}));
+            // Console.Write(sol.MinCostToMoveChips(new int[5]{2,2,2,3,3}));
+            Console.Write(sol.CanReach(new int[5]{3,0,2,1,2},2));
         }
 
     }

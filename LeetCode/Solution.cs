@@ -5128,91 +5128,110 @@ class Solution
     }
     public int FirstBadVersion(int n)
     {
-        if (n==1) return n;
-        int l=1, r=n;
-        while (r>l) {
-            int mid =l +(r-l)/2;
-            if (IsBadVersion(mid)) {
-                if (!IsBadVersion(mid-1)) return mid;
-                r = mid-1;
+        if (n == 1) return n;
+        int l = 1, r = n;
+        while (r > l)
+        {
+            int mid = l + (r - l) / 2;
+            if (IsBadVersion(mid))
+            {
+                if (!IsBadVersion(mid - 1)) return mid;
+                r = mid - 1;
             }
-            else {
-                l = mid+1;
+            else
+            {
+                l = mid + 1;
             }
         }
         return l;
     }
-    public int[] Intersection(int[] nums1, int[] nums2) {
+    public int[] Intersection(int[] nums1, int[] nums2)
+    {
         //make sure first array is longer than second 
-        if (nums1.Length<nums2.Length) return Intersection(nums2, nums1);
+        if (nums1.Length < nums2.Length) return Intersection(nums2, nums1);
         Array.Sort(nums1);
         HashSet<int> set = new HashSet<int>();
-        foreach(int i in nums2) {
-            if (!set.Contains(i)) {
+        foreach (int i in nums2)
+        {
+            if (!set.Contains(i))
+            {
                 if (BinarySearch(nums1, i))
                     set.Add(i);
             }
         }
         int[] final = new int[set.Count];
-        int cur=0;
-        foreach(int i in set) {
+        int cur = 0;
+        foreach (int i in set)
+        {
             final[cur++] = i;
         }
         return final;
     }
-    bool BinarySearch(int[] nums, int target) {
-        int l=0, r= nums.Length-1;
-        while(r>l) {
-            int mid = (r+l)/2;
-            if (nums[mid]==target) return true;
-            if (nums[mid]>target) r = mid-1;
-            else l = mid+1;
+    bool BinarySearch(int[] nums, int target)
+    {
+        int l = 0, r = nums.Length - 1;
+        while (r > l)
+        {
+            int mid = (r + l) / 2;
+            if (nums[mid] == target) return true;
+            if (nums[mid] > target) r = mid - 1;
+            else l = mid + 1;
         }
-        return nums[l]==target;
+        return nums[l] == target;
     }
 
-    public bool IsPerfectSquare(int num) {
-        if (num==1||num==4) return true;
-        if (num<9) return false;
+    public bool IsPerfectSquare(int num)
+    {
+        if (num == 1 || num == 4) return true;
+        if (num < 9) return false;
         long l = 1; long r = num;
-        while (r>l) {
-            long mid =l+(r-l)/2;
-            if (mid*mid==num) return true;
-            if (mid*mid>num) r = mid-1;
-            else l = mid+1;
+        while (r > l)
+        {
+            long mid = l + (r - l) / 2;
+            if (mid * mid == num) return true;
+            if (mid * mid > num) r = mid - 1;
+            else l = mid + 1;
         }
-        return l*l==num;
+        return l * l == num;
     }
 
-    public int LengthOfLIS(int[] nums) {
+    public int LengthOfLIS(int[] nums)
+    {
         //TODO:https://leetcode.com/problems/longest-increasing-subsequence/
         int[] dp = new int[nums.Length];
         //dp[i] is the longest lis starting at i
         return 1;
-        
+
     }
-    public int[] FindRightInterval(int[][] intervals) {
+    public int[] FindRightInterval(int[][] intervals)
+    {
         //TODO:https://leetcode.com/problems/find-right-interval/
         return new int[0];
     }
 
-    public int MinCostToMoveChips(int[] position) {
-        int even =0, odd = 0;
-        for(int i=0;i<position.Length;i++) {
-            if(position[i]%2==0) even++;
+    public int MinCostToMoveChips(int[] position)
+    {
+        int even = 0, odd = 0;
+        for (int i = 0; i < position.Length; i++)
+        {
+            if (position[i] % 2 == 0) even++;
             else odd++;
         }
         return Math.Min(odd, even);
     }
 
-    public int LongestConsecutive(int[] nums) {
+    public int LongestConsecutive(int[] nums)
+    {
         HashSet<int> set = new HashSet<int>();
         foreach (int num in nums) set.Add(num);
         int longestStreak = 1;
-        foreach(int num in nums) {
-            if (!set.Contains(num-1)) {
+        foreach (int num in nums)
+        {
+            if (!set.Contains(num - 1))
+            {
                 int curNum = num, streak = 1;
-                while (set.Contains(curNum+1)) {
+                while (set.Contains(curNum + 1))
+                {
                     curNum++;
                     streak++;
                 }
@@ -5222,15 +5241,110 @@ class Solution
         return longestStreak;
     }
 
-    
 
-    public void SurroundedRegion(char[][] board) {
+
+    public void SurroundedRegion(char[][] board)
+    {
         //TODO:https://leetcode.com/problems/surrounded-regions/
+        int rows = board.Length, cols = board[0].Length;
+        int dummy = rows * cols;
+        UnionFindSurroundedRegion uf = new UnionFindSurroundedRegion(rows * cols + 1);
+        for (int i = 0; i < rows; i += 1)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (board[i][j] == 'O')
+                {
+                    if (i == 0 || j == 0 || i == rows - 1 || j == cols - 1) uf.Union(HashNode(i, j, cols), dummy);
+                    else
+                    {
+                        if (board[i - 1][j] == 'O') uf.Union(HashNode(i, j, cols), HashNode(i - 1, j, cols));
+                        if (board[i + 1][j] == 'O') uf.Union(HashNode(i, j, cols), HashNode(i + 1, j, cols));
+                        if (board[i][j - 1] == 'O') uf.Union(HashNode(i, j, cols), HashNode(i, j - 1, cols));
+                        if (board[i][1 + j] == 'O') uf.Union(HashNode(i, j, cols), HashNode(i, j + 1, cols));
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (!uf.IsConnected(dummy, HashNode(i, j, cols)))
+                {
+                    board[i][j] = 'X';
+                }
+            }
+        }
     }
-    
+    int HashNode(int row, int col, int cols)
+    {
+        return row * cols + col;
+    }
+    public int NumIslands(char[][] grid)
+    {
+        //TODO: https://leetcode.com/problems/number-of-islands/
+        return 0;
+    }
+
+    public int MaxProfitStock(int[] prices)
+    {
+        //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+        return 1;
+    }
+
+    public bool CanReach(int[] arr, int start)
+    {   
+        
+        bool res = CanReachUtil(arr, start, new int[arr.Length], new bool[arr.Length]);
+        return res;
+    }
+
+    bool CanReachUtil(int[] arr, int cur, int[] visited, bool[] calculating)
+    {
+        if (cur < 0 || cur >= arr.Length||calculating[cur]) return false;
+        if (arr[cur] == 0) return true;
+        if (visited[cur] != 0) return visited[cur] == 1;
+        calculating[cur] = true;
+        visited[cur] = (CanReachUtil(arr, cur + arr[cur], visited, calculating) || CanReachUtil(arr, cur - arr[cur], visited, calculating)) ? 1 : -1;
+        return visited[cur]==1;
+    }
+
 }
 
 
+class UnionFindSurroundedRegion
+{
+    int[] parents;
+    public UnionFindSurroundedRegion(int numNodes)
+    {
+        parents = new int[numNodes];
+        for (int i = 0; i < numNodes; i++) parents[i] = i;
+    }
+
+    public int FindRepresentative(int node)
+    {
+        while (node != parents[node])
+        {
+            parents[node] = parents[parents[node]];
+            node = parents[node];
+        }
+        return node;
+    }
+    public void Union(int n1, int n2)
+    {
+        int r1 = FindRepresentative(n1);
+        int r2 = FindRepresentative(n2);
+        if (r1 != r2)
+        {
+            parents[r2] = r1;
+        }
+    }
+    public bool IsConnected(int n1, int n2)
+    {
+        return FindRepresentative(n1) == FindRepresentative(n2);
+    }
+}
 public class NestedInteger
 {
     List<NestedInteger> list = new List<NestedInteger>();
