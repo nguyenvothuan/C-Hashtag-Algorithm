@@ -5286,17 +5286,22 @@ class Solution
         //TODO: https://leetcode.com/problems/number-of-islands/
 
         int rows = grid.Length, cols = grid[0].Length;
-        if (rows==1 && cols==1) return grid[0][0]-48;
-        if (rows==1) {
-            int count=grid[0][0]-48;
-            for (int j =1;j<cols;j++) {
-                if (grid[0][j]=='1' && grid[0][j-1]=='0') count++;
-            }return count;
+        if (rows == 1 && cols == 1) return grid[0][0] - 48;
+        if (rows == 1)
+        {
+            int count = grid[0][0] - 48;
+            for (int j = 1; j < cols; j++)
+            {
+                if (grid[0][j] == '1' && grid[0][j - 1] == '0') count++;
+            }
+            return count;
         }
-        if (cols==1) {
-            int count=grid[0][0]-48;
-            for(int i=1;i<rows;i++) {
-                if(grid[i][0]=='1'&&grid[i-1][0]=='0') count++;
+        if (cols == 1)
+        {
+            int count = grid[0][0] - 48;
+            for (int i = 1; i < rows; i++)
+            {
+                if (grid[i][0] == '1' && grid[i - 1][0] == '0') count++;
             }
             return count;
         }
@@ -5315,27 +5320,27 @@ class Solution
                     if (i == 0)
                     {
 
-                        if (j!=cols-1 && grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
+                        if (j != cols - 1 && grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
                         if (grid[i + 1][j] == '1') uf.Union(cur, Node(i + 1, j));
-                        if (j!=0 &&grid[i][j-1]=='1') uf.Union(cur, Node(i, j-1));
+                        if (j != 0 && grid[i][j - 1] == '1') uf.Union(cur, Node(i, j - 1));
                     }
                     else if (i == rows - 1)
                     {
-                        if (j!=cols-1&&grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
+                        if (j != cols - 1 && grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
                         if (grid[i - 1][j] == '1') uf.Union(cur, Node(i - 1, j));
-                        if (j!=0 &&grid[i][j-1]=='1') uf.Union(cur, Node(i, j-1));
+                        if (j != 0 && grid[i][j - 1] == '1') uf.Union(cur, Node(i, j - 1));
                     }
                     else if (j == 0)
                     {
                         if (grid[i][j + 1] == '1') uf.Union(cur, Node(i, j + 1));
-                        if (i!=rows-1&&grid[i + 1][j] == '1') uf.Union(cur, Node(i + 1, j));
-                        if (i!=0&&grid[i-1][j]=='1')uf.Union(cur, Node(i - 1, j));
+                        if (i != rows - 1 && grid[i + 1][j] == '1') uf.Union(cur, Node(i + 1, j));
+                        if (i != 0 && grid[i - 1][j] == '1') uf.Union(cur, Node(i - 1, j));
                     }
                     else if (j == cols - 1)
                     {
                         if (grid[i][j - 1] == '1') uf.Union(cur, Node(i, j - 1));
-                        if (i!=0&&grid[i - 1][j] == '1') uf.Union(cur, Node(i - 1, j));
-                        if (i!=rows-1&&grid[i+1][j]=='1')uf.Union(cur, Node(i + 1, j));
+                        if (i != 0 && grid[i - 1][j] == '1') uf.Union(cur, Node(i - 1, j));
+                        if (i != rows - 1 && grid[i + 1][j] == '1') uf.Union(cur, Node(i + 1, j));
                     }
                     else
                     {
@@ -5352,9 +5357,11 @@ class Solution
         {
             for (int j = 0; j < cols; j++)
             {
-                if (grid[i][j]=='1') {
-                    int parent = uf.FindRepresentative(Node(i,j));
-                    if (!islands.Contains(parent)) {
+                if (grid[i][j] == '1')
+                {
+                    int parent = uf.FindRepresentative(Node(i, j));
+                    if (!islands.Contains(parent))
+                    {
                         islands.Add(parent);
                     }
                 }
@@ -5367,7 +5374,18 @@ class Solution
     public int MaxProfitStock(int[] prices)
     {
         //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
-        return 1;
+        if (prices == null || prices.Length == 0) return 0;
+        int[,] dp = new int[3, prices.Length];
+        for (int k = 1; k <= 2; k++)
+        {
+            int min = prices[0];
+            for (int i = 1; i < prices.Length; i++)
+            {
+                min = Math.Min(min, prices[i] - dp[k - 1, i - 1]);
+                dp[k, i] = Math.Max(dp[k, i - 1], prices[i] - min);
+            }
+        }
+        return dp[2, prices.Length - 1];
     }
 
     public bool CanReach(int[] arr, int start)
@@ -5394,7 +5412,77 @@ class Solution
 
 
 
+
 }
+public class LRUCache
+{
+
+    int cap;
+    int curTop = int.MinValue; //top level one
+    int curLowest = int.MinValue;
+    Dictionary<int, int> dict = new Dictionary<int, int>();//store present <key, value>
+    Dictionary<int, int> kp = new Dictionary<int, int>(); //store priority of <key, priority>
+    Dictionary<int, int> pk = new Dictionary<int, int>(); //store <priority, key>
+    /*
+    Whenever a new element is added
+        - If not thing exceed cap, update dict, kp, pk with the value and the highest possible curTop+1 //even higher than the highst one and curLowest
+        - If something exceeds cap, look at the pk[curLowest] to get the key, delete it in dict, also in kp
+
+    */
+    public LRUCache(int capacity)
+    {
+        this.cap = capacity;
+    }
+
+    public int Get(int key)
+    {
+        if (dict.ContainsKey(key))
+        {
+            pk.Remove(kp[key]);
+            pk.Add(++curTop, key);
+            kp[key] = curTop;
+            return dict[key];
+        }
+        return -1;
+    }
+
+    public void Put(int key, int value)
+    {
+        if (!dict.ContainsKey(key))
+        {
+            if (dict.Count < cap)
+            {
+                dict.Add(key, value);
+                kp.Add(key, ++curTop);
+                pk.Add(curTop, key);
+            }
+            else
+            {
+                while (!pk.ContainsKey(curLowest)) curLowest++;
+                int delKey = pk[curLowest];
+                dict.Remove(delKey);
+                kp.Remove(delKey);
+                pk.Remove(curLowest++);
+                Put(key, value);
+            }
+        }
+        else
+        {
+            dict[key] = value;
+            pk.Remove(kp[key]);
+            pk.Add(++curTop, key);
+            kp[key] = curTop;
+        }
+    }
+}
+public class LLNode
+{
+    public int val = 0; public LLNode next = null;
+    public LLNode(int val, LLNode next) { this.val = val; this.next = next; }
+    public LLNode() { }
+
+}
+
 
 
 class UnionFindSurroundedRegion

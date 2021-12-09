@@ -385,12 +385,21 @@ namespace LeetCode
             // Console.Write(sol.IsPerfectSquare(808201));
             // Console.Write(sol.MinCostToMoveChips(new int[5]{2,2,2,3,3}));
             // Console.Write(sol.CanReachOneLiner(new int[5]{3,0,2,1,2},2));
-            char[][] grid = new char[4][];
-            grid[0] = new char[5] {'1','1','0','0','0'};
-            grid[1] = new char[5] {'1','1','0','0','0'};
-            grid[2] = new char[5] {'0','0','1','0','0'};
-            grid[3] = new char[5] {'0','0','0','1','1'};
-            Console.Write(sol.NumIslands(grid));
+            // char[][] grid = new char[4][];
+            // grid[0] = new char[5] {'1','1','0','0','0'};
+            // grid[1] = new char[5] {'1','1','0','0','0'};
+            // grid[2] = new char[5] {'0','0','1','0','0'};
+            // grid[3] = new char[5] {'0','0','0','1','1'};
+            // Console.Write(sol.NumIslands(grid));
+            // Console.Write(sol.MaxProfitStock(new int[8]{3,3,5,0,0,3,1,4}));
+            LRUCache lru = new LRUCache(2);
+            lru.Put(1,1);
+            lru.Put(2,2);
+            
+            Console.WriteLine(lru.Get(2));
+            lru.Put(3,3);
+            Console.WriteLine(lru.Get(3));
+            Console.WriteLine(lru.Get(1));
         }
 
     }
