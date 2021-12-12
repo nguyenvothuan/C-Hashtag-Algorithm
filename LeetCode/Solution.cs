@@ -5410,6 +5410,69 @@ class Solution
         return 0 <= start && start <= arr.Length - 1 && arr[start] >= 0 && ((arr[start] = -arr[start]) == 0 || CanReachOneLiner(arr, start + arr[start]) || CanReachOneLiner(arr, start - arr[start]));
     }
 
+    public int Knapsack01(int[] w, int[] v, int weight)
+    {// find in w 
+        int[,] dp = new int[w.Length + 1, weight + 1];
+        //dp[i,w]: maxium value if a weight of w is allowed and we only work with the first i items
+        //dp[0,w] = 0 since no shit is this. dp[i,0] is the same
+        for (int i = 1; i < w.Length; i++)
+        {
+            for (int j = 1; j < weight; j++)
+            {
+                //weight jth and up to i
+                if (w[i] > j)
+                    dp[i, j] = dp[i - 1, j];
+                else
+                    dp[i, j] = dp[i - 1, j - w[i]] + v[i];
+            }
+        }
+        return dp[w.Length, weight];
+    }
+
+    public int OptimizedKnapsack01(int[] w, int[] v, int weight)
+    {
+        int n = w.Length;
+        int[,] dp = new int[n+1, weight+1];
+        for(int i=1;i<=n;i++)
+            for(int j=1;j<=weight;j++)
+                dp[i,j]=-1;        
+        return KnapsackHelper(w, v, n, weight, dp);
+    }
+    public int KnapsackHelper(int[] w, int[] v,int i, int weight, int[,] dp)
+    {
+        if (dp[i, weight]==-1) {
+            if (w[i-1]>weight) 
+                dp[i, weight]=KnapsackHelper(w, v, i-1, weight, dp);
+            else 
+                dp[i, weight] = Math.Max(KnapsackHelper(w, v, i-1, weight, dp),KnapsackHelper(w,v,i-1, weight-w[i-1],dp)+v[i-1]);
+        }
+        return dp[i,weight];
+    }
+    public bool IsPalindrome(ListNode head)
+    {
+        //TODO: Snapchat
+        return false;
+    }
+    public ListNode Reverse(ListNode head)
+    {
+        return null;
+    }
+
+    public int NumTilings(int n)
+    {
+        //dp[i-1] n.o ways to tile i
+        long[] dp = new long[Math.Max(n, 3)];
+        dp[0] = 1; dp[1] = 2; dp[2] = 5;
+        if (n > 3)
+        {
+            for (int i = 3; i < n; i++)
+            {
+                dp[i] = 2 * dp[i - 1] + dp[i - 3];
+            }
+        }
+        long res = dp[n - 1] % ((long)(Math.Pow(10, 9) + 7));
+        return (int)res;
+    }
 
 
 

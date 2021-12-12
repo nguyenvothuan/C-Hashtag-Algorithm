@@ -392,14 +392,17 @@ namespace LeetCode
             // grid[3] = new char[5] {'0','0','0','1','1'};
             // Console.Write(sol.NumIslands(grid));
             // Console.Write(sol.MaxProfitStock(new int[8]{3,3,5,0,0,3,1,4}));
-            LRUCache lru = new LRUCache(2);
-            lru.Put(1,1);
-            lru.Put(2,2);
+            // LRUCache lru = new LRUCache(2);
+            // lru.Put(1,1);
+            // lru.Put(2,2);
             
-            Console.WriteLine(lru.Get(2));
-            lru.Put(3,3);
-            Console.WriteLine(lru.Get(3));
-            Console.WriteLine(lru.Get(1));
+            // Console.WriteLine(lru.Get(2));
+            // lru.Put(3,3);
+            // Console.WriteLine(lru.Get(3));
+            // Console.WriteLine(lru.Get(1));
+            // Console.Write(sol.NumTilings(60));
+            Console.Write(sol.OptimizedKnapsack01(new int[10]{23,26,20,18,32,27,29,26,30,27}, new int[10]{505, 352, 458, 220, 354, 414,498,545, 473, 543}, 67));
+
         }
 
     }
