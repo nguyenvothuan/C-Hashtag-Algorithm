@@ -258,15 +258,15 @@ namespace LeetCode
             // Console.WriteLine("Number of 1:" + count1);
             // Console.WriteLine("Number of 2:" + count2);
             UUGraph uugraph = new UUGraph(5);
-            uugraph.AddEdge(0,1); uugraph.AddEdge(0,2); uugraph.AddEdge(0,3);
-            uugraph.AddEdge(1,4); uugraph.AddEdge(4,2);
+            uugraph.AddEdge(0, 1); uugraph.AddEdge(0, 2); uugraph.AddEdge(0, 3);
+            uugraph.AddEdge(1, 4); uugraph.AddEdge(4, 2);
             // graph.BFS(0, true);
             // graph.DFS(0, true);
             UDGraph udGraph = new UDGraph(5);
-            udGraph.AddEdge(0,2);
-            udGraph.AddEdge(2,3);
-            udGraph.AddEdge(4,3);
-            udGraph.AddEdge(0,1); 
+            udGraph.AddEdge(0, 2);
+            udGraph.AddEdge(2, 3);
+            udGraph.AddEdge(4, 3);
+            udGraph.AddEdge(0, 1);
             // Console.Write(udGraph.MotherVertex());
             // udGraph.TransitiveClosure(true);
             // Console.Write('0'==48);
@@ -395,14 +395,34 @@ namespace LeetCode
             // LRUCache lru = new LRUCache(2);
             // lru.Put(1,1);
             // lru.Put(2,2);
-            
+
             // Console.WriteLine(lru.Get(2));
             // lru.Put(3,3);
             // Console.WriteLine(lru.Get(3));
             // Console.WriteLine(lru.Get(1));
             // Console.Write(sol.NumTilings(60));
-            Console.Write(sol.OptimizedKnapsack01(new int[10]{23,26,20,18,32,27,29,26,30,27}, new int[10]{505, 352, 458, 220, 354, 414,498,545, 473, 543}, 67));
-
+            // Console.Write(sol.OptimizedKnapsack01(new int[10]{23,26,20,18,32,27,29,26,30,27}, new int[10]{505, 352, 458, 220, 354, 414,498,545, 473, 543}, 67));
+            // Console.Write(sol.CanPartition(new int[4]{1,5,11,9}));
+            // int[][] matrix = new int[4][];
+            // matrix[0] = new int[4]{1,2,3,4};
+            // matrix[1] = new int[4]{5,6,7,8};
+            // matrix[2] = new int[4]{9,10,11,12};
+            // matrix[3]=new int[4]{13,14,15,16};
+            // var res = sol.SpiralOrder(matrix);
+            // foreach (int i in res) Console.Write(i +" ");
+            // Console.Write(sol.WordBreak("catsandog", new List<string>(new string[5]{"cats","dog","sand","and","cat"})));
+            // Console.Write(sol.WordBreak("leetcode", new List<string>(new string[2]{"leet", "code"})));
+            // Console.Write(sol.LengthOfLIS(new int[6]{0,1,0,3,2,3}));
+            // var tree = new TreeNode(5, new TreeNode(1), new TreeNode(4, new TreeNode(3), new TreeNode(6)));
+            // var tree = new TreeNode(2, new TreeNode(1), new TreeNode(3));
+            // Console.Write(sol.IsValidBST(tree));
+            // Console.Write(sol.GetMoneyAmount(10));
+            char[][] mat = new char[4][];
+            mat[0] = new char[5]{'1','0','1','0','0'};
+            mat[1] = new char[5]{'1','0','1','1','1'};
+            mat[2] = new char[5]{'1', '1','1','1','1'};
+            mat[3] = new char[5]{'1','0','0','1','0'};
+            Console.Write(sol.MaximalSquare(mat));
         }
 
     }

@@ -5198,15 +5198,116 @@ class Solution
     public int LengthOfLIS(int[] nums)
     {
         //TODO:https://leetcode.com/problems/longest-increasing-subsequence/
-        int[] dp = new int[nums.Length];
-        //dp[i] is the longest lis starting at i
-        return 1;
-
+        int[] start = new int[nums.Length], end = new int[nums.Length];
+        end[0] = 1; start[nums.Length - 1] = 1;
+        int max = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            max = Math.Max(max, LengthOfLISStart(nums, start, i) + LengthOfLISEnd(nums, end, i) - 1);
+        }
+        return max;
     }
+    int LengthOfLISStart(int[] nums, int[] start, int i)
+    {//find the longest lis if start at i
+        if (start[i] == 0)
+        {
+            start[i]++;
+            int max = 0;
+            for (int j = i + 1; j < nums.Length; j++)
+            {
+                if (nums[j] > nums[i])
+                {
+                    max = Math.Max(max, LengthOfLISStart(nums, start, j));
+                }
+            }
+            start[i] += max;
+        }
+        return start[i];
+    }
+    int LengthOfLISEnd(int[] nums, int[] end, int i)
+    {
+        if (end[i] == 0)
+        {
+            end[i]++;
+            int max = 0;
+            for (int j = i - 1; j >= 0; j--)
+            {
+                if (nums[j] < nums[i])
+                {
+                    max = Math.Max(max, LengthOfLISEnd(nums, end, j));
+                }
+            }
+            end[i] += max;
+        }
+        return end[i];
+    }
+
     public int[] FindRightInterval(int[][] intervals)
     {
         //TODO:https://leetcode.com/problems/find-right-interval/
         return new int[0];
+    }
+
+    public bool IsValidBST(TreeNode root)
+    {
+        //https://leetcode.com/problems/validate-binary-search-tree/
+        if (root == null) return true;
+        if (root.left == null)
+        {
+            if (root.right.val < root.val) return false;
+            return IsValidBSTRight(root.right, root);
+        }
+        if (root.right == null)
+        {
+            if (root.left.val > root.val) return false;
+            return IsValidBSTLeft(root.left, root);
+        }
+        if (root.right.val < root.val || root.left.val > root.val) return false;
+        return IsValidBSTLeft(root.left, root) && IsValidBSTRight(root.right, root);
+    }
+    bool IsValidBSTLeft(TreeNode root, TreeNode parent)
+    {
+        //check if parent children of root satisfy parent, assumpt that the tree above parent is valid
+        if (root == null) return true;
+        if (root.left == null && root.right == null) return true;
+        if (root.left == null)
+        {
+            if (root.right.val < root.val || root.right.val > parent.val) return false;
+            return IsValidBSTRight(root.right, root);
+        }
+        else if (root.right == null)
+        {
+            if (root.left.val > root.val || root.left.val > parent.val) return false;
+            return IsValidBSTLeft(root.left, root);
+        }
+        else
+        {
+            //both non-nil
+            if (root.right.val < root.val || root.right.val > parent.val || root.left.val > root.val || root.left.val > parent.val) return false;
+            return IsValidBSTRight(root.right, root) && IsValidBSTLeft(root.left, root); ;
+        }
+
+    }
+    bool IsValidBSTRight(TreeNode root, TreeNode parent)
+    {
+        if (root == null) return true;
+        if (root.left == null && root.right == null) return true;
+        if (root.left == null)
+        {
+            if (root.right.val < root.val || root.right.val < parent.val) return false;
+            return IsValidBSTRight(root.right, root);
+        }
+        else if (root.right == null)
+        {
+            if (root.left.val > root.val || root.left.val < parent.val) return false;
+            return IsValidBSTLeft(root.left, root);
+        }
+        else
+        {
+            //both non-nil
+            if (root.right.val < root.val || root.right.val < parent.val || root.left.val > root.val || root.left.val < parent.val) return false;
+            return IsValidBSTRight(root.right, root) && IsValidBSTLeft(root.left, root); ;
+        }
     }
 
     public int MinCostToMoveChips(int[] position)
@@ -5432,22 +5533,86 @@ class Solution
     public int OptimizedKnapsack01(int[] w, int[] v, int weight)
     {
         int n = w.Length;
-        int[,] dp = new int[n+1, weight+1];
-        for(int i=1;i<=n;i++)
-            for(int j=1;j<=weight;j++)
-                dp[i,j]=-1;        
+        int[,] dp = new int[n + 1, weight + 1];
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= weight; j++)
+                dp[i, j] = -1;
         return KnapsackHelper(w, v, n, weight, dp);
     }
-    public int KnapsackHelper(int[] w, int[] v,int i, int weight, int[,] dp)
+    int KnapsackHelper(int[] w, int[] v, int i, int weight, int[,] dp)
     {
-        if (dp[i, weight]==-1) {
-            if (w[i-1]>weight) 
-                dp[i, weight]=KnapsackHelper(w, v, i-1, weight, dp);
-            else 
-                dp[i, weight] = Math.Max(KnapsackHelper(w, v, i-1, weight, dp),KnapsackHelper(w,v,i-1, weight-w[i-1],dp)+v[i-1]);
+        if (dp[i, weight] == -1)
+        {
+            if (w[i - 1] > weight)
+                dp[i, weight] = KnapsackHelper(w, v, i - 1, weight, dp);
+            else
+                dp[i, weight] = Math.Max(KnapsackHelper(w, v, i - 1, weight, dp), KnapsackHelper(w, v, i - 1, weight - w[i - 1], dp) + v[i - 1]);
         }
-        return dp[i,weight];
+        return dp[i, weight];
     }
+
+    public bool CanPartition(int[] nums)
+    {
+        if (nums.Length < 2) return false;
+        int n = nums.Length;
+        int sum = 0;
+        foreach (int i in nums) sum += i;
+        if (sum % 2 != 0) return false;
+        int[,] dp = new int[n + 1, sum / 2 + 1];
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 0; j <= sum / 2; j++)
+            {
+                dp[i, j] = -1;
+            }
+        }
+        return CanPartitionUtil(nums, dp, sum / 2, n) == sum / 2;
+    }
+
+    int CanPartitionUtil(int[] w, int[,] dp, int weight, int i)
+    {
+        if (dp[i, weight] == -1)
+        {
+            if (w[i - 1] > weight)
+                dp[i, weight] = CanPartitionUtil(w, dp, weight, i - 1);
+            else
+                dp[i, weight] = Math.Max(CanPartitionUtil(w, dp, weight, i - 1), w[i - 1] + CanPartitionUtil(w, dp, weight - w[i - 1], i - 1));
+        }
+        return dp[i, weight];
+    }
+
+    public List<int> SpiralOrder(int[][] matrix)
+    {
+        int m = matrix.Length; int n = matrix[0].Length;
+        List<int> sofar = new List<int>();
+        void Next(int i, int j, bool up)
+        {
+            //if up prioritize up -> right -> down ->left
+            //else right - down- left- up
+            //check if i and j can be moved next
+            if (i >= m || j >= n || i < 0 || j < 0 || matrix[i][j] == 999) return;
+            sofar.Add(matrix[i][j]);
+            matrix[i][j] = 999;
+            if (!up)//if right, prioritize down. if left, prioritize up
+            {
+                Next(i, j + 1, false);
+                Next(i + 1, j, false);
+                Next(i, j - 1, false);
+                Next(i - 1, j, false);
+            }
+            else
+            {
+                Next(i - 1, j, true);
+                Next(i, j + 1, true);
+                Next(i + 1, j, true);
+                Next(i, j - 1, true);
+            }
+        }
+        Next(0, 0, false);
+        return sofar;
+    }
+
+
     public bool IsPalindrome(ListNode head)
     {
         //TODO: Snapchat
@@ -5474,6 +5639,92 @@ class Solution
         return (int)res;
     }
 
+    public bool WordBreak(string s, IList<string> wordDict)
+    {
+        //https://leetcode.com/problems/word-break/
+        int[] dp = new int[s.Length];
+        return WordBreakUtil(s, wordDict, dp, 0);
+
+    }
+    bool WordBreakUtil(string s, IList<string> dict, int[] dp, int i)
+    {//check if starting at i is true
+        if (i == s.Length) return true;
+        if (i > s.Length) return false;
+        if (dp[i] == 0)
+        {
+            dp[i] = -1;
+            foreach (var str in dict)
+            {
+                if (i + str.Length <= s.Length && s.Substring(i, str.Length) == str && WordBreakUtil(s, dict, dp, i + str.Length))
+                {
+                    dp[i] = 1;
+                    break;
+                }
+            }
+        }
+        return dp[i] == 1;
+    }
+
+    public int NthSuperUglyNumber(int n, int[] primes)
+    {
+        //TODO: Learn Heap and do this shit https://leetcode.com/problems/super-ugly-number/   
+        return 1;
+    }
+
+    public int GetMoneyAmount(int n)
+    {
+        //https://leetcode.com/problems/guess-number-higher-or-lower-ii/
+        int[,] dp = new int[n + 1, n + 1];
+
+        int GetMoneyAmountUtil(int low, int high)
+        {
+            //get the minimalcost in the worst case senario in range (low, high) 
+            if (low >= high) return 0;
+            if (dp[low, high]==0) {
+                int max = int.MaxValue;
+                for (int i =low; i<high; i++) {
+                    //see each case if we choose i
+                    max = Math.Min(max,i + Math.Max(GetMoneyAmountUtil(low, i-1), GetMoneyAmountUtil(i+1, high)));
+                }
+                dp[low, high] = max;
+            }
+            return dp[low, high];
+        }
+        return GetMoneyAmountUtil(1, n);
+    }
+
+    public int MaximalSquare(char[][] matrix) {
+        //https://leetcode.com/problems/maximal-square/
+        int m = matrix.Length; int n = matrix[0].Length;
+        int[,] dp = new int[m, n];
+        for (int i=0;i<m;i++) {
+            for (int j=0;j<n;j++) 
+                dp[i,j] = -1;
+        }
+
+        int MaximalSquareUtil(int i, int j) {
+            if (dp[i,j]==-1) {
+                if (matrix[i][j]=='0') dp[i,j] = 0;
+                else if (i==0 || j==0) dp[i,j] = 1;
+                else {
+                    int a = (int)Math.Sqrt(MaximalSquareUtil(i, j-1));
+                    int b = (int)Math.Sqrt(MaximalSquareUtil(i-1, j));
+                    int min = Math.Min(a,b);
+                    if (matrix[i-min][j-min]=='1') dp[i,j] = (min+1)*(min+1);
+                    else dp[i,j] = min*min;
+                }
+            }
+            return dp[i,j];
+        }
+        int max = 0;
+        for (int i =0;i<m;i++) {
+            for (int j =0;j<n;j++) {
+                max = Math.Max(MaximalSquareUtil(i,j), max);
+            }
+        }
+        return max;
+        
+    }
 
 
 }
@@ -5626,12 +5877,15 @@ public class Nest
     }
 }
 
+
+
 public class RandomWeightPicker
 {
     int[] weight;
     int sum = 0;
     Random seed = new Random();
     int[][] fromTo;
+
     public RandomWeightPicker(int[] w)
     {
         this.weight = w;
@@ -5672,6 +5926,7 @@ public class RandomWeightPicker
 
 
 }
+
 
 public class Robot
 {
@@ -5732,6 +5987,7 @@ public class Robot
     {
         return Dir;
     }
+
 }
 
 // public class CombinationIterator {
