@@ -5680,11 +5680,13 @@ class Solution
         {
             //get the minimalcost in the worst case senario in range (low, high) 
             if (low >= high) return 0;
-            if (dp[low, high]==0) {
+            if (dp[low, high] == 0)
+            {
                 int max = int.MaxValue;
-                for (int i =low; i<high; i++) {
+                for (int i = low; i < high; i++)
+                {
                     //see each case if we choose i
-                    max = Math.Min(max,i + Math.Max(GetMoneyAmountUtil(low, i-1), GetMoneyAmountUtil(i+1, high)));
+                    max = Math.Min(max, i + Math.Max(GetMoneyAmountUtil(low, i - 1), GetMoneyAmountUtil(i + 1, high)));
                 }
                 dp[low, high] = max;
             }
@@ -5693,301 +5695,555 @@ class Solution
         return GetMoneyAmountUtil(1, n);
     }
 
-    public int MaximalSquare(char[][] matrix) {
+    public int MaximalSquare(char[][] matrix)
+    {
         //https://leetcode.com/problems/maximal-square/
         int m = matrix.Length; int n = matrix[0].Length;
         int[,] dp = new int[m, n];
-        for (int i=0;i<m;i++) {
-            for (int j=0;j<n;j++) 
-                dp[i,j] = -1;
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+                dp[i, j] = -1;
         }
 
-        int MaximalSquareUtil(int i, int j) {
-            if (dp[i,j]==-1) {
-                if (matrix[i][j]=='0') dp[i,j] = 0;
-                else if (i==0 || j==0) dp[i,j] = 1;
-                else {
-                    int a = (int)Math.Sqrt(MaximalSquareUtil(i, j-1));
-                    int b = (int)Math.Sqrt(MaximalSquareUtil(i-1, j));
-                    int min = Math.Min(a,b);
-                    if (matrix[i-min][j-min]=='1') dp[i,j] = (min+1)*(min+1);
-                    else dp[i,j] = min*min;
+        int MaximalSquareUtil(int i, int j)
+        {
+            if (dp[i, j] == -1)
+            {
+                if (matrix[i][j] == '0') dp[i, j] = 0;
+                else if (i == 0 || j == 0) dp[i, j] = 1;
+                else
+                {
+                    int a = (int)Math.Sqrt(MaximalSquareUtil(i, j - 1));
+                    int b = (int)Math.Sqrt(MaximalSquareUtil(i - 1, j));
+                    int min = Math.Min(a, b);
+                    if (matrix[i - min][j - min] == '1') dp[i, j] = (min + 1) * (min + 1);
+                    else dp[i, j] = min * min;
                 }
             }
-            return dp[i,j];
+            return dp[i, j];
         }
         int max = 0;
-        for (int i =0;i<m;i++) {
-            for (int j =0;j<n;j++) {
-                max = Math.Max(MaximalSquareUtil(i,j), max);
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                max = Math.Max(MaximalSquareUtil(i, j), max);
             }
         }
         return max;
-        
+
     }
-
-
-}
-public class LRUCache
-{
-
-    int cap;
-    int curTop = int.MinValue; //top level one
-    int curLowest = int.MinValue;
-    Dictionary<int, int> dict = new Dictionary<int, int>();//store present <key, value>
-    Dictionary<int, int> kp = new Dictionary<int, int>(); //store priority of <key, priority>
-    Dictionary<int, int> pk = new Dictionary<int, int>(); //store <priority, key>
-    /*
-    Whenever a new element is added
-        - If not thing exceed cap, update dict, kp, pk with the value and the highest possible curTop+1 //even higher than the highst one and curLowest
-        - If something exceeds cap, look at the pk[curLowest] to get the key, delete it in dict, also in kp
-
-    */
-    public LRUCache(int capacity)
+    public int AtMostNGivenDigitSet(string[] digits, int n)
     {
-        this.cap = capacity;
-    }
-
-    public int Get(int key)
-    {
-        if (dict.ContainsKey(key))
-        {
-            pk.Remove(kp[key]);
-            pk.Add(++curTop, key);
-            kp[key] = curTop;
-            return dict[key];
+        //https://leetcode.com/problems/numbers-at-most-n-given-digit-set/
+        int length = GetNumberOfDigits(n);
+        int[] dp = new int[length + 1]; //dp[i] = number of numbers that is of length i and of course smaller than n;
+        int[] cumCom = new int[length + 1]; //cumulative sum of combination smaller than or equal to i
+        int k = digits.Length;//number of given digits
+        int first = n / (int)Math.Pow(10, length - 1);
+        dp[0] = 1;
+        for (int i = 1; i <= length; i++)
+        {//find the number of combination of digit in digits for length i
+            dp[i] = dp[i - 1] * k;
+            cumCom[i] = cumCom[i - 1] + dp[i];
         }
-        return -1;
-    }
 
-    public void Put(int key, int value)
-    {
-        if (!dict.ContainsKey(key))
+        int Helper(int m)
         {
-            if (dict.Count < cap)
+            if (m < 10)
             {
-                dict.Add(key, value);
-                kp.Add(key, ++curTop);
-                pk.Add(curTop, key);
+                int count = 0;
+                foreach (var i in digits)
+                {
+                    int cur = Int32.Parse(i);
+                    if (cur <= m) count++;
+                    else break;
+                }
+                return count;
             }
-            else
+            //get number of numbers that is smaller than n
+            int lengthOfM = GetNumberOfDigits(m);
+            int tillKminus1 = cumCom[lengthOfM - 1];//number of
+            int firstDigitOfM = m / (int)Math.Pow(10, lengthOfM - 1);
+            int next = m - (int)Math.Pow(10, lengthOfM - 1) * firstDigitOfM;
+            int smallerThanFirstDigitOfM = 0;
+            foreach (var i in digits)
             {
-                while (!pk.ContainsKey(curLowest)) curLowest++;
-                int delKey = pk[curLowest];
-                dict.Remove(delKey);
-                kp.Remove(delKey);
-                pk.Remove(curLowest++);
-                Put(key, value);
+                int cur = Int32.Parse(i);
+                if (cur <= firstDigitOfM) smallerThanFirstDigitOfM++;
+                else break;
             }
+            return tillKminus1 + smallerThanFirstDigitOfM * Helper(next);//get the rest of m. 
         }
-        else
+        return Helper(n);
+
+    }
+
+    public int GetNumberOfDigits(int n)
+    {
+        if (n < 10) return 1;
+        int count = 1;
+        while (n > 9)
         {
-            dict[key] = value;
-            pk.Remove(kp[key]);
-            pk.Add(++curTop, key);
-            kp[key] = curTop;
+            n /= 10;
+            count++;
         }
-    }
-}
-public class LLNode
-{
-    public int val = 0; public LLNode next = null;
-    public LLNode(int val, LLNode next) { this.val = val; this.next = next; }
-    public LLNode() { }
-
-}
-
-
-
-class UnionFindSurroundedRegion
-{
-    int[] parents;
-    public UnionFindSurroundedRegion(int numNodes)
-    {
-        parents = new int[numNodes];
-        for (int i = 0; i < numNodes; i++) parents[i] = i;
+        return count;
     }
 
-    public int FindRepresentative(int node)
+    public string DecodeString(string s)
     {
-        while (node != parents[node])
+        //TODO: https://leetcode.com/problems/decode-string/        
+        return "";
+    }
+
+    public IList<IList<int>> MinimumAbsDifference(int[] arr)
+    {
+        Array.Sort(arr);
+        int min = int.MaxValue;
+        for (int i = 1; i < arr.Length; i++)
         {
-            parents[node] = parents[parents[node]];
-            node = parents[node];
+            min = Math.Min(min, arr[i] - arr[i - 1]);
         }
-        return node;
-    }
-    public void Union(int n1, int n2)
-    {
-        int r1 = FindRepresentative(n1);
-        int r2 = FindRepresentative(n2);
-        if (r1 != r2)
+        IList<IList<int>> final = new List<IList<int>>();
+        for (int i = 1; i < arr.Length; i++)
         {
-            parents[r2] = r1;
-        }
-    }
-    public bool IsConnected(int n1, int n2)
-    {
-        return FindRepresentative(n1) == FindRepresentative(n2);
-    }
-}
-public class NestedInteger
-{
-    List<NestedInteger> list = new List<NestedInteger>();
-    public NestedInteger() { }
-    public NestedInteger(int value)
-    {
-        NestedInteger cur = new NestedInteger(value);
-        list.Add(cur);
-    }
-    public bool IsInteger()
-    {
-        return false;
-    }
-    public int GetInteger() { return 1; }
-    public void SetInteger(int value) { }
-    public void Add(NestedInteger ni) { }
-    public IList<NestedInteger> GetList()
-    {
-        return list;
-    }
-}
-
-public class Nest
-{
-    public int DepthSum(IList<NestedInteger> nestedList)
-    {
-        int final = 0;
-        foreach (var nest in nestedList)
-        {
-            final += DepthSumUtil(nest, 1);
+            if (arr[i] - arr[i - 1] == min) final.Add(new List<int>(new int[] { arr[i - 1], arr[i] }));
         }
         return final;
     }
-    int DepthSumUtil(NestedInteger nest, int curDepth)
+
+    public TreeNode BalanceBST(TreeNode root)
     {
-        if (nest.IsInteger()) return curDepth * nest.GetInteger();
-        //if not a single integer, then it is a list
+        List<int> sorted = InorderTraversal1(root);
+        return BSTFromSortedArray(sorted, 0, sorted.Count - 1);
+    }
+
+    public TreeNode BSTFromSortedArray(List<int> arr, int left, int right)
+    {
+        if (right <= left) return new TreeNode(arr[left]);
+        if (right - left == 1) return new TreeNode(arr[left], new TreeNode(arr[right]));
+        int mid = (left + right) / 2;
+        return new TreeNode(arr[mid], BSTFromSortedArray(arr, left, mid - 1), BSTFromSortedArray(arr, mid + 1, right));
+    }
+
+    public List<int> InorderTraversal1(TreeNode root)
+    {
+        List<int> final = new List<int>();
+        void Helper(TreeNode cur)
+        {
+            if (cur == null) return;
+            Helper(cur.left);
+            final.Add(cur.val);
+            Helper(cur.right);
+        }
+        return final;
+    }
+
+    public void WallsAndGates(int[][] rooms)
+    {
+        Queue<int[]> queue = new Queue<int[]>();
+        int m = rooms.Length, n = rooms[0].Length;
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (rooms[i][j] == '0') queue.Enqueue(new int[2] { i, j });
+            }
+        }
+        int dist = 0;
+        int[][] dir = { new int[] { 0, 1 }, new int[] { 1, 0 }, new int[] { 0, -1 }, new int[] { -1, 0 } };
+        while (queue.Count != 0)
+        {
+            int levelSize = queue.Count;
+            for (int i = 0; i < levelSize; i++)
+            {
+                int[] cur = queue.Dequeue();
+                int curR = cur[0], curC = cur[1];
+                if (rooms[curR][curC] == int.MaxValue)
+                    rooms[curR][curC] = dist;
+                for (int j = 0; j < 4; j++)
+                {
+                    int newR = curR + dir[j][0], newC = curC + dir[j][1];
+                    if (newR < 0 || newC < 0 || newR >= m || newC >= n || rooms[newR][newC] == -1 || rooms[newR][newC] != int.MaxValue) continue;
+                    queue.Enqueue(new int[] { newR, newC });
+                }
+            }
+            dist++;
+        }
+    }
+
+    public string RemoveDuplicates(string s, int k)
+    {
+        if (k == 0) return s;
+        if (k == 1) return "";
+        if (s.Length < k) return s;
+        Stack<int> count = new Stack<int>();
+        count.Push(1);
+        Stack<char> stack = new Stack<char>();
+        stack.Push(s[0]);
+        int cur = 1;
+        while (cur != s.Length || stack.Count != 0)
+        {
+            if (cur == s.Length) break;
+            char curChar = s[cur++];
+            if (stack.Count == 0)
+            {
+                stack.Push(curChar);
+                count.Push(1);
+            }
+            else
+            {
+                char prevChar = stack.Peek();
+                if (curChar == prevChar)
+                {
+                    int curCount = count.Peek() + 1;   //check if stack is full            
+                    count.Push(curCount);
+                    stack.Push(curChar);
+                    if (curCount == k)
+                    {
+                        for (int i = 0; i < k; i++)
+                        {
+                            stack.Pop();
+                            count.Pop();
+                        }
+                    }
+                }
+                else
+                {
+                    stack.Push(curChar);
+                    count.Push(1);
+                }
+            }
+        }
+        if (stack.Count == 0) return "";
+        var temp = new Stack<char>();
+
+        while (stack.Count != 0)
+        {
+            temp.Push(stack.Pop());
+        }
+        var buffer = new StringBuilder();
+        while (temp.Count != 0) buffer.Append(temp.Pop());
+        return buffer.ToString();
+
+    }
+
+    public IList<int> PreorderTraversal(TreeNode root)
+    {
+        if (root == null) return new List<int>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.Push(root);
+        List<int> final = new List<int>();
+        while (stack.Count != 0)
+        {
+            var cur = stack.Pop();
+            if (cur != null)
+            {
+                final.Add(cur.val);
+                stack.Push(cur.right);
+                stack.Push(cur.left);
+            }
+        }
+        return final;
+    }
+
+    public class MinStack
+    {
+        Stack<int> stack = new Stack<int>();
+        Stack<int> min = new Stack<int>();
+        public MinStack()
+        {
+            min.Push(int.MaxValue);
+        }
+
+        public void Push(int val)
+        {
+            stack.Push(val);
+            min.Push(Math.Min(val, min.Peek()));
+        }
+
+        public void Pop()
+        {
+           if(stack.Count!=0) {stack.Pop();min.Pop();}
+        }
+
+        public int Top()
+        {
+            if (stack.Count!=0) return stack.Peek();
+            return -1;
+        }
+
+        public int GetMin()
+        {
+            return min.Peek();
+        }
+    }
+
+    public class LRUCache
+    {
+
+        int cap;
+        int curTop = int.MinValue; //top level one
+        int curLowest = int.MinValue;
+        Dictionary<int, int> dict = new Dictionary<int, int>();//store present <key, value>
+        Dictionary<int, int> kp = new Dictionary<int, int>(); //store priority of <key, priority>
+        Dictionary<int, int> pk = new Dictionary<int, int>(); //store <priority, key>
+        /*
+        Whenever a new element is added
+            - If not thing exceed cap, update dict, kp, pk with the value and the highest possible curTop+1 //even higher than the highst one and curLowest
+            - If something exceeds cap, look at the pk[curLowest] to get the key, delete it in dict, also in kp
+
+        */
+        public LRUCache(int capacity)
+        {
+            this.cap = capacity;
+        }
+
+        public int Get(int key)
+        {
+            if (dict.ContainsKey(key))
+            {
+                pk.Remove(kp[key]);
+                pk.Add(++curTop, key);
+                kp[key] = curTop;
+                return dict[key];
+            }
+            return -1;
+        }
+
+        public void Put(int key, int value)
+        {
+            if (!dict.ContainsKey(key))
+            {
+                if (dict.Count < cap)
+                {
+                    dict.Add(key, value);
+                    kp.Add(key, ++curTop);
+                    pk.Add(curTop, key);
+                }
+                else
+                {
+                    while (!pk.ContainsKey(curLowest)) curLowest++;
+                    int delKey = pk[curLowest];
+                    dict.Remove(delKey);
+                    kp.Remove(delKey);
+                    pk.Remove(curLowest++);
+                    Put(key, value);
+                }
+            }
+            else
+            {
+                dict[key] = value;
+                pk.Remove(kp[key]);
+                pk.Add(++curTop, key);
+                kp[key] = curTop;
+            }
+        }
+
+    }
+    public class LLNode
+    {
+        public int val = 0; public LLNode next = null;
+        public LLNode(int val, LLNode next) { this.val = val; this.next = next; }
+        public LLNode() { }
+
+    }
+
+
+
+    class UnionFindSurroundedRegion
+    {
+        int[] parents;
+        public UnionFindSurroundedRegion(int numNodes)
+        {
+            parents = new int[numNodes];
+            for (int i = 0; i < numNodes; i++) parents[i] = i;
+        }
+
+        public int FindRepresentative(int node)
+        {
+            while (node != parents[node])
+            {
+                parents[node] = parents[parents[node]];
+                node = parents[node];
+            }
+            return node;
+        }
+        public void Union(int n1, int n2)
+        {
+            int r1 = FindRepresentative(n1);
+            int r2 = FindRepresentative(n2);
+            if (r1 != r2)
+            {
+                parents[r2] = r1;
+            }
+        }
+        public bool IsConnected(int n1, int n2)
+        {
+            return FindRepresentative(n1) == FindRepresentative(n2);
+        }
+    }
+    public class NestedInteger
+    {
+        List<NestedInteger> list = new List<NestedInteger>();
+        public NestedInteger() { }
+        public NestedInteger(int value)
+        {
+            NestedInteger cur = new NestedInteger(value);
+            list.Add(cur);
+        }
+        public bool IsInteger()
+        {
+            return false;
+        }
+        public int GetInteger() { return 1; }
+        public void SetInteger(int value) { }
+        public void Add(NestedInteger ni) { }
+        public IList<NestedInteger> GetList()
+        {
+            return list;
+        }
+    }
+
+    public class Nest
+    {
+        public int DepthSum(IList<NestedInteger> nestedList)
+        {
+            int final = 0;
+            foreach (var nest in nestedList)
+            {
+                final += DepthSumUtil(nest, 1);
+            }
+            return final;
+        }
+        int DepthSumUtil(NestedInteger nest, int curDepth)
+        {
+            if (nest.IsInteger()) return curDepth * nest.GetInteger();
+            //if not a single integer, then it is a list
+            int sum = 0;
+            foreach (NestedInteger childnest in nest.GetList())
+            {
+                sum += DepthSumUtil(childnest, curDepth + 1);
+            }
+            return sum;
+        }
+    }
+
+
+
+    public class RandomWeightPicker
+    {
+        int[] weight;
         int sum = 0;
-        foreach (NestedInteger childnest in nest.GetList())
+        Random seed = new Random();
+        int[][] fromTo;
+
+        public RandomWeightPicker(int[] w)
         {
-            sum += DepthSumUtil(childnest, curDepth + 1);
-        }
-        return sum;
-    }
-}
-
-
-
-public class RandomWeightPicker
-{
-    int[] weight;
-    int sum = 0;
-    Random seed = new Random();
-    int[][] fromTo;
-
-    public RandomWeightPicker(int[] w)
-    {
-        this.weight = w;
-        fromTo = new int[w.Length][];
-        int cur = 0;
-        foreach (int i in w) sum += i;
-        for (int i = 0; i < fromTo.Length; i++)
-        {
-            fromTo[i] = new int[2] { cur += 1, cur += weight[i] - 1 };
-        }
-    }
-
-    public void LookInside()
-    {
-        foreach (var a in fromTo)
-        {
-            Console.WriteLine("Sum: " + sum);
-            foreach (int i in a)
-                Console.Write(i + " ");
-            Console.WriteLine();
-        }
-    }
-
-
-    public int PickIndex()
-    {
-        int index = seed.Next(0, sum + 1);
-        int l = 0; int r = fromTo.Length - 1;
-        while (r > l)
-        {
-            int mid = (l + r) / 2;
-            if (fromTo[mid][0] <= index && index <= fromTo[mid][1]) return mid;
-            if (index > fromTo[mid][1]) l = mid + 1;
-            else r = mid - 1;
-        }
-        return l;
-    }
-
-
-}
-
-
-public class Robot
-{
-
-    int width; int height;
-    int x = 0; int y = 0;
-    string Dir = "East";
-    void ChangeDirection()
-    {
-        if (Dir == "East") Dir = "North";
-        else if (Dir == "North") Dir = "West";
-        else if (Dir == "West") Dir = "South";
-        else Dir = "East";
-    }
-    void NStepForward(int num)
-    {
-        for (int i = 0; i < num; i++)
-        {
-            if (Dir == "East")
+            this.weight = w;
+            fromTo = new int[w.Length][];
+            int cur = 0;
+            foreach (int i in w) sum += i;
+            for (int i = 0; i < fromTo.Length; i++)
             {
-                if (x == width - 1) { ChangeDirection(); y++; }
-                else x++;
-            }
-            else if (Dir == "North")
-            {
-                if (y == height - 1) { ChangeDirection(); x--; }
-                else y++;
-            }
-            else if (Dir == "West")
-            {
-                if (x == 0) { ChangeDirection(); y--; }
-                else x--;
-            }
-            else if (Dir == "South")
-            {
-                if (y == 0) { ChangeDirection(); x++; }
-                else y--;
+                fromTo[i] = new int[2] { cur += 1, cur += weight[i] - 1 };
             }
         }
-    }
-    public Robot(int width, int height)
-    {// (0,0)=> (width-1, height-1)
-        this.width = width; this.height = height;
+
+        public void LookInside()
+        {
+            foreach (var a in fromTo)
+            {
+                Console.WriteLine("Sum: " + sum);
+                foreach (int i in a)
+                    Console.Write(i + " ");
+                Console.WriteLine();
+            }
+        }
+
+
+        public int PickIndex()
+        {
+            int index = seed.Next(0, sum + 1);
+            int l = 0; int r = fromTo.Length - 1;
+            while (r > l)
+            {
+                int mid = (l + r) / 2;
+                if (fromTo[mid][0] <= index && index <= fromTo[mid][1]) return mid;
+                if (index > fromTo[mid][1]) l = mid + 1;
+                else r = mid - 1;
+            }
+            return l;
+        }
+
+
+
     }
 
-    public void Move(int num)
+
+    public class Robot
     {
-        num %= 2 * (width + height) - 4;
-        NStepForward(num);
-    }
 
-    public int[] GetPos()
-    {
-        return new int[2] { x, y };
-    }
+        int width; int height;
+        int x = 0; int y = 0;
+        string Dir = "East";
+        void ChangeDirection()
+        {
+            if (Dir == "East") Dir = "North";
+            else if (Dir == "North") Dir = "West";
+            else if (Dir == "West") Dir = "South";
+            else Dir = "East";
+        }
+        void NStepForward(int num)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                if (Dir == "East")
+                {
+                    if (x == width - 1) { ChangeDirection(); y++; }
+                    else x++;
+                }
+                else if (Dir == "North")
+                {
+                    if (y == height - 1) { ChangeDirection(); x--; }
+                    else y++;
+                }
+                else if (Dir == "West")
+                {
+                    if (x == 0) { ChangeDirection(); y--; }
+                    else x--;
+                }
+                else if (Dir == "South")
+                {
+                    if (y == 0) { ChangeDirection(); x++; }
+                    else y--;
+                }
+            }
+        }
+        public Robot(int width, int height)
+        {// (0,0)=> (width-1, height-1)
+            this.width = width; this.height = height;
+        }
 
-    public string GetDir()
-    {
-        return Dir;
-    }
+        public void Move(int num)
+        {
+            num %= 2 * (width + height) - 4;
+            NStepForward(num);
+        }
 
+        public int[] GetPos()
+        {
+            return new int[2] { x, y };
+        }
+
+        public string GetDir()
+        {
+            return Dir;
+        }
+
+    }
 }
 
 // public class CombinationIterator {

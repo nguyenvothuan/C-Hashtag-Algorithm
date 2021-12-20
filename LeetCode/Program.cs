@@ -417,12 +417,27 @@ namespace LeetCode
             // var tree = new TreeNode(2, new TreeNode(1), new TreeNode(3));
             // Console.Write(sol.IsValidBST(tree));
             // Console.Write(sol.GetMoneyAmount(10));
-            char[][] mat = new char[4][];
-            mat[0] = new char[5]{'1','0','1','0','0'};
-            mat[1] = new char[5]{'1','0','1','1','1'};
-            mat[2] = new char[5]{'1', '1','1','1','1'};
-            mat[3] = new char[5]{'1','0','0','1','0'};
-            Console.Write(sol.MaximalSquare(mat));
+            // char[][] mat = new char[4][];
+            // mat[0] = new char[5]{'1','0','1','0','0'};
+            // mat[1] = new char[5]{'1','0','1','1','1'};
+            // mat[2] = new char[5]{'1', '1','1','1','1'};
+            // mat[3] = new char[5]{'1','0','0','1','0'};
+            // Console.Write(sol.MaximalSquare(mat));
+            //  Console.WriteLine(sol.AtMostNGivenDigitSet(new string[4]{"3", "4", "5", "6"},64));
+            // Console.Write(sol.AtMostNGivenDigitSet(new string[3]{"5","7","8"}, 59));
+            // Console.Write(sol.GetNumberOfDigits(6988));
+            // TreeNode tree = new TreeNode(1, new TreeNode(2, new TreeNode(3, new TreeNode(4))));
+            // var test =sol.InorderTraversal1( sol.BalanceBST(tree));
+            // foreach(int i in test) Console.Write(i);
+            // Console.Write(sol.RemoveDuplicates("abcd", 2));
+            // var test = sol.MinimumAbsDifference(new int[4]{4,2,1,3});
+            // foreach(var i in test)
+            // {
+            //     foreach(int j in i) Console.Write(j+" ");
+            //     Console.WriteLine();
+            // }
+            var test = sol.PreorderTraversal(new TreeNode(1, null, new TreeNode(2, new TreeNode(3))));
+            foreach (int i in test) Console.Write(i+ " ");
         }
 
     }
