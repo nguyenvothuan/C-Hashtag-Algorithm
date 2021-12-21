@@ -436,8 +436,21 @@ namespace LeetCode
             //     foreach(int j in i) Console.Write(j+" ");
             //     Console.WriteLine();
             // }
-            var test = sol.PreorderTraversal(new TreeNode(1, null, new TreeNode(2, new TreeNode(3))));
-            foreach (int i in test) Console.Write(i+ " ");
+            // var test = sol.Flatten(new TreeNode(1, null, new TreeNode(2, new TreeNode(3))));
+            // var test = new TreeNode(1, null, new TreeNode(2, new TreeNode(3), new TreeNode(4)));
+            // sol.Flatten(test);
+            // var res = sol.InorderTraversal(test);
+            // foreach(int i in res) Console.Write(i);
+            // Console.Write(sol.IsValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#"));
+            // Console.Write(sol.IsPowerOfTwo(2));
+            // ListNode list = new ListNode(1,new ListNode(2, new ListNode(3, new ListNode(4))));
+            // sol.ReorderList(list);
+            // while (list!=null) {
+            //     Console.Write(list.val + " ");
+            //     list = list.next;
+            // }
+            var test = sol.AsteroidCollision(new int[]{-2, -2, 1, -2});
+            foreach(int i in test) Console.Write(i+" ");
         }
 
     }

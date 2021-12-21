@@ -5949,318 +5949,458 @@ class Solution
         return final;
     }
 
-    public class MinStack
+    public void Flatten(TreeNode root)
     {
-        Stack<int> stack = new Stack<int>();
-        Stack<int> min = new Stack<int>();
-        public MinStack()
+        TreeNode cur = root;
+        while (cur != null)
         {
-            min.Push(int.MaxValue);
-        }
-
-        public void Push(int val)
-        {
-            stack.Push(val);
-            min.Push(Math.Min(val, min.Peek()));
-        }
-
-        public void Pop()
-        {
-           if(stack.Count!=0) {stack.Pop();min.Pop();}
-        }
-
-        public int Top()
-        {
-            if (stack.Count!=0) return stack.Peek();
-            return -1;
-        }
-
-        public int GetMin()
-        {
-            return min.Peek();
+            if (cur.left != null)
+            {
+                var last = cur.left;
+                while (last.right != null) last = last.right;
+                last.right = cur.right;
+                cur.right = cur.left;
+                cur.left = null;
+            }
+            cur = cur.right;
         }
     }
 
-    public class LRUCache
+    public bool IsValidSerialization(string preorder)
     {
-
-        int cap;
-        int curTop = int.MinValue; //top level one
-        int curLowest = int.MinValue;
-        Dictionary<int, int> dict = new Dictionary<int, int>();//store present <key, value>
-        Dictionary<int, int> kp = new Dictionary<int, int>(); //store priority of <key, priority>
-        Dictionary<int, int> pk = new Dictionary<int, int>(); //store <priority, key>
-        /*
-        Whenever a new element is added
-            - If not thing exceed cap, update dict, kp, pk with the value and the highest possible curTop+1 //even higher than the highst one and curLowest
-            - If something exceeds cap, look at the pk[curLowest] to get the key, delete it in dict, also in kp
-
-        */
-        public LRUCache(int capacity)
+        if (preorder.Length <= 2) return false;
+        Stack<char> stack = new Stack<char>();
+        stack.Push(preorder[0]);
+        int lim = preorder.Length;
+        int count = 1;
+        while (count != lim && stack.Count != 0)
         {
-            this.cap = capacity;
-        }
-
-        public int Get(int key)
-        {
-            if (dict.ContainsKey(key))
+            char cur = preorder[count];
+            if (cur != ',')
             {
-                pk.Remove(kp[key]);
-                pk.Add(++curTop, key);
-                kp[key] = curTop;
-                return dict[key];
-            }
-            return -1;
-        }
-
-        public void Put(int key, int value)
-        {
-            if (!dict.ContainsKey(key))
-            {
-                if (dict.Count < cap)
+                if (cur != '#')
                 {
-                    dict.Add(key, value);
-                    kp.Add(key, ++curTop);
-                    pk.Add(curTop, key);
+                    stack.Push(cur);
                 }
                 else
                 {
-                    while (!pk.ContainsKey(curLowest)) curLowest++;
-                    int delKey = pk[curLowest];
-                    dict.Remove(delKey);
-                    kp.Remove(delKey);
-                    pk.Remove(curLowest++);
-                    Put(key, value);
+                    if (stack.Peek() == '#')//prevent while loop from auto entering
+                    {
+                        while (stack.Peek() == '#')
+                        {
+                            stack.Pop(); if (stack.Count == 0) return false;
+                            stack.Pop(); if (stack.Count == 0) return count == lim - 1; //still # to be added but here the stack exhausted
+                        }
+                    }
+                    stack.Push('#');
                 }
+            }
+            count++;
+        }
+        return stack.Count == 0;
+
+    }
+
+    public bool IsPowerOfTwo(int n)
+    {
+        if (n == 0) return false;
+        if (n == 1) return true;
+        while (n % 2 == 0) n /= 2;
+        return n == 1;
+    }
+
+    public IList<int> PostTraversal(TreeNode root)
+    {
+        if (root == null) return new List<int>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.Push(root);
+        List<int> final = new List<int>();
+        while (stack.Count != 0)
+        {
+            var cur = stack.Pop();
+            if (cur != null)
+            {
+                final.Add(cur.val);
+                stack.Push(cur.left);
+                stack.Push(cur.right);
+            }
+        }
+        final.Reverse();
+        return final;
+    }
+
+    public void ReorderList(ListNode head)
+    {
+        //https://leetcode.com/problems/reorder-list/
+        if (head == null || head.next == null) return;
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        Stack<ListNode> stack = new Stack<ListNode>();
+        while (slow != null)
+        {
+            stack.Push(slow);
+            slow = slow.next;
+        }
+        slow = head;
+        while (stack.Count != 0)
+        {
+            var cur = stack.Pop();
+            cur.next = slow.next;
+            slow.next = cur;
+            slow = slow.next.next;
+        }
+        slow.next = null;
+    }
+
+    public int[] AsteroidCollision(int[] asteroids)
+    {
+        Stack<int> stack = new Stack<int>();
+        for (int i = 0; i < asteroids.Length; i++)
+        {
+            int cur = asteroids[i];
+            if (stack.Count == 0)
+            {
+                stack.Push(cur);
+                //first time enter or when the last one in stack is of the same size as the coming one
             }
             else
             {
-                dict[key] = value;
-                pk.Remove(kp[key]);
-                pk.Add(++curTop, key);
-                kp[key] = curTop;
-            }
-        }
-
-    }
-    public class LLNode
-    {
-        public int val = 0; public LLNode next = null;
-        public LLNode(int val, LLNode next) { this.val = val; this.next = next; }
-        public LLNode() { }
-
-    }
-
-
-
-    class UnionFindSurroundedRegion
-    {
-        int[] parents;
-        public UnionFindSurroundedRegion(int numNodes)
-        {
-            parents = new int[numNodes];
-            for (int i = 0; i < numNodes; i++) parents[i] = i;
-        }
-
-        public int FindRepresentative(int node)
-        {
-            while (node != parents[node])
-            {
-                parents[node] = parents[parents[node]];
-                node = parents[node];
-            }
-            return node;
-        }
-        public void Union(int n1, int n2)
-        {
-            int r1 = FindRepresentative(n1);
-            int r2 = FindRepresentative(n2);
-            if (r1 != r2)
-            {
-                parents[r2] = r1;
-            }
-        }
-        public bool IsConnected(int n1, int n2)
-        {
-            return FindRepresentative(n1) == FindRepresentative(n2);
-        }
-    }
-    public class NestedInteger
-    {
-        List<NestedInteger> list = new List<NestedInteger>();
-        public NestedInteger() { }
-        public NestedInteger(int value)
-        {
-            NestedInteger cur = new NestedInteger(value);
-            list.Add(cur);
-        }
-        public bool IsInteger()
-        {
-            return false;
-        }
-        public int GetInteger() { return 1; }
-        public void SetInteger(int value) { }
-        public void Add(NestedInteger ni) { }
-        public IList<NestedInteger> GetList()
-        {
-            return list;
-        }
-    }
-
-    public class Nest
-    {
-        public int DepthSum(IList<NestedInteger> nestedList)
-        {
-            int final = 0;
-            foreach (var nest in nestedList)
-            {
-                final += DepthSumUtil(nest, 1);
-            }
-            return final;
-        }
-        int DepthSumUtil(NestedInteger nest, int curDepth)
-        {
-            if (nest.IsInteger()) return curDepth * nest.GetInteger();
-            //if not a single integer, then it is a list
-            int sum = 0;
-            foreach (NestedInteger childnest in nest.GetList())
-            {
-                sum += DepthSumUtil(childnest, curDepth + 1);
-            }
-            return sum;
-        }
-    }
-
-
-
-    public class RandomWeightPicker
-    {
-        int[] weight;
-        int sum = 0;
-        Random seed = new Random();
-        int[][] fromTo;
-
-        public RandomWeightPicker(int[] w)
-        {
-            this.weight = w;
-            fromTo = new int[w.Length][];
-            int cur = 0;
-            foreach (int i in w) sum += i;
-            for (int i = 0; i < fromTo.Length; i++)
-            {
-                fromTo[i] = new int[2] { cur += 1, cur += weight[i] - 1 };
-            }
-        }
-
-        public void LookInside()
-        {
-            foreach (var a in fromTo)
-            {
-                Console.WriteLine("Sum: " + sum);
-                foreach (int i in a)
-                    Console.Write(i + " ");
-                Console.WriteLine();
-            }
-        }
-
-
-        public int PickIndex()
-        {
-            int index = seed.Next(0, sum + 1);
-            int l = 0; int r = fromTo.Length - 1;
-            while (r > l)
-            {
-                int mid = (l + r) / 2;
-                if (fromTo[mid][0] <= index && index <= fromTo[mid][1]) return mid;
-                if (index > fromTo[mid][1]) l = mid + 1;
-                else r = mid - 1;
-            }
-            return l;
-        }
-
-
-
-    }
-
-
-    public class Robot
-    {
-
-        int width; int height;
-        int x = 0; int y = 0;
-        string Dir = "East";
-        void ChangeDirection()
-        {
-            if (Dir == "East") Dir = "North";
-            else if (Dir == "North") Dir = "West";
-            else if (Dir == "West") Dir = "South";
-            else Dir = "East";
-        }
-        void NStepForward(int num)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                if (Dir == "East")
+                int last = stack.Peek();
+                //if of the same direction
+                if (last * cur > 0)
                 {
-                    if (x == width - 1) { ChangeDirection(); y++; }
-                    else x++;
+                    stack.Push(cur);
                 }
-                else if (Dir == "North")
+                else
                 {
-                    if (y == height - 1) { ChangeDirection(); x--; }
-                    else y++;
-                }
-                else if (Dir == "West")
-                {
-                    if (x == 0) { ChangeDirection(); y--; }
-                    else x--;
-                }
-                else if (Dir == "South")
-                {
-                    if (y == 0) { ChangeDirection(); x++; }
-                    else y--;
+                    //if of different direction but moving away (peek is - and cur is +)
+                    if (last < 0) stack.Push(cur);
+                    //if of dirrent direction but moving against each}
+                    else
+                    {
+                        while (stack.Count > 0)
+                        {
+                            int curPeek = stack.Peek();
+                            if (curPeek*cur>0 ||curPeek < 0) {stack.Push(cur); break;} //ok no war
+                            else if (curPeek < -cur) { stack.Pop(); if (stack.Count == 0) { stack.Push(cur); break; } } //stack is exhausted dealing with this shit
+                            else if (curPeek == -cur) { stack.Pop(); break; } //pump, no war afterwards
+                            else break; //curPeek outsmarts cur.
+                        }
+                    }
                 }
             }
         }
-        public Robot(int width, int height)
-        {// (0,0)=> (width-1, height-1)
-            this.width = width; this.height = height;
-        }
-
-        public void Move(int num)
-        {
-            num %= 2 * (width + height) - 4;
-            NStepForward(num);
-        }
-
-        public int[] GetPos()
-        {
-            return new int[2] { x, y };
-        }
-
-        public string GetDir()
-        {
-            return Dir;
-        }
-
+        var final = stack.ToArray(); Array.Reverse(final);
+        return final;
     }
 }
+public class MinStack
+{
+    Stack<int> stack = new Stack<int>();
+    Stack<int> min = new Stack<int>();
+    public MinStack()
+    {
+        min.Push(int.MaxValue);
+    }
 
-// public class CombinationIterator {
-//TODO1: Finish this shit
-//     List<char> list = 
-//     public CombinationIterator(string characters, int combinationLength) {
+    public void Push(int val)
+    {
+        stack.Push(val);
+        min.Push(Math.Min(val, min.Peek()));
+    }
 
-//     }
+    public void Pop()
+    {
+        if (stack.Count != 0) { stack.Pop(); min.Pop(); }
+    }
 
-//     public string Next() {
+    public int Top()
+    {
+        if (stack.Count != 0) return stack.Peek();
+        return -1;
+    }
 
-//     }
+    public int GetMin()
+    {
+        return min.Peek();
+    }
+}
+public class LRUCache
+{
 
-//     public bool HasNext() {
+    int cap;
+    int curTop = int.MinValue; //top level one
+    int curLowest = int.MinValue;
+    Dictionary<int, int> dict = new Dictionary<int, int>();//store present <key, value>
+    Dictionary<int, int> kp = new Dictionary<int, int>(); //store priority of <key, priority>
+    Dictionary<int, int> pk = new Dictionary<int, int>(); //store <priority, key>
+    /*
+    Whenever a new element is added
+        - If not thing exceed cap, update dict, kp, pk with the value and the highest possible curTop+1 //even higher than the highst one and curLowest
+        - If something exceeds cap, look at the pk[curLowest] to get the key, delete it in dict, also in kp
 
-//     }
-// }
+    */
+    public LRUCache(int capacity)
+    {
+        this.cap = capacity;
+    }
+
+    public int Get(int key)
+    {
+        if (dict.ContainsKey(key))
+        {
+            pk.Remove(kp[key]);
+            pk.Add(++curTop, key);
+            kp[key] = curTop;
+            return dict[key];
+        }
+        return -1;
+    }
+
+    public void Put(int key, int value)
+    {
+        if (!dict.ContainsKey(key))
+        {
+            if (dict.Count < cap)
+            {
+                dict.Add(key, value);
+                kp.Add(key, ++curTop);
+                pk.Add(curTop, key);
+            }
+            else
+            {
+                while (!pk.ContainsKey(curLowest)) curLowest++;
+                int delKey = pk[curLowest];
+                dict.Remove(delKey);
+                kp.Remove(delKey);
+                pk.Remove(curLowest++);
+                Put(key, value);
+            }
+        }
+        else
+        {
+            dict[key] = value;
+            pk.Remove(kp[key]);
+            pk.Add(++curTop, key);
+            kp[key] = curTop;
+        }
+    }
+
+}
+public class LLNode
+{
+    public int val = 0; public LLNode next = null;
+    public LLNode(int val, LLNode next) { this.val = val; this.next = next; }
+    public LLNode() { }
+
+}
+class UnionFindSurroundedRegion
+{
+    int[] parents;
+    public UnionFindSurroundedRegion(int numNodes)
+    {
+        parents = new int[numNodes];
+        for (int i = 0; i < numNodes; i++) parents[i] = i;
+    }
+
+    public int FindRepresentative(int node)
+    {
+        while (node != parents[node])
+        {
+            parents[node] = parents[parents[node]];
+            node = parents[node];
+        }
+        return node;
+    }
+    public void Union(int n1, int n2)
+    {
+        int r1 = FindRepresentative(n1);
+        int r2 = FindRepresentative(n2);
+        if (r1 != r2)
+        {
+            parents[r2] = r1;
+        }
+    }
+    public bool IsConnected(int n1, int n2)
+    {
+        return FindRepresentative(n1) == FindRepresentative(n2);
+    }
+}
+public class NestedInteger
+{
+    List<NestedInteger> list = new List<NestedInteger>();
+    public NestedInteger() { }
+    public NestedInteger(int value)
+    {
+        NestedInteger cur = new NestedInteger(value);
+        list.Add(cur);
+    }
+    public bool IsInteger()
+    {
+        return false;
+    }
+    public int GetInteger() { return 1; }
+    public void SetInteger(int value) { }
+    public void Add(NestedInteger ni) { }
+    public IList<NestedInteger> GetList()
+    {
+        return list;
+    }
+}
+public class Nest
+{
+    public int DepthSum(IList<NestedInteger> nestedList)
+    {
+        int final = 0;
+        foreach (var nest in nestedList)
+        {
+            final += DepthSumUtil(nest, 1);
+        }
+        return final;
+    }
+    int DepthSumUtil(NestedInteger nest, int curDepth)
+    {
+        if (nest.IsInteger()) return curDepth * nest.GetInteger();
+        //if not a single integer, then it is a list
+        int sum = 0;
+        foreach (NestedInteger childnest in nest.GetList())
+        {
+            sum += DepthSumUtil(childnest, curDepth + 1);
+        }
+        return sum;
+    }
+}
+public class RandomWeightPicker
+{
+    int[] weight;
+    int sum = 0;
+    Random seed = new Random();
+    int[][] fromTo;
+
+    public RandomWeightPicker(int[] w)
+    {
+        this.weight = w;
+        fromTo = new int[w.Length][];
+        int cur = 0;
+        foreach (int i in w) sum += i;
+        for (int i = 0; i < fromTo.Length; i++)
+        {
+            fromTo[i] = new int[2] { cur += 1, cur += weight[i] - 1 };
+        }
+    }
+
+    public void LookInside()
+    {
+        foreach (var a in fromTo)
+        {
+            Console.WriteLine("Sum: " + sum);
+            foreach (int i in a)
+                Console.Write(i + " ");
+            Console.WriteLine();
+        }
+    }
+
+
+    public int PickIndex()
+    {
+        int index = seed.Next(0, sum + 1);
+        int l = 0; int r = fromTo.Length - 1;
+        while (r > l)
+        {
+            int mid = (l + r) / 2;
+            if (fromTo[mid][0] <= index && index <= fromTo[mid][1]) return mid;
+            if (index > fromTo[mid][1]) l = mid + 1;
+            else r = mid - 1;
+        }
+        return l;
+    }
+
+
+
+}
+public class Robot
+{
+
+    int width; int height;
+    int x = 0; int y = 0;
+    string Dir = "East";
+    void ChangeDirection()
+    {
+        if (Dir == "East") Dir = "North";
+        else if (Dir == "North") Dir = "West";
+        else if (Dir == "West") Dir = "South";
+        else Dir = "East";
+    }
+    void NStepForward(int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            if (Dir == "East")
+            {
+                if (x == width - 1) { ChangeDirection(); y++; }
+                else x++;
+            }
+            else if (Dir == "North")
+            {
+                if (y == height - 1) { ChangeDirection(); x--; }
+                else y++;
+            }
+            else if (Dir == "West")
+            {
+                if (x == 0) { ChangeDirection(); y--; }
+                else x--;
+            }
+            else if (Dir == "South")
+            {
+                if (y == 0) { ChangeDirection(); x++; }
+                else y--;
+            }
+        }
+    }
+    public Robot(int width, int height)
+    {// (0,0)=> (width-1, height-1)
+        this.width = width; this.height = height;
+    }
+
+    public void Move(int num)
+    {
+        num %= 2 * (width + height) - 4;
+        NStepForward(num);
+    }
+
+    public int[] GetPos()
+    {
+        return new int[2] { x, y };
+    }
+
+    public string GetDir()
+    {
+        return Dir;
+    }
+
+}
+public class CombinationIterator
+{
+    //TODO1: Finish this shit
+    public CombinationIterator(string characters, int combinationLength)
+    {
+
+    }
+
+    public string Next()
+    {
+        return "";
+    }
+
+    public bool HasNext()
+    {
+        return false;
+    }
+}
 
 
 
