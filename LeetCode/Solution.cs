@@ -55,7 +55,6 @@ class Solution
         return count;
     }
 
-
     //4
     public static List<int> getUnallottedUsers(List<List<int>> bids, int totalShares)
     {
@@ -196,8 +195,6 @@ class Solution
         return times - sum;
     }
 
-
-    ///////////////////////////
 
 
     public int[][] sortByBeauty(int[][] numbers, int size)
@@ -6085,7 +6082,7 @@ class Solution
                         while (stack.Count > 0)
                         {
                             int curPeek = stack.Peek();
-                            if (curPeek*cur>0 ||curPeek < 0) {stack.Push(cur); break;} //ok no war
+                            if (curPeek * cur > 0 || curPeek < 0) { stack.Push(cur); break; } //ok no war
                             else if (curPeek < -cur) { stack.Pop(); if (stack.Count == 0) { stack.Push(cur); break; } } //stack is exhausted dealing with this shit
                             else if (curPeek == -cur) { stack.Pop(); break; } //pump, no war afterwards
                             else break; //curPeek outsmarts cur.
@@ -6096,6 +6093,201 @@ class Solution
         }
         var final = stack.ToArray(); Array.Reverse(final);
         return final;
+    }
+
+    //rule 2 monostack: the minima/maximama element is useful when considering popping/pushing
+    //rule 3 monotonic stack: when a height is popped from the stack, make sure it would never be used again
+    public int LargestRectangleArea(int[] heights)
+    {
+        List<int> arr = new List<int>(heights); arr.Add(0);
+        Stack<int> stack = new Stack<int>();//stack mission: store all the smaller height in ascending order. 
+        int max = 0;
+        int length = 1;
+        for (int i = 0; i < arr.Count; i++)
+        {
+            while (stack.Count != 0 && arr[stack.Peek()] > arr[i])
+            {
+                //pop and update max;
+                //what this loop is doing is that it will consider each case when the current height can form the max rec. by how? by calculating the length from i-1 to itself and the height is its own height (as it is the smallest ever since)
+                //after updating this one, we are all safe to pop it. why then? As any one before it in the stack are sure to be smaller than itself. If again we choose some prior height to be the height for the rect, this height can still satisfy that needs when length is counted. 
+                //another case when in the future we may see some height happens to 1) greater than this one, say index j, we repeat the same thing and 2) of smaller hieght, well , we can satisfy
+                int height = arr[stack.Pop()];
+                if (stack.Count != 0) length = i - stack.Peek() - 1;
+                else length = i;
+                max = Math.Max(height * length, max);
+            }
+            stack.Push(i);
+        }
+        return max;
+    }
+
+    public int[] SearchRange(int[] nums, int target)
+    {
+        //search the first index of target, get i
+        int i = Array.BinarySearch(nums, target);
+        int[] arr = new int[2];
+        if (i < 0) return new int[] { -1, -1 };
+        //search from 0 -> i -1 for the first target
+        if (i == 0 || nums[i - 1] != target) arr[0] = i;
+        else
+        {
+            int left = 0; int right = i - 1;
+            int maybeFirst = Array.BinarySearch(nums, left, right - left + 1, target);
+            while (maybeFirst != 0 && nums[maybeFirst - 1] == target)
+            {
+                maybeFirst = Array.BinarySearch(nums, left, maybeFirst - left, target);
+            }
+            arr[0] = maybeFirst;
+        }
+        //search from i+1-> n-1 for the last target
+        if (i == arr.Length - 1 || nums[1 + i] != target) arr[1] = i;
+        else
+        {
+            int left = i + 1; int right = arr.Length - 1;
+            int maybeLast = Array.BinarySearch(nums, left, right - left + 1, target);
+            while (maybeLast != arr.Length - 1 && nums[maybeLast + 1] == target)
+            {
+                maybeLast = Array.BinarySearch(nums, left, maybeLast + 2 - left, target);
+            }
+            arr[1] = maybeLast;
+        }
+        return arr;
+    }
+
+    public bool IsComplete(TreeNode root)
+    {
+        if (root.left != null && root.right != null)
+        {
+            return IsComplete(root.left) && IsComplete(root.right);
+        }
+        if (root.left == null) return false;
+        return IsComplete(root.left);
+    }
+
+    public bool IsCompleteTree(TreeNode root)
+    {
+        if (root == null) return true;
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        queue.Enqueue(new TreeNode(9999));
+        bool nullMet = false;
+        while (queue.Count != 0)
+        {
+            TreeNode cur = queue.Dequeue();
+            if (cur == null)
+            {
+                if (nullMet == false) nullMet = true;
+            }
+            else
+            {
+                if (cur.val == 9999 && queue.Count > 0) { queue.Enqueue(new TreeNode(9999)); nullMet = false; }//level end;
+                else if (cur.val != 9999)
+                {
+                    if (nullMet) return false;
+                    queue.Enqueue(cur.left);
+                    queue.Enqueue(cur.right);
+                }
+            }
+        }
+        return true;
+    }
+
+    public int[] NextGreaterElements(int[] nums)
+    {
+        //TODO: https://leetcode.com/problems/next-greater-element-ii/
+        return new int[0];
+    }
+
+    public int TrappingRainWaterSample(int[] height)
+    {
+        Stack<int> stack = new Stack<int>();//decreasing stack
+        int total = 0;
+        for (int i = 0; i < height.Length; i++)
+        {
+            int curHeight = height[i];
+            while (stack.Count > 0 && height[stack.Peek()] < curHeight)
+            {
+                //as now it is smaller than the last height
+                int lastInd = stack.Pop();
+                if (stack.Count != 0) break;
+                int l = i - stack.Peek() - 1;
+                int h = Math.Min(height[stack.Peek()], curHeight) - height[lastInd];
+                total += l * h;
+            }
+            stack.Push(i);
+        }
+        return total;
+    }
+
+    public int TrappingWater(int[] height)
+    {
+        Stack<int> stack = new Stack<int>(); //decreasing stack
+        int total = 0;
+        for (int i = 0; i < height.Length; i++)
+        {
+            int curHeight = height[i];
+            while (stack.Count > 0 && curHeight > height[stack.Peek()])
+            {
+                int lastInd = stack.Pop();
+                if (stack.Count == 0) break;
+                int l = i - stack.Peek() - 1;
+                int h = Math.Min(height[stack.Peek()], curHeight) - height[lastInd];
+                total += l * h;
+            }
+            stack.Push(i);
+        }
+        return total;
+    }
+
+    public bool Find132pattern(int[] nums)
+    {
+        if (nums.Length < 3) return false;
+        Stack<Pair> stack = new Stack<Pair>();
+        for(int i =0;i<nums.Length;i++) {
+            if (stack.Count==0|| stack.Peek().min>nums[i]) stack.Push(new Pair(nums[i], nums[i]));
+            else if (nums[i]>stack.Peek().min) {
+                int cur = nums[i];
+                var last = stack.Peek();
+                if (last.max>cur) return true; //max>cur>min
+                last.max = cur;
+                while (stack.Count>0 && stack.Peek().max <= cur) //that is, when some prior intervals which by definition has min smaller than last.min and max < cur, if somehow a new number is between its (the prior one) is found satisfied, it also satisfies the current interval
+                    stack.Pop();
+                if (stack.Count!=0 && stack.Peek().min < cur) return true; // min < cur < max
+                stack.Push(last);
+            }
+
+        }
+        return false;
+    }
+
+}
+public class Pair {
+    public int min, max;
+    public Pair (int min, int max) {this.min = min;this.max = max;}
+}
+public class BSTIterator
+{
+    Stack<int> stack = new Stack<int>();
+    public BSTIterator(TreeNode root)
+    {
+        InorderTraversal(root);
+    }
+    void InorderTraversal(TreeNode root)
+    {
+        if (root == null) return;
+        InorderTraversal(root.left);
+        stack.Push(root.val);
+        InorderTraversal(root.right);
+    }
+
+    public int Next()
+    {
+        return stack.Pop();
+    }
+
+    public bool HasNext()
+    {
+        return stack.Count != 0;
     }
 }
 public class MinStack

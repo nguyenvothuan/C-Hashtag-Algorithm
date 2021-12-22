@@ -449,9 +449,14 @@ namespace LeetCode
             //     Console.Write(list.val + " ");
             //     list = list.next;
             // }
-            var test = sol.AsteroidCollision(new int[]{-2, -2, 1, -2});
-            foreach(int i in test) Console.Write(i+" ");
+            // var test = sol.AsteroidCollision(new int[]{-2, -2, 1, -2});
+            // foreach(int i in test) Console.Write(i+" ");
+            // var test = sol.SearchRange(new int[]{5,7,7,8,8,10}, 6);
+            // foreach(int i in test) Console.Write(i +" ");
+            // TreeNode tree = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3, new TreeNode(6),new TreeNode(7)));
+            // Console.Write(sol.IsCompleteTree(tree));
+            // Console.Write(sol.TrappingWater(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
+            Console.Write(sol.Find132pattern(new int[]{3,5,0,3,4}));
         }
-
     }
 }
