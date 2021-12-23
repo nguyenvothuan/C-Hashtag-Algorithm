@@ -6243,16 +6243,18 @@ class Solution
     {
         if (nums.Length < 3) return false;
         Stack<Pair> stack = new Stack<Pair>();
-        for(int i =0;i<nums.Length;i++) {
-            if (stack.Count==0|| stack.Peek().min>nums[i]) stack.Push(new Pair(nums[i], nums[i]));
-            else if (nums[i]>stack.Peek().min) {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (stack.Count == 0 || stack.Peek().min > nums[i]) stack.Push(new Pair(nums[i], nums[i]));
+            else if (nums[i] > stack.Peek().min)
+            {
                 int cur = nums[i];
                 var last = stack.Peek();
-                if (last.max>cur) return true; //max>cur>min
+                if (last.max > cur) return true; //max>cur>min
                 last.max = cur;
-                while (stack.Count>0 && stack.Peek().max <= cur) //that is, when some prior intervals which by definition has min smaller than last.min and max < cur, if somehow a new number is between its (the prior one) is found satisfied, it also satisfies the current interval
+                while (stack.Count > 0 && stack.Peek().max <= cur) //that is, when some prior intervals which by definition has min smaller than last.min and max < cur, if somehow a new number is between its (the prior one) is found satisfied, it also satisfies the current interval
                     stack.Pop();
-                if (stack.Count!=0 && stack.Peek().min < cur) return true; // min < cur < max
+                if (stack.Count != 0 && stack.Peek().min < cur) return true; // min < cur < max
                 stack.Push(last);
             }
 
@@ -6260,10 +6262,156 @@ class Solution
         return false;
     }
 
+    public void RecoverTree(TreeNode root)
+    {
+        TreeNode first = null;
+        TreeNode second = null;
+        TreeNode prev = new TreeNode(int.MinValue);
+        void Traverse(TreeNode root)
+        {
+            if (root ==null) return;
+            Traverse(root.left);
+            if (first == null && prev.val >= root.val) {
+                first = prev;
+            }
+            if (first !=null && prev.val >= root.val) {
+                second = root;
+            }
+            Traverse(root.right);
+        }
+        Traverse(root);
+        int temp = first.val;
+        first.val= second.val;
+        second.val = first.val;
+    }
+
+    void ValidateAndSwap(TreeNode lowerBound, TreeNode upperBound, TreeNode root)
+    {
+        //checkcurrent node and maybe swap
+        if (root == null) return;
+        if (root.val < lowerBound.val)
+        {
+            int temp = root.val;
+            root.val = lowerBound.val;
+            lowerBound.val = temp;
+            return;
+        }
+        if (root.val > upperBound.val)
+        {
+            int temp = root.val;
+            root.val = upperBound.val;
+            upperBound.val = temp;
+            return;
+        }
+        //low < root < upper;
+        ValidateAndSwap(lowerBound, root, root.left);
+        ValidateAndSwap(root, upperBound, root.right);
+
+    }
+
+    public int FindJudege(int n, int[][] trust) {
+        int[] trustee = new int[n+1];//trustee of n
+        bool[] truster = new bool[n+1];//wether i trusts someone
+        Array.Fill(truster, false);
+        foreach (var pair in trust ){
+            trustee[pair[1]]++;
+            truster[pair[0]] = true;
+        } 
+        for(int i =1;i<=n;i++) {
+            if (!truster[i] && trustee[i]==n-1)//if trust no one and has n trustee
+                return i;
+        }
+        return -1;
+    }
+
+    public bool CanVisitAllRooms(IList<IList<int>> rooms) {
+        int n = rooms.Count;
+        bool[] visited = new bool[n];
+        Queue<int> queue = new Queue<int>();
+        queue.Enqueue(0);
+        int count = 1;
+        while (queue.Count!=0) {
+            int cur = queue.Dequeue();
+            visited[cur] = true;
+            foreach (int i in rooms[cur]) {
+                if (!visited[i]) 
+                    queue.Enqueue(i);
+            }
+        }
+        return count == n;
+    }
+
+    public int[] LoudAndRich(int[][] richer, int[] quiet) {
+        int n = quiet.Length;
+        List<int>[] adj = new List<int>[n];
+        //TODO:https://leetcode.com/problems/loud-and-rich/
+        return new int[0];
+    }
+
+    public int[] FindOrder(int numCourses, int[][] prerequisites) {
+        List<int>[] adj = new List<int>[numCourses];
+        for(int i =0;i<numCourses;i++) adj[i] = new List<int>();
+        bool[] visited= new bool[numCourses];
+        Queue<int> queue = new Queue<int>();
+
+        //first use visited to find where to start (ie the non prerequisite)
+        bool[] hasPrerequisite = new bool[numCourses];
+        foreach (var pair in prerequisites) {adj[pair[1]].Add(pair[0]);hasPrerequisite[pair[0]]=true;}//pair[0] has prerequesite
+        List<int> final = new List<int>();
+        for(int i =0;i<numCourses;i++) 
+            if (!hasPrerequisite[i])
+                {queue.Enqueue(i); visited[i]=true;}//add all no-prerequisite here
+        if (queue.Count==0) return new int[0];
+        while (queue.Count!=0) {
+            int cur = queue.Dequeue();
+            final.Add(cur);
+            foreach (int next in adj[cur]) 
+                if (!visited[next])
+                   { queue.Enqueue(next); visited[next] = true;}
+        }
+        return final.ToArray();
+    }
+
+    public int[] TopSortFindOrder(int n, int[][] prerequisites) {
+        Queue<int> q = new Queue<int>();//keep track of 0-indegree node
+        Dictionary<int,List<int>> adj = new Dictionary<int,List<int>>();//reverse adj: adj maintains parents of the current node
+        int[] indegree = new int[n];
+        int[] topOrder = new int[n];
+        int i =0;
+        for (i =0;i<n;i++) {
+            int dst = prerequisites[i][1];
+            int src = prerequisites[i][0];
+            List<int> lst = adj.GetValueOrDefault(src, new List<int>());
+            lst.Add(dst);
+            adj[src] = lst;
+            indegree[dst] = src;
+        }       
+        for(i =0;i<n;i++) {
+            if (indegree[i]==0) 
+                q.Enqueue(i);
+        }
+        i=0;
+        while (q.Count!=0) {
+            int cur = q.Dequeue();
+            topOrder[i++] = cur;
+            if (adj.ContainsKey(cur)) {
+                foreach (int child in adj[cur]) {
+                    indegree[child]--;
+                    if (indegree[child]==0)
+                        q.Enqueue(child);
+                }
+            }
+        }
+        if (i==n) return topOrder;
+        return new int[0];
+    }
+
+
 }
-public class Pair {
+public class Pair
+{
     public int min, max;
-    public Pair (int min, int max) {this.min = min;this.max = max;}
+    public Pair(int min, int max) { this.min = min; this.max = max; }
 }
 public class BSTIterator
 {

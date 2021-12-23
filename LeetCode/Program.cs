@@ -456,7 +456,16 @@ namespace LeetCode
             // TreeNode tree = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3, new TreeNode(6),new TreeNode(7)));
             // Console.Write(sol.IsCompleteTree(tree));
             // Console.Write(sol.TrappingWater(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
-            Console.Write(sol.Find132pattern(new int[]{3,5,0,3,4}));
+            // Console.Write(sol.Find132pattern(new int[]{3,5,0,3,4}));
+            int [][] arr = new int[6][];
+            arr[0] = new int[]{1,0};
+            arr[1] = new int[]{2,1};
+            arr[2] = new int[]{0,3};
+            arr[3] = new int[]{4,3};
+            arr[4] = new int[]{3,5};
+            arr[5] = new int[]{4,5};
+            var test = sol.FindOrder(6, arr);
+            foreach (int i in test) Console.Write(i + " ");
         }
     }
 }
