@@ -6269,19 +6269,21 @@ class Solution
         TreeNode prev = new TreeNode(int.MinValue);
         void Traverse(TreeNode root)
         {
-            if (root ==null) return;
+            if (root == null) return;
             Traverse(root.left);
-            if (first == null && prev.val >= root.val) {
+            if (first == null && prev.val >= root.val)
+            {
                 first = prev;
             }
-            if (first !=null && prev.val >= root.val) {
+            if (first != null && prev.val >= root.val)
+            {
                 second = root;
             }
             Traverse(root.right);
         }
         Traverse(root);
         int temp = first.val;
-        first.val= second.val;
+        first.val = second.val;
         second.val = first.val;
     }
 
@@ -6309,104 +6311,378 @@ class Solution
 
     }
 
-    public int FindJudege(int n, int[][] trust) {
-        int[] trustee = new int[n+1];//trustee of n
-        bool[] truster = new bool[n+1];//wether i trusts someone
+    public int FindJudege(int n, int[][] trust)
+    {
+        int[] trustee = new int[n + 1];//trustee of n
+        bool[] truster = new bool[n + 1];//wether i trusts someone
         Array.Fill(truster, false);
-        foreach (var pair in trust ){
+        foreach (var pair in trust)
+        {
             trustee[pair[1]]++;
             truster[pair[0]] = true;
-        } 
-        for(int i =1;i<=n;i++) {
-            if (!truster[i] && trustee[i]==n-1)//if trust no one and has n trustee
+        }
+        for (int i = 1; i <= n; i++)
+        {
+            if (!truster[i] && trustee[i] == n - 1)//if trust no one and has n trustee
                 return i;
         }
         return -1;
     }
 
-    public bool CanVisitAllRooms(IList<IList<int>> rooms) {
+    public bool CanVisitAllRooms(IList<IList<int>> rooms)
+    {
         int n = rooms.Count;
         bool[] visited = new bool[n];
         Queue<int> queue = new Queue<int>();
         queue.Enqueue(0);
         int count = 1;
-        while (queue.Count!=0) {
+        while (queue.Count != 0)
+        {
             int cur = queue.Dequeue();
             visited[cur] = true;
-            foreach (int i in rooms[cur]) {
-                if (!visited[i]) 
+            foreach (int i in rooms[cur])
+            {
+                if (!visited[i])
                     queue.Enqueue(i);
             }
         }
         return count == n;
     }
 
-    public int[] LoudAndRich(int[][] richer, int[] quiet) {
+    public int[] LoudAndRich(int[][] richer, int[] quiet)
+    {
         int n = quiet.Length;
         List<int>[] adj = new List<int>[n];
         //TODO:https://leetcode.com/problems/loud-and-rich/
         return new int[0];
     }
 
-    public int[] FindOrder(int numCourses, int[][] prerequisites) {
+    public int[] FindOrder(int numCourses, int[][] prerequisites)
+    {
         List<int>[] adj = new List<int>[numCourses];
-        for(int i =0;i<numCourses;i++) adj[i] = new List<int>();
-        bool[] visited= new bool[numCourses];
+        for (int i = 0; i < numCourses; i++) adj[i] = new List<int>();
+        bool[] visited = new bool[numCourses];
         Queue<int> queue = new Queue<int>();
 
         //first use visited to find where to start (ie the non prerequisite)
         bool[] hasPrerequisite = new bool[numCourses];
-        foreach (var pair in prerequisites) {adj[pair[1]].Add(pair[0]);hasPrerequisite[pair[0]]=true;}//pair[0] has prerequesite
+        foreach (var pair in prerequisites) { adj[pair[1]].Add(pair[0]); hasPrerequisite[pair[0]] = true; }//pair[0] has prerequesite
         List<int> final = new List<int>();
-        for(int i =0;i<numCourses;i++) 
+        for (int i = 0; i < numCourses; i++)
             if (!hasPrerequisite[i])
-                {queue.Enqueue(i); visited[i]=true;}//add all no-prerequisite here
-        if (queue.Count==0) return new int[0];
-        while (queue.Count!=0) {
+            { queue.Enqueue(i); visited[i] = true; }//add all no-prerequisite here
+        if (queue.Count == 0) return new int[0];
+        while (queue.Count != 0)
+        {
             int cur = queue.Dequeue();
             final.Add(cur);
-            foreach (int next in adj[cur]) 
+            foreach (int next in adj[cur])
                 if (!visited[next])
-                   { queue.Enqueue(next); visited[next] = true;}
+                { queue.Enqueue(next); visited[next] = true; }
         }
         return final.ToArray();
     }
 
-    public int[] TopSortFindOrder(int n, int[][] prerequisites) {
+    public int[] TopSortFindOrder(int n, int[][] prerequisites)
+    {
         Queue<int> q = new Queue<int>();//keep track of 0-indegree node
-        Dictionary<int,List<int>> adj = new Dictionary<int,List<int>>();//reverse adj: adj maintains parents of the current node
+        Dictionary<int, List<int>> adj = new Dictionary<int, List<int>>();//reverse adj: adj maintains parents of the current node
         int[] indegree = new int[n];
         int[] topOrder = new int[n];
-        int i =0;
-        for (i =0;i<n;i++) {
+        int i = 0;
+        for (i = 0; i < n; i++)
+        {
             int dst = prerequisites[i][1];
             int src = prerequisites[i][0];
             List<int> lst = adj.GetValueOrDefault(src, new List<int>());
             lst.Add(dst);
             adj[src] = lst;
             indegree[dst] = src;
-        }       
-        for(i =0;i<n;i++) {
-            if (indegree[i]==0) 
+        }
+        for (i = 0; i < n; i++)
+        {
+            if (indegree[i] == 0)
                 q.Enqueue(i);
         }
-        i=0;
-        while (q.Count!=0) {
+        i = 0;
+        while (q.Count != 0)
+        {
             int cur = q.Dequeue();
             topOrder[i++] = cur;
-            if (adj.ContainsKey(cur)) {
-                foreach (int child in adj[cur]) {
+            if (adj.ContainsKey(cur))
+            {
+                foreach (int child in adj[cur])
+                {
                     indegree[child]--;
-                    if (indegree[child]==0)
+                    if (indegree[child] == 0)
                         q.Enqueue(child);
                 }
             }
         }
-        if (i==n) return topOrder;
+        if (i == n) return topOrder;
         return new int[0];
     }
 
+    public int MaxChunksToSorted(int[] arr)
+    {
+        if (arr.Length < 2) return 1;
+        int max = 0;
+        int count = 0;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            max = Math.Max(arr[i], max);
+            if (max == i) count++;
+        }
+        return count;
+    }
 
+    public int CarFleet(int target, int[] pos, int[] spe)
+    {
+        int n = 0;
+        Dictionary<int, int> posSpe = new Dictionary<int, int>();
+        for (int i = 0; i < n; i++)
+        {
+            posSpe.Add(pos[i], spe[i]);
+        }
+        Array.Sort(pos);
+        int[] finish = new int[n];//time i reaches targer
+        for (int i = 0; i < n; i++)
+        {//posSpe[pos[i]] = speed of ith
+            finish[i] = (target - pos[i]) / posSpe[pos[i]];
+        }
+        Stack<int> stack = new Stack<int>();
+        stack.Push(finish[n - 1]);
+        for (int i = n - 2; i >= 0; i--)
+        {
+            if (stack.Peek() < finish[i])
+                stack.Push(finish[i]);
+        }
+        return stack.Count;
+    }
+
+    public int[][] Merge(int[][] intervals)
+    {
+        if (intervals.Length < 2) return intervals;
+        CompareInterval comp = new CompareInterval();
+        Array.Sort(intervals, comp);
+        Stack<int[]> stack = new Stack<int[]>();
+        stack.Push(intervals[0]);
+        for (int i = 1; i < intervals.Length; i++)
+        {
+            var cur = intervals[i];
+            if (cur[0] > stack.Peek()[1])
+                stack.Push(cur);
+            else
+            {
+                stack.Peek()[1] = Math.Max(cur[1], stack.Peek()[1]);
+            }
+        }
+        return stack.ToArray();
+    }
+
+    public int MctFromLeafValues(int[] arr)
+    {
+        Stack<int> stack = new Stack<int>();
+        stack.Push(int.MaxValue);
+        int cost = 0;
+        foreach (int i in arr)
+        {
+            while (stack.Peek() <= i)
+            {
+                //remove peek, keep a, and increment by min(last peek, a)*peek
+                cost += stack.Pop() * Math.Min(stack.Peek(), i);
+            }
+            //now last peek is > i, push
+            stack.Push(i);
+        }
+        //monostak is now descending, remove from right to left
+        while (stack.Count > 2)
+        {
+            cost += stack.Pop() * stack.Peek();
+        }
+        return cost;
+
+    }
+
+    public int ScoreOfParentheses(string s)
+    {
+        //TODO: https://leetcode.com/problems/score-of-parentheses/
+        Stack<char> stack = new Stack<char>();
+        List<int> powOfTwo = new List<int>(); powOfTwo.Add(1);//powOfTwo[i] = 2^i
+        bool closedBefore = false;
+        int count = 0;
+        int GetPowerOfTwo(int i)
+        {
+            if (powOfTwo.Count <= i)
+            {
+                int start = powOfTwo.Count;
+                for (int j = start; j <= i; j++)
+                {
+                    powOfTwo.Add(2 * powOfTwo[j - 1]);
+                }
+            }
+            return powOfTwo[i];
+
+        }
+        foreach (char chr in s)
+        {
+            if (chr == '(')
+            {
+                stack.Push('(');
+                closedBefore = false;
+            }
+            else
+            {
+                if (!closedBefore)
+                {
+                    count += GetPowerOfTwo(stack.Count - 1);
+                    closedBefore = true;
+                }
+                stack.Pop();
+            }
+        }
+        return count;
+    }
+
+    public int ScoreParentheses(string s)
+    {
+        Stack<int> stack = new Stack<int>();
+        int cur = 0;//current value, if stop at current index (disregard the preceding open paren)
+        //that is, current value to addup if there come any number of the same depth
+        foreach (char chr in s)
+        {
+            if (chr == '(')
+            {
+                stack.Push(cur);
+                cur = 0;
+            }
+            else
+            {
+                cur = stack.Pop() + Math.Max(2 * cur, 1);
+            }
+        }
+        return cur;
+    }
+
+    public int SumSubarrayMins(int[] arr)
+    {
+        //TODO: https://leetcode.com/problems/sum-of-subarray-minimums/
+        int[] ContiguousBiggerLeft(int[] arr)
+        {
+            int[] ans = new int[arr.Length];//ans[i] is the number of strictly contiguously bigger numbers to the left of i 
+            Stack<int[]> stack = new Stack<int[]>();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                int count = 1;
+                while (stack.Count != 0 && stack.Peek()[0] > arr[i])
+                {
+                    count += stack.Pop()[1];
+                }
+                ans[i] = count;
+                stack.Push(new int[] { arr[i], ans[i] });
+            }
+            return ans;
+        }
+        int[] ContiguousBiggerRight(int[] arr)
+        {
+            int[] ans = new int[arr.Length];
+            Stack<int[]> stack = new Stack<int[]>();
+            for (int i = arr.Length - 1; i >= 0; i--)
+            {
+                int count = 1;
+                while (stack.Count != 0 && stack.Peek()[0] >= arr[i])
+                    count += stack.Pop()[1];
+                ans[i] = count;
+                stack.Push(new int[] { arr[i], ans[i] });
+            }
+            return ans;
+        }
+        int[] left = ContiguousBiggerLeft(arr);
+        int[] right = ContiguousBiggerRight(arr);
+        long sum = 0;
+        for (int i = 0; i < arr.Length; i++)
+            sum += arr[i] * left[i] * right[i];
+        sum %= (long)(Math.Pow(10, 9) + 7);
+        return (int)sum;
+    }
+
+    public int Calculate(string s)
+    {
+        Stack<int> stack = new Stack<int>();
+        char curOp = '+';
+        int curNum = 0;
+        for (int i = 0; i < s.Length; i++)
+        {
+            char curChar = s[i];
+            if ('0' <= curChar && '9' >= curChar)
+            {
+                curNum = curNum * 10 + curChar - '0';
+            }
+            if (!Char.IsDigit(curChar) && curChar != ' ' || i==s.Length-1)
+            {
+                if (curOp == '+') stack.Push(curNum);
+                else if (curOp == '-') stack.Push(-curNum);
+                else if (curOp == '*')
+                {
+                    stack.Push(stack.Pop() * curNum);
+                }
+                else if (curOp == '/')
+                {
+                    stack.Push(stack.Pop() / curNum);
+                }
+                curOp = curChar;
+                curNum = 0;
+            }
+        }
+        int res = 0;
+        while (stack.Count != 0)
+        {
+            res += stack.Pop();
+        }
+        return res;
+    }
+
+
+
+    public int[] NextSmallerElement(int[] arr)
+    {
+        int[] ans = new int[arr.Length];
+        Stack<int> stack = new Stack<int>();
+        for (int i = arr.Length - 1; i >= 0; i--)
+        {
+            //descreasing stack
+            while (stack.Count != 0 && arr[stack.Peek()] >= arr[i])
+            {
+                stack.Pop();
+            }
+            ans[i] = stack.Count == 0 ? -1 : stack.Peek();
+            stack.Push(i);
+        }
+        return ans;
+    }
+
+
+}
+
+public class StockSpanner
+{
+    Stack<int[]> stack;
+    public StockSpanner()
+    {
+        stack = new Stack<int[]>(); //keep [price, count]
+    }
+
+    public int Next(int price)
+    {
+        //number of prices that are smaller than today's price
+        int res = 1;
+        while (stack.Count != 0 && stack.Peek()[0] <= price)
+        {
+            res += stack.Pop()[1];
+        }
+        stack.Push(new int[] { price, res });
+        return res;
+    }
 }
 public class Pair
 {

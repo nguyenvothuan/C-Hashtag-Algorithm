@@ -62,3 +62,11 @@ public class CompareConcatString : Comparer<string>{
         return String.Compare(str1, str2);
     }
 }
+
+public class CompareInterval : Comparer<int[]> {
+    public override int Compare(int[] a, int[] b) {
+        if (a[0]==b[0]) return 0;
+        if (a[0]>b[0]) return 1;
+        return -1;
+    }
+}

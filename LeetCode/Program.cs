@@ -457,15 +457,29 @@ namespace LeetCode
             // Console.Write(sol.IsCompleteTree(tree));
             // Console.Write(sol.TrappingWater(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
             // Console.Write(sol.Find132pattern(new int[]{3,5,0,3,4}));
-            int [][] arr = new int[6][];
-            arr[0] = new int[]{1,0};
-            arr[1] = new int[]{2,1};
-            arr[2] = new int[]{0,3};
-            arr[3] = new int[]{4,3};
-            arr[4] = new int[]{3,5};
-            arr[5] = new int[]{4,5};
-            var test = sol.FindOrder(6, arr);
-            foreach (int i in test) Console.Write(i + " ");
+            // int [][] arr = new int[6][];
+            // arr[0] = new int[]{1,0};
+            // arr[1] = new int[]{2,1};
+            // arr[2] = new int[]{0,3};
+            // arr[3] = new int[]{4,3};
+            // arr[4] = new int[]{3,5};
+            // arr[5] = new int[]{4,5};
+            // var test = sol.FindOrder(6, arr);
+            // foreach (int i in test) Console.Write(i + " ");
+            // StockSpanner test=new StockSpanner();
+            // Console.WriteLine(test.Next(100));
+            // Console.WriteLine(test.Next(80));
+            // Console.WriteLine(test.Next(60));
+            // Console.WriteLine(test.Next(70));
+            // Console.WriteLine(test.Next(60));
+            // Console.WriteLine(test.Next(75));
+            // Console.WriteLine(test.Next(85));
+            // Console.WriteLine(test.Next(0));
+            // Console.Write(sol.MctFromLeafValues(new int[]{6,2,4}));
+            // Console.Write(sol.ScoreParentheses("((()))"));
+            // Console.Write(sol.SumSubarrayMins(new int[]{71,55,82,55}));
+            Console.Write(sol.Calculate("3+2 *9"));
+
         }
     }
 }
