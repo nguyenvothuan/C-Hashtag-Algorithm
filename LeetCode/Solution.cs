@@ -6618,7 +6618,7 @@ class Solution
             {
                 curNum = curNum * 10 + curChar - '0';
             }
-            if (!Char.IsDigit(curChar) && curChar != ' ' || i==s.Length-1)
+            if (!Char.IsDigit(curChar) && curChar != ' ' || i == s.Length - 1)
             {
                 if (curOp == '+') stack.Push(curNum);
                 else if (curOp == '-') stack.Push(-curNum);
@@ -6661,7 +6661,135 @@ class Solution
         return ans;
     }
 
+    public bool IsSameAfterReversals(int num)
+    {
+        if (num == 0) return true;
+        if (num % 10 == 0) return false;
+        return true;
+    }
 
+    public int[] ExecuteInstructions(int n, int[] startPos, string s)
+    {
+        int[,] dp = new int[n, n];//number
+        int Execute(string s)
+        {
+            int[] cur = (int[])startPos.Clone();
+            int count = 0;
+            foreach (char chr in s)
+            {
+                if (chr == 'L')
+                    cur[1]--;
+                if (chr == 'R')
+                    cur[1]++;
+                if (chr == 'U')
+                    cur[0]--;
+                if (chr == 'D')
+                    cur[0]++;
+                if (cur[0] < 0 || cur[0] >= n || cur[1] < 0 || cur[1] >= n)
+                    break;
+                count++;
+            }
+            return count;
+        }
+        int[] ans = new int[s.Length];
+        for (int i = 0; i < s.Length; i++)
+            ans[i] = Execute(s.Substring(i));
+        return ans;
+    }
+
+    public long[] GetDistances(int[] arr)
+    {
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (!dict.ContainsKey(arr[i]))
+            {
+                dict.Add(arr[i], new List<int>(new int[] { i }));
+            }
+            else
+            {
+                dict[arr[i]].Add(i);
+            }
+        }
+        long[] ans = new long[arr.Length];
+        foreach (var pair in dict)
+        {
+            for (int i = 0; i < pair.Value.Count; i++)
+            {
+                for (int j = i + 1; j < pair.Value.Count; j++)
+                {
+                    int cur = Math.Abs(pair.Value[i] - pair.Value[j]);
+                    ans[pair.Value[i]] += cur;
+                    ans[pair.Value[j]] += cur;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int[] RecoverArray(int[] nums)
+    {
+        
+        int[] Check(int k) {
+            //so let's make life ezier. say nums contains lower and lower+k = higher. 
+            Dictionary<int, int> counter = new Dictionary<int, int>();
+            List<int> final = new List<int>();
+            int halfK = k/2;
+            foreach (int i in nums) {
+                if (!counter.ContainsKey(i)) counter.Add(i,1);
+                else counter[i]++;
+            }
+            foreach (int i in nums) {
+                if (counter[i]!=0) {
+                    if (!counter.ContainsKey(i+k) || counter[i+k]==0) return new int[0];
+                    counter[i+k]--; counter[i]--;
+                    final.Add(i+halfK);
+                }
+            }
+            return final.ToArray();
+        }
+        Array.Sort(nums);
+        for (int i =0;i<nums.Length;i++) {
+            int k = nums[i]-nums[0];// actually k = 2k. as k is positive and nums[0] is smallest => nums[0]+k must exist!
+            if (k!=0 && k%2==0) {
+                var res = Check(k);
+                if (res.Length!=0) return res;
+            }
+        }
+        return new int[0];
+    }
+
+    public bool CanReorderDoubled(int[] arr)
+    {
+        Array.Sort(arr);
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        foreach (int i in arr)
+        {
+            if (!dict.ContainsKey(i)) dict.Add(i, 1);
+            else dict[i]++;
+        }
+        for (int i = arr.Length - 1; i >= 0; i--)
+        {
+            if (dict[arr[i]] != 0)
+            {
+                if (arr[i] == 0)
+                {
+                    if (dict[0] % 2 != 0) return false;
+                }
+                if (arr[i] > 0)
+                {
+                    if (arr[i] % 2 != 0 || !dict.ContainsKey(arr[i] / 2) || dict[arr[i] / 2] == 0) return false;
+                    dict[arr[i]]--; dict[arr[i]/2]--;
+                }
+                if (arr[i] < 0)
+                {
+                    if (!dict.ContainsKey(arr[i]*2) || dict[arr[i]]==0) return false;
+                    dict[arr[i]]--; dict[arr[i]*2]--;
+                }
+            }
+        }
+        return true;
+    }
 }
 
 public class StockSpanner

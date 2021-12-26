@@ -478,7 +478,17 @@ namespace LeetCode
             // Console.Write(sol.MctFromLeafValues(new int[]{6,2,4}));
             // Console.Write(sol.ScoreParentheses("((()))"));
             // Console.Write(sol.SumSubarrayMins(new int[]{71,55,82,55}));
-            Console.Write(sol.Calculate("3+2 *9"));
+            // Console.Write(sol.Calculate("3+2 *9"));
+            // var test = sol.ExecuteInstructions(3, new int[]{0,1}, "RRDDLU");
+            // foreach (int i in test)
+            //     Console.Write(i +" ");
+            // var test= sol.GetDistances(new int[]{2,1,3,1,2,3,3});
+            // foreach (int i in test)
+            //     Console.Write(i+" ");
+            // Console.WriteLine(sol.CanReorderDoubled(new int[]{2,1,2,6}));
+            var test = sol.RecoverArray(new int[]{2,10,6,4,8,12});
+            foreach (int i in test)
+            Console.Write(i +" ");
 
         }
     }
