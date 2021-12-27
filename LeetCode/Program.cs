@@ -486,10 +486,10 @@ namespace LeetCode
             // foreach (int i in test)
             //     Console.Write(i+" ");
             // Console.WriteLine(sol.CanReorderDoubled(new int[]{2,1,2,6}));
-            var test = sol.RecoverArray(new int[]{2,10,6,4,8,12});
-            foreach (int i in test)
-            Console.Write(i +" ");
-
+            // var test = sol.RecoverArray(new int[]{2,10,6,4,8,12});
+            // foreach (int i in test)
+            // Console.Write(i +" ");
+            Console.Write(1);
         }
     }
 }

@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "RbHv3ATjrlJdY9DHJB5Sq3hzytUEvcL3gWNAeRApt/qkho5zFTnRoemocEs/Rx5xaxcktyFzX6IVZog6J7PYBw==",
+  "dgSpecHash": "eAAIiyfAPtRly7CMk4g600Z4EjYFBc46FvC0HEm/Ys0nHqoKd0j4EQkBXtmhZ04HcGQ52tsygHEu/7gvuROomA==",
   "success": true,
   "projectFilePath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\vothu\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\vothu\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.22\\microsoft.netcore.app.host.win-x64.3.1.22.nupkg.sha512"
+  ],
   "logs": []
 }

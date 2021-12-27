@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 class Solution
 {
@@ -6267,19 +6265,19 @@ class Solution
         TreeNode first = null;
         TreeNode second = null;
         TreeNode prev = new TreeNode(int.MinValue);
-        void Traverse(TreeNode root)
+        void Traverse(TreeNode root1)
         {
-            if (root == null) return;
-            Traverse(root.left);
-            if (first == null && prev.val >= root.val)
+            if (root1 == null) return;
+            Traverse(root1.left);
+            if (first == null && prev.val >= root1.val)
             {
                 first = prev;
             }
-            if (first != null && prev.val >= root.val)
+            if (first != null && prev.val >= root1.val)
             {
-                second = root;
+                second = root1;
             }
-            Traverse(root.right);
+            Traverse(root1.right);
         }
         Traverse(root);
         int temp = first.val;
@@ -6567,33 +6565,33 @@ class Solution
     public int SumSubarrayMins(int[] arr)
     {
         //TODO: https://leetcode.com/problems/sum-of-subarray-minimums/
-        int[] ContiguousBiggerLeft(int[] arr)
+        int[] ContiguousBiggerLeft(int[] arr1)
         {
-            int[] ans = new int[arr.Length];//ans[i] is the number of strictly contiguously bigger numbers to the left of i 
+            int[] ans = new int[arr1.Length];//ans[i] is the number of strictly contiguously bigger numbers to the left of i 
             Stack<int[]> stack = new Stack<int[]>();
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < arr1.Length; i++)
             {
                 int count = 1;
-                while (stack.Count != 0 && stack.Peek()[0] > arr[i])
+                while (stack.Count != 0 && stack.Peek()[0] > arr1[i])
                 {
                     count += stack.Pop()[1];
                 }
                 ans[i] = count;
-                stack.Push(new int[] { arr[i], ans[i] });
+                stack.Push(new int[] { arr1[i], ans[i] });
             }
             return ans;
         }
-        int[] ContiguousBiggerRight(int[] arr)
+        int[] ContiguousBiggerRight(int[] arr1)
         {
-            int[] ans = new int[arr.Length];
+            int[] ans = new int[arr1.Length];
             Stack<int[]> stack = new Stack<int[]>();
-            for (int i = arr.Length - 1; i >= 0; i--)
+            for (int i = arr1.Length - 1; i >= 0; i--)
             {
                 int count = 1;
-                while (stack.Count != 0 && stack.Peek()[0] >= arr[i])
+                while (stack.Count != 0 && stack.Peek()[0] >= arr1[i])
                     count += stack.Pop()[1];
                 ans[i] = count;
-                stack.Push(new int[] { arr[i], ans[i] });
+                stack.Push(new int[] { arr1[i], ans[i] });
             }
             return ans;
         }
@@ -6642,7 +6640,21 @@ class Solution
         return res;
     }
 
-
+    public int[][] KClosest(int[][] points, int k) {
+        Dictionary<int, List<int[]>> dict = new Dictionary<int, List<int[]>>();
+        foreach (int[] point in points) {
+            int dis = point[0]*point[0] + point[1]*point[1];
+            if (!dict.ContainsKey(dis)){
+                var list = new List<int[]>(); list.Add(point);
+                dict.Add(dis, list);
+            } else {
+                dict[dis].Add(point);
+            }
+        }
+        // PriorityQueue<int, int> pq = new PriorityQueue<int, int>();
+        return points;
+        //TODO: Install .net4.8 and use pq. https://leetcode.com/problems/k-closest-points-to-origin/
+    }
 
     public int[] NextSmallerElement(int[] arr)
     {
@@ -6671,11 +6683,11 @@ class Solution
     public int[] ExecuteInstructions(int n, int[] startPos, string s)
     {
         int[,] dp = new int[n, n];//number
-        int Execute(string s)
+        int Execute(string s1)
         {
             int[] cur = (int[])startPos.Clone();
             int count = 0;
-            foreach (char chr in s)
+            foreach (char chr in s1)
             {
                 if (chr == 'L')
                     cur[1]--;
@@ -6729,31 +6741,37 @@ class Solution
 
     public int[] RecoverArray(int[] nums)
     {
-        
-        int[] Check(int k) {
+
+        int[] Check(int k)
+        {
             //so let's make life ezier. say nums contains lower and lower+k = higher. 
             Dictionary<int, int> counter = new Dictionary<int, int>();
             List<int> final = new List<int>();
-            int halfK = k/2;
-            foreach (int i in nums) {
-                if (!counter.ContainsKey(i)) counter.Add(i,1);
+            int halfK = k / 2;
+            foreach (int i in nums)
+            {
+                if (!counter.ContainsKey(i)) counter.Add(i, 1);
                 else counter[i]++;
             }
-            foreach (int i in nums) {
-                if (counter[i]!=0) {
-                    if (!counter.ContainsKey(i+k) || counter[i+k]==0) return new int[0];
-                    counter[i+k]--; counter[i]--;
-                    final.Add(i+halfK);
+            foreach (int i in nums)
+            {
+                if (counter[i] != 0)
+                {
+                    if (!counter.ContainsKey(i + k) || counter[i + k] == 0) return new int[0];
+                    counter[i + k]--; counter[i]--;
+                    final.Add(i + halfK);
                 }
             }
             return final.ToArray();
         }
         Array.Sort(nums);
-        for (int i =0;i<nums.Length;i++) {
-            int k = nums[i]-nums[0];// actually k = 2k. as k is positive and nums[0] is smallest => nums[0]+k must exist!
-            if (k!=0 && k%2==0) {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            int k = nums[i] - nums[0];// actually k = 2k. as k is positive and nums[0] is smallest => nums[0]+k must exist!
+            if (k != 0 && k % 2 == 0)
+            {
                 var res = Check(k);
-                if (res.Length!=0) return res;
+                if (res.Length != 0) return res;
             }
         }
         return new int[0];
@@ -6779,16 +6797,20 @@ class Solution
                 if (arr[i] > 0)
                 {
                     if (arr[i] % 2 != 0 || !dict.ContainsKey(arr[i] / 2) || dict[arr[i] / 2] == 0) return false;
-                    dict[arr[i]]--; dict[arr[i]/2]--;
+                    dict[arr[i]]--; dict[arr[i] / 2]--;
                 }
                 if (arr[i] < 0)
                 {
-                    if (!dict.ContainsKey(arr[i]*2) || dict[arr[i]]==0) return false;
-                    dict[arr[i]]--; dict[arr[i]*2]--;
+                    if (!dict.ContainsKey(arr[i] * 2) || dict[arr[i]] == 0) return false;
+                    dict[arr[i]]--; dict[arr[i] * 2]--;
                 }
             }
         }
         return true;
+    }
+
+    public IList<string> WordBreakII() {
+        PriorityQueue<int, int> pq = new PriorityQueue<int, int>();
     }
 }
 

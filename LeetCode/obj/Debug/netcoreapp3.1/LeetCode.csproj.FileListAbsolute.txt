@@ -11,3 +11,5 @@ C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.
 C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.dll
 C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.pdb
 C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.genruntimeconfig.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.csproj.AssemblyReference.cache
+C:\Users\vothu\OneDrive\Máy tính\C#\LeetCode\obj\Debug\netcoreapp3.1\LeetCode.GeneratedMSBuildEditorConfig.editorconfig
