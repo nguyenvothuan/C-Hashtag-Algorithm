@@ -489,7 +489,18 @@ namespace LeetCode
             // var test = sol.RecoverArray(new int[]{2,10,6,4,8,12});
             // foreach (int i in test)
             // Console.Write(i +" ");
-            Console.Write(1);
+            // CompareLargestConcat comp = new CompareLargestConcat();
+            // Console.Write(comp.Compare(10,2));
+            // Console.Write(sol.LargestNumberII(new int[]{0,0}));
+            // var test = sol.MiddleNode(new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5))))));
+            // Console.Write(test.val);
+            // var test = new int[]{24,3,82,22,35,84,19};
+            // Console.Write(sol.TriangleNumber(test));
+            // var tree = new NexNode(1, new NexNode(2, new NexNode(4), new NexNode(5)), new NexNode(3, new NexNode(6), new NexNode(7)));
+            // var test = sol.Connect(tree);
+            // test.SeeNext();
+            Console.Write(sol.FindUnsortedSubarray(new int[]{1,2,3,4}));
+
         }
     }
 }

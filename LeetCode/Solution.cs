@@ -193,8 +193,6 @@ class Solution
         return times - sum;
     }
 
-
-
     public int[][] sortByBeauty(int[][] numbers, int size)
     {
         List<List<int>> sortedSquare = Divide(numbers, size);
@@ -246,7 +244,6 @@ class Solution
         }
         return sortedSquares;
     }
-
 
     public int FindBeauty(List<int> list)
     {
@@ -717,10 +714,6 @@ class Solution
         }
         return count;
     }
-
-
-
-
     public static string canReach(int x1, int y1, int x2, int y2)
     {
         return canReachUtil(x1, y1, x2, y2) ? "Yes" : "No";
@@ -6640,14 +6633,19 @@ class Solution
         return res;
     }
 
-    public int[][] KClosest(int[][] points, int k) {
+    public int[][] KClosest(int[][] points, int k)
+    {
         Dictionary<int, List<int[]>> dict = new Dictionary<int, List<int[]>>();
-        foreach (int[] point in points) {
-            int dis = point[0]*point[0] + point[1]*point[1];
-            if (!dict.ContainsKey(dis)){
+        foreach (int[] point in points)
+        {
+            int dis = point[0] * point[0] + point[1] * point[1];
+            if (!dict.ContainsKey(dis))
+            {
                 var list = new List<int[]>(); list.Add(point);
                 dict.Add(dis, list);
-            } else {
+            }
+            else
+            {
                 dict[dis].Add(point);
             }
         }
@@ -6809,11 +6807,243 @@ class Solution
         return true;
     }
 
-    public IList<string> WordBreakII() {
-        PriorityQueue<int, int> pq = new PriorityQueue<int, int>();
+    public int FindComplement(int num)
+    {
+        //return ~num & (Integer.highestOneBit(num) - 1);
+        return 1;
+    }
+
+    public IList<string> WordBreakII()
+    {
+        // PriorityQueue<int, int> pq = new PriorityQueue<int, int>();
+        //TODO: Wordbreak 2
+        return null;
+    }
+
+    public string LargestNumberII(int[] nums)
+    {
+        CompareLargestConcat comp = new CompareLargestConcat();
+        Array.Sort(nums, comp);
+        StringBuilder buffer = new StringBuilder();
+        int start = nums.Length - 1;
+        while (start >= 0 && nums[start] == 0) start--;
+        if (start < 0) return "0";
+        for (int i = start; i >= 0; i--)
+            buffer.Append(nums[i].ToString());
+        if (buffer.Length == 0) return "0";
+        return buffer.ToString();
+    }
+
+    public int LeastInterval(char[] tasks, int n)
+    {
+        Dictionary<char, int> counter = new Dictionary<char, int>();
+        int max = 0, maxCount = 0;
+        foreach (char chr in tasks)
+        {
+            if (!counter.ContainsKey(chr)) counter.Add(chr, 1);
+            else counter[chr]++;
+            if (counter[chr] > max)
+            {
+                max = counter[chr]; maxCount = 1;
+            }
+            else if (counter[chr] == max)
+            {
+                maxCount++;
+            }
+        }
+
+        int partCount = max - 1;
+        int partLength = n - (maxCount - 1);
+        int emptySlot = partCount * partLength;
+        int availableTask = tasks.Length - max * maxCount;
+        return Math.Max(0, emptySlot - availableTask) + tasks.Length;
+    }
+
+    public int[][] ReconstructQueue(int[][] people)
+    {
+        ReconstructQueueCompare comp = new ReconstructQueueCompare();
+        Array.Sort(people, comp);
+        List<int[]> res = new List<int[]>();
+        foreach (var cur in people)
+        {
+            res.Insert(cur[1], cur);
+        }
+        return res.ToArray();
+    }
+
+    public ListNode MiddleNode(ListNode head)
+    {
+        if (head == null || head.next == null) return head;
+        ListNode cur = head;
+        int count = 0;
+        while (cur != null)
+        {
+            cur = cur.next;
+            count++;
+        }
+        cur = head;
+        for (int i = 0; i < count / 2; i++) cur = cur.next;
+        return cur;
+    }
+
+    public int EraseOverlapIntervals(int[][] intervals)
+    {
+        RemoveIntervalCompare comp = new RemoveIntervalCompare();
+        Array.Sort(intervals, comp);
+        int lastEnd = int.MinValue;
+        int count = 0;
+        for (int i = 0; i < intervals.Length;)
+        {
+            if (intervals[i][0] >= lastEnd) lastEnd = intervals[i][1];
+            else count++;
+        }
+        return count;
+    }
+
+    public int TriangleNumber(int[] nums)
+    {
+        Array.Sort(nums);
+        //so the idea is that we pick 2 index i < j. We find from j+1 to n-1 for the final number c (say index k) so that arr[i]+arr[j] > c (and >arr[j]-arr[i]). 
+        //Next, use the last c in the prev j to find next c for j+1. just search from c-> n-1. 
+        //in total: i loops n times, j times. c is found along j so it can never get more than j's time -> O(n^2)
+        int count = 0;
+        int BinarySearchLastSmallerIndex(int sum, int left)
+        {
+            //search for the final element's index in nums that is smaller than sum
+            int right = nums.Length - 1;
+            while (right > left)
+            {
+                int mid = (right + left) / 2;
+                if (nums[mid] >= sum) right = mid - 1;
+                else left = mid + 1;
+            }
+            while (nums[left] >= sum) left--;
+            return left;
+        }
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] == 0) continue;
+            int lastK = i + 2; //index of C: arr[k] =c
+            for (int j = i + 1; j < nums.Length - 1; j++)
+            {
+                if (nums[j] == 0) continue;
+                if (lastK == nums.Length - 1)
+                {
+                    if (nums[i] + nums[j] > nums[lastK])
+                        count += lastK - j;
+                }
+                else
+                {
+                    int k = BinarySearchLastSmallerIndex(nums[i] + nums[j], lastK);
+                    if (k < j + 1) continue;//unfound
+                    count += k - j; lastK = k;
+                }
+            }
+        }
+        return count;
+    }
+
+    public NexNode Connect(NexNode root)
+    {
+        Queue<NexNode> q = new Queue<NexNode>();
+        q.Enqueue(root);
+        q.Enqueue(new NexNode(int.MinValue));
+        NexNode prev = null;
+        while (q.Count != 0)
+        {
+            NexNode cur = q.Dequeue();
+            if (cur != null && cur.val == int.MinValue && q.Count != 0)
+            {//end of level;
+                q.Enqueue(new NexNode(int.MinValue));
+                prev = null;
+            }
+            else if (cur != null)
+            {
+                if (prev == null ) prev = cur;
+                else {prev.next = cur;prev =cur;}
+                q.Enqueue(cur.left);
+                q.Enqueue(cur.right);
+            }
+        }
+        return root;
+    }
+
+    public int FindUnsortedSubarray(int[] nums) {
+        int[] minRL = new int[nums.Length];
+        int[] maxLR = new int[nums.Length];
+        int temp = int.MaxValue;
+        for(int i =nums.Length-1;i>=0;i--) {
+            temp = Math.Min(nums[i], temp);
+            minRL[i] = temp;
+        }
+        temp = int.MinValue;
+        for(int i = 0;i<nums.Length;i++) {
+            temp = Math.Max(nums[i], temp);
+            maxLR[i] = temp;
+        }
+        int start =0;//look for the first number that has value greater than its minRL
+        while (start<nums.Length && nums[start]<= minRL[start]) start++;
+        int end = nums.Length-1;//look for the last number that has value greater than its maxLR
+        while (end>=0 && nums[end]>=maxLR[end]) end--;
+        return Math.Max(0, end-start+1);
     }
 }
 
+public class NexNode
+{
+    public int val;
+    public NexNode left;
+    public NexNode right;
+    public NexNode next;
+
+    public NexNode() { }
+
+    public NexNode(int _val)
+    {
+        val = _val;
+    }
+
+    public NexNode(int _val, NexNode _left, NexNode _right, NexNode _next = null)
+    {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+
+    public void InorderTraversal()
+    {
+        void Traverse(NexNode root)
+        {
+            if (root == null) return;
+            Traverse(root.left);
+            Console.Write(root.val + " ");
+            Traverse(root.right);
+        }
+        Traverse(this);
+    }
+    public void SeeNext()
+    {
+        if (this == null) return;
+        List<NexNode> allLeft = new List<NexNode>();
+        var cur = this;
+        while (cur != null)
+        {
+            allLeft.Add(cur);
+            cur = cur.left;
+        }
+        foreach (var node in allLeft)
+        {
+            cur = node;
+            while (cur != null)
+            {
+                Console.Write(cur.val + " ");
+                cur = cur.next;
+            }
+            Console.WriteLine();
+        }
+    }
+}
 public class StockSpanner
 {
     Stack<int[]> stack;
@@ -6834,6 +7064,7 @@ public class StockSpanner
         return res;
     }
 }
+
 public class Pair
 {
     public int min, max;
