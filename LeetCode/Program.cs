@@ -499,7 +499,8 @@ namespace LeetCode
             // var tree = new NexNode(1, new NexNode(2, new NexNode(4), new NexNode(5)), new NexNode(3, new NexNode(6), new NexNode(7)));
             // var test = sol.Connect(tree);
             // test.SeeNext();
-            Console.Write(sol.FindUnsortedSubarray(new int[]{1,2,3,4}));
+            // Console.Write(sol.FindUnsortedSubarray(new int[]{1,2,3,4}));
+            Console.Write(sol.IncreasingTriplet(new int[]{20,100,10,12,5,13}));
 
         }
     }

@@ -6987,6 +6987,32 @@ class Solution
         while (end>=0 && nums[end]>=maxLR[end]) end--;
         return Math.Max(0, end-start+1);
     }
+
+    public bool IncreasingTriplet(int[] nums) 
+    {
+        int lastMin = nums[0];
+        int lastMax = int.MaxValue;
+        int dot = nums[0];
+
+        int startInd = 0;
+        while (startInd<nums.Length-1 && nums[startInd]>=nums[startInd+1]) startInd++;
+        if (startInd>=nums.Length-2)return false;
+        lastMin = nums[startInd];
+        lastMax = nums[startInd+1];
+        dot = nums[startInd];//dot <= lastMin
+        for(int i = startInd+2;i<nums.Length;i++) {
+            int cur = nums[i];
+            if (cur>lastMax) return true;
+            if (cur>dot) {
+                lastMin = dot;
+                lastMax = cur;
+            }
+            else if (cur<dot) {
+                dot = cur;
+            }
+        }
+        return false;
+    }
 }
 
 public class NexNode
