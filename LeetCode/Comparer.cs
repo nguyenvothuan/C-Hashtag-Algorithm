@@ -116,3 +116,10 @@ public class RemoveIntervalCompare : Comparer<int[]> {
         return -x[1] + y[1]; 
     }
 }
+
+public class BaloonCompare: Comparer<int[]> {
+    public override int Compare([AllowNull] int[] x, [AllowNull] int[] y)
+    {
+        return x[0] - y[0];
+    }
+}

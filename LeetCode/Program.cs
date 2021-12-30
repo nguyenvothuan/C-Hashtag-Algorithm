@@ -500,8 +500,14 @@ namespace LeetCode
             // var test = sol.Connect(tree);
             // test.SeeNext();
             // Console.Write(sol.FindUnsortedSubarray(new int[]{1,2,3,4}));
-            Console.Write(sol.IncreasingTriplet(new int[]{20,100,10,12,5,13}));
-
+            // Console.Write(sol.IncreasingTriplet(new int[]{20,100,10,12,5,13}));
+            // Console.Write(sol.SmallestRepunitDivByK(3));
+            var arr = new int[4][];
+            arr[0] = new int[]{10,16};
+            arr[1] = new int[]{2,8};
+            arr[2] = new int[]{1,6};
+            arr[3] = new int[]{7,12};
+            Console.Write(sol.FindMinArrowShots(arr));
         }
     }
 }

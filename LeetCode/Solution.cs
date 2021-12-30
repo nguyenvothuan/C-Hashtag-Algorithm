@@ -6959,8 +6959,8 @@ class Solution
             }
             else if (cur != null)
             {
-                if (prev == null ) prev = cur;
-                else {prev.next = cur;prev =cur;}
+                if (prev == null) prev = cur;
+                else { prev.next = cur; prev = cur; }
                 q.Enqueue(cur.left);
                 q.Enqueue(cur.right);
             }
@@ -6968,51 +6968,109 @@ class Solution
         return root;
     }
 
-    public int FindUnsortedSubarray(int[] nums) {
+    public int FindUnsortedSubarray(int[] nums)
+    {
         int[] minRL = new int[nums.Length];
         int[] maxLR = new int[nums.Length];
         int temp = int.MaxValue;
-        for(int i =nums.Length-1;i>=0;i--) {
+        for (int i = nums.Length - 1; i >= 0; i--)
+        {
             temp = Math.Min(nums[i], temp);
             minRL[i] = temp;
         }
         temp = int.MinValue;
-        for(int i = 0;i<nums.Length;i++) {
+        for (int i = 0; i < nums.Length; i++)
+        {
             temp = Math.Max(nums[i], temp);
             maxLR[i] = temp;
         }
-        int start =0;//look for the first number that has value greater than its minRL
-        while (start<nums.Length && nums[start]<= minRL[start]) start++;
-        int end = nums.Length-1;//look for the last number that has value greater than its maxLR
-        while (end>=0 && nums[end]>=maxLR[end]) end--;
-        return Math.Max(0, end-start+1);
+        int start = 0;//look for the first number that has value greater than its minRL
+        while (start < nums.Length && nums[start] <= minRL[start]) start++;
+        int end = nums.Length - 1;//look for the last number that has value greater than its maxLR
+        while (end >= 0 && nums[end] >= maxLR[end]) end--;
+        return Math.Max(0, end - start + 1);
     }
 
-    public bool IncreasingTriplet(int[] nums) 
+    public bool IncreasingTriplet(int[] nums)
     {
         int lastMin = nums[0];
         int lastMax = int.MaxValue;
         int dot = nums[0];
 
         int startInd = 0;
-        while (startInd<nums.Length-1 && nums[startInd]>=nums[startInd+1]) startInd++;
-        if (startInd>=nums.Length-2)return false;
+        while (startInd < nums.Length - 1 && nums[startInd] >= nums[startInd + 1]) startInd++;
+        if (startInd >= nums.Length - 2) return false;
         lastMin = nums[startInd];
-        lastMax = nums[startInd+1];
+        lastMax = nums[startInd + 1];
         dot = nums[startInd];//dot <= lastMin
-        for(int i = startInd+2;i<nums.Length;i++) {
+        for (int i = startInd + 2; i < nums.Length; i++)
+        {
             int cur = nums[i];
-            if (cur>lastMax) return true;
-            if (cur>dot) {
+            if (cur > lastMax) return true;
+            if (cur > dot)
+            {
                 lastMin = dot;
                 lastMax = cur;
             }
-            else if (cur<dot) {
+            else if (cur < dot)
+            {
                 dot = cur;
             }
         }
         return false;
     }
+
+    public int SmallestRepunitDivByK(int k)
+    {
+        int remainder = 0;
+        for (int i = 1; i <= k; i++)
+        {
+            remainder = (10 * remainder + 1) % k;
+            if (remainder == 0) return i;
+        }
+        return -1;
+    }
+
+    public int FindMinArrowShots(int[][] points)
+    {
+        BaloonCompare comp = new BaloonCompare();
+        Array.Sort(points, comp);
+        int count =0;
+        int pointer = 0;
+        void FindIntervalAndMovePointer() {
+            if (pointer>=points.Length) return;
+            int start = points[pointer][0];
+            int end = points[pointer][1];
+            while (points[pointer][0]>=start && points[pointer][0]<=end) {               
+                start = Math.Max(points[pointer][0], start);
+                end = Math.Min(points[pointer][1], end);
+                pointer++;
+                if (pointer>=points.Length) break;
+            }
+            count++;
+            FindIntervalAndMovePointer();
+        } 
+        FindIntervalAndMovePointer();
+        return count;
+    }
+
+    int[] GetDigitArray (int n) {
+        if (n<10) return new int[]{n};
+        List<int> final = new List<int>();
+        int numDig = GetNumberOfDigits(n);
+        for (int i =numDig-1;i>=0;i--) {
+            int cur = n % (int)Math.Pow(10, numDig);
+            final.Add(cur);
+            n -= cur*(int)Math.Pow(10, numDig);
+        }
+        return final.ToArray();
+    }
+
+    public int MonotoneIncreasingDigits(int n) {
+        int numDig = GetNumberOfDigits(n);
+        
+    }
+
 }
 
 public class NexNode
