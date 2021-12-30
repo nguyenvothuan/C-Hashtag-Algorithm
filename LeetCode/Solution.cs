@@ -7035,40 +7035,95 @@ class Solution
     {
         BaloonCompare comp = new BaloonCompare();
         Array.Sort(points, comp);
-        int count =0;
+        int count = 0;
         int pointer = 0;
-        void FindIntervalAndMovePointer() {
-            if (pointer>=points.Length) return;
+        void FindIntervalAndMovePointer()
+        {
+            if (pointer >= points.Length) return;
             int start = points[pointer][0];
             int end = points[pointer][1];
-            while (points[pointer][0]>=start && points[pointer][0]<=end) {               
+            while (points[pointer][0] >= start && points[pointer][0] <= end)
+            {
                 start = Math.Max(points[pointer][0], start);
                 end = Math.Min(points[pointer][1], end);
                 pointer++;
-                if (pointer>=points.Length) break;
+                if (pointer >= points.Length) break;
             }
             count++;
             FindIntervalAndMovePointer();
-        } 
+        }
         FindIntervalAndMovePointer();
         return count;
     }
 
-    int[] GetDigitArray (int n) {
-        if (n<10) return new int[]{n};
+    public int[] GetDigitArray(int n)
+    {
+        if (n < 10) return new int[] { n };
         List<int> final = new List<int>();
         int numDig = GetNumberOfDigits(n);
-        for (int i =numDig-1;i>=0;i--) {
-            int cur = n % (int)Math.Pow(10, numDig);
+        for (int i = numDig - 1; i >= 0; i--)
+        {
+            int cur = n / (int)Math.Pow(10, i);
             final.Add(cur);
-            n -= cur*(int)Math.Pow(10, numDig);
+            n -= cur * (int)Math.Pow(10, i);
         }
         return final.ToArray();
     }
 
-    public int MonotoneIncreasingDigits(int n) {
+    public int MonotoneIncreasingDigits(int n)
+    {
         int numDig = GetNumberOfDigits(n);
-        
+        int[] arr = GetDigitArray(n);
+        int j = -1;
+        //check adverse case
+        // bool specialCase = arr[0]==1;
+        // for (int i =1;i<arr.Length;i++) {
+        //     if (arr[i]!=0) 
+        //     {specialCase = false; break;}
+        // }
+        // if (specialCase) return n-1;
+        for (int i = 1; i < arr.Length; i++)
+        {
+            if (arr[i] < arr[i - 1])
+            { j = i; break; }
+        }
+        if (j == -1) return n; //n is already increasing
+        //search from j to 0 for the first index k that arr[k]>arr[k-1]. Turn arr[k] to arr[k] - 1
+        int k = -1;
+        for (int i = j; i > 0; i--)
+        {
+            if (arr[i] > arr[i - 1])
+            { k = i; break; }
+        }
+        if (k == -1) {arr[0]--; k = 1;}
+        else
+        {
+            arr[k]--; k++;
+        }
+        //turn all hnumber between k and j to 9
+        for (int i =k;i<arr.Length;i++) 
+            arr[i] = 9;
+        int final = 0;
+        foreach (int i in arr)
+            final = 10*final+i;
+        return final;
+    }
+
+    public int MaxIncreaseKeepingSkyline(int[][] grid) {
+        int n = grid.Length;
+        int[] maxCol = new int[n];
+        int[] maxRow = new int[n];
+        for (int i =0;i<n;i++) {
+            for (int j=0;j<n;j++) {
+                maxCol[j] = Math.Max(grid[i][j], maxCol[j]);
+                maxRow[i] = Math.Max(grid[i][j], maxRow[i]);
+            }
+        }
+        int count = 0;
+        for (int i =0;i<n;i++) 
+            for (int j=0;j<n;j++) 
+                count += Math.Min(maxRow[i], maxCol[j]) - grid[i][j];
+        return count;
     }
 
 }
