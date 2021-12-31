@@ -7206,22 +7206,42 @@ class Solution
     {
         LongestChainCompare comp = new LongestChainCompare();
         Array.Sort(pairs, comp);
-        int count =1;
+        int count = 1;
         int end = int.MaxValue;
-        for (int i =0;i<pairs.Length;i++) {
+        for (int i = 0; i < pairs.Length; i++)
+        {
             int s = pairs[i][0], e = pairs[i][1];
-            if (s>end) {
+            if (s > end)
+            {
                 count++;
                 end = e;
-            } else if (s<end){
+            }
+            else if (s < end)
+            {
                 end = Math.Min(end, e);
             }
         }
         return count;
     }
 
-    public int Candy(int[] ratings) {
-        
+    public int Candy(int[] ratings)
+    {
+        int[] streakLR = new int[ratings.Length];
+        int[] streakRL = new int[ratings.Length];
+        streakLR[0] = 1;
+        streakRL[streakLR.Length - 1] = 1;
+        for (int i = 1; i < ratings.Length; i++)
+        {
+            streakLR[i] = ratings[i] > ratings[i - 1] ? streakLR[i - 1] + 1 : 1;
+        }
+        for (int i = ratings.Length - 2; i >= 0; i--)
+        {
+            streakRL[i] = ratings[i] > ratings[i + 1] ? streakRL[i + 1] + 1 : 1;
+        }
+        int count = 0;
+        for (int i = 0; i < ratings.Length; i++)
+            count += Math.Max(streakLR[i], streakRL[i]);
+        return count;
     }
 }
 

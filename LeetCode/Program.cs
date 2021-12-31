@@ -511,11 +511,12 @@ namespace LeetCode
             // var arr = sol.GetDigitArray(10);
             // foreach (int i in arr) Console.Write(i + " ");
             // Console.Write(sol.MonotoneIncreasingDigits(100000));
-            var test = new int[3][];
-            test[0] = new int[]{1,2};
-            test[1] = new int[]{2,3};
-            test[2] = new int[]{3,4};
-            Console.Write(sol.FindLongestChain(test));
+            // var test = new int[3][];
+            // test[0] = new int[]{1,2};
+            // test[1] = new int[]{2,3};
+            // test[2] = new int[]{3,4};
+            // Console.Write(sol.FindLongestChain(test));
+            Console.Write(sol.Candy(new int[]{1,2,2}));
         }
     }
 }
