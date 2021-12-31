@@ -7188,19 +7188,41 @@ class Solution
         return max;
     }
 
-    public int RecursionMaxAncestorDiff(TreeNode root) {
-        int GetMaxMinAlongThePath(TreeNode cur, int max, int min) {//update max and min sofar with cur. if leaf, return max and min.
+    public int RecursionMaxAncestorDiff(TreeNode root)
+    {
+        int GetMaxMinAlongThePath(TreeNode cur, int max, int min)
+        {//update max and min sofar with cur. if leaf, return max and min.
             if (cur == null) return max - min;
             max = Math.Max(cur.val, max); min = Math.Min(cur.val, min);
             int left = GetMaxMinAlongThePath(cur.left, max, min);
             int right = GetMaxMinAlongThePath(cur.right, max, min);
             return Math.Max(left, right);
         }
-        if (root==null) return 0;
+        if (root == null) return 0;
         return GetMaxMinAlongThePath(root, root.val, root.val);
     }
 
+    public int FindLongestChain(int[][] pairs)
+    {
+        LongestChainCompare comp = new LongestChainCompare();
+        Array.Sort(pairs, comp);
+        int count =1;
+        int end = int.MaxValue;
+        for (int i =0;i<pairs.Length;i++) {
+            int s = pairs[i][0], e = pairs[i][1];
+            if (s>end) {
+                count++;
+                end = e;
+            } else if (s<end){
+                end = Math.Min(end, e);
+            }
+        }
+        return count;
+    }
 
+    public int Candy(int[] ratings) {
+        
+    }
 }
 
 public class NexNode

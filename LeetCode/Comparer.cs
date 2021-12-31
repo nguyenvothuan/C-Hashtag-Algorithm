@@ -123,3 +123,12 @@ public class BaloonCompare: Comparer<int[]> {
         return x[0] - y[0];
     }
 }
+
+public class LongestChainCompare : Comparer<int[]>
+{
+    public override int Compare( int[] x,int[] y)
+    {
+        //the one with smaller finish time is taken picked
+        return x[0] - y[0];
+    }
+}
