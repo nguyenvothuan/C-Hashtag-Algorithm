@@ -7095,36 +7095,111 @@ class Solution
             if (arr[i] > arr[i - 1])
             { k = i; break; }
         }
-        if (k == -1) {arr[0]--; k = 1;}
+        if (k == -1) { arr[0]--; k = 1; }
         else
         {
             arr[k]--; k++;
         }
         //turn all hnumber between k and j to 9
-        for (int i =k;i<arr.Length;i++) 
+        for (int i = k; i < arr.Length; i++)
             arr[i] = 9;
         int final = 0;
         foreach (int i in arr)
-            final = 10*final+i;
+            final = 10 * final + i;
         return final;
     }
 
-    public int MaxIncreaseKeepingSkyline(int[][] grid) {
+    public int MaxIncreaseKeepingSkyline(int[][] grid)
+    {
         int n = grid.Length;
         int[] maxCol = new int[n];
         int[] maxRow = new int[n];
-        for (int i =0;i<n;i++) {
-            for (int j=0;j<n;j++) {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
                 maxCol[j] = Math.Max(grid[i][j], maxCol[j]);
                 maxRow[i] = Math.Max(grid[i][j], maxRow[i]);
             }
         }
         int count = 0;
-        for (int i =0;i<n;i++) 
-            for (int j=0;j<n;j++) 
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
                 count += Math.Min(maxRow[i], maxCol[j]) - grid[i][j];
         return count;
     }
+
+    public int MaxAncestorDifference(TreeNode root)
+    {
+        int max = int.MinValue;
+        int GetMinAndUpdateMin(TreeNode cur)
+        {
+            //go to the left and right subtree first and use this function on
+            //for the current one, update min
+            if (cur == null) return int.MaxValue;
+            int left = GetMinAndUpdateMin(cur.left);
+            int right = GetMinAndUpdateMin(cur.right);
+            if (left != int.MaxValue && right != int.MaxValue)
+                max = Math.Max(max, Math.Max(Math.Abs(cur.val - left), Math.Abs(cur.val - right)));
+            else if (left != int.MaxValue)
+                max = Math.Max(max, Math.Abs(cur.val - left));
+            else if (right != int.MaxValue)
+                max = Math.Max(max, Math.Abs(cur.val - right));
+            return Math.Min(cur.val, Math.Min(left, right));
+        }
+        GetMinAndUpdateMin(root);
+        return max;
+    }
+
+    public int MaxAncestorDiff(TreeNode root)
+    {
+        int max = int.MinValue;
+        int[] GetMinMaxAndUpdateMax(TreeNode cur)
+        {
+            //get min max of the current node. update max with cur.val-left (if there is left) and cur.val - right (if there is right)
+            if (cur == null) return new int[0];
+            int[] left = GetMinMaxAndUpdateMax(cur.left);
+            int[] right = GetMinMaxAndUpdateMax(cur.right);
+            //if left and right are nonnull
+            int curMin = cur.val, curMax = cur.val;
+            if (left.Length != 0 && right.Length != 0)
+            {
+                curMin = Math.Min(cur.val, Math.Min(left[0], right[0]));
+                curMax = Math.Max(cur.val, Math.Max(left[1], right[1]));
+                max = Math.Max(max, Math.Max(Math.Abs(cur.val - left[0]), Math.Abs(cur.val - left[1])));
+                max = Math.Max(max, Math.Max(Math.Abs(cur.val - right[0]), Math.Abs(cur.val - right[1])));
+            }
+            else if (left.Length != 0)
+            {
+                curMin = Math.Min(cur.val, left[0]);
+                curMax = Math.Max(cur.val, left[1]);
+                max = Math.Max(max, Math.Max(Math.Abs(cur.val - left[0]), Math.Abs(cur.val - left[1])));
+            }
+            else if (right.Length != 0)
+            {
+                curMin = Math.Min(cur.val, right[0]);
+                curMax = Math.Max(cur.val, right[1]);
+                max = Math.Max(max, Math.Max(Math.Abs(cur.val - right[0]), Math.Abs(cur.val - right[1])));
+            }
+            //finally when cur is leaf do shit
+            return new int[] { curMin, curMax };
+        }
+        GetMinMaxAndUpdateMax(root);
+        return max;
+    }
+
+    public int RecursionMaxAncestorDiff(TreeNode root) {
+        int GetMaxMinAlongThePath(TreeNode cur, int max, int min) {//update max and min sofar with cur. if leaf, return max and min.
+            if (cur == null) return max - min;
+            max = Math.Max(cur.val, max); min = Math.Min(cur.val, min);
+            int left = GetMaxMinAlongThePath(cur.left, max, min);
+            int right = GetMaxMinAlongThePath(cur.right, max, min);
+            return Math.Max(left, right);
+        }
+        if (root==null) return 0;
+        return GetMaxMinAlongThePath(root, root.val, root.val);
+    }
+
 
 }
 
