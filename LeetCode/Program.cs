@@ -516,7 +516,10 @@ namespace LeetCode
             // test[1] = new int[]{2,3};
             // test[2] = new int[]{3,4};
             // Console.Write(sol.FindLongestChain(test));
-            Console.Write(sol.Candy(new int[]{1,2,2}));
+            // Console.Write(sol.Candy(new int[]{1,2,2}));
+            // Console.Write(sol.NumPairsDivisibleBy60(new int[]{15,63,451,213,209,343,319}));
+            var arr = new int[]{1,2,3,3,4,5};
+            Console.Write(sol.IsPossible(arr));
         }
     }
 }

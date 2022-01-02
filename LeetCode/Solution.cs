@@ -7223,7 +7223,6 @@ class Solution
         }
         return count;
     }
-
     public int Candy(int[] ratings)
     {
         int[] streakLR = new int[ratings.Length];
@@ -7242,6 +7241,127 @@ class Solution
         for (int i = 0; i < ratings.Length; i++)
             count += Math.Max(streakLR[i], streakRL[i]);
         return count;
+    }
+
+    public int MaxCoins(int[] nums)
+    {
+        //dp[i,j]: last balloon to burst in the interval i to j to keep it largest
+        int[] arr = new int[nums.Length + 2];
+        for (int i = 1; i <= nums.Length; i++) if (nums[i - 1] > 0) arr[i] = nums[i - 1];
+        arr[0] = 1; arr[nums.Length + 1] = 1;
+        int[,] dp = new int[nums.Length + 2, nums.Length + 2];
+        int Burst(int left, int right)
+        {//largest sum if start and end at left and right, keep left and right
+            if (left + 1 == right) return 0;
+            if (dp[left, right] > 0) return dp[left, right];
+            int ans = 0;
+            for (int i = left + 1; i < right; i++)
+            {
+                ans = Math.Max(ans, arr[left] * arr[i] * arr[right] + Burst(left, i) + Burst(i, right));
+            }
+            dp[left, right] = ans;
+            return ans;
+        }
+        return Burst(0, nums.Length + 1);
+    }
+
+    public int IntegerReplacement(int n)
+    {
+        if (n == int.MaxValue) return 32;
+        int count = 0;
+        while (n != 1)
+        {
+            if (n % 2 == 0) n /= 2;
+            else
+            {
+                if ((n + 1) % 4 == 0 && n != 3) n++;
+                else n--;
+            }
+            count++;
+        }
+        return count;
+    }
+
+    public string RemoveKdigits(string num, int k)
+    {
+        //TODO:Greedy
+        return "";
+    }
+    public int NumPairsDivisibleBy60(int[] time) {
+        int[] r = new int[60];
+        foreach (int i in time) {
+            r[i%60]++;
+        }
+        int final =0;
+        final += (r[0]*(r[0]-1))/2 +( r[30]*(r[30]-1))/2;
+        for(int i =1;i<30;i++) 
+            final += r[i]*r[60-i];
+        return final;
+    }
+
+    public bool CheckString(string s) {
+        bool sawB = false;
+        foreach (char chr in s) {
+            if (chr=='a' && sawB) return false;
+            if (chr=='b') sawB = true;
+        }
+        return true;
+    }
+
+    public int NumberOfBeams(string[] bank) {
+        int last = 0; int count = 0;
+        foreach (string str in bank) {
+            int cur =0;
+            foreach (char chr in str)
+                if (chr=='1')
+                    cur++;
+            if (cur!=0) {
+                count += last*cur;
+                last = cur;
+            }
+        }
+        return count;
+    }
+
+    public bool AsteroidsDestroyed(int mass, int[] asteroids) {
+        Array.Sort(asteroids);
+        int cur = mass;
+        int max = 0;
+        foreach (int i in asteroids)
+            max = Math.Max(i, max);
+        foreach (int i in asteroids){
+            if (cur<i) return false;
+            cur+=i;
+            if (cur>max) return true;
+        }
+        return true;
+    }
+
+    public bool IsPossible(int[] nums) {
+        Dictionary<int, int> left = new Dictionary<int, int>(), end = new Dictionary<int, int>();
+        foreach (int i in nums) {
+            if (left.ContainsKey(i)) left[i]++;
+            else left.Add(i,1);
+            if (!end.ContainsKey(i)) end.Add(i,0);
+        }
+        foreach (int i in nums) {
+            if (left[i]==0) continue;
+            left[i]--;
+            if (end.ContainsKey(i-1) && end[i-1]>0)
+            {
+                end[i-1]--;
+                end[i]++;
+            }
+            else if (left.ContainsKey(i+1) && left[i+1]>0 && left.ContainsKey(i+2) && left[i+2]>0)
+            {
+                left[i+1]--;
+                left[i+2]--;
+                end[i+2]++;
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
@@ -7320,7 +7440,6 @@ public class StockSpanner
         return res;
     }
 }
-
 public class Pair
 {
     public int min, max;
