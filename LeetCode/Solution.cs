@@ -7405,12 +7405,52 @@ class Solution
             sumRL[i] = sumRL[i + 1] + satisfaction[i];
         int max = sumRL[n - 1];
         for (int i = n - 2; i >= 0; i--)
-        { 
-            sumRL[i] = sumRL[i + 1] + sumRL[i]; 
-            if (max>sumRL[i]) break;
+        {
+            sumRL[i] = sumRL[i + 1] + sumRL[i];
+            if (max > sumRL[i]) break;
             max = sumRL[i];
         }
         return max;
+    }
+
+    public int MaxSum(int[] nums1, int[] nums2)
+    {
+        Dictionary<int, int> p1p2 = new Dictionary<int, int>(), p2p1 = new Dictionary<int, int>();
+        int i1 = 0, i2 = 0;
+        while (i1 < nums1.Length && i2 < nums2.Length)
+        {
+            if (nums1[i1] == nums2[i2])
+            {
+                p1p2.Add(i1, i2);
+                p2p1.Add(i2, i1);
+                i1++;
+            }
+            while (i1 < nums1.Length && i2 < nums2.Length && nums1[i1] > nums2[i2]) i2++;
+            while (i1 < nums1.Length && i2 < nums2.Length && nums1[i1] < nums2[i2]) i1++;
+        }
+        long[] dp1 = new long[p1p2.Count+1], dp2 = new long[p1p2.Count+1];// store sum of interval of each array
+        int last = 0; int curInd = 0;
+        foreach (var pair in p1p2) {    
+            for (int i =last;i<pair.Key;i++)
+                dp1[curInd] += nums1[i];
+            curInd++; last = pair.Key;
+        }
+        for(int i =last;i<nums1.Length;i++) dp1[dp1.Length-1] += nums1[i];
+        last = 0; curInd = 0;
+        foreach (var pair in p2p1) {
+            for (int i =last;i<pair.Key;i++)
+                dp2[curInd] += nums2[i];
+            curInd++; last = pair.Key;
+        }
+        for(int i =last;i<nums2.Length;i++) dp2[dp2.Length-1] += nums2[i];
+        //now decide which combination is the largest
+        int n = dp1.Length; //number of intervals
+        long[] dp = new long[n];  //largest sum if start at i 
+        dp[n-1] = Math.Max(dp1[n-1], dp2[n-1]);
+        for (int i = n-2;i>=0;i--)
+            dp[i] = Math.Max(dp1[i], dp2[i])+dp[i+1];
+        int final = (int)(dp[0]%((int)Math.Pow(10, 9)+7));
+        return final;
     }
 }
 
