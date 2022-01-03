@@ -7287,81 +7287,130 @@ class Solution
         //TODO:Greedy
         return "";
     }
-    public int NumPairsDivisibleBy60(int[] time) {
+    public int NumPairsDivisibleBy60(int[] time)
+    {
         int[] r = new int[60];
-        foreach (int i in time) {
-            r[i%60]++;
+        foreach (int i in time)
+        {
+            r[i % 60]++;
         }
-        int final =0;
-        final += (r[0]*(r[0]-1))/2 +( r[30]*(r[30]-1))/2;
-        for(int i =1;i<30;i++) 
-            final += r[i]*r[60-i];
+        int final = 0;
+        final += (r[0] * (r[0] - 1)) / 2 + (r[30] * (r[30] - 1)) / 2;
+        for (int i = 1; i < 30; i++)
+            final += r[i] * r[60 - i];
         return final;
     }
 
-    public bool CheckString(string s) {
+    public bool CheckString(string s)
+    {
         bool sawB = false;
-        foreach (char chr in s) {
-            if (chr=='a' && sawB) return false;
-            if (chr=='b') sawB = true;
+        foreach (char chr in s)
+        {
+            if (chr == 'a' && sawB) return false;
+            if (chr == 'b') sawB = true;
         }
         return true;
     }
 
-    public int NumberOfBeams(string[] bank) {
+    public int NumberOfBeams(string[] bank)
+    {
         int last = 0; int count = 0;
-        foreach (string str in bank) {
-            int cur =0;
+        foreach (string str in bank)
+        {
+            int cur = 0;
             foreach (char chr in str)
-                if (chr=='1')
+                if (chr == '1')
                     cur++;
-            if (cur!=0) {
-                count += last*cur;
+            if (cur != 0)
+            {
+                count += last * cur;
                 last = cur;
             }
         }
         return count;
     }
 
-    public bool AsteroidsDestroyed(int mass, int[] asteroids) {
+    public bool AsteroidsDestroyed(int mass, int[] asteroids)
+    {
         Array.Sort(asteroids);
         int cur = mass;
         int max = 0;
         foreach (int i in asteroids)
             max = Math.Max(i, max);
-        foreach (int i in asteroids){
-            if (cur<i) return false;
-            cur+=i;
-            if (cur>max) return true;
+        foreach (int i in asteroids)
+        {
+            if (cur < i) return false;
+            cur += i;
+            if (cur > max) return true;
         }
         return true;
     }
 
-    public bool IsPossible(int[] nums) {
+    public bool IsPossible(int[] nums)
+    {
         Dictionary<int, int> left = new Dictionary<int, int>(), end = new Dictionary<int, int>();
-        foreach (int i in nums) {
+        foreach (int i in nums)
+        {
             if (left.ContainsKey(i)) left[i]++;
-            else left.Add(i,1);
-            if (!end.ContainsKey(i)) end.Add(i,0);
+            else left.Add(i, 1);
+            if (!end.ContainsKey(i)) end.Add(i, 0);
         }
-        foreach (int i in nums) {
-            if (left[i]==0) continue;
+        foreach (int i in nums)
+        {
+            if (left[i] == 0) continue;
             left[i]--;
-            if (end.ContainsKey(i-1) && end[i-1]>0)
+            if (end.ContainsKey(i - 1) && end[i - 1] > 0)
             {
-                end[i-1]--;
+                end[i - 1]--;
                 end[i]++;
             }
-            else if (left.ContainsKey(i+1) && left[i+1]>0 && left.ContainsKey(i+2) && left[i+2]>0)
+            else if (left.ContainsKey(i + 1) && left[i + 1] > 0 && left.ContainsKey(i + 2) && left[i + 2] > 0)
             {
-                left[i+1]--;
-                left[i+2]--;
-                end[i+2]++;
-            } else {
+                left[i + 1]--;
+                left[i + 2]--;
+                end[i + 2]++;
+            }
+            else
+            {
                 return false;
             }
         }
         return true;
+    }
+
+    public int FindMinMoves(int[] machines)
+    {
+        int n = machines.Length;
+        int target = 0;
+        foreach (int i in machines) target += i;
+        if (target % n != 0) return -1;
+        target /= n;
+        int cnt = 0, max = 0;
+        foreach (int i in machines)
+        {
+            cnt += i - target;
+            max = Math.Max(Math.Max(max, Math.Abs(cnt)), i - target);
+        }
+        return max;
+    }
+
+    public int MaxSatisfaction(int[] satisfaction)
+    {
+        int n = satisfaction.Length;
+        Array.Sort(satisfaction);
+        if (satisfaction[n - 1] < 0) return 0; //no dish is liked
+        int[] sumRL = new int[n];
+        sumRL[n - 1] = satisfaction[n - 1];
+        for (int i = n - 2; i >= 0; i--)
+            sumRL[i] = sumRL[i + 1] + satisfaction[i];
+        int max = sumRL[n - 1];
+        for (int i = n - 2; i >= 0; i--)
+        { 
+            sumRL[i] = sumRL[i + 1] + sumRL[i]; 
+            if (max>sumRL[i]) break;
+            max = sumRL[i];
+        }
+        return max;
     }
 }
 
