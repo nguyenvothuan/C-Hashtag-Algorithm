@@ -520,9 +520,10 @@ namespace LeetCode
             // Console.Write(sol.NumPairsDivisibleBy60(new int[]{15,63,451,213,209,343,319}));
             // var arr = new int[]{1,2,3,3,4,5};
             // Console.Write(sol.IsPossible(arr));
-            int[] a1 = {2,4,5,8,10};
-            int[] a2 = {4,6,8,9};
-            Console.Write(sol.MaxSum(a1, a2));
+            // int[] a1 = {2,4,5,8,10};
+            // int[] a2 = {4,6,8,9};
+            // Console.Write(sol.MaxSum(a1, a2));
+            Console.Write(sol.MaxCoins2(new int[]{2,4,1,2,7,8}));
         }
     }
 }

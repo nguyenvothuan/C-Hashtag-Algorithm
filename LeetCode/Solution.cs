@@ -7428,30 +7428,69 @@ class Solution
             while (i1 < nums1.Length && i2 < nums2.Length && nums1[i1] > nums2[i2]) i2++;
             while (i1 < nums1.Length && i2 < nums2.Length && nums1[i1] < nums2[i2]) i1++;
         }
-        long[] dp1 = new long[p1p2.Count+1], dp2 = new long[p1p2.Count+1];// store sum of interval of each array
+        long[] dp1 = new long[p1p2.Count + 1], dp2 = new long[p1p2.Count + 1];// store sum of interval of each array
         int last = 0; int curInd = 0;
-        foreach (var pair in p1p2) {    
-            for (int i =last;i<pair.Key;i++)
+        foreach (var pair in p1p2)
+        {
+            for (int i = last; i < pair.Key; i++)
                 dp1[curInd] += nums1[i];
             curInd++; last = pair.Key;
         }
-        for(int i =last;i<nums1.Length;i++) dp1[dp1.Length-1] += nums1[i];
+        for (int i = last; i < nums1.Length; i++) dp1[dp1.Length - 1] += nums1[i];
         last = 0; curInd = 0;
-        foreach (var pair in p2p1) {
-            for (int i =last;i<pair.Key;i++)
+        foreach (var pair in p2p1)
+        {
+            for (int i = last; i < pair.Key; i++)
                 dp2[curInd] += nums2[i];
             curInd++; last = pair.Key;
         }
-        for(int i =last;i<nums2.Length;i++) dp2[dp2.Length-1] += nums2[i];
+        for (int i = last; i < nums2.Length; i++) dp2[dp2.Length - 1] += nums2[i];
         //now decide which combination is the largest
         int n = dp1.Length; //number of intervals
         long[] dp = new long[n];  //largest sum if start at i 
-        dp[n-1] = Math.Max(dp1[n-1], dp2[n-1]);
-        for (int i = n-2;i>=0;i--)
-            dp[i] = Math.Max(dp1[i], dp2[i])+dp[i+1];
-        int final = (int)(dp[0]%((int)Math.Pow(10, 9)+7));
+        dp[n - 1] = Math.Max(dp1[n - 1], dp2[n - 1]);
+        for (int i = n - 2; i >= 0; i--)
+            dp[i] = Math.Max(dp1[i], dp2[i]) + dp[i + 1];
+        int final = (int)(dp[0] % ((int)Math.Pow(10, 9) + 7));
         return final;
     }
+
+    public int BitwiseComplement(int n)
+    {
+        int c = 1;
+        while (c < n) c = (c << 1) + 1;
+        return n ^ c;
+    }
+
+    public int MinNumberOperations(int[] target) {
+        int pre = 0, res = 0;
+        foreach (int i in target) {
+            res += Math.Max(i-pre, 0); //if i-pre<0 then i has already been covered by an earlier base
+            //else it is a new layer and we got to tile
+            pre = i;
+        }
+        return res;
+    }
+
+    public bool StoneGameIX(int[] stones) {
+        int[] r = new int[3];
+        foreach (int i in stones) r[i%3]++;
+        if (Math.Min(r[1], r[2])==0)
+            return Math.Max(r[1], r[2])>2 && r[0]%2==1;
+        return r[0]%2==0 || Math.Abs(r[1]-r[2])>2;
+    }
+
+    public int MaxCoins2(int[] piles) {
+        Array.Sort(piles);
+        int res = 0;
+        int start = piles.Length/3;
+        for (int i = start;i<piles.Length;i+=2)
+            res += piles[i];
+        return res;
+    }
+
+    
+
 }
 
 public class NexNode
