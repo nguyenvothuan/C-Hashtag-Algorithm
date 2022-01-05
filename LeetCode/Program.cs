@@ -523,7 +523,14 @@ namespace LeetCode
             // int[] a1 = {2,4,5,8,10};
             // int[] a2 = {4,6,8,9};
             // Console.Write(sol.MaxSum(a1, a2));
-            Console.Write(sol.MaxCoins2(new int[]{2,4,1,2,7,8}));
+            // Console.Write(sol.MaxCoins2(new int[]{2,4,1,2,7,8}));
+            var tree = new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7)));
+            var test = sol.LevelOrder(tree);
+            foreach (var lv in test)
+            {
+                foreach (int i in lv) Console.Write(i+" ");
+                Console.WriteLine();
+            }
         }
     }
 }

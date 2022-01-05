@@ -7462,35 +7462,209 @@ class Solution
         return n ^ c;
     }
 
-    public int MinNumberOperations(int[] target) {
+    public int MinNumberOperations(int[] target)
+    {
         int pre = 0, res = 0;
-        foreach (int i in target) {
-            res += Math.Max(i-pre, 0); //if i-pre<0 then i has already been covered by an earlier base
+        foreach (int i in target)
+        {
+            res += Math.Max(i - pre, 0); //if i-pre<0 then i has already been covered by an earlier base
             //else it is a new layer and we got to tile
             pre = i;
         }
         return res;
     }
 
-    public bool StoneGameIX(int[] stones) {
+    public bool StoneGameIX(int[] stones)
+    {
         int[] r = new int[3];
-        foreach (int i in stones) r[i%3]++;
-        if (Math.Min(r[1], r[2])==0)
-            return Math.Max(r[1], r[2])>2 && r[0]%2==1;
-        return r[0]%2==0 || Math.Abs(r[1]-r[2])>2;
+        foreach (int i in stones) r[i % 3]++;
+        if (Math.Min(r[1], r[2]) == 0)
+            return Math.Max(r[1], r[2]) > 2 && r[0] % 2 == 1;
+        return r[0] % 2 == 0 || Math.Abs(r[1] - r[2]) > 2;
     }
 
-    public int MaxCoins2(int[] piles) {
+    public int MaxCoins2(int[] piles)
+    {
         Array.Sort(piles);
         int res = 0;
-        int start = piles.Length/3;
-        for (int i = start;i<piles.Length;i+=2)
+        int start = piles.Length / 3;
+        for (int i = start; i < piles.Length; i += 2)
             res += piles[i];
         return res;
     }
 
-    
+    public int BagOfTokensScore(int[] tokens, int power)
+    {
+        //TODO: Review 3 greedy later
+        return 1;
+    }
 
+    public IList<IList<string>> Partition(string s)
+    {
+        int[,] dp = new int[s.Length, s.Length];
+        for (int i = 0; i < s.Length; i++) dp[i, i] = 1;
+        bool CheckPalindrome(int i, int j)
+        {
+            //check if s.substring(i,j) is a palindrome
+            if (dp[i, j] == 0)
+            {
+                if (j - i == 1) dp[i, j] = s[i] == s[j] ? 1 : -1;
+                else dp[i, j] = (s[i] == s[j] && CheckPalindrome(i + 1, j - 1)) ? 1 : -1;
+            }
+            return dp[i, j] == 1;
+        }
+        List<IList<string>> final = new List<IList<string>>();
+        void Backtracking(int cur, List<int> sofar)
+        {
+            if (cur >= s.Length) return;
+            //check if i and j can be so, remove j from sofar
+            if (sofar.Count == 0 || CheckPalindrome(sofar[sofar.Count - 1], cur))
+            {
+                bool selfIncluded = sofar.Count != 0 && sofar[sofar.Count - 1] == cur;
+                sofar.Add(cur);
+                if (cur == s.Length - 1)
+                {
+                    List<string> res = new List<string>();
+                    for (int i = 1; i < sofar.Count; i++)
+                    {
+                        res.Add(s.Substring(sofar[i - 1], sofar[i] - sofar[i - 1] + 1));
+                    }
+                    return;
+                }
+                for (int i = selfIncluded ? cur + 1 : cur; i < s.Length; i++)
+                {
+                    Backtracking(i, sofar);
+                }
+            }
+        }
+        Backtracking(0, new List<int>());
+        return final;
+    }
+
+    public IList<IList<string>> Partition2(string s)
+    {
+        Dictionary<int, List<int>> dp = new Dictionary<int, List<int>>();
+        for (int i = 0; i < s.Length; i++) dp.Add(i, new List<int>());
+        //dp[i] contains j if [i,j] is pal
+        bool CheckPalindrome(int i, int j)
+        {
+            bool res = false;
+            if (!dp[i].Contains(j))
+            {
+                if (i == j || (j - i == 1 && s[i] == s[j]) || (s[i] == s[j] && CheckPalindrome(i + 1, j - 1))) { dp[i].Add(j); res = true; }
+            }
+            return res;
+        }
+        List<IList<string>> final = new List<IList<string>>();
+        void Backtracking(int cur, List<int> sofar)
+        {
+            if (sofar.Count == 0 || CheckPalindrome(sofar[sofar.Count - 1], cur))
+            {
+                bool selfIncluded = sofar.Count != 0 && sofar[sofar.Count - 1] == cur;
+                sofar.Add(cur);
+                if (cur == s.Length - 1)
+                {
+                    List<string> res = new List<string>();
+                    for (int i = 1; i < sofar.Count; i++)
+                    {
+                        res.Add(s.Substring(sofar[i - 1], sofar[i] - sofar[i - 1] + 1));
+                    }
+                    final.Add(res);
+                    return;
+                }
+                for (int i = cur; i < s.Length; i++)
+                    if (i != cur || !selfIncluded)
+                        Backtracking(i, sofar);
+            }
+        }
+        Backtracking(0, new List<int>());
+        Console.WriteLine("end");
+        return final;
+    }
+
+    public IList<IList<int>> LevelOrder(TreeNode root)
+    {
+        List<IList<int>> final = new List<IList<int>>();
+        if (root == null) return final;
+        Queue<TreeNode> q = new Queue<TreeNode>();
+        q.Enqueue(root);
+        q.Enqueue(null);
+        List<int> curLevel = new List<int>();
+        while (q.Count != 0)
+        {
+            var cur = q.Dequeue();
+            if (cur == null && q.Count > 0)
+            {
+                final.Add(curLevel);
+                curLevel = new List<int>();
+                q.Enqueue(null);
+            }
+            else if (cur != null)
+            {
+                curLevel.Add(cur.val);
+                if (cur.left != null) q.Enqueue(cur.left);
+                if (cur.right != null) q.Enqueue(cur.right);
+            }
+        }
+        if (curLevel.Count != 0) final.Add(curLevel);
+        return final;
+    }
+
+    public int MinCameraCover(TreeNode root)
+    {
+        int[] Solve1(TreeNode cur) {
+            //{all nodes below are covered, except self; all nodes below are covered, with a cam in self; all node below are coverd inc self, no cam here}
+            if (cur==null) return new int[]{0,0,9999};
+            int[] L = Solve1(root.left);
+            int[] R = Solve1(root.right);
+            int d0 = L[2]+R[2];
+            int minL = Math.Min(L[1], L[2]);
+            int minR = Math.Min(R[1], R[2]);
+            int d1 = 1 + Math.Min(L[0], minL) + Math.Min(R[0], minR);
+            int d2 = Math.Min(minR + L[1], minL + R[1]);
+            return new int[]{d0,d1,d2};
+        }
+        var res = Solve1(root);
+        return Math.Min(res[1],res[2]);
+    }
+
+    public IList<IList<int>> PathSum(TreeNode root, int targetSum) {
+        List<IList<int>> final = new List<IList<int>>();
+        void DFS (TreeNode cur, List<int> sofar, int sum) {
+            if (cur==null) return;
+            sofar.Add(cur.val); sum+= cur.val;
+            if (sum==targetSum) {
+                if (sofar.Count>1)
+                    final.Add(new List<int>(sofar));
+            } 
+            else if (sum<targetSum) {
+                DFS(cur.left, sofar, sum);
+                DFS(cur.right, sofar, sum);
+            }
+            sofar.RemoveAt(sofar.Count-1);
+            sum -= cur.val;
+        }
+        DFS(root, new List<int>(), 0);
+        return final;
+    }
+
+    public int PathSum3(TreeNode root, int targetSum) {
+        if (root==null) return 0;
+        Dictionary<int, int> dict= new Dictionary<int, int>();
+        dict.Add(0,1);
+        int count=0;
+        void Helper(TreeNode cur, int sofar) {
+            if (cur==null) return;
+            sofar+=cur.val;
+            if (dict.ContainsKey(sofar-targetSum)) count++;
+            if (dict.ContainsKey(sofar)) dict[sofar]++;
+            else dict.Add(sofar, 1);
+            Helper(cur.left, sofar); Helper(cur.right, sofar);
+            dict[sofar]--;
+        }
+        Helper(root, 0);
+        return count;
+    }
 }
 
 public class NexNode
