@@ -132,3 +132,9 @@ public class LongestChainCompare : Comparer<int[]>
         return x[0] - y[0];
     }
 }
+
+public class CompareTrip : Comparer<int[]> {
+    public override int Compare(int[] a, int[] b) {
+        return a[1] - b[1];
+    }
+}

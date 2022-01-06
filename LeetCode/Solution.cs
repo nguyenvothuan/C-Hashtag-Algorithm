@@ -7612,51 +7612,58 @@ class Solution
 
     public int MinCameraCover(TreeNode root)
     {
-        int[] Solve1(TreeNode cur) {
+        int[] Solve1(TreeNode cur)
+        {
             //{all nodes below are covered, except self; all nodes below are covered, with a cam in self; all node below are coverd inc self, no cam here}
-            if (cur==null) return new int[]{0,0,9999};
+            if (cur == null) return new int[] { 0, 0, 9999 };
             int[] L = Solve1(root.left);
             int[] R = Solve1(root.right);
-            int d0 = L[2]+R[2];
+            int d0 = L[2] + R[2];
             int minL = Math.Min(L[1], L[2]);
             int minR = Math.Min(R[1], R[2]);
             int d1 = 1 + Math.Min(L[0], minL) + Math.Min(R[0], minR);
             int d2 = Math.Min(minR + L[1], minL + R[1]);
-            return new int[]{d0,d1,d2};
+            return new int[] { d0, d1, d2 };
         }
         var res = Solve1(root);
-        return Math.Min(res[1],res[2]);
+        return Math.Min(res[1], res[2]);
     }
 
-    public IList<IList<int>> PathSum(TreeNode root, int targetSum) {
+    public IList<IList<int>> PathSum(TreeNode root, int targetSum)
+    {
         List<IList<int>> final = new List<IList<int>>();
-        void DFS (TreeNode cur, List<int> sofar, int sum) {
-            if (cur==null) return;
-            sofar.Add(cur.val); sum+= cur.val;
-            if (sum==targetSum) {
-                if (sofar.Count>1)
+        void DFS(TreeNode cur, List<int> sofar, int sum)
+        {
+            if (cur == null) return;
+            sofar.Add(cur.val); sum += cur.val;
+            if (sum == targetSum)
+            {
+                if (sofar.Count > 1)
                     final.Add(new List<int>(sofar));
-            } 
-            else if (sum<targetSum) {
+            }
+            else if (sum < targetSum)
+            {
                 DFS(cur.left, sofar, sum);
                 DFS(cur.right, sofar, sum);
             }
-            sofar.RemoveAt(sofar.Count-1);
+            sofar.RemoveAt(sofar.Count - 1);
             sum -= cur.val;
         }
         DFS(root, new List<int>(), 0);
         return final;
     }
 
-    public int PathSum3(TreeNode root, int targetSum) {
-        if (root==null) return 0;
-        Dictionary<int, int> dict= new Dictionary<int, int>();
-        dict.Add(0,1);
-        int count=0;
-        void Helper(TreeNode cur, int sofar) {
-            if (cur==null) return;
-            sofar+=cur.val;
-            if (dict.ContainsKey(sofar-targetSum)) count++;
+    public int PathSum3(TreeNode root, int targetSum)
+    {
+        if (root == null) return 0;
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        dict.Add(0, 1);
+        int count = 0;
+        void Helper(TreeNode cur, int sofar)
+        {
+            if (cur == null) return;
+            sofar += cur.val;
+            if (dict.ContainsKey(sofar - targetSum)) count++;
             if (dict.ContainsKey(sofar)) dict[sofar]++;
             else dict.Add(sofar, 1);
             Helper(cur.left, sofar); Helper(cur.right, sofar);
@@ -7665,6 +7672,80 @@ class Solution
         Helper(root, 0);
         return count;
     }
+
+    public int[] FindFrequentTreeSum(TreeNode root)
+    {
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+        int SubtreeSum(TreeNode cur)
+        {
+            //calculate subtree sum and update to dict
+            if (cur == null) return 0;
+            int left = SubtreeSum(cur.left);
+            int right = SubtreeSum(cur.right);
+            int res = cur.val + left + right;
+            if (dict.ContainsKey(res)) dict[res].Add(cur.val);
+            else dict.Add(res, new List<int>(new int[] { cur.val }));
+            return res;
+        }
+        SubtreeSum(cur: root);
+        List<int> final = new List<int>();
+        int maxCount = 0;
+        foreach (var pair in dict)
+            maxCount = Math.Max(maxCount, pair.Value.Count);
+        foreach (var pair in dict)
+            if (pair.Value.Count == maxCount)
+                final.Add(pair.Key);
+        return final.ToArray();
+    }
+
+    public bool CanFinish(int numCourses, int[][] prerequisites)
+    {
+        int n = prerequisites.Length;
+        int[] indeg = new int[n];
+        Dictionary<int, List<int>> adj = new Dictionary<int, List<int>>();
+        for(int i =0;i<n;i++) adj.Add(i, new List<int>());
+        foreach (var arr in prerequisites)
+        {
+            indeg[arr[0]]++;
+            adj[arr[1]].Add(arr[0]);
+        }
+        Queue<int> zeroIn = new Queue<int>();
+        for (int i = 0; i < n; i++)
+            if (indeg[i] == 0)
+                zeroIn.Enqueue(i);
+        int count=0;
+        while (zeroIn.Count!=0) {
+            //remove all zeroIn from the graph
+            int cur = zeroIn.Dequeue();
+            count++;
+            if (count>numCourses) break;
+            foreach (int next in adj[cur]) {
+                indeg[next]--;
+                if (indeg[next]==0) 
+                    zeroIn.Enqueue(next);
+            }
+        }
+        return count==numCourses;
+    }
+
+    public bool CarPooling(int[][] trips, int capacity) {
+        SortedDictionary<int, int> dict = new SortedDictionary<int, int>();
+        foreach (var trip in trips) {
+            int s = trip[1], e = trip[2], cur = trip[0];
+            if (dict.ContainsKey(s)) dict[s]+=cur;
+            else dict.Add(s, cur);
+            if (dict.ContainsKey(e)) dict[e]-=cur;
+            else dict.Add(e,-cur);
+        }
+        int usedCap = 0;
+        foreach(var passenger in dict.Values) {
+            usedCap+= passenger;
+            if (usedCap>capacity) return false;
+        }   
+        return true;
+    }
+
+    
 }
 
 public class NexNode
