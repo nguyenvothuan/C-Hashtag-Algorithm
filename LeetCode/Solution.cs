@@ -7745,7 +7745,33 @@ class Solution
         return true;
     }
 
-    
+    public string DefangIPaddr(string address) {
+        StringBuilder buffer = new StringBuilder();
+        foreach(char chr in address) {
+            if (chr=='.')
+                buffer.Append("[.]");
+            else 
+                buffer.Append(chr);
+        }
+        return buffer.ToString();
+    }
+
+    public int RangeSumBST(TreeNode root, int low, int high) {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.Push(root);
+        int count =0;
+        while (stack.Count!=0) {
+            var cur = stack.Pop();
+            if (cur==null) continue;
+            if (cur.val<=high && cur.val>=low)          
+                count+=cur.val;
+            stack.Push(cur.left);
+            stack.Push(cur.right);
+        }
+        return count;
+    }
+
+   
 }
 
 public class NexNode
@@ -7945,6 +7971,23 @@ public class LRUCache
         }
     }
 
+   public int BingeWatching(int[] arr) {
+       Array.Sort(arr);
+       int l =arr.Length-1; int r = 0;int count =0;
+       while (r<l) {
+           if (arr[r]+arr[l]>3) {
+               l--;
+               count++;
+           }
+           else {
+               l--; r++;
+               count++;
+           }
+       }
+       return count;
+   }
+
+   
 }
 public class LLNode
 {
@@ -8029,6 +8072,7 @@ public class Nest
         return sum;
     }
 }
+
 public class RandomWeightPicker
 {
     int[] weight;
