@@ -531,12 +531,33 @@ namespace LeetCode
             //     foreach (int i in lv) Console.Write(i+" ");
             //     Console.WriteLine();
             // }    
-            var arr = new int[4][];
-            arr[0] = new int[]{9,3,4};
-            arr[1] = new int[]{9,1,7};
-            arr[2] = new int[]{4,2,4};
-            arr[3] = new int[]{7,4,5};
-            Console.Write(sol.CarPooling(arr, 23));
+            // var arr = new int[4][];
+            // arr[0] = new int[]{9,3,4};
+            // arr[1] = new int[]{9,1,7};
+            // arr[2] = new int[]{4,2,4};
+            // arr[3] = new int[]{7,4,5};
+            // Console.Write(sol.CarPooling(arr, 23));
+            // int[][] clips = new int[16][];
+            // clips[0] = new int[2]{0,10};
+            // clips[1] = new int[2]{6,8};
+            // clips[2] = new int[2]{0,2};
+            // clips[3] = new int[2]{5,6};
+            // clips[4] = new int[2]{0,4};
+            // clips[5] = new int[2]{0,3};
+            // clips[6] = new int[2]{6,7};
+            // clips[7] = new int[2]{1,3};
+            // clips[8] = new int[2]{4,7};
+            // clips[9] = new int[2]{1,4};
+            // clips[10] = new int[2]{2,5};
+            // clips[11] = new int[2]{2,6};
+            // clips[12] = new int[2]{3,4};
+            // clips[13] = new int[2]{4,5};
+            // clips[14] = new int[2]{5,7};
+            // clips[15] = new int[2]{6,9};
+
+
+            int[] INPUT = {4};
+            Console.WriteLine(sol.MaxSumDivThree(INPUT));
         }
     }
 }

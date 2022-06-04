@@ -12,6 +12,18 @@ public class CompareInt : Comparer<int>
     }
 }
 
+public class CompareVideo : Comparer<int[]>
+{
+    public override int Compare( int[] x, int[] y)
+    {
+        if (y[0]==x[0]) {
+            //return the longer one
+            return y[1] - x[1];
+        }
+        return x[0] - y[0]; //return the earlier one;
+    }
+}
+
 public class CompareLexiString : Comparer<string>
 {
     public override int Compare([AllowNull] string x, [AllowNull] string y)
@@ -110,14 +122,16 @@ public class ReconstructQueueCompare : Comparer<int[]>
     }
 }
 
-public class RemoveIntervalCompare : Comparer<int[]> {
+public class RemoveIntervalCompare : Comparer<int[]>
+{
     public override int Compare(int[] x, int[] y)
-    {  
-        return -x[1] + y[1]; 
+    {
+        return -x[1] + y[1];
     }
 }
 
-public class BaloonCompare: Comparer<int[]> {
+public class BaloonCompare : Comparer<int[]>
+{
     public override int Compare([AllowNull] int[] x, [AllowNull] int[] y)
     {
         return x[0] - y[0];
@@ -126,15 +140,17 @@ public class BaloonCompare: Comparer<int[]> {
 
 public class LongestChainCompare : Comparer<int[]>
 {
-    public override int Compare( int[] x,int[] y)
+    public override int Compare(int[] x, int[] y)
     {
         //the one with smaller finish time is taken picked
         return x[0] - y[0];
     }
 }
 
-public class CompareTrip : Comparer<int[]> {
-    public override int Compare(int[] a, int[] b) {
+public class CompareTrip : Comparer<int[]>
+{
+    public override int Compare(int[] a, int[] b)
+    {
         return a[1] - b[1];
     }
 }

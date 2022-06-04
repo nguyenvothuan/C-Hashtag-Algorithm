@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {}
+    "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {
+    "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
+        "projectUniqueName": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
         "projectName": "LeetCode",
-        "projectPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
+        "projectPath": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
         "packagesPath": "C:\\Users\\vothu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\obj\\",
+        "outputPath": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\vothu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -56,7 +60,7 @@
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.22, 3.1.22]"
+              "version": "[3.1.25, 3.1.25]"
             }
           ],
           "frameworkReferences": {
@@ -64,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

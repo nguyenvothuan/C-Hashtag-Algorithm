@@ -7703,7 +7703,7 @@ class Solution
         int n = prerequisites.Length;
         int[] indeg = new int[n];
         Dictionary<int, List<int>> adj = new Dictionary<int, List<int>>();
-        for(int i =0;i<n;i++) adj.Add(i, new List<int>());
+        for (int i = 0; i < n; i++) adj.Add(i, new List<int>());
         foreach (var arr in prerequisites)
         {
             indeg[arr[0]]++;
@@ -7713,65 +7713,173 @@ class Solution
         for (int i = 0; i < n; i++)
             if (indeg[i] == 0)
                 zeroIn.Enqueue(i);
-        int count=0;
-        while (zeroIn.Count!=0) {
+        int count = 0;
+        while (zeroIn.Count != 0)
+        {
             //remove all zeroIn from the graph
             int cur = zeroIn.Dequeue();
             count++;
-            if (count>numCourses) break;
-            foreach (int next in adj[cur]) {
+            if (count > numCourses) break;
+            foreach (int next in adj[cur])
+            {
                 indeg[next]--;
-                if (indeg[next]==0) 
+                if (indeg[next] == 0)
                     zeroIn.Enqueue(next);
             }
         }
-        return count==numCourses;
+        return count == numCourses;
     }
 
-    public bool CarPooling(int[][] trips, int capacity) {
+    public bool CarPooling(int[][] trips, int capacity)
+    {
         SortedDictionary<int, int> dict = new SortedDictionary<int, int>();
-        foreach (var trip in trips) {
+        foreach (var trip in trips)
+        {
             int s = trip[1], e = trip[2], cur = trip[0];
-            if (dict.ContainsKey(s)) dict[s]+=cur;
+            if (dict.ContainsKey(s)) dict[s] += cur;
             else dict.Add(s, cur);
-            if (dict.ContainsKey(e)) dict[e]-=cur;
-            else dict.Add(e,-cur);
+            if (dict.ContainsKey(e)) dict[e] -= cur;
+            else dict.Add(e, -cur);
         }
         int usedCap = 0;
-        foreach(var passenger in dict.Values) {
-            usedCap+= passenger;
-            if (usedCap>capacity) return false;
-        }   
+        foreach (var passenger in dict.Values)
+        {
+            usedCap += passenger;
+            if (usedCap > capacity) return false;
+        }
         return true;
     }
 
-    public string DefangIPaddr(string address) {
+    public string DefangIPaddr(string address)
+    {
         StringBuilder buffer = new StringBuilder();
-        foreach(char chr in address) {
-            if (chr=='.')
+        foreach (char chr in address)
+        {
+            if (chr == '.')
                 buffer.Append("[.]");
-            else 
+            else
                 buffer.Append(chr);
         }
         return buffer.ToString();
     }
 
-    public int RangeSumBST(TreeNode root, int low, int high) {
+    public int RangeSumBST(TreeNode root, int low, int high)
+    {
         Stack<TreeNode> stack = new Stack<TreeNode>();
         stack.Push(root);
-        int count =0;
-        while (stack.Count!=0) {
+        int count = 0;
+        while (stack.Count != 0)
+        {
             var cur = stack.Pop();
-            if (cur==null) continue;
-            if (cur.val<=high && cur.val>=low)          
-                count+=cur.val;
+            if (cur == null) continue;
+            if (cur.val <= high && cur.val >= low)
+                count += cur.val;
             stack.Push(cur.left);
             stack.Push(cur.right);
         }
         return count;
     }
 
-   
+    public int[] RunningSum(int[] nums)
+    {
+        int[] res = new int[nums.Length];
+        res[0] = nums[0];
+        for (int i = 1; i < nums.Length; i++)
+        {
+            res[i] = res[i - 1] + nums[i];
+        }
+        return res;
+    }
+
+    public IList<IList<string>> SolveNQueens(int n)
+    {
+        return null; //return here at 8 ok?
+    }
+
+    public int VideoStitching(int[][] clips, int time)
+    {
+        Comparer<int[]> comp = new CompareVideo();
+        Array.Sort(clips, comp);
+        int count = 0;
+        int lastEnd = 0;
+        int curEnd = 0;
+        int curStart = -1;
+        List<int[]> list = new List<int[]>();
+        foreach (var clip in clips)
+        {
+            int start = clip[0]; int end = clip[1];
+            if (end >= time) return count + 1;
+            //found, no more shit
+            if (start == curStart || end <= curEnd) continue; //shorter clip
+            if (start > curEnd)
+            {
+                return -1;
+            }
+            if (end > curEnd)
+            {
+                //case 1: start maybe earlier than lastEnd, so this clip will be a more qualified candidate than cur. replace cur with clip
+                if (start <= lastEnd && end > curEnd)
+                {
+                    curStart = start; curEnd = end; continue;
+                }
+                //case 2: start is later than curEnd, yet later than lastEnd, or cur is the best candidate
+                if (start <= curEnd && start >= curStart)
+                {
+                    count++;
+                    if (curEnd >= time) return count;
+                    if (end >= time) return count + 1;
+                    lastEnd = curEnd;
+                    list.Add(clip);
+                    curStart = start; curEnd = end;
+                }
+            }
+            // if (start == cur[0] || end <= cur[1]) continue;
+            // if (start > cur[1]) return -1;//impossible
+            // if (end > cur[1])
+            // {
+            //     count++;
+            //     if (end >= time) return count;
+            //     list.Add(cur);
+            //     cur = clip;
+            // }
+        }
+        // clips exhausted
+        if (curEnd >= time) return count + 1;
+        return -1;
+    }
+    public int MaxSumDivThree(int[] nums)
+    {
+        int[] one = new int[2] { 999999, 999999 };
+        int[] two = new int[2] { 999999, 999999 }; //store the smallest two numbers in nums module 2 by 3
+        int sum = 0;
+        int flag1 = 0; int flag2=0;
+        foreach (int i in nums)
+        {
+            sum += i;
+            if (i % 3 == 1)
+            {   
+                flag1++;
+                if (i < one[1])
+                {
+                    
+                    one[1] = Math.Max(i, one[0]);
+                    one[0] = Math.Min(i, one[0]);
+                }
+            }
+            if (i % 3 == 2)
+            {
+                flag2++;
+                if (i < two[1])
+                {
+                    two[1] = Math.Max(i, two[0]);
+                    two[0] = Math.Min(i, two[0]);
+                }
+            }
+        }
+        if (sum % 3 == 2) return sum - Math.Min(two[0], one[0] + one[1]);
+        if (sum % 3 == 1) return sum - Math.Min(one[0], two[0] + two[1]);
+        return sum;
+    }
 }
 
 public class NexNode
@@ -7971,23 +8079,27 @@ public class LRUCache
         }
     }
 
-   public int BingeWatching(int[] arr) {
-       Array.Sort(arr);
-       int l =arr.Length-1; int r = 0;int count =0;
-       while (r<l) {
-           if (arr[r]+arr[l]>3) {
-               l--;
-               count++;
-           }
-           else {
-               l--; r++;
-               count++;
-           }
-       }
-       return count;
-   }
+    public int BingeWatching(int[] arr)
+    {
+        Array.Sort(arr);
+        int l = arr.Length - 1; int r = 0; int count = 0;
+        while (r < l)
+        {
+            if (arr[r] + arr[l] > 3)
+            {
+                l--;
+                count++;
+            }
+            else
+            {
+                l--; r++;
+                count++;
+            }
+        }
+        return count;
+    }
 
-   
+
 }
 public class LLNode
 {
