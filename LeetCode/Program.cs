@@ -556,8 +556,10 @@ namespace LeetCode
             // clips[15] = new int[2]{6,9};
 
 
-            int[] INPUT = {4};
-            Console.WriteLine(sol.MaxSumDivThree(INPUT));
+            // int[] INPUT = {4};
+            // Console.WriteLine(sol.MaxSumDivThree(INPUT));
+            int[] tokens = { 26 };
+            Console.Write(sol.BagOfTokensScore(tokens, 51));
         }
     }
 }

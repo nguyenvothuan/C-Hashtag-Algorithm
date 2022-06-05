@@ -7493,11 +7493,6 @@ class Solution
         return res;
     }
 
-    public int BagOfTokensScore(int[] tokens, int power)
-    {
-        //TODO: Review 3 greedy later
-        return 1;
-    }
 
     public IList<IList<string>> Partition(string s)
     {
@@ -7852,16 +7847,16 @@ class Solution
         int[] one = new int[2] { 999999, 999999 };
         int[] two = new int[2] { 999999, 999999 }; //store the smallest two numbers in nums module 2 by 3
         int sum = 0;
-        int flag1 = 0; int flag2=0;
+        int flag1 = 0; int flag2 = 0;
         foreach (int i in nums)
         {
             sum += i;
             if (i % 3 == 1)
-            {   
+            {
                 flag1++;
                 if (i < one[1])
                 {
-                    
+
                     one[1] = Math.Max(i, one[0]);
                     one[0] = Math.Min(i, one[0]);
                 }
@@ -7879,6 +7874,35 @@ class Solution
         if (sum % 3 == 2) return sum - Math.Min(two[0], one[0] + one[1]);
         if (sum % 3 == 1) return sum - Math.Min(one[0], two[0] + two[1]);
         return sum;
+    }
+
+    public int MinCost(int[] startPos, int[] homePos, int[] rowCosts, int[] colCosts)
+    {
+        // TODO: 
+        return -1;
+    }
+
+    public int BagOfTokensScore(int[] tokens, int pow)
+    {
+        Array.Sort(tokens);
+        int low = 0; int high = tokens.Length - 1;
+        int score = 0; int res = 0;
+        while (low <= high && (pow >= tokens[low] || score > 0))
+        {
+            while (high >= low && pow >= tokens[low])
+            {
+                pow -= tokens[low];
+                score++;
+                low++;
+            }
+            res = Math.Max(res, score);
+            if (low <= high && score > 0)
+            {
+                score--;
+                pow += tokens[high--];
+            }
+        }
+        return res;
     }
 }
 
