@@ -7904,6 +7904,23 @@ class Solution
         }
         return res;
     }
+    public int MaxNonOverlapping(int[] nums, int target)
+    {
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        // so the idea is that we'll keep a variable res, maximum number of sub intervals with sum to target at index i
+        int res = 0; int sum =0;
+        dict.Add(0,0);
+        for (int i =0;i<nums.Length;i++) {
+            sum+= nums[i];
+            if (dict.ContainsKey(sum-target)) {
+                res = Math.Max(res, dict[sum-target] +1);
+            }
+            if (!dict.TryAdd(sum, res)) {
+                dict[sum] = res;
+            }
+        }
+        return res;
+    }
 }
 
 public class NexNode
