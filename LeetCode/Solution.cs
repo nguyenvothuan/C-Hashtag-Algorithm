@@ -7921,6 +7921,31 @@ class Solution
         }
         return res;
     }
+    public int EarliestFullBloom(int[] plantTime, int[] growTime) {
+        int n = plantTime.Length;
+        Pair<int, int>[] lst = new Pair<int, int>[n];
+        for(int i=0; i<n;i++) {
+            lst[i] = new Pair<int, int>();
+            lst[i].first = growTime[i];
+            lst[i].second = plantTime[i];
+        }
+        SeedComparer comp = new SeedComparer();
+        Array.Sort(lst, comp);
+        int tot = 0; int cur = 0; //total keeps track of the total time for the seeds encoutered sofar to fully bloom. cur is the time used to plant
+        for(int i =0;i<n;i++) {
+            tot = Math.Max(tot, cur + lst[i].first + lst[i].second);
+            cur += lst[i].second; 
+        }
+        return tot;
+    }
+}
+
+public class Pair<T1, T2> {
+    public T1 first;
+    public T2 second;
+    public Pair() {
+
+    }
 }
 
 public class NexNode

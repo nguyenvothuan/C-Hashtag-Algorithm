@@ -558,8 +558,9 @@ namespace LeetCode
 
             // int[] INPUT = {4};
             // Console.WriteLine(sol.MaxSumDivThree(INPUT));
-            int[] tokens = { 26 };
-            Console.Write(sol.BagOfTokensScore(tokens, 51));
+            // int[] tokens = { 26 };
+            // Console.Write(sol.BagOfTokensScore(tokens, 51));
+            Console.Write(sol.EarliestFullBloom(new int[] { 1, 2, 3, 2 }, new int[] { 2, 1, 2, 1 }));   
         }
     }
 }

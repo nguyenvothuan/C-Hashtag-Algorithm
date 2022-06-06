@@ -24,6 +24,14 @@ public class CompareVideo : Comparer<int[]>
     }
 }
 
+public class SeedComparer : Comparer<Pair<int, int>> {
+    public override int Compare(Pair<int, int> x, Pair<int, int> y)
+    {
+        if (y.first == x.first) return x.second-y.second;
+        return y.first - x.first; //descending order
+    }
+}
+
 public class CompareLexiString : Comparer<string>
 {
     public override int Compare([AllowNull] string x, [AllowNull] string y)
