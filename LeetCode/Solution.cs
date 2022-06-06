@@ -7908,23 +7908,28 @@ class Solution
     {
         Dictionary<int, int> dict = new Dictionary<int, int>();
         // so the idea is that we'll keep a variable res, maximum number of sub intervals with sum to target at index i
-        int res = 0; int sum =0;
-        dict.Add(0,0);
-        for (int i =0;i<nums.Length;i++) {
-            sum+= nums[i];
-            if (dict.ContainsKey(sum-target)) {
-                res = Math.Max(res, dict[sum-target] +1);
+        int res = 0; int sum = 0;
+        dict.Add(0, 0);
+        for (int i = 0; i < nums.Length; i++)
+        {
+            sum += nums[i];
+            if (dict.ContainsKey(sum - target))
+            {
+                res = Math.Max(res, dict[sum - target] + 1);
             }
-            if (!dict.TryAdd(sum, res)) {
+            if (!dict.TryAdd(sum, res))
+            {
                 dict[sum] = res;
             }
         }
         return res;
     }
-    public int EarliestFullBloom(int[] plantTime, int[] growTime) {
+    public int EarliestFullBloom(int[] plantTime, int[] growTime)
+    {
         int n = plantTime.Length;
         Pair<int, int>[] lst = new Pair<int, int>[n];
-        for(int i=0; i<n;i++) {
+        for (int i = 0; i < n; i++)
+        {
             lst[i] = new Pair<int, int>();
             lst[i].first = growTime[i];
             lst[i].second = plantTime[i];
@@ -7932,18 +7937,33 @@ class Solution
         SeedComparer comp = new SeedComparer();
         Array.Sort(lst, comp);
         int tot = 0; int cur = 0; //total keeps track of the total time for the seeds encoutered sofar to fully bloom. cur is the time used to plant
-        for(int i =0;i<n;i++) {
+        for (int i = 0; i < n; i++)
+        {
             tot = Math.Max(tot, cur + lst[i].first + lst[i].second);
-            cur += lst[i].second; 
+            cur += lst[i].second;
         }
         return tot;
     }
+
+    public ListNode GetIntersectionNode(ListNode headA, ListNode headB)
+    {
+        if (headA == null || headB == null) return null;
+        ListNode a = headA; ListNode b = headB;
+        while (a != b)
+        {
+            a = a == null ? headB : a.next; //find the pointer first
+            b = b == null ? headA : b.next;
+        }
+        return a;
+    }
 }
 
-public class Pair<T1, T2> {
+public class Pair<T1, T2>
+{
     public T1 first;
     public T2 second;
-    public Pair() {
+    public Pair()
+    {
 
     }
 }
