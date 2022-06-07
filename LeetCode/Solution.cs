@@ -7956,6 +7956,42 @@ class Solution
         }
         return a;
     }
+
+    public void Merge(int[] nums1, int m, int[] nums2, int n)
+    {
+        int p1 = 0; int p2 = 0;
+        int[] res = new int[m + n];
+        while (p1 < m || p2 < n)
+        {
+            if (p2 >= n || (p1 < m && nums1[p1] <= nums2[p2])) //either nums2 exhausted or nums1 smaller
+            {
+                res[p1 + p2] = nums1[p1];
+                p1++;
+            }
+            else if (p1 >= m || (p2 < n && nums1[p1] >= nums2[p2])) //either nums1 exhausted or nums2 smaller
+            {
+                res[p1 + p2] = nums2[p2];
+                p2++;
+            }
+        }
+        for (int i = 0; i < nums1.Length; i++)
+            nums1[i] = res[i];
+    }
+    public int NumRescueBoats(int[] people, int limit)
+    {
+        Array.Sort(people);
+        int l = 0; int r = people.Length - 1; int count = 0;
+        while (l <= r)
+        {
+            if (people[l] + people[r] <= limit)
+            {
+                l++;
+            }
+            r--;
+            count++;
+        }
+        return count;
+    }
 }
 
 public class Pair<T1, T2>

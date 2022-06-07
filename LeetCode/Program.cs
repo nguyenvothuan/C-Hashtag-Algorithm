@@ -560,7 +560,9 @@ namespace LeetCode
             // Console.WriteLine(sol.MaxSumDivThree(INPUT));
             // int[] tokens = { 26 };
             // Console.Write(sol.BagOfTokensScore(tokens, 51));
-            Console.Write(sol.EarliestFullBloom(new int[] { 1, 2, 3, 2 }, new int[] { 2, 1, 2, 1 }));   
+            // Console.Write(sol.EarliestFullBloom(new int[] { 1, 2, 3, 2 }, new int[] { 2, 1, 2, 1 }));   
+            // sol.Merge(new int[] { 1, 2, 3, 0, 0, 0 }, 3, new int[] { 2, 5, 6 }, 3);
+            Console.Write(sol.NumRescueBoats(new int[] { 3, 2, 2, 1 }, 3));
         }
     }
 }
