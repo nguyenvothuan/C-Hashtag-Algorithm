@@ -7992,6 +7992,29 @@ class Solution
         }
         return count;
     }
+
+    public int RemovePalindromeSub(string s)
+    {
+        bool checkPal(string s) {
+            for(int i=0;i<s.Length/2;i++) {
+                if (s[i]!= s[s.Length-1-i]) return false;
+            }
+            return true;
+        }
+        return s=="" ? 0 : (checkPal(s)? 1 : 2);
+
+    }
+
+    public int MaxIceCream(int[] costs, int coins) {
+        Array.Sort(costs);
+        int count =0;
+        foreach (int i in costs) {
+            coins-=i;
+            if(coins<0) break;
+            count++;
+        }
+        return count;
+    }
 }
 
 public class Pair<T1, T2>
