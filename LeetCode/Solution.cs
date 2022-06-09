@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+
 class Solution
 {
     Tool<int> tool = new Tool<int>();
@@ -8050,6 +8052,20 @@ class Solution
         }
         return Util(amount) == inf ? -1 :Util(amount);
     }
+
+    public int NumRabbits(int[] answers) {
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        foreach (int i in answers) {
+            if (!dict.TryAdd(i, 1)) {
+                dict[i]++;
+            }
+        }
+        int count = 0;
+        foreach (int key  in dict.Keys) {
+            count += ((dict[key]+key)/ (key+1))*(key+1);
+        }
+        return count;
+    }
 }
 
 public class ATM
@@ -8090,7 +8106,7 @@ public class ATM
             return true;
         }
         var toNotes = toBankNotes(amount);
-        if (!checkEnoughNotes(toNotes)) {
+        if (toNotes.Length==1 || !checkEnoughNotes(toNotes)) {
             return new int[]{-1};
         }
         for (int i=0;i<5;i++) {
