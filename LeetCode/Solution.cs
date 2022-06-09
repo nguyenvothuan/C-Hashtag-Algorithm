@@ -7995,26 +7995,110 @@ class Solution
 
     public int RemovePalindromeSub(string s)
     {
-        bool checkPal(string s) {
-            for(int i=0;i<s.Length/2;i++) {
-                if (s[i]!= s[s.Length-1-i]) return false;
+        bool checkPal(string s)
+        {
+            for (int i = 0; i < s.Length / 2; i++)
+            {
+                if (s[i] != s[s.Length - 1 - i]) return false;
             }
             return true;
         }
-        return s=="" ? 0 : (checkPal(s)? 1 : 2);
+        return s == "" ? 0 : (checkPal(s) ? 1 : 2);
 
     }
 
-    public int MaxIceCream(int[] costs, int coins) {
+    public int MaxIceCream(int[] costs, int coins)
+    {
         Array.Sort(costs);
-        int count =0;
-        foreach (int i in costs) {
-            coins-=i;
-            if(coins<0) break;
+        int count = 0;
+        foreach (int i in costs)
+        {
+            coins -= i;
+            if (coins < 0) break;
             count++;
         }
         return count;
     }
+    public int CoinChange1(int[] coins, int amount) {
+        int count = 0;
+        Array.Sort(coins);
+        foreach(int i in coins) {
+            if (amount == 0) return count;
+            amount -= i*(int)(amount/i);  
+            count++; 
+        }
+        return amount == 0 ? count : -1;
+    }
+    readonly int inf = 999999999;
+
+    public int CoinChange(int[] coins, int amount) {
+        int[] dp = new int[amount+1];
+        Array.Fill(dp, inf);
+        int Util(int i) {
+            if (i==0) return 0; //done
+            if (i<0) return -1; //impossible
+            if (dp[i]==inf) {//not cal yet
+                int res = inf;
+                foreach (int coin in coins) {
+                    if (Util(i-coin)!=-1) {
+                        res = Math.Min(res,1+ Util(i-coin));
+                    }
+                }
+                dp[i] = res == inf ? -1 : res;
+            }
+            return dp[i];
+        }
+        return Util(amount) == inf ? -1 :Util(amount);
+    }
+}
+
+public class ATM
+{
+
+    int[] noteCount;
+    int[] type;
+    public ATM()
+    {
+        noteCount = new int[] { 0, 0, 0, 0, 0 };
+        type = new int[] { 20, 50, 100, 200, 500 };
+    }
+
+    public void Deposit(int[] banknotesCount)
+    {
+        for (int i = 0; i < banknotesCount.Length; i++)
+        {
+            noteCount[i] += 1;
+        }
+    }
+
+    public int[] Withdraw(int amount)
+    {
+        int[] toBankNotes(int n)
+        {
+            int[] res = new int[5];
+            for (int i =4; i>=0;i--) {
+                res[i] = (int)(n/type[i]);
+                n-= res[i]*type[i];
+            }
+            if (n>0) return new int[]{-1};
+            return res;
+        }
+        bool checkEnoughNotes(int[] withdrawAmount) {
+            for (int i =0;i<5;i++) {
+                if (withdrawAmount[i]>noteCount[i]) return false;
+            }
+            return true;
+        }
+        var toNotes = toBankNotes(amount);
+        if (!checkEnoughNotes(toNotes)) {
+            return new int[]{-1};
+        }
+        for (int i=0;i<5;i++) {
+            noteCount[i] -= toNotes[i];
+        }
+        return toNotes;
+    }
+    
 }
 
 public class Pair<T1, T2>
