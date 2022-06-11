@@ -8021,51 +8021,191 @@ class Solution
         }
         return count;
     }
-    public int CoinChange1(int[] coins, int amount) {
+    public int CoinChange1(int[] coins, int amount)
+    {
         int count = 0;
         Array.Sort(coins);
-        foreach(int i in coins) {
+        foreach (int i in coins)
+        {
             if (amount == 0) return count;
-            amount -= i*(int)(amount/i);  
-            count++; 
+            amount -= i * (int)(amount / i);
+            count++;
         }
         return amount == 0 ? count : -1;
     }
     readonly int inf = 999999999;
 
-    public int CoinChange(int[] coins, int amount) {
-        int[] dp = new int[amount+1];
+    public int CoinChange(int[] coins, int amount)
+    {
+        int[] dp = new int[amount + 1];
         Array.Fill(dp, inf);
-        int Util(int i) {
-            if (i==0) return 0; //done
-            if (i<0) return -1; //impossible
-            if (dp[i]==inf) {//not cal yet
+        int Util(int i)
+        {
+            if (i == 0) return 0; //done
+            if (i < 0) return -1; //impossible
+            if (dp[i] == inf)
+            {//not cal yet
                 int res = inf;
-                foreach (int coin in coins) {
-                    if (Util(i-coin)!=-1) {
-                        res = Math.Min(res,1+ Util(i-coin));
+                foreach (int coin in coins)
+                {
+                    if (Util(i - coin) != -1)
+                    {
+                        res = Math.Min(res, 1 + Util(i - coin));
                     }
                 }
                 dp[i] = res == inf ? -1 : res;
             }
             return dp[i];
         }
-        return Util(amount) == inf ? -1 :Util(amount);
+        return Util(amount) == inf ? -1 : Util(amount);
     }
 
-    public int NumRabbits(int[] answers) {
+    public int NumRabbits(int[] answers)
+    {
         Dictionary<int, int> dict = new Dictionary<int, int>();
-        foreach (int i in answers) {
-            if (!dict.TryAdd(i, 1)) {
+        foreach (int i in answers)
+        {
+            if (!dict.TryAdd(i, 1))
+            {
                 dict[i]++;
             }
         }
         int count = 0;
-        foreach (int key  in dict.Keys) {
-            count += ((dict[key]+key)/ (key+1))*(key+1);
+        foreach (int key in dict.Keys)
+        {
+            count += ((dict[key] + key) / (key + 1)) * (key + 1);
         }
         return count;
     }
+
+    public int MaxNumberOfFamilies(int n, int[][] reservedSeats)
+    {
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();//pair of row, occupied seats
+        foreach (var occupied in reservedSeats)
+        {
+            if (!dict.TryAdd(occupied[0], new List<int>(new int[1] { occupied[1] })))
+            {
+                dict[occupied[0]].Add(occupied[1]);
+            }
+        }
+        int countSeat(int row)
+        {
+            if (!dict.ContainsKey(row)) return 2;
+            int count = 0;
+            for (int i = 1; i <= 10;)
+            {
+                int j = i;
+                while (i < j + 4)
+                {//detect 4 contiguous empty seats
+                    if (dict[row].Contains(i)) break;
+                    i++;
+                }
+                if (i == j + 4 && i <= 10) count++;
+                i++;
+            }
+            return count;
+        }
+        int count = 0;
+        for (int row = 1; row <= n; row++)
+        {
+            count += countSeat(row);
+        }
+        return count;
+    }
+    public int LongestDecomposition(string text)
+    {
+        // int res = 0; int score =0; int n = hours.Length;
+        return -1;
+    }
+
+    public int LongestWPI(int[] hours)
+    {
+        int res = 0, score = 0, n = hours.Length;
+        Dictionary<int, int> seen = new Dictionary<int, int>();
+        for (int i = 0; i < n; i++)
+        {
+            //seen[score-1] always comes before than seen[score-2]
+            score += hours[i] > 8 ? 1 : -1;
+            if (score > 0) res += 1;
+            else
+            {
+                seen.TryAdd(score, i);
+                res = Math.Max(res, i - seen[score - 1]);
+            }
+        }
+        return res;
+    }
+
+    public int MinOperations(int[] nums, int x)
+    {
+        Dictionary<int, int> seenLeft = new Dictionary<int, int>(); //record the first time we see sum , going from left
+        Dictionary<int, int> seenRight = new Dictionary<int, int>();
+        seenLeft.Add(0, -1);
+        seenRight.Add(0, nums.Length);
+        int sum = 0;
+        //left first
+        for (int i = 0; i < nums.Length; i++)
+        {
+            sum += nums[i];
+            if (sum > x) break;
+            seenLeft.TryAdd(sum, i);
+        }
+        sum = 0; //reset sum
+        for (int i = nums.Length - 1; i >= 0; i--)
+        {
+            sum += nums[i];
+            if (sum > x) break;
+            seenRight.TryAdd(sum, i);
+        }
+        int res = inf;
+        foreach (int key in seenRight.Keys)
+        {
+            if (seenLeft.ContainsKey(x - key))
+            {
+                if (seenRight[key] > seenLeft[x - key])
+                {
+                    res = Math.Min(res, ((nums.Length - seenRight[key]) + (seenLeft[x - key] + 1)));
+                }
+            }
+        }
+        return res == inf ? -1 : res;
+    }
+
+    public int FurthestBuilding(int[] heights, int bricks, int ladders)
+    {
+        PriorityQueue<int> pq = new PriorityQueue<int>();
+        for (int i = 0; i <= heights.Length - 1; i++)
+        {
+            int d = heights[i + 1] - heights[i];
+            if (d > 0)
+                pq.Enqueue(heights[i]);
+            if (pq.Count > ladders)
+                bricks -= pq.Dequeue();
+            if (bricks < 0)
+                return i;
+        }
+        return heights.Length - 1;
+    }
+
+    public int[] RearrangeBarcodes(int[] barcodes)
+    {   
+        int maxFreqCode =0, i =0, n = barcodes.Length;
+        int[] barcodeCount = new int[10001];
+        foreach (int bc in barcodes) {
+            barcodeCount[bc]++;
+            if (barcodeCount[bc]>barcodeCount[maxFreqCode]) maxFreqCode = bc;
+        }
+        int[] ans = new int[n];
+        for (int j =0; j<barcodeCount.Length;j++){
+            int code = j ==0 ? maxFreqCode : j;
+            while (barcodeCount[code]-->0) {
+                ans[i] = code;
+                i = i + 2 < n ?i + 2 : 1;
+            }
+        }
+        return ans;
+    }
+
 }
 
 public class ATM
@@ -8092,32 +8232,37 @@ public class ATM
         int[] toBankNotes(int n)
         {
             int[] res = new int[5];
-            for (int i =4; i>=0;i--) {
-                res[i] = (int)(n/type[i]);
-                n-= res[i]*type[i];
+            for (int i = 4; i >= 0; i--)
+            {
+                res[i] = (int)(n / type[i]);
+                n -= res[i] * type[i];
             }
-            if (n>0) return new int[]{-1};
+            if (n > 0) return new int[] { -1 };
             return res;
         }
-        bool checkEnoughNotes(int[] withdrawAmount) {
-            for (int i =0;i<5;i++) {
-                if (withdrawAmount[i]>noteCount[i]) return false;
+        bool checkEnoughNotes(int[] withdrawAmount)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (withdrawAmount[i] > noteCount[i]) return false;
             }
             return true;
         }
         var toNotes = toBankNotes(amount);
-        if (toNotes.Length==1 || !checkEnoughNotes(toNotes)) {
-            return new int[]{-1};
+        if (toNotes.Length == 1 || !checkEnoughNotes(toNotes))
+        {
+            return new int[] { -1 };
         }
-        for (int i=0;i<5;i++) {
+        for (int i = 0; i < 5; i++)
+        {
             noteCount[i] -= toNotes[i];
         }
         return toNotes;
     }
-    
+
 }
 
-public class Pair<T1, T2>
+public class Pair<T1, T2> 
 {
     public T1 first;
     public T2 second;
@@ -8125,6 +8270,7 @@ public class Pair<T1, T2>
     {
 
     }
+
 }
 
 public class NexNode
