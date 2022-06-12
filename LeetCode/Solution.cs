@@ -8188,19 +8188,98 @@ class Solution
     }
 
     public int[] RearrangeBarcodes(int[] barcodes)
-    {   
-        int maxFreqCode =0, i =0, n = barcodes.Length;
+    {
+        int maxFreqCode = 0, i = 0, n = barcodes.Length;
         int[] barcodeCount = new int[10001];
-        foreach (int bc in barcodes) {
+        foreach (int bc in barcodes)
+        {
             barcodeCount[bc]++;
-            if (barcodeCount[bc]>barcodeCount[maxFreqCode]) maxFreqCode = bc;
+            if (barcodeCount[bc] > barcodeCount[maxFreqCode]) maxFreqCode = bc;
         }
         int[] ans = new int[n];
-        for (int j =0; j<barcodeCount.Length;j++){
-            int code = j ==0 ? maxFreqCode : j;
-            while (barcodeCount[code]-->0) {
+        for (int j = 0; j < barcodeCount.Length; j++)
+        {
+            int code = j == 0 ? maxFreqCode : j;
+            while (barcodeCount[code]-- > 0)
+            {
                 ans[i] = code;
-                i = i + 2 < n ?i + 2 : 1;
+                i = i + 2 < n ? i + 2 : 1;
+            }
+        }
+        return ans;
+    }
+
+    public int FindRotateSteps(string ring, string key)
+    {
+        //TODO: DO this DP
+        return 1;
+    }
+
+    public int CherryPickup(int[][] grid)
+    {
+        int m = grid.Length;
+        int n = grid[0].Length;
+        int[,,] dp = new int[m, n, n];
+        //preprocess base case
+        for (int col1 = 0; col1 < n; col1++)
+        {
+            for (int col2 = 0; col2 < n; col2++)
+            {
+                for (int row = 0; row < m; row++)
+                {
+                    dp[row, col1, col2] = -1;
+                }
+            }
+        }
+        dp[0, 0, n - 1] = grid[0][0] + grid[0][n - 1];
+        int Util(int row, int col1, int col2)
+        {
+            if (col1 >= n || col1 < 0 || col2 >= n || col2 < 0) return -inf;
+            // return the best result if rb1 at row, col1 and rb2 at row, col2
+            if (row == 0)
+            {
+                if (col1 == 0 && col2 == n - 1) return grid[row][col1] + grid[row][col2];
+                return -inf;
+            }
+            if (dp[row, col1, col2] == -1)
+            {
+                int res = 0;
+                for (int lastCol1 = col1 - 1; lastCol1 <= col1 + 1; lastCol1++)
+                {
+                    for (int lastCol2 = col2 - 1; lastCol2 <= col2 + 1; lastCol2++)
+                    {
+                        res = Math.Max(res, Util(row, lastCol1, lastCol2));
+                    }
+                }
+                res += grid[row][col1] + grid[row][col2] - (col1 == col2 ? grid[row][col1] : 0);
+                dp[row, col1, col2] = res;
+            }
+            return dp[row, col1, col2];
+        }
+        int max = 0;
+        for (int col1 = 0; col1 < n; col1++)
+        {
+            for (int col2 = 0; col2 < n; col2++)
+            {
+                max = Math.Max(max, Util(m - 1, col1, col2));
+            }
+        }
+        return max;
+    }
+
+    public int MaximumUniqueSubarray(int[] nums)
+    {
+        HashSet<int> set = new HashSet<int>();
+        int i=0, j=0;
+        int sum=0, ans =0;
+        while (i<nums.Length && j <nums.Length) {
+            if (!set.Contains(nums[j])) {
+                sum += nums[j];
+                set.Add(nums[j++]);
+                ans = Math.Max(sum, ans);
+            } else {
+                sum -= nums[i];
+                set.Remove(nums[i++]);
             }
         }
         return ans;
@@ -8262,7 +8341,7 @@ public class ATM
 
 }
 
-public class Pair<T1, T2> 
+public class Pair<T1, T2>
 {
     public T1 first;
     public T2 second;
