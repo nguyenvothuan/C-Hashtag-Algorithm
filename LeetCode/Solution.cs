@@ -8285,6 +8285,30 @@ class Solution
         return ans;
     }
 
+    public int MinHeightShelves(int[][] books, int shelfWidth) { //books[i] = [thickI, heightI]
+        int n = books.Length;
+        int[] dp = new int[n]; //min heights from i to n-1
+        Array.Fill(dp, -1);
+        dp[n-1] = books[n-1][1];
+        int Util(int i) {
+            if (i>=n) return inf;
+            if (dp[i]==-1) {
+                int res = inf; //simply build on top of [i+1:]
+                int maxHeight = books[i][1];
+                int widthSum = books[i][0];
+                for (int j=i;j<n-1;j++) {
+                    if (widthSum > shelfWidth) break;
+                    //do include height[j]
+                    res = Math.Min(res, maxHeight + Util(j+1));
+                    maxHeight = Math.Max(maxHeight, books[j+1][1]);
+                    widthSum += books[j+1][0];
+                }   
+                dp[i] = res;
+            }
+            return dp[i];
+        }
+        return Util(0);
+    }
 }
 
 public class ATM
