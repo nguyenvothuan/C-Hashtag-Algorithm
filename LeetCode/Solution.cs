@@ -8270,14 +8270,18 @@ class Solution
     public int MaximumUniqueSubarray(int[] nums)
     {
         HashSet<int> set = new HashSet<int>();
-        int i=0, j=0;
-        int sum=0, ans =0;
-        while (i<nums.Length && j <nums.Length) {
-            if (!set.Contains(nums[j])) {
+        int i = 0, j = 0;
+        int sum = 0, ans = 0;
+        while (i < nums.Length && j < nums.Length)
+        {
+            if (!set.Contains(nums[j]))
+            {
                 sum += nums[j];
                 set.Add(nums[j++]);
                 ans = Math.Max(sum, ans);
-            } else {
+            }
+            else
+            {
                 sum -= nums[i];
                 set.Remove(nums[i++]);
             }
@@ -8285,29 +8289,57 @@ class Solution
         return ans;
     }
 
-    public int MinHeightShelves(int[][] books, int shelfWidth) { //books[i] = [thickI, heightI]
+    public int MinHeightShelves(int[][] books, int shelfWidth)
+    { //books[i] = [thickI, heightI]
         int n = books.Length;
         int[] dp = new int[n]; //min heights from i to n-1
         Array.Fill(dp, -1);
-        dp[n-1] = books[n-1][1];
-        int Util(int i) {
-            if (i>=n) return inf;
-            if (dp[i]==-1) {
+        dp[n - 1] = books[n - 1][1];
+        int Util(int i)
+        {
+            if (i >= n) return inf;
+            if (dp[i] == -1)
+            {
                 int res = inf; //simply build on top of [i+1:]
                 int maxHeight = books[i][1];
                 int widthSum = books[i][0];
-                for (int j=i;j<n-1;j++) {
+                for (int j = i; j < n - 1; j++)
+                {
                     if (widthSum > shelfWidth) break;
                     //do include height[j]
-                    res = Math.Min(res, maxHeight + Util(j+1));
-                    maxHeight = Math.Max(maxHeight, books[j+1][1]);
-                    widthSum += books[j+1][0];
-                }   
+                    res = Math.Min(res, maxHeight + Util(j + 1));
+                    maxHeight = Math.Max(maxHeight, books[j + 1][1]);
+                    widthSum += books[j + 1][0];
+                }
                 dp[i] = res;
             }
             return dp[i];
         }
         return Util(0);
+    }
+
+    public int NumberOfArithmeticSlices(int[] nums)
+    {
+        int i = 0; int j = 1;
+        int d = nums[1]-nums[0];
+        int res = 0;
+        int CountArithmetic(int n)
+        {
+            if (n<3) return 0;
+            return (n - 1) * (n - 2) / 2;
+        }
+        while (i < nums.Length && j < nums.Length)
+        {
+            if (nums[j]-nums[j-1] == d) {
+                j++;
+            }
+            else {
+                res += CountArithmetic(j-i);
+                i = j-1; d = nums[j]-nums[i];
+            }
+        }
+        res += CountArithmetic(j-i);
+        return res;
     }
 }
 

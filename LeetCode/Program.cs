@@ -572,7 +572,8 @@ namespace LeetCode
             // arr[2] = new int[2]{4,6};
             // arr[3] = new int[2]{1,7};
             // Console.Write(sol.MaxNumberOfFamilies(4, arr));
-            Console.Write(sol.MinOperations(new int[]{3,2,20,1,1,3}, 10));
+            // Console.Write(sol.MinOperations(new int[]{3,2,20,1,1,3}, 10));
+            Console.WriteLine(sol.NumberOfArithmeticSlices(new int[]{1,2,3,4,1,-2,-5}));
         }
     }
 }
