@@ -573,7 +573,24 @@ namespace LeetCode
             // arr[3] = new int[2]{1,7};
             // Console.Write(sol.MaxNumberOfFamilies(4, arr));
             // Console.Write(sol.MinOperations(new int[]{3,2,20,1,1,3}, 10));
-            Console.WriteLine(sol.NumberOfArithmeticSlices(new int[]{1,2,3,4,1,-2,-5}));
+            // Console.WriteLine(sol.NumberOfArithmeticSlices(new int[]{1,2,3,4,1,-2,-5}));
+            // int[][] arr = new int[3][];
+            // arr[0] =new int[3]{1,2,3};
+            // arr[1] =new int[3]{4,5,6};
+            // arr[2] =new int[3]{7,8,9};
+            // int[][] arr2 = new int[2][];
+            // arr2[0] = new int[2]{1,2};
+            // arr2[1] = new int[2] {3,4};
+            // int[] res = sol.FindDiagonalOrder(arr);
+            // foreach(int i in res)
+            //     Console.WriteLine(i);
+            int[] arr = new int[] { 1, 2, 3, 4 };
+            sol.Rotate(arr, 2);
+            foreach (int i in arr)
+            {
+                Console.WriteLine(i);
+            }
         }
     }
+
 }

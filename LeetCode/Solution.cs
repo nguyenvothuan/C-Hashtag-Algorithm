@@ -8321,25 +8321,131 @@ class Solution
     public int NumberOfArithmeticSlices(int[] nums)
     {
         int i = 0; int j = 1;
-        int d = nums[1]-nums[0];
+        int d = nums[1] - nums[0];
         int res = 0;
         int CountArithmetic(int n)
         {
-            if (n<3) return 0;
+            if (n < 3) return 0;
             return (n - 1) * (n - 2) / 2;
         }
         while (i < nums.Length && j < nums.Length)
         {
-            if (nums[j]-nums[j-1] == d) {
+            if (nums[j] - nums[j - 1] == d)
+            {
                 j++;
             }
-            else {
-                res += CountArithmetic(j-i);
-                i = j-1; d = nums[j]-nums[i];
+            else
+            {
+                res += CountArithmetic(j - i);
+                i = j - 1; d = nums[j] - nums[i];
             }
         }
-        res += CountArithmetic(j-i);
+        res += CountArithmetic(j - i);
         return res;
+    }
+
+    public int[] FindDiagonalOrderTrash(int[][] mat)
+    {
+        List<int> lst = new List<int>();
+        int m = mat.Length; int n = mat[0].Length;
+        bool up = true; //when up go from (sum, 0) to (0, sum) 
+        for (int sum = 0; sum < m + n - 1; sum++)
+        {
+            int lowRow = 0;
+            int lowCol = 0;
+            for (int i = (up ? lowCol : lowRow); i <= sum; i++)
+            {
+                int row, col;
+                if (up)
+                {
+
+                    col = Math.Min(n - 1, i);
+                    row = Math.Min(sum - col, m - 1);
+                    col = sum - row;
+                }
+                else
+                {
+                    row = Math.Min(m - 1, i);
+                    col = Math.Min(sum - row, n - 1);
+                    row = sum - col;
+                }
+                lst.Add(mat[row][col]);
+            }
+            up = !up;
+        }
+        return lst.ToArray();
+    }
+
+    public int[] FindDiagonalOrder(int[][] mat)
+    {
+        if (mat.Length == 0) return new int[0];
+        int r = 0; int c = 0; int m = mat.Length; int n = mat[0].Length; int[] arr = new int[m * n];
+        for (int i = 0; i < arr.Length; i++)
+        {
+            arr[i] = mat[r][c];
+            if ((r + c) % 2 == 0)
+            { //up
+                if (c == n - 1) r++;
+                else if (r == 0) c++;
+                else { r--; c++; }
+            }
+            else
+            {
+                if (r == m - 1) c++;
+                else if (c == 0) r++;
+                else { r++; c--; }
+            }
+        }
+        return arr;
+    }
+
+    public int CountCollisions(string directions)
+    {
+        Stack<char> stack = new Stack<char>();
+        stack.Push('L');
+        int count = 0;
+        foreach (char chr in directions)
+        {
+            while (stack.Count != 0)
+            {
+                var peek = stack.Pop();
+
+            }
+        }
+        return 1;
+    }
+    public void Rotate(int[] nums, int k)
+    {
+        if (nums.Length <= 1) return;
+        int n = nums.Length;
+        k %= n;
+        int nextIndex(int i)
+        {
+            return (i + k) % n;
+        }
+
+        int temp = -1;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            //not rotated yet
+            if (nums[i] >= 0)
+            {
+                int cur = i;
+                temp = nums[cur];
+                while (temp >= 0)
+                {
+                    //swap cur with nextIndex(cur)
+                    int temp2 = nums[nextIndex(cur)];
+                    nums[nextIndex(cur)] = -temp;
+                    cur = nextIndex(cur);
+                    temp = temp2;
+                }
+            }
+        }
+        for (int i = 0; i < nums.Length; i++)
+        {
+            nums[i] = -nums[i];
+        }
     }
 }
 
