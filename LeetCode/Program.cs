@@ -584,12 +584,13 @@ namespace LeetCode
             // int[] res = sol.FindDiagonalOrder(arr);
             // foreach(int i in res)
             //     Console.WriteLine(i);
-            int[] arr = new int[] { 1, 2, 3, 4 };
-            sol.Rotate(arr, 2);
-            foreach (int i in arr)
-            {
-                Console.WriteLine(i);
-            }
+            // int[] arr = new int[] { 1, 2, 3, 4 };
+            // sol.Rotate(arr, 2);
+            // foreach (int i in arr)
+            // {
+            //     Console.WriteLine(i);
+            // }
+            Console.Write(sol.CountCollisions("RLRSLL"));
         }
     }
 

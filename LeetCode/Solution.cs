@@ -8401,18 +8401,16 @@ class Solution
 
     public int CountCollisions(string directions)
     {
-        Stack<char> stack = new Stack<char>();
-        stack.Push('L');
-        int count = 0;
-        foreach (char chr in directions)
-        {
-            while (stack.Count != 0)
-            {
-                var peek = stack.Pop();
-
+        int res = 0, n = directions.Length, i = 0, carFromRights = 0;
+        while (i<n && directions[i]=='L')i++;
+        for(;i<directions.Length;i++) {
+            if (directions[i]=='R') carFromRights++;
+            else {
+                res += directions[i]=='S' ? carFromRights : carFromRights+1;
+                carFromRights=0;
             }
         }
-        return 1;
+        return res;
     }
     public void Rotate(int[] nums, int k)
     {
