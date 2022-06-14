@@ -8445,6 +8445,51 @@ class Solution
             nums[i] = -nums[i];
         }
     }
+    public int MaxWidthRamp(int[] nums ){
+        Stack<int> stack = new Stack<int>();
+        int res =0;
+        //stack to keep index of decreasing elements in nums
+        for(int i =0;i<nums.Length;i++) {
+            if (stack.Count==0 || nums[stack.Peek()]>nums[i]) {
+                stack.Push(i);
+            }
+        }
+        for (int i=nums.Length-1;i>=0;i--) {
+            while (stack.Count!=0 && stack.Peek()<nums[i]) {
+                res = Math.Max(res, i-stack.Pop()+1);
+            }
+        }
+        return res;
+    }
+}
+
+public class CustomStack {
+
+    int maxSize;
+    int top;
+    int[] arr;
+    public CustomStack(int maxSize) {
+        maxSize = maxSize;
+        arr = new int[maxSize];
+        top = -1;
+    }
+    
+    public void Push(int x) {
+        if (top<maxSize) {
+            arr[++top] = x;
+        }
+    }
+    
+    public int Pop() {
+        if (top==-1) return -1;
+        return arr[top--];
+    }
+    
+    public void Increment(int k, int val) {
+        for(int i =0;i<=Math.Min(Math.Min(k, top), maxSize-1);i++) {
+            arr[i]+=val;
+        }
+    }
 }
 
 public class ATM

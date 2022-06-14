@@ -590,7 +590,19 @@ namespace LeetCode
             // {
             //     Console.WriteLine(i);
             // }
-            Console.Write(sol.CountCollisions("RLRSLL"));
+            // Console.Write(sol.CountCollisions("RLRSLL"));
+            // CustomStack cs = new CustomStack(3);
+            // cs.Push(3);
+            // cs.Push(2);
+            // cs.Push(1);
+            // cs.Push(0);
+            // cs.Increment(2,100);
+            // while(true) {
+            //     int cur = cs.Pop();
+            //     if (cur==-1) break;
+            //     Console.WriteLine(cur);
+            // }
+            Console.Write(sol.MaxWidthRamp(new int[]{6,0,8,2,1,5}));
         }
     }
 

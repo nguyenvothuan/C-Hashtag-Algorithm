@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {}
+    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {}
   },
   "projects": {
-    "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {
+    "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
+        "projectUniqueName": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
         "projectName": "LeetCode",
-        "projectPath": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
+        "projectPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\LeetCode.csproj",
         "packagesPath": "C:\\Users\\vothu\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\obj\\",
+        "outputPath": "C:\\Users\\vothu\\OneDrive\\Máy tính\\C#\\LeetCode\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
