@@ -602,7 +602,10 @@ namespace LeetCode
             //     if (cur==-1) break;
             //     Console.WriteLine(cur);
             // }
-            Console.Write(sol.MaxWidthRamp(new int[]{6,0,8,2,1,5}));
+            // Console.Write(sol.MaxWidthRamp(new int[]{6,0,8,2,1,5}));
+            int[] res = sol.MostCompetitive(new int[]{71,18,52,29,55,73,24,42,66,8,80,2}, 3);
+            foreach(int i in res)
+            Console.WriteLine(i);
         }
     }
 
