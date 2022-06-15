@@ -607,7 +607,11 @@ namespace LeetCode
             // foreach(int i in res)
             // Console.WriteLine(i);
             Solution2 sol2 = new Solution2();
-            Console.Write(sol2.MinDistance("leetcode", "etco"));
+            // Console.Write(sol2.MinDistance("leetcode", "etco"));
+            // Console.Write(sol2.OddEvenJumps(new int[]{2,3,1,1,4}));
+            string[] arr = new string[]{"0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"};
+            var res = sol2.ExclusiveTime(2, new List<string>(arr));
+            foreach (int i in res) Console.WriteLine(i);
         }
     }
 
