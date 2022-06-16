@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Text;
 class Solution2
 {
     public int MinDistance(string w1, string w2)
@@ -144,5 +144,17 @@ class Solution2
             ans[key] = res[key];
         }
         return ans;
+    }
+
+    public string DecodeString(string s) {
+        Stack<string> stack = new Stack<string>();
+        int curNum = 0;
+        StringBuilder buffer = new StringBuilder();
+        foreach(char chr in s) {
+            if (chr == '[') 
+            {
+                stack.Push()
+            }
+        }
     }
 }
