@@ -44,3 +44,25 @@ class Solution_Queue:
             while len(deck) > 0 and dp[i] > dp[deck[0]]: deck.popleft()
             deck.appendleft(i)
         return dp[0]
+
+    def shortestSubarray(self, nums: list[int], k: int) -> int:
+        n = len(nums)
+        deck = deque()
+        p = [0] * n
+        # algorithm: keep an increasing deck. x_i<x_i+1 and p[x_i] < p[x_i+1]
+        for i, num in enumerate(nums):
+            if i == 0:
+                p[i] = nums[0]
+            else:
+                p[i] = p[i - 1] + nums[i]
+        ans = n + 1
+        for i in range(n):
+            while len(deck) > 0 and p[i] <= p[deck[-1]]: deck.pop()
+            while len(deck) > 0 and p[i] - p[deck[0]] >= k:
+                ans = min(ans, i - deck.popleft())
+            deck.append(i)
+        return ans if ans < n else -1
+
+# https://leetcode.com/problems/next-greater-element-i/
+# https://leetcode.com/problems/largest-rectangle-in-histogram/
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/

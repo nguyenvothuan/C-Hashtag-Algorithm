@@ -41,3 +41,19 @@ class Solution_Stack:
             stack.append(d)
         return ans
 
+    def findUnsortedSubarray(self, nums: list[int]) -> int:
+        stack = []
+        n = len(nums)
+        l = n
+        r = 0
+        # find l: the left bound for min
+        for i in range(n):
+            while len(stack) > 0 and nums[stack[-1]] > nums[i]:
+                l = min(stack.pop(), l)
+            stack.append(i)
+        stack.clear()
+        for i in range(n - 1, -1, -1):
+            while len(stack) > 0 and nums[stack[-1]] < nums[i]:
+                r = max(stack.pop(), r)
+            stack.append(i)
+        return 0 if l == r else r - l + 1
