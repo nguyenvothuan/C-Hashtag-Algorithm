@@ -63,6 +63,34 @@ class Solution_Queue:
             deck.append(i)
         return ans if ans < n else -1
 
-# https://leetcode.com/problems/next-greater-element-i/
-# https://leetcode.com/problems/largest-rectangle-in-histogram/
-# https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+    def constrainedSubsetSum(self, nums: list[int], k: int) -> int:
+        # https://leetcode.com/problems/constrained-subsequence-sum/
+        deck = deque()
+        n = len(nums)
+        dp = [0] * n
+        res = -999
+        for i in range(n - 1, -1, -1):
+            if deck and deck[-1] > min(n - 1, i + k):
+                deck.pop()
+            if deck:
+                dp[i] = dp[deck[-1]] + nums[i]
+            else:
+                dp[i] = nums[i]
+            cur = max(dp[i], nums[i])
+            while deck and dp[deck[0]] <= cur:
+                deck.popleft()
+            deck.appendleft(i)
+            res = max(res, dp[i], nums[i])
+        return res
+
+    def longestSubarray(self, nums: list[int], limit: int) -> int:
+        # https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/
+        return -1;
+
+    def maxSubarraySumCircular(self, nums: list[int]) -> int:
+        # https://leetcode.com/problems/maximum-sum-circular-subarray/
+        return -1;
+
+    def findKthLargest(self, nums: list[int], k: int) -> int:
+        # https://leetcode.com/problems/kth-largest-element-in-an-array/
+        return -1;
