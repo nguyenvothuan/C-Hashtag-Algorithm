@@ -83,9 +83,29 @@ class Solution_Queue:
             res = max(res, dp[i], nums[i])
         return res
 
-    def longestSubarray(self, nums: list[int], limit: int) -> int:
+    def longestSubarray(self, nums: list[int], lim: int) -> int:
         # https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/
-        return -1;
+        mind = deque()  # increasing deck, keep min of current window at its left most
+        maxd = deque()  # decrease deck, max at the left most
+        #either i is max or min's index,
+        i = 0
+        n = len(nums)
+        res = 0
+        for j in range(n):
+            # update max deck
+            while maxd and nums[i] > maxd[-1]: maxd.pop()
+            while mind and nums[i] < mind[-1]: mind.pop()
+            maxd.append(nums[i])
+            mind.append(nums[i])
+            # if max - min is larger than lim, update res
+            if maxd[0] - mind[0] > lim:
+                if maxd[0] == nums[i]:
+                    maxd.popleft()
+                if mind[0] == nums[i]:
+                    mind.popleft()
+                i+=1
+            res = max(res, j - i + 1)
+        return res
 
     def maxSubarraySumCircular(self, nums: list[int]) -> int:
         # https://leetcode.com/problems/maximum-sum-circular-subarray/
