@@ -87,7 +87,7 @@ class Solution_Queue:
         # https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/
         mind = deque()  # increasing deck, keep min of current window at its left most
         maxd = deque()  # decrease deck, max at the left most
-        #either i is max or min's index,
+        # either i is max or min's index,
         i = 0
         n = len(nums)
         res = 0
@@ -103,14 +103,56 @@ class Solution_Queue:
                     maxd.popleft()
                 if mind[0] == nums[i]:
                     mind.popleft()
-                i+=1
+                i += 1
             res = max(res, j - i + 1)
+        return res
+
+    def numberOfSubstrings(self, s: str) -> int:
+        res = i = 0
+        count = {c: 0 for c in 'abc'}
+        for j in range(len(s)):
+            count[s[j]] += 1
+            while all(count.values()):
+                count[s[i]] -= 1
+                i += 1
+            res += i
+        return res
+
+    def numberOfSubarrays(self, nums: list[int], k: int) -> int:
+        count = 0
+        i = 0
+        res = 0
+        for j in range(len(nums)):
+            if nums[j] % 2 == 1:
+                k -= 1
+                count = 0
+            while k == 0:
+                k += nums[i] & 1
+                count += 1
+                i += 1
+            res += count
         return res
 
     def maxSubarraySumCircular(self, nums: list[int]) -> int:
         # https://leetcode.com/problems/maximum-sum-circular-subarray/
-        return -1;
+        return -1
+
+    def maxScore(self, cardPoints: list[int], k: int) -> int:
+        n = len(cardPoints)
+
+        def ind(i: int):
+            if i >= n: return i % (n - 1)
+            return i
+
+        sum = 0
+        for i in range(n - k, n):
+            sum += cardPoints[i]
+        res = sum
+        for i in range(n - k + 1, n + 1):  # if start at n-k to n or 0
+            sum = sum - cardPoints[ind(i)] + cardPoints[ind(i + n-1)]
+            res = max(res, sum)
+        return res
 
     def findKthLargest(self, nums: list[int], k: int) -> int:
         # https://leetcode.com/problems/kth-largest-element-in-an-array/
-        return -1;
+        return -1
