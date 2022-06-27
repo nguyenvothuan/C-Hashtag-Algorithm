@@ -133,6 +133,43 @@ class Solution_Queue:
             res += count
         return res
 
+    def totalFruit(self, fruits: list[int]) -> int:
+        n = len(fruits)
+        i = 0
+        res = 0
+        dic = dict()
+        for j in range(n):
+            if fruits[j] in dic:
+                dic[fruits[j]] += 1
+            else:
+                dic.setdefault(fruits[j], 1)
+            if len(dic) > 2:
+                res = max(res, j - i)
+                # delete the first one that reaches zero
+                while len(dic) > 2:
+                    dic[fruits[i]] -= 1
+                    if dic[fruits[i]] == 0:
+                        del dic[fruits[i]]
+                    i += 1
+        res = max(res, j - i + 1)
+        return res
+
+    def maxSatisfied(self, customers: list[int], grumpy: list[int], minutes: int) -> int:
+        sum = 0 # sum is the no more customers if owner chooses to be not grumpy
+        n = len(customers)
+        for i in range(0, minutes):
+            sum += customers[i] if grumpy[i] == 1 else 0
+        res = sum
+
+        for i in range(0, n-minutes):
+            sum -= customers[i] if grumpy[i] == 1 else 0
+            sum += customers[i+minutes] if grumpy[i+minutes] == 1 else 0
+            res = max(res, sum)
+
+        for i in range(n):
+            res += customers[i] if grumpy[i] == 0 else 0 # fill the res
+        return res
+
     def maxSubarraySumCircular(self, nums: list[int]) -> int:
         # https://leetcode.com/problems/maximum-sum-circular-subarray/
         return -1
@@ -149,7 +186,7 @@ class Solution_Queue:
             sum += cardPoints[i]
         res = sum
         for i in range(n - k + 1, n + 1):  # if start at n-k to n or 0
-            sum = sum - cardPoints[ind(i)] + cardPoints[ind(i + n-1)]
+            sum = sum - cardPoints[ind(i)] + cardPoints[ind(i + n - 1)]
             res = max(res, sum)
         return res
 
