@@ -155,19 +155,19 @@ class Solution_Queue:
         return res
 
     def maxSatisfied(self, customers: list[int], grumpy: list[int], minutes: int) -> int:
-        sum = 0 # sum is the no more customers if owner chooses to be not grumpy
+        sum = 0  # sum is the no more customers if owner chooses to be not grumpy
         n = len(customers)
         for i in range(0, minutes):
             sum += customers[i] if grumpy[i] == 1 else 0
         res = sum
 
-        for i in range(0, n-minutes):
+        for i in range(0, n - minutes):
             sum -= customers[i] if grumpy[i] == 1 else 0
-            sum += customers[i+minutes] if grumpy[i+minutes] == 1 else 0
+            sum += customers[i + minutes] if grumpy[i + minutes] == 1 else 0
             res = max(res, sum)
 
         for i in range(n):
-            res += customers[i] if grumpy[i] == 0 else 0 # fill the res
+            res += customers[i] if grumpy[i] == 0 else 0  # fill the res
         return res
 
     def maxSubarraySumCircular(self, nums: list[int]) -> int:
@@ -193,3 +193,49 @@ class Solution_Queue:
     def findKthLargest(self, nums: list[int], k: int) -> int:
         # https://leetcode.com/problems/kth-largest-element-in-an-array/
         return -1
+
+    def minMoves(self, nums: list[int], k: int) -> int:
+        p = [i for i, v in enumerate(nums) if v == 1]
+        n = len(nums)
+        pre = [0] * (n + 1)  # pre[i+1] = sum(p[0], p[1],...,p[i])
+        for i in range(n):
+            pre[i + 1] = pre[i] + nums[i]
+        res = 99999
+        if k & 1:
+            radius = (k - 1) // 2
+            for i in range(radius, n - radius):
+                right = pre[i + radius + 1] - pre[i + 1]
+                left = pre[i] - pre[i - radius]
+                res = min(right - left, res)
+            return res - radius * (radius + 1)
+        else:
+            radius = (k - 2) // 2
+            for i in range(radius, n - radius - 1):
+                right = pre[i + radius + 2] - pre[i + 1]
+                left = pre[i] - pre[i - radius]
+                res = min(right - left - p[i], res)
+            return res - (radius + 1) * (radius - 1)
+
+    def maxTurbulenceSize(self, arr: list[int]) -> int:
+        up = True
+        count = 0
+        res = 0
+        last = -9999999
+        for i, cur in enumerate(arr):
+            if up:
+                if last > cur:
+                    up = False
+                    count += 1
+                else:
+                    res = max(res, count)
+                    count = 2
+            else:
+                if last < cur:
+                    up = True
+                    count += 1
+                else:
+                    res = max(res, count)
+                    count = 2
+            last = cur
+        res = max(res, count)
+        return res
