@@ -24,6 +24,6 @@ def main():
     # print(sol_misc.minMoves2([1, 0, 0, 8, 6]))
     # print(sol_queue.maxTurbulenceSize([9,4,2,10,7,8,8,1,9]))
     # print(sol_prefix.minSubArrayLen(7,[2, 3, 1, 2, 4, 3]))
-    print(sol_prefix.subarraySum([1,2,3],3))
-
+    # print(sol_prefix.subarraySum([1,2,3],3))
+    print(sol_prefix.findMaxLength([0,1,0]))
 main()

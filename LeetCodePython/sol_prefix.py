@@ -15,7 +15,7 @@ class Soloution_Prefix:
         sum = 0
         tudien = dict()
         res = 0
-        tudien.setdefault(0,1)
+        tudien.setdefault(0, 1)
         for num in nums:
             sum += num
             if sum - k in tudien:
@@ -24,4 +24,17 @@ class Soloution_Prefix:
                 tudien[sum] += 1
             else:
                 tudien.setdefault(sum, 1)
+        return res
+
+    def findMaxLength(self, nums: list[int]) -> int:
+        balance = 0
+        tudien = dict()
+        res = 0
+        tudien.setdefault(0, -1)
+        for i, num in enumerate(nums):
+            balance += 1 if num == 1 else -1
+            if balance in tudien:
+                res = max(res, i - tudien[balance])
+            else:
+                tudien.setdefault(balance, i)
         return res
