@@ -25,5 +25,9 @@ def main():
     # print(sol_queue.maxTurbulenceSize([9,4,2,10,7,8,8,1,9]))
     # print(sol_prefix.minSubArrayLen(7,[2, 3, 1, 2, 4, 3]))
     # print(sol_prefix.subarraySum([1,2,3],3))
-    print(sol_prefix.findMaxLength([0,1,0]))
+    # print(sol_prefix.findMaxLength([0,1,0]))
+    # print(sol_prefix.numberOfArrays([83702, -5216], -82788, 14602))
+    print(sol_misc.maxArea(5, 4, [3,1], [1]))
+
+
 main()
