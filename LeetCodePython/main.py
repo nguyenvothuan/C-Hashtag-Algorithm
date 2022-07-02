@@ -27,7 +27,10 @@ def main():
     # print(sol_prefix.subarraySum([1,2,3],3))
     # print(sol_prefix.findMaxLength([0,1,0]))
     # print(sol_prefix.numberOfArrays([83702, -5216], -82788, 14602))
-    print(sol_misc.maxArea(5, 4, [3,1], [1]))
+    # print(sol_misc.maxArea(5, 4, [3,1], [1]))
+    # print(sol_prefix.subarraysDivByK([5], 9))
+    # print(sol_prefix.corpFlightBookings([[1, 2, 10], [2, 3, 20], [2, 5, 25]], 5))
+    print(sol_prefix.maxConsecutiveAnswers(answerKey="TFFT", k=1))
 
 
 main()

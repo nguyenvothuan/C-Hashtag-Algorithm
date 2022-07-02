@@ -81,3 +81,69 @@ class Soloution_Prefix:
             else:
                 res[i] = d + 1 - (candleCount[nearestLeft] - candleCount[nearestRight] + 1)
         return res
+
+    def subarraysDivByK(self, nums: list[int], k: int) -> int:
+        tudien = dict()  # store number of num in list with same modulo by k
+        res = 0
+        tudien.setdefault(0, 1)
+        sum = 0
+        for num in nums:
+            sum += num
+            modulo = sum % k
+            if modulo in tudien:
+                res += tudien[modulo]
+                tudien[modulo] += 1
+            else:
+                tudien.setdefault(modulo, 1)
+        return res
+
+    def corpFlightBookings(self, bookings: list[list[int]], n: int) -> list[int]:
+        res = [0] * n
+        for booking in bookings:
+            res[booking[0] - 1] += booking[2]
+            if booking[1] < n: res[booking[1]] -= booking[2]
+        for i in range(1, n):
+            res[i] += res[i - 1]
+        return res
+
+    def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+        last = 0
+        res = 0
+        count = 0
+        n = len(answerKey)
+        temp = k
+        # first loop, change F to T
+        for i in range(n):
+            if answerKey[i] == 'T':
+                count += 1
+            else:
+                k -= 1
+                if k == -1:
+                    while answerKey[last] == 'T':
+                        last += 1
+                        count -= 1
+                    last += 1
+                    count -= 1
+                    k = 0
+                count += 1
+            res = max(res, count)
+
+        # second loop, change T to F
+        last = 0
+        count = 0
+        k = temp
+        for i in range(n):
+            if answerKey[i] == 'F':
+                count += 1
+            else:
+                k -= 1
+                if k == -1:
+                    while answerKey[last] == 'F':
+                        last += 1
+                        count -= 1
+                    last += 1
+                    count -= 1
+                    k = 0
+                count += 1
+            res = max(res, count)
+        return res
