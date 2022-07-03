@@ -30,7 +30,10 @@ def main():
     # print(sol_misc.maxArea(5, 4, [3,1], [1]))
     # print(sol_prefix.subarraysDivByK([5], 9))
     # print(sol_prefix.corpFlightBookings([[1, 2, 10], [2, 3, 20], [2, 5, 25]], 5))
-    print(sol_prefix.maxConsecutiveAnswers(answerKey="TFFT", k=1))
+    # print(sol_prefix.maxConsecutiveAnswers(answerKey="TFFT", k=1))
+    # print(sol_prefix.maximumWhiteTiles(tiles=[[1, 5], [10, 11], [12, 18], [20, 25], [30, 32]], carpetLen=10))
+    # print(sol_prefix.goodDaysToRobBank(security = [1,2,3,4,5,6], time = 0))
+    print(sol_prefix.splitPainting(segments=[[1, 4, 5], [4, 7, 7], [1, 7, 9]]))
 
 
 main()

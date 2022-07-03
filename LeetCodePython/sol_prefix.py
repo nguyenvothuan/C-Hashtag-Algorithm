@@ -1,3 +1,6 @@
+from collections import defaultdict
+
+
 class Soloution_Prefix:
     def minSubArrayLen(self, target: int, nums: list[int]) -> int:
         last = 0
@@ -146,4 +149,52 @@ class Soloution_Prefix:
                     k = 0
                 count += 1
             res = max(res, count)
+        return res
+
+    def maximumWhiteTiles(self, tiles: list[list[int]], carpetLen: int) -> int:
+        res = 0
+        j = 0
+        cover = 0
+        i = 0
+        tiles.sort(key=lambda x: x[0])
+        while res < carpetLen and i < len(tiles):
+            # if adding new tile still in bound of len
+            if tiles[j][0] + carpetLen > tiles[i][1]:
+                cover += tiles[i][1] - tiles[i][0] + 1
+                res = max(res, cover)
+                i += 1
+            # try get partial tile from i
+            else:
+                partial = max(0, tiles[j][0] + carpetLen - tiles[i][0])
+                res = max(res, cover + partial)
+                # move sliding window
+                cover -= (tiles[j][1] - tiles[j][0] + 1)
+                j += 1
+        return res
+
+    def goodDaysToRobBank(self, security: list[int], time: int) -> list[int]:
+        n = len(security)
+        if time == 0: return [i for i in range(n)]
+        gL = [0] * n
+        gR = [0] * n
+        res = []
+        for i in range(n - 2, -1, -1):
+            gR[i] = gR[i + 1] + 1 if security[i] <= security[i + 1] else 0
+        for i in range(1, n):
+            gL[i] = gL[i - 1] + 1 if security[i] <= security[i - 1] else 0
+        for i in range(time - 1, n - time):
+            if gL[i] >= time and gR[i] >= time:
+                res.append(i)
+        return res
+
+    def splitPainting(self, segments: list[list[int]]) -> list[list[int]]:
+        mix, res, last_i = defaultdict(int), [], 0
+        for start, end, color in segments:
+            mix[start] += color
+            mix[end] -= color
+        for i in sorted(mix.keys()):
+            if last_i in mix and mix[last_i]:  # color changes, update segment
+                res.append([last_i, i, mix[last_i]])
+                mix[i] += mix[last_i]
+            last_i = i
         return res
