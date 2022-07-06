@@ -198,3 +198,59 @@ class Soloution_Prefix:
                 mix[i] += mix[last_i]
             last_i = i
         return res
+
+    def minimumRemoval(self, beans: list[int]) -> int:
+        res = 9999
+        beans.sort()
+        sigma = sum(beans)
+        n = len(beans)
+        for i, bean in enumerate(beans):
+            res = min(res, sigma - bean * (n - i))
+        return res
+
+    def numberOfWays(self, s: str) -> int:
+        zeroLeft = [0] * (len(s))
+        zeroRight = [0] * (len(s))
+        oneLeft = [0] * (len(s))
+        oneRight = [0] * (len(s))
+        zero = 0
+        one = 0
+        for i, num in enumerate(s):
+            zeroLeft[i] = zero
+            oneLeft[i] = one
+            if num == '0':
+                zero += 1
+            else:
+                one += 1
+        zero = 0
+        one = 0
+        for i, num in reversed(list(enumerate(s))):
+            zeroRight[i] = zero
+            oneRight[i] = one
+            if num == '0':
+                zero += 1
+            else:
+                one += 1
+        res = 0
+        for i in range(1, len(s) - 1):
+            if s[i] == '0':
+                res += oneLeft[i] * oneRight[i]
+            else:
+                res += zeroLeft[i] * zeroRight[i]
+        return res
+
+    def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
+        n = len(s)
+        diffArr = [0] * n
+        for i in range(n):
+            diffArr[i] = abs(ord(s[i]) - ord(t[i]))
+        res = 0
+        cur = 0
+        start = 0
+        for i in range(n):
+            cur += diffArr[i]
+            while cur > maxCost:
+                cur -= diffArr[start]
+                start += 1
+            res = max(i-start+1, res)
+        return res

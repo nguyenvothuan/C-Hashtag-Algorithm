@@ -12,7 +12,6 @@ class Solution_Misc:
         return res
 
     def maxArea(self, h: int, w: int, horizontalCuts: list[int], verticalCuts: list[int]) -> int:
-
         horizontalCuts.append(h)
         verticalCuts.append(w)
         n = len(horizontalCuts)
@@ -26,3 +25,37 @@ class Solution_Misc:
         for i in range(1, m):
             maxGapV = max(maxGapV, verticalCuts[i] - verticalCuts[i - 1])
         return (maxGapV * maxGapH) % (pow(10, 9) + 7)
+
+    def longestConsecutive(self, nums: list[int]) -> int:
+        nums = list(set(nums))
+        s, d = set(), dict()
+        for num in nums:
+            if num + 1 in s:
+                d.setdefault(num, d[num + 1] + 1)
+                del d[num + 1]
+                s.remove(num + 1)
+            else:
+                d.setdefault(num, 1)
+            s.add(num)
+        maxi = 0
+        unchanged = False
+        while not unchanged:
+            b4 = len(s)
+            for num in s:
+                maybe = num + d[num]
+                if maybe in s:
+                    d[num] += d[maybe]
+                    del d[maybe]
+                    s.remove(maybe)
+                    maxi = max(d[num], maxi)
+                    break
+            unchanged = b4 == len(s)
+        return maxi
+
+    fibCache = dict()
+    fibCache.setdefault(0,0)
+    fibCache.setdefault(1,1)
+    def fib(self, n: int) -> int:
+        if n not in self.fibCache:
+            self.fibCache.setdefault(n, self.fib(n-1) + self.fib(n-2))
+        return self.fibCache[n]

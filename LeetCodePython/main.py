@@ -33,7 +33,11 @@ def main():
     # print(sol_prefix.maxConsecutiveAnswers(answerKey="TFFT", k=1))
     # print(sol_prefix.maximumWhiteTiles(tiles=[[1, 5], [10, 11], [12, 18], [20, 25], [30, 32]], carpetLen=10))
     # print(sol_prefix.goodDaysToRobBank(security = [1,2,3,4,5,6], time = 0))
-    print(sol_prefix.splitPainting(segments=[[1, 4, 5], [4, 7, 7], [1, 7, 9]]))
-
-
+    # print(sol_prefix.splitPainting(segments=[[1, 4, 5], [4, 7, 7], [1, 7, 9]]))
+    # print(sol_prefix.minimumRemoval(beans=[2, 10, 3, 2]))
+    # print(sol_misc.longestConsecutive(nums = [100,4,200,1,3,2,1]))
+    # print(sol_misc.fib(11))
+    # print(sol_prefix.numberOfWays(s = "11100"))
+    print(sol_prefix.equalSubstring(s = "abcd", t = "bcdf", maxCost = 3))
 main()
+
