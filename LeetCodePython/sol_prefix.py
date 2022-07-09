@@ -1,5 +1,5 @@
 from collections import defaultdict
-
+import heapq
 
 class Soloution_Prefix:
     def minSubArrayLen(self, target: int, nums: list[int]) -> int:
@@ -252,5 +252,62 @@ class Soloution_Prefix:
             while cur > maxCost:
                 cur -= diffArr[start]
                 start += 1
-            res = max(i-start+1, res)
+            res = max(i - start + 1, res)
         return res
+
+    def largestMagicSquare(self, grid: list[list[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        psCol = [[0] * (n + 1) for _ in range(m)]
+        psRow = [[0] * (m + 1) for _ in range(n)]
+        for r in range(m):
+            for c in range(n):
+                psCol[c][r + 1] = psCol[c][r] + grid[r][c]
+                psRow[r][c + 1] = psRow[r][c] + grid[c][r]
+
+        def getColSum(c, l, r):  # get sum of col, from l to r inclusively
+            return psCol[c][r + 1] - psCol[c][l]
+
+        def getRowSum(r, d, u):
+            return psRow[r][u + 1] - psRow[r][d]
+
+        def check(k):
+            # check if there is a magic square of size k in da grid
+            for r in range(m - k + 1):
+                for c in range(n - k + 1):
+                    diag, antiDiag = 0, 0
+                    for d in range(k):
+                        diag += grid[r + d][c + d]
+                        antiDiag += grid[r + d][c + k - 1 - d]
+                    match = diag == antiDiag
+                    nr, nc = r, c
+                    # check row
+                    while nr < r + k and match:
+                        match = diag == getRowSum(nr, c, c + k - 1)
+                        nr += 1
+                    while nc < c + k and match:
+                        match = diag == getColSum(nc, r, r + k - 1)
+                        nc += 1
+                    if match: return True
+            return False
+
+        for k in range(min(m, n), 3, -1):
+            if check(k):
+                return k
+        return 1
+
+    def kthLargestValue(self, matrix: list[list[int]], k: int) -> int:
+        m, n = len(matrix), len(matrix[0])
+        value = [[0] * n for _ in range(m)]
+        heap = []
+        value[0][0] = matrix[0][0]
+        for c in range(1,n):
+            value[0][c] = matrix[0][c] ^ value[0][c-1]
+        for r in range(1, m):
+            value[r][0] = matrix[r][0] ^ value[r-1][0]
+        for r in range(1, m):
+            for c in range(1, n):
+                value[r][c] = matrix[r][c] ^ value[r-1][c] ^ value[r][c-1] ^ value[r-1][c-1]
+        for r in range(m):
+            for c in range(n):
+                heap.append(value[r][c])
+        return heapq.nlargest(k, heap)[-1]
