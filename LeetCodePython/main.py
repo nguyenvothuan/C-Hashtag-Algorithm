@@ -39,7 +39,8 @@ def main():
     # print(sol_misc.fib(11))
     # print(sol_prefix.numberOfWays(s = "11100"))
     # print(sol_prefix.equalSubstring(s = "abcd", t = "bcdf", maxCost = 3))
-    print(sol_prefix.kthLargestValue(matrix = [[5,2],[1,6]], k = 2))
+    # print(sol_prefix.kthLargestValue(matrix = [[5,2],[1,6]], k = 2))
+    print(sol_prefix.countPalindromicSubsequence(s="bbcbaba"))
 
 
 main()

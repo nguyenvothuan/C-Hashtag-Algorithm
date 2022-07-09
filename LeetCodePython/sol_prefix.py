@@ -1,6 +1,7 @@
 from collections import defaultdict
 import heapq
 
+
 class Soloution_Prefix:
     def minSubArrayLen(self, target: int, nums: list[int]) -> int:
         last = 0
@@ -300,14 +301,43 @@ class Soloution_Prefix:
         value = [[0] * n for _ in range(m)]
         heap = []
         value[0][0] = matrix[0][0]
-        for c in range(1,n):
-            value[0][c] = matrix[0][c] ^ value[0][c-1]
+        for c in range(1, n):
+            value[0][c] = matrix[0][c] ^ value[0][c - 1]
         for r in range(1, m):
-            value[r][0] = matrix[r][0] ^ value[r-1][0]
+            value[r][0] = matrix[r][0] ^ value[r - 1][0]
         for r in range(1, m):
             for c in range(1, n):
-                value[r][c] = matrix[r][c] ^ value[r-1][c] ^ value[r][c-1] ^ value[r-1][c-1]
+                value[r][c] = matrix[r][c] ^ value[r - 1][c] ^ value[r][c - 1] ^ value[r - 1][c - 1]
         for r in range(m):
             for c in range(n):
                 heap.append(value[r][c])
         return heapq.nlargest(k, heap)[-1]
+
+    def countPalindromicSubsequence(self, s: str) -> int:
+        keys = [chr(i) for i in range(97, 123)]
+        d = dict()
+        n = len(s)
+        for char in keys:
+            d.setdefault(char, [-1] * (n + 1))
+        for i in range(n - 1, -1, -1):
+            cur = s[i]
+            # simply copy
+            for char in d.keys():
+                d[char][i] = d[char][i + 1]
+            d[cur][i] = i
+        s = set()
+        for first in keys:
+            for second in keys:
+                for third in keys:
+                    if first != third: continue
+                    cur = first+second+third
+                    if cur not in s:
+                        fi = d[first][0]  # index of the first instance of s[first]
+                        if fi != -1:
+                            si = d[second][fi+1]
+                            if si != -1:
+                                ti = d[third][si+1]
+                                if ti != -1:
+                                    s.add(cur)
+        return len(s)
+
