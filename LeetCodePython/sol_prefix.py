@@ -341,3 +341,5 @@ class Soloution_Prefix:
                                     s.add(cur)
         return len(s)
 
+    def maxFrequency(self, nums: list[int], k: int) -> int:
+        return 1

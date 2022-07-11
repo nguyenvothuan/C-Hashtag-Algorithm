@@ -3,14 +3,16 @@ from sol_queue import Solution_Queue
 from sol_greedy import Solution_Greedy
 from sol_misc import Solution_Misc
 from sol_prefix import Soloution_Prefix
-
-
+from sol_dp import  Solution_DynamicProgramming
+from sol_tree import Solution_Tree, TreeNode
 def main():
     sol_stack = Solution_Stack()
     sol_queue = Solution_Queue()
     sol_greedy = Solution_Greedy()
     sol_misc = Solution_Misc()
     sol_prefix = Soloution_Prefix()
+    sol_dp = Solution_DynamicProgramming()
+    sol_tree = Solution_Tree()
     # print(sol.nextGreaterElements([5,4,3,2,1]))
     # print(sol_queue.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], k=3))
     # print(sol_queue.maxResult([10, -5, -2, 4, 0, 3], k=3))
@@ -40,7 +42,6 @@ def main():
     # print(sol_prefix.numberOfWays(s = "11100"))
     # print(sol_prefix.equalSubstring(s = "abcd", t = "bcdf", maxCost = 3))
     # print(sol_prefix.kthLargestValue(matrix = [[5,2],[1,6]], k = 2))
-    print(sol_prefix.countPalindromicSubsequence(s="bbcbaba"))
-
-
+    # print(sol_prefix.countPalindromicSubsequence(s="bbcbaba"))
+    # print(sol_dp.minCostClimbingStairs(cost = [1,100,1,1,1,100,1,1,100,1]))
 main()
