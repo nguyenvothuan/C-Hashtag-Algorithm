@@ -7,10 +7,5 @@ class TreeNode:
 
 class Solution_Tree:
     def rightSideView(self, root: TreeNode) -> list[int]:
-        q = []
-        res = []
-        q.append(root)
-        while q:
-
-        return res
+        return []
 
