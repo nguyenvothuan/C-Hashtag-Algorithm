@@ -44,8 +44,8 @@ def main():
     # print(sol_prefix.kthLargestValue(matrix = [[5,2],[1,6]], k = 2))
     # print(sol_prefix.countPalindromicSubsequence(s="bbcbaba"))
     # print(sol_dp.minCostClimbingStairs(cost = [1,100,1,1,1,100,1,1,100,1]))
-    print(sol_dp.findTargetSumWays(nums = [0,0,0,0,0,0,0,0,1], target = 1))
-
+    # print(sol_dp.findTargetSumWays(nums = [0,0,0,0,0,0,0,0,1], target = 1))
+    print(sol_tree.levelOrder(TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))))
 
 
 main()

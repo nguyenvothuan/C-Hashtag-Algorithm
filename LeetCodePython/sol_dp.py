@@ -51,3 +51,34 @@ class Solution_DynamicProgramming:
                 if dp[r][c] > ans: ans = dp[r][c]
 
         return ans
+
+    def makesquare(self, matchsticks: list[int]) -> bool:
+        if not matchsticks: return False
+        n = len(matchsticks)
+        perimeter = sum(matchsticks)
+        if perimeter % 4 != 0: return False
+        possible_side = perimeter / 4
+        dp = {}
+
+        def recurse(mask, side_dones):
+            total = 0
+            for i in range(n - 1, -1, -1):
+                if not (mask & (1 << i)):
+                    total += matchsticks[i]  # total sum of matchstick used so far
+            if total % possible_side == 0: side_dones += 1
+            if side_dones == 3: return True
+            if (mask, side_dones) in dp: return dp[(mask, side_dones)]
+
+            ans = False
+            c = int(total / possible_side)
+            rem = possible_side * (c + 1) - total  # availablespace in the current side
+            for i in range(n - 1, -1, -1):
+                # if current one fit and not used
+                if matchsticks[i] < rem and mask & (1 << i):
+                    if recurse(mask ^ (1 << i), side_dones):
+                        ans = True
+                        break
+            dp[(mask, side_dones)] = ans
+            return ans
+
+        return recurse((1<<n) -1, 0)
