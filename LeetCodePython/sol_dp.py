@@ -81,4 +81,22 @@ class Solution_DynamicProgramming:
             dp[(mask, side_dones)] = ans
             return ans
 
-        return recurse((1<<n) -1, 0)
+        return recurse((1 << n) - 1, 0)
+
+    def findMaxForm(self, strs: list[str], m: int, n: int) -> int:
+        L = len(strs)
+        dp = [[[-1] * (m + 1) for _ in range(n + 1)] for _ in range(L)]
+
+        def count(s: str):
+            return s.count('0'), s.count('1')
+
+        arr = [count(s) for s in strs]
+
+        def util(i, a, b):
+            if a < 0 or b < 0: return -1
+            if i < 0: return -1
+            if dp[i][a][b] == -1:
+                dp[i][a][b] = max(util(i - 1, a, b), util(i - 1, a - arr[i][0], b - arr[i][1]) + 1)
+            return dp[i][a][b]
+
+        return util(L - 1, n, m)
