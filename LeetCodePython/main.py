@@ -46,6 +46,6 @@ def main():
     # print(sol_dp.minCostClimbingStairs(cost = [1,100,1,1,1,100,1,1,100,1]))
     # print(sol_dp.findTargetSumWays(nums = [0,0,0,0,0,0,0,0,1], target = 1))
     # print(sol_tree.levelOrder(TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))))
-    print(sol_dp.findMaxForm(strs = ["00","000"], m = 1, n = 10))
-
+    # print(sol_dp.findMaxForm(strs = ["00","000"], m = 1, n = 10))
+    print(sol_dp.PredictTheWinner(nums = [1,5,2]))
 main()

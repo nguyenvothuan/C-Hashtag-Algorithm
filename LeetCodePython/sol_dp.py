@@ -100,3 +100,24 @@ class Solution_DynamicProgramming:
             return dp[i][a][b]
 
         return util(L - 1, n, m)
+
+    def PredictTheWinner(self, nums: list[int]) -> bool:
+        n = len(nums)
+        dp = [[-1] * n for _ in range(n)]
+        ps = [0] * n
+        sum = 0
+        for i in range(n):
+            sum += nums[i]
+            ps[i] = sum  # up to but not includes i
+
+        def sum_range(i, j):  # inclusively
+            return ps[j] - ps[i] + nums[j]
+
+        def util(i, j):  # max score if start first
+            if i == j: return nums[i]
+            if i > j: return -99999
+            if dp[i][j] == -1:
+                dp[i][j] = max(nums[i] + sum_range(i + 1, j) - util(i + 1, j),
+                               nums[j] + sum_range(i, j - 1) - util(i, j - 1))
+            return dp[i][j]
+        return util(0, n-1) > int(sum/2)
