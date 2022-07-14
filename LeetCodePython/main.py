@@ -3,8 +3,10 @@ from sol_queue import Solution_Queue
 from sol_greedy import Solution_Greedy
 from sol_misc import Solution_Misc
 from sol_prefix import Soloution_Prefix
-from sol_dp import  Solution_DynamicProgramming
+from sol_dp import Solution_DynamicProgramming
 from sol_tree import Solution_Tree, TreeNode
+
+
 def main():
     sol_stack = Solution_Stack()
     sol_queue = Solution_Queue()
@@ -47,5 +49,9 @@ def main():
     # print(sol_dp.findTargetSumWays(nums = [0,0,0,0,0,0,0,0,1], target = 1))
     # print(sol_tree.levelOrder(TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))))
     # print(sol_dp.findMaxForm(strs = ["00","000"], m = 1, n = 10))
-    print(sol_dp.PredictTheWinner(nums = [1,5,2]))
+    # print(sol_dp.PredictTheWinner(nums = [1,5,2]))
+    print(sol_dp.champagneTower(poured=
+                                100000009, query_row=33, query_glass=17))
+
+
 main()

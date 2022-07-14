@@ -120,4 +120,17 @@ class Solution_DynamicProgramming:
                 dp[i][j] = max(nums[i] + sum_range(i + 1, j) - util(i + 1, j),
                                nums[j] + sum_range(i, j - 1) - util(i, j - 1))
             return dp[i][j]
-        return util(0, n-1) > int(sum/2)
+v
+        return util(0, n - 1) > int(sum / 2)
+
+    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
+        dp = [[-1] * (query_row + 1) for _ in range(query_row + 1)]
+        dp[0][0] = poured
+
+        def ex(i, j):  # vol of glasses recieved by i,j
+            if i < 0 or j < 0 or i > j: return 0
+            if dp[i][j] == -1:
+                dp[i][j] = max(ex(i - 1, j - 1) - 1, 0) / 2 + max(ex(i, j - 1) - 1, 0) / 2
+            return dp[i][j]
+
+        return min(1, ex(query_row, query_glass))

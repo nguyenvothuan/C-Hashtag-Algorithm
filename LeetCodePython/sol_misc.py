@@ -53,9 +53,26 @@ class Solution_Misc:
         return maxi
 
     fibCache = dict()
-    fibCache.setdefault(0,0)
-    fibCache.setdefault(1,1)
+    fibCache.setdefault(0, 0)
+    fibCache.setdefault(1, 1)
+
     def fib(self, n: int) -> int:
         if n not in self.fibCache:
-            self.fibCache.setdefault(n, self.fib(n-1) + self.fib(n-2))
+            self.fibCache.setdefault(n, self.fib(n - 1) + self.fib(n - 2))
         return self.fibCache[n]
+
+    def pushDominoes(self, dominoes: str) -> str:
+        symbols = [(i, x) for i, x in enumerate(dominoes)]
+        symbols = [(-1, 'L') + symbols + (len(symbols), 'R')]
+        ans = list(dominoes)
+        for (i, x), (j, y) in zip(symbols, symbols[1:]):
+            if x == y:
+                for k in range(i + 1, j):
+                    ans[k] = x
+            elif x > y:
+                for k in range(i + 1, j):
+                    if k < (i - j) / 2:
+                        ans[k] = x
+                    elif k > (i - j) / 2:
+                        ans[k] = y
+        return "".join(ans)
