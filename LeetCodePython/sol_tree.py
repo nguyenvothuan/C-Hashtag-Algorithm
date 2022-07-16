@@ -19,7 +19,7 @@ class Solution_Tree:
         q = deque()
         q.appendleft(root)
         q.appendleft(dummy)
-        while len(q) > 1 :
+        while len(q) > 1:
             node: TreeNode = q.pop()
             if node == dummy:
                 res.append(cur.copy())
@@ -31,3 +31,29 @@ class Solution_Tree:
                 if node.right is not None: q.appendleft(node.right)
         if cur: res.append(cur)
         return res
+
+    def btreeGameWinningMove(self, root: TreeNode, n: int, x: int) -> bool:
+        # count if left and right are equal
+        q: deque[TreeNode | int] = deque()
+        dummy = -1
+        q.appendleft(root)
+        q.appendleft(dummy)
+
+        def countDescendants(node: TreeNode):
+            if node is None: return 0
+            return 1 + countDescendants(node.left) + countDescendants(node.right)
+
+        while len(q) > 1 or (len(q) == 1 and q[0] != dummy):
+            cur = q.pop()
+            if cur == dummy:
+                q.appendleft(dummy)
+            else:
+                if cur.val == x:
+                    return countDescendants(cur) - 1 == (n - 1) / 2
+                else:
+                    if cur.left is not None: q.appendleft(cur.left)
+                    if cur.right is not None: q.appendleft(cur.right)
+        return True
+
+    def treeFromBFS(self, arr):
+        #assuming all rows are full probably except the last one

@@ -50,8 +50,8 @@ def main():
     # print(sol_tree.levelOrder(TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))))
     # print(sol_dp.findMaxForm(strs = ["00","000"], m = 1, n = 10))
     # print(sol_dp.PredictTheWinner(nums = [1,5,2]))
-    print(sol_dp.champagneTower(poured=
-                                100000009, query_row=33, query_glass=17))
-
+    # print(sol_dp.champagneTower(poured=
+    #                             100000009, query_row=33, query_glass=17))
+    print(sol_dp.findPaths(m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1))
 
 main()

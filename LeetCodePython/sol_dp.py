@@ -120,7 +120,7 @@ class Solution_DynamicProgramming:
                 dp[i][j] = max(nums[i] + sum_range(i + 1, j) - util(i + 1, j),
                                nums[j] + sum_range(i, j - 1) - util(i, j - 1))
             return dp[i][j]
-v
+
         return util(0, n - 1) > int(sum / 2)
 
     def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
@@ -134,3 +134,16 @@ v
             return dp[i][j]
 
         return min(1, ex(query_row, query_glass))
+
+    def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+        dp = [[[-1] * n for _ in range(m)] for _ in range(maxMove + 1)]
+
+        def util(move, i, j):
+            if i < 0 or j < 0 or i >= m or j >= n: return 1
+            if move == 0: return 0
+            if dp[move][i][j] == -1:
+                dp[move][i][j] = util(move - 1, i - 1, j) + util(move - 1, i, j - 1) \
+                                 + util(move - 1, i + 1, j) + util(move - 1, i, j + 1)
+            return dp[move][i][j]
+
+        return util(maxMove, startRow, startColumn) % (pow(10,9) + 7)
