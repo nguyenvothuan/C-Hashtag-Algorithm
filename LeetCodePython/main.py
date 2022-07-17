@@ -52,6 +52,7 @@ def main():
     # print(sol_dp.PredictTheWinner(nums = [1,5,2]))
     # print(sol_dp.champagneTower(poured=
     #                             100000009, query_row=33, query_glass=17))
-    print(sol_dp.findPaths(m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1))
+    # print(sol_dp.findPaths(m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1))
 
+    print(sol_dp.kInversePairs(n = 3, k = 0))
 main()

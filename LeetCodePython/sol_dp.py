@@ -146,4 +146,15 @@ class Solution_DynamicProgramming:
                                  + util(move - 1, i + 1, j) + util(move - 1, i, j + 1)
             return dp[move][i][j]
 
-        return util(maxMove, startRow, startColumn) % (pow(10,9) + 7)
+        return util(maxMove, startRow, startColumn) % (pow(10, 9) + 7)
+
+    def kInversePairs(self, n: int, k: int) -> int:
+        dp = [[-1] * (k + 1) for _ in range(n)]
+
+        def util(i, j):
+            if i == 0: return 0
+            if j == 0: return i
+            if dp[i][j] == -1:
+                dp[i][j] = util(i, j-1) + util(i-1, j) - util(i-1, j-1)
+            return dp[i][j]
+        return util(n-1, k)

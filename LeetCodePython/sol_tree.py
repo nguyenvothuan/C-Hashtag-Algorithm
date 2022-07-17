@@ -56,4 +56,35 @@ class Solution_Tree:
         return True
 
     def treeFromBFS(self, arr):
-        #assuming all rows are full probably except the last one
+        # assuming all rows are full probably except the last one
+        return TreeNode()
+
+    def isEvenOddTree(self, root: TreeNode) -> bool:
+        # even decreasing, odd increasing
+        q = deque()
+        dummyOdd = -1  # append at the end of the even layer
+        dummyEven = -2
+        q.appendleft(root)
+        q.appendleft(dummyOdd)
+        isAtOdd = False
+        inf = 99999999
+        last = inf
+        while len(q) > 1:
+            cur = q.pop()
+            if cur == dummyEven:
+                q.appendleft(dummyOdd)
+                isAtOdd = False
+                last = inf
+            elif cur == dummyOdd:
+                q.appendleft(dummyEven)
+                isAtOdd = True
+                last = -inf
+            else:
+                if isAtOdd:
+                    if last >= cur.val: return False
+                else:
+                    if last <= cur.val: return False
+                if cur.left: q.appendleft(cur.left)
+                if cur.right: q.appendleft(cur.right)
+                last = cur.val
+        return True
