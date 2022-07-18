@@ -155,6 +155,26 @@ class Solution_DynamicProgramming:
             if i == 0: return 0
             if j == 0: return i
             if dp[i][j] == -1:
-                dp[i][j] = util(i, j-1) + util(i-1, j) - util(i-1, j-1)
+                dp[i][j] = util(i, j - 1) + util(i - 1, j) - util(i - 1, j - 1)
             return dp[i][j]
-        return util(n-1, k)
+
+        return util(n - 1, k)
+
+    def numSubmatrixSumTarget(self, matrix: list[list[int]], target: int) -> int:
+        m = len(matrix)
+        n = len(matrix[0])
+        for row in matrix:
+            for i in range(n - 1):
+                row[i + 1] += row[i]
+        res = 0
+        for i in range(n):
+            for j in range(i,n):
+                # explore every submatrix that start at columns i and end at j
+                c = defaultdict(int)
+                c[0] = 1
+                cur = 0
+                for k in range(m):
+                    cur += matrix[k][j] - (matrix[k][i - 1] if i > 0 else 0)
+                    res += c[cur - target]
+                    c[cur] += 1
+        return res

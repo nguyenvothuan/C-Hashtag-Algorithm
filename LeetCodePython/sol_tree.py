@@ -88,3 +88,10 @@ class Solution_Tree:
                 if cur.right: q.appendleft(cur.right)
                 last = cur.val
         return True
+
+    def longestUnivaluePath(self, root: TreeNode) -> int:
+        if root is None: return None
+        res = 1
+        if root.left and root.left.val == root.val: res = max(res, self.longestUnivaluePath(root.left))
+        if root.right and root.right.val == root.val: res = max(res, self.longestUnivaluePath(root.right))
+        return res
