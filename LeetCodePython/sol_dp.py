@@ -168,7 +168,7 @@ class Solution_DynamicProgramming:
                 row[i + 1] += row[i]
         res = 0
         for i in range(n):
-            for j in range(i,n):
+            for j in range(i, n):
                 # explore every submatrix that start at columns i and end at j
                 c = defaultdict(int)
                 c[0] = 1
@@ -178,3 +178,19 @@ class Solution_DynamicProgramming:
                     res += c[cur - target]
                     c[cur] += 1
         return res
+
+    def generate(self, numRows: int) -> list[list[int]]:
+        res = [[]]
+
+        def pascal(i, j, last):
+            if j==0 or i == 0: return 1
+            return last[j-1] + last[j]
+
+        for i in range(numRows):
+            cur = []
+
+            for j in range(i):
+                cur.append(pascal(i, j, res[-1]))
+            cur.append(1)
+            res.append(cur)
+        return res[1:]

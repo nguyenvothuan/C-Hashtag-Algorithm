@@ -54,5 +54,7 @@ def main():
     #                             100000009, query_row=33, query_glass=17))
     # print(sol_dp.findPaths(m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1))
 
-    print(sol_dp.kInversePairs(n = 3, k = 0))
+    # print(sol_dp.kInversePairs(n = 3, k = 0))
+    # print(sol_dp.generate(6))
+    print(sol_stack.numSubmat(mat = [[1,0,1],[1,1,0],[1,1,0]]))
 main()

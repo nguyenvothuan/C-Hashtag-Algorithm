@@ -57,3 +57,31 @@ class Solution_Stack:
                 r = max(stack.pop(), r)
             stack.append(i)
         return 0 if l == r else r - l + 1
+
+    def numSubmat(self, mat: list[list[int]]) -> int:
+        m = len(mat)
+        n = len(mat[0])
+        res = 0
+        h = [0] * n
+
+        def util(h):
+            stack = []
+            sum = [0] * n
+            for i, cur in enumerate(h):
+                while stack and h[stack[-1]] >= cur: stack.pop()
+                if stack:
+                    preIndex = stack[-1]
+                    sum[i] = sum[preIndex]
+                    sum[i] += h[i] * (i - preIndex)
+                else:
+                    sum[i] = h[i] * (i + 1)
+                stack.append(i)
+            res = 0
+            for s in sum: res += s
+            return res
+
+        for i in range(m):
+            for j in range(n):
+                h[j] = h[j] + 1 if mat[i][j] == 1 else 0
+            res += util(h)
+        return res
