@@ -101,6 +101,50 @@ class Solution_Misc:
                 else:
                     cur += 1
                 # end of word
-                if i == len(word)-1: res+=1
+                if i == len(word) - 1: res += 1
                 if cur >= n: break
         return res
+
+    def buddyStrings(self, s: str, goal: str) -> bool:
+        alphabet = [chr(i) for i in range(97, 97 + 26)]
+        if len(s) != len(goal): return False
+        if s == goal:
+            se = set()
+            for i in range(0, min(len(s), 27)):
+                if s[i] in se: return True
+                se.add(s[i])
+            # no duplicate so far
+            return False
+        n = len(s)
+        diff = []
+        for i in range(n):
+            if s[i] != goal[i]:
+                diff.append(i)
+                if len(diff) > 2: return False
+        if len(diff) == 1: return False
+        if s[diff[0]] != goal[diff[1]] or s[diff[1]] != goal[diff[0]]: return False
+        return True
+
+    def diagonalSort(self, mat: list[list[int]]) -> list[list[int]]:
+        m = len(mat)
+        n = len(mat[0])
+
+        def generator(i):
+            # start is i
+            r,c = i
+            res = []
+            while r < m and c < n:
+                res.append((r, c))
+                r += 1
+                c += 1
+            return res
+
+        diagonal = [(i, 0) for i in range(m - 1, -1, -1)]
+        for i in range(1, n): diagonal.append((0, i))
+        for i in diagonal:
+            indexArr = generator(i)
+            arr = [mat[r][c] for r, c in indexArr]
+            arr.sort()
+            for j, (r, c) in enumerate(indexArr):
+                mat[r][c] = arr[j]
+        return mat
