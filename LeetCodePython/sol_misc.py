@@ -76,3 +76,31 @@ class Solution_Misc:
                     elif k > (i - j) / 2:
                         ans[k] = y
         return "".join(ans)
+
+    def numMatchingSubseq(self, s: str, words: list[str]) -> int:
+        d = dict()
+        n = len(s)
+        alphabet = [chr(i) for i in range(97, 123)]
+        for char in alphabet:
+            d.setdefault(char, [0] * (n + 1))
+            d[char][n] = -1
+        # fill d[char]
+        for char in alphabet:
+            for i in range(n - 1, -1, -1):
+                if s[i] == char:
+                    d[char][i] = i
+                else:
+                    d[char][i] = d[char][i + 1]
+        res = 0
+        for word in words:
+            cur = 0
+            for i, char in enumerate(word):
+                cur = d[char][cur]  # next occuring of char.
+                if cur == -1:
+                    break
+                else:
+                    cur += 1
+                # end of word
+                if i == len(word)-1: res+=1
+                if cur >= n: break
+        return res

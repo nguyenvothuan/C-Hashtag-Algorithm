@@ -85,3 +85,4 @@ class Solution_Stack:
                 h[j] = h[j] + 1 if mat[i][j] == 1 else 0
             res += util(h)
         return res
+

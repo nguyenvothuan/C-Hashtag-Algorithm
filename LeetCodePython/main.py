@@ -56,5 +56,6 @@ def main():
 
     # print(sol_dp.kInversePairs(n = 3, k = 0))
     # print(sol_dp.generate(6))
-    print(sol_stack.numSubmat(mat = [[1,0,1],[1,1,0],[1,1,0]]))
+    # print(sol_stack.numSubmat(mat = [[1,0,1],[1,1,0],[1,1,0]]))
+    print(sol_misc.numMatchingSubseq(s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]))
 main()
