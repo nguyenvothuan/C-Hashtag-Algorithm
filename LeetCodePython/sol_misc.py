@@ -131,7 +131,7 @@ class Solution_Misc:
 
         def generator(i):
             # start is i
-            r,c = i
+            r, c = i
             res = []
             while r < m and c < n:
                 res.append((r, c))
@@ -149,3 +149,19 @@ class Solution_Misc:
                 mat[r][c] = arr[j]
         return mat
 
+    def reverseVowels(self, s: str) -> str:
+        vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
+        l, r = 0, len(s) - 1
+        n=len(s)
+        while l<n and s[l] not in vowels: l += 1
+        while r<n and s[r] not in vowels: r -= 1
+        arr = list(s)
+        while l < r:
+            temp = arr[r]
+            arr[r] = arr[l]
+            arr[l] = temp
+            r -= 1
+            l += 1
+            while l<n and arr[l] not in vowels: l += 1
+            while r<n and arr[r] not in vowels: r -= 1
+        return ''.join(arr)

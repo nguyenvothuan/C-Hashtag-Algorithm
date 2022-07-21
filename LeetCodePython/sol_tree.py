@@ -95,3 +95,24 @@ class Solution_Tree:
         if root.left and root.left.val == root.val: res = max(res, self.longestUnivaluePath(root.left))
         if root.right and root.right.val == root.val: res = max(res, self.longestUnivaluePath(root.right))
         return res
+
+    def largestValues(self, root: TreeNode) -> list[int]:
+        q = deque()
+        dummy = -1
+        q.appendleft(root)
+        q.appendleft(dummy)
+        inf = 999999999999999
+        m = -inf
+        res = []
+        while len(q) > 1:
+            cur = q.pop()
+            if cur == dummy:
+                res.append(m)
+                m = -inf
+                q.appendleft(dummy)
+            else:
+                m = max(m, cur.val)
+                if cur.left: q.appendleft(cur.left)
+                if cur.right: q.appendleft(cur.right)
+        if m != -inf: res.append(m)
+        return res

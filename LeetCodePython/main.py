@@ -62,8 +62,8 @@ def main():
     # print(sol_misc.numMatchingSubseq(s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]))
     # print(sol_misc.buddyStrings(s="aa", goal = "aa"))
     # print(sol_misc.diagonalSort(mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]))
-    print(sol_linkedlist.printList(
-        sol_linkedlist.reverseBetween(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2, 4)))
-
+    # print(sol_linkedlist.printList(
+    #     sol_linkedlist.reverseBetween(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2, 4)))
+    print(sol_misc.reverseVowels("leetcode"))
 
 main()
