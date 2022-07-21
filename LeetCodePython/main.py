@@ -5,6 +5,7 @@ from sol_misc import Solution_Misc
 from sol_prefix import Soloution_Prefix
 from sol_dp import Solution_DynamicProgramming
 from sol_tree import Solution_Tree, TreeNode
+from sol_linkedlist import Solution_LinkedList, ListNode
 
 
 def main():
@@ -15,6 +16,7 @@ def main():
     sol_prefix = Soloution_Prefix()
     sol_dp = Solution_DynamicProgramming()
     sol_tree = Solution_Tree()
+    sol_linkedlist = Solution_LinkedList()
     # print(sol.nextGreaterElements([5,4,3,2,1]))
     # print(sol_queue.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], k=3))
     # print(sol_queue.maxResult([10, -5, -2, 4, 0, 3], k=3))
@@ -59,6 +61,9 @@ def main():
     # print(sol_stack.numSubmat(mat = [[1,0,1],[1,1,0],[1,1,0]]))
     # print(sol_misc.numMatchingSubseq(s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]))
     # print(sol_misc.buddyStrings(s="aa", goal = "aa"))
-    print(sol_misc.diagonalSort(mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]))
-main()
+    # print(sol_misc.diagonalSort(mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]))
+    print(sol_linkedlist.printList(
+        sol_linkedlist.reverseBetween(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2, 4)))
 
+
+main()
