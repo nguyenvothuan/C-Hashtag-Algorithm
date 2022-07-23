@@ -152,9 +152,9 @@ class Solution_Misc:
     def reverseVowels(self, s: str) -> str:
         vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
         l, r = 0, len(s) - 1
-        n=len(s)
-        while l<n and s[l] not in vowels: l += 1
-        while r<n and s[r] not in vowels: r -= 1
+        n = len(s)
+        while l < n and s[l] not in vowels: l += 1
+        while r < n and s[r] not in vowels: r -= 1
         arr = list(s)
         while l < r:
             temp = arr[r]
@@ -162,6 +162,24 @@ class Solution_Misc:
             arr[l] = temp
             r -= 1
             l += 1
-            while l<n and arr[l] not in vowels: l += 1
-            while r<n and arr[r] not in vowels: r -= 1
+            while l < n and arr[l] not in vowels: l += 1
+            while r < n and arr[r] not in vowels: r -= 1
         return ''.join(arr)
+
+    def countSmaller(self, nums: list[int]) -> list[int]:
+        smaller = [0] * len(nums)
+
+        def sort(enum):
+            half = int(len(enum) / 2)
+            if half:
+                left, right = sort(enum[:half]), sort(enum[half:])
+                for i in range(len(enum))[::-1]:
+                    if not right or left and left[-1][1] > right[-1][1]:
+                        smaller[left[-1][0]] += len(right)
+                        enum[i] = left.pop()
+                    else:
+                        enum[i] = right.pop()
+            return enum
+
+        sort(list(enumerate(nums)))
+        return smaller

@@ -49,3 +49,22 @@ class Solution_LinkedList:
         while node:
             print(node.val)
             node = node.next
+
+    def partition(self, head: ListNode, x: int) -> ListNode:
+        d1 = ListNode(-1)  # dummy node to keep track of the less list
+        d2 = ListNode(-1)
+        cur1 = d1
+        cur2 = d2
+        cur = head
+        while cur:
+            if cur.val < x:
+                cur1.next = cur
+                cur1 = cur1.next
+            else:
+                cur2.next = cur
+                cur2 = cur2.next
+            cur = cur.next
+        cur2.next = None
+        cur1.next = d2.next
+        return d1.next
+

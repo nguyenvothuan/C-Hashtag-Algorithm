@@ -55,15 +55,13 @@ def main():
     # print(sol_dp.champagneTower(poured=
     #                             100000009, query_row=33, query_glass=17))
     # print(sol_dp.findPaths(m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1))
+    # print(sol_dp.kInversePairs(n = 3, k = 0)) print(sol_dp.generate(6)) print(sol_stack.numSubmat(mat = [[1,0,1],
+    # [1,1,0],[1,1,0]])) print(sol_misc.numMatchingSubseq(s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk",
+    # "tnmlanowax"])) print(sol_misc.buddyStrings(s="aa", goal = "aa")) print(sol_misc.diagonalSort(mat = [[3,3,1,1],
+    # [2,2,1,2],[1,1,1,2]])) print(sol_linkedlist.printList( sol_linkedlist.reverseBetween(ListNode(1, ListNode(2,
+    # ListNode(3, ListNode(4, ListNode(5))))), 2, 4))) print(sol_misc.reverseVowels("leetcode")) print(
+    # sol_linkedlist.printList(sol_linkedlist.partition(ListNode(1, ListNode(4, ListNode(3, ListNode(2, ListNode(5,
+    # ListNode(2)))))), 3)))
 
-    # print(sol_dp.kInversePairs(n = 3, k = 0))
-    # print(sol_dp.generate(6))
-    # print(sol_stack.numSubmat(mat = [[1,0,1],[1,1,0],[1,1,0]]))
-    # print(sol_misc.numMatchingSubseq(s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]))
-    # print(sol_misc.buddyStrings(s="aa", goal = "aa"))
-    # print(sol_misc.diagonalSort(mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]))
-    # print(sol_linkedlist.printList(
-    #     sol_linkedlist.reverseBetween(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2, 4)))
-    print(sol_misc.reverseVowels("leetcode"))
-
+    print(sol_misc.countSmaller([5,2,6,1]))
 main()
