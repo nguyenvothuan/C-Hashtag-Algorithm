@@ -183,3 +183,5 @@ class Solution_Misc:
 
         sort(list(enumerate(nums)))
         return smaller
+
+

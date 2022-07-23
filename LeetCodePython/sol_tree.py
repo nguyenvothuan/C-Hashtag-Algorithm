@@ -116,3 +116,30 @@ class Solution_Tree:
                 if cur.right: q.appendleft(cur.right)
         if m != -inf: res.append(m)
         return res
+
+    def trimBST(self, root: TreeNode, low: int, high: int) -> TreeNode:
+        if not root: return None
+        if root.val > high: return self.trimBST(root.left)
+        if root.val < low: return self.trimBST(root.right)
+        root.left = self.trimBST(root.left)
+        root.right = self.trimBST(root.right)
+        return root
+
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        q = deque()
+        dummy = -1
+        q.appendleft(root)
+        q.appendleft(dummy)
+        head = True
+        last = root.val
+        while len(q) > 1:
+            cur = deque.pop()
+            if cur == dummy:
+                q.appendleft(dummy)
+                head = True
+            else:
+                if head: last = cur.val
+                if cur.left: q.appendleft(cur.left)
+                if cur.right: q.appendleft(cur.right)
+                head = False
+        return last
