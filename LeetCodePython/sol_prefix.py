@@ -330,16 +330,26 @@ class Soloution_Prefix:
             for second in keys:
                 for third in keys:
                     if first != third: continue
-                    cur = first+second+third
+                    cur = first + second + third
                     if cur not in s:
                         fi = d[first][0]  # index of the first instance of s[first]
                         if fi != -1:
-                            si = d[second][fi+1]
+                            si = d[second][fi + 1]
                             if si != -1:
-                                ti = d[third][si+1]
+                                ti = d[third][si + 1]
                                 if ti != -1:
                                     s.add(cur)
         return len(s)
 
-    def maxFrequency(self, nums: list[int], k: int) -> int:
-        return 1
+    def dietPlanPerformance(self, calories: list[int], k: int, lower: int, upper: int) -> int:
+        n = len(calories)
+        ps = [0] * (n + 1)
+        for i in range(n):
+            ps[i] = ps[i - 1] + calories[i]
+        count = 0
+        for i in range(k - 1, n):
+            T = ps[i] - ps[i - k]
+            if T > upper: count += 1
+            if T < lower: count -= 1
+        return count
+

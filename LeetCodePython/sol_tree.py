@@ -143,3 +143,14 @@ class Solution_Tree:
                 if cur.right: q.appendleft(cur.right)
                 head = False
         return last
+
+    def isSubtree(self, root: TreeNode, subRoot: TreeNode) -> bool:
+        def equal(a: TreeNode, b: TreeNode):
+            if not a and not b: return True
+            if not a or not b: return False
+            return a.val == b.val and equal(a.left, b.left) and equal(a.right, b.right)
+
+        if not subRoot: return True
+        if not root: return False
+        if equal(root, subRoot): return True
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)

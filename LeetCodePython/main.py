@@ -63,5 +63,6 @@ def main():
     # sol_linkedlist.printList(sol_linkedlist.partition(ListNode(1, ListNode(4, ListNode(3, ListNode(2, ListNode(5,
     # ListNode(2)))))), 3)))
 
-    print(sol_misc.countSmaller([5,2,6,1]))
+    # print(sol_misc.countSmaller([5,2,6,1]))
+    print(sol_prefix.dietPlanPerformance(calories = [6,5,0,0], k = 2, lower = 1, upper = 5))
 main()
