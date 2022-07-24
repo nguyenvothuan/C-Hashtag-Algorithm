@@ -184,4 +184,16 @@ class Solution_Misc:
         sort(list(enumerate(nums)))
         return smaller
 
-
+    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
+        if not matrix: return False
+        m, n = len(matrix), len(matrix[0])
+        if m < 1 or n < 1: return False
+        row, col = 0, n - 1
+        while col >= 0 and row < m - 1:
+            if matrix[row][col] == target:
+                return True
+            elif matrix[row][col] > target:
+                col -= 1
+            elif matrix[row][col] < target:
+                row += 1
+        return False
