@@ -154,3 +154,18 @@ class Solution_Tree:
         if not root: return False
         if equal(root, subRoot): return True
         return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
+
+    def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> TreeNode:
+        if p.right:
+            p = p.right
+            while p.left:
+                p = p.left
+            return p
+        candidate = None
+        while root != p:
+            if root.val < p.val:
+                root = root.right
+            else:
+                candidate = root
+                root = root.left
+        return candidate

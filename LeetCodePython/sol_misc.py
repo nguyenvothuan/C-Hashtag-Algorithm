@@ -197,3 +197,48 @@ class Solution_Misc:
             elif matrix[row][col] < target:
                 row += 1
         return False
+
+    def searchRange(self, nums: list[int], target: int) -> list[int]:
+        n = len(nums)
+
+        def findBound(leftBound):
+            i, j = 0, n - 1
+            while i <= j:
+                mid = int((i + j) / 2)
+                if nums[mid] == target:
+                    if leftBound:
+                        if mid == i or nums[mid - 1] != target: return mid
+                        j = mid - 1
+                    else:
+                        if mid == j or nums[mid + 1] != target: return mid
+                        i = mid + 1
+                elif nums[mid] > target:
+                    j = mid - 1
+                else:
+                    i = mid + 1
+
+        if n == 0: return [-1, -1]
+        return [findBound(True) or -1, findBound(False) or -1]
+
+    def merge(self, nums1: list[int], m: int, nums2: list[int], n: int) -> None:
+        if m == 0:
+            for i in range(n):
+                nums1[i] = nums2[i]
+        elif n == 0:
+            return
+        else:
+            p1, p2, nextEmpty = m - 1, n - 1, m + n - 1
+            for _ in range(m + n):
+                if p2 < 0 or p1<0: break
+                if nums2[p2] >= nums1[p1]:
+                    nums1[nextEmpty] = nums2[p2]
+                    p2 -= 1
+                    nextEmpty -= 1
+                else:
+                    nums1[nextEmpty] = nums1[p1]
+                    nextEmpty -= 1
+                    p1 -= 1
+            while p2>=0:
+                nums1[nextEmpty] = nums2[p2]
+                p2-=1
+                nextEmpty-=1

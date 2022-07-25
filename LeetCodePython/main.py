@@ -64,5 +64,10 @@ def main():
     # ListNode(2)))))), 3)))
 
     # print(sol_misc.countSmaller([5,2,6,1]))
-    print(sol_prefix.dietPlanPerformance(calories = [6,5,0,0], k = 2, lower = 1, upper = 5))
+    # print(sol_prefix.dietPlanPerformance(calories = [6,5,0,0], k = 2, lower = 1, upper = 5))
+    # print(sol_misc.searchRange(nums = [5,7,7,8,8,10], target = 6))
+    arr = [1,2,3,0,0,0]
+    sol_misc.merge(nums1 = arr, m = 3, nums2 = [2,5,6], n = 3)
+    print(arr)
+
 main()
