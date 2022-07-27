@@ -66,8 +66,14 @@ def main():
     # print(sol_misc.countSmaller([5,2,6,1]))
     # print(sol_prefix.dietPlanPerformance(calories = [6,5,0,0], k = 2, lower = 1, upper = 5))
     # print(sol_misc.searchRange(nums = [5,7,7,8,8,10], target = 6))
-    arr = [1,2,3,0,0,0]
-    sol_misc.merge(nums1 = arr, m = 3, nums2 = [2,5,6], n = 3)
-    print(arr)
+    # arr = [1,2,3,0,0,0]
+    # sol_misc.merge(nums1 = arr, m = 3, nums2 = [2,5,6], n = 3)
+    # print(arr)
+    p = TreeNode(5, TreeNode(6), TreeNode(2, TreeNode(7), TreeNode(4)))
+    q = TreeNode(1, TreeNode(0), TreeNode(8))
+    # print(sol_tree.lowestCommonAncestor(TreeNode(3, p, q)))
+    node = TreeNode(3, p, q)
+    sol_tree.flatten(node)
+
 
 main()

@@ -169,3 +169,31 @@ class Solution_Tree:
                 candidate = root
                 root = root.left
         return candidate
+
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        def search(node):
+            if not node: return None
+            if node.val == p.val or node.val == q.val: return node
+            l = search(node.left)
+            r = search(node.right)
+            if not l: return r
+            if not r: return l
+            return node
+
+        return search(root)
+
+    def widthOfBinaryTree(self, root: TreeNode) -> int:
+        # https://leetcode.com/problems/maximum-width-of-binary-tree/
+        return 1
+
+    def flatten(self, root: TreeNode) -> None:
+        cur = root
+        while cur:
+            if cur.left:
+                last = cur.left
+                while last.right:
+                    last = last.right
+                last.right = cur.right
+                cur.right = cur.left
+                cur.left = None
+            cur = cur.right
