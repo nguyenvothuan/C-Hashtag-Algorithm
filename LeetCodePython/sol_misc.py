@@ -229,7 +229,7 @@ class Solution_Misc:
         else:
             p1, p2, nextEmpty = m - 1, n - 1, m + n - 1
             for _ in range(m + n):
-                if p2 < 0 or p1<0: break
+                if p2 < 0 or p1 < 0: break
                 if nums2[p2] >= nums1[p1]:
                     nums1[nextEmpty] = nums2[p2]
                     p2 -= 1
@@ -238,7 +238,24 @@ class Solution_Misc:
                     nums1[nextEmpty] = nums1[p1]
                     nextEmpty -= 1
                     p1 -= 1
-            while p2>=0:
+            while p2 >= 0:
                 nums1[nextEmpty] = nums2[p2]
-                p2-=1
-                nextEmpty-=1
+                p2 -= 1
+                nextEmpty -= 1
+
+    def removeOuterParentheses(self, s: str) -> str:
+        sum = 0
+        last = 0
+        res = ""
+        for i, char in enumerate(s):
+            if char == '(':
+                sum += 1
+            else:
+                sum -= 1
+                if sum == 0:
+                    if i - last > 1:
+                        res += s[last + 1:i]
+                    else:
+                        res += s[last:i + 1]
+                    last = i + 1
+        return res

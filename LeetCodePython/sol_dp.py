@@ -183,8 +183,8 @@ class Solution_DynamicProgramming:
         res = [[]]
 
         def pascal(i, j, last):
-            if j==0 or i == 0: return 1
-            return last[j-1] + last[j]
+            if j == 0 or i == 0: return 1
+            return last[j - 1] + last[j]
 
         for i in range(numRows):
             cur = []
@@ -194,4 +194,21 @@ class Solution_DynamicProgramming:
             cur.append(1)
             res.append(cur)
         return res[1:]
+
+    def divisorGame(self, n: int) -> bool:
+        dp = [0] * 1001
+
+        def util(i):
+            if i == 1 or i == 3: return False
+            if i == 2: return True
+            if dp[i] == 0:
+                dp[i] = -1
+                for x in range(1, i):
+                    if i % x == 0:
+                        if not util(i-x):
+                            dp[i] = 1
+                            break
+            return dp[i] == 1
+
+        return util(n)
 

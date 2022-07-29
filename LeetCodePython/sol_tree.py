@@ -1,4 +1,4 @@
-from collections import deque
+from collections import deque, defaultdict
 
 
 class TreeNode:
@@ -197,3 +197,28 @@ class Solution_Tree:
                 cur.right = cur.left
                 cur.left = None
             cur = cur.right
+
+    def isAnagram(self, s: str, t: str) -> bool:
+        arr = [chr(i) for i in range(97, 123)]
+        d = dict()
+        for char in arr: d.setdefault(char, 0)
+        for char in s: d[char] += 1
+        for char in t: d[char] -= 1
+        for val in d.values():
+            if val != 0:
+                return False
+        return True
+
+    class Node:
+        def __init__(self, val):
+            self.val = val
+            self.left = None
+            self.right = None
+            self.parent = None
+
+    def lowestCommonAncestor3(self, p: 'Node', q: 'Node') -> 'Node':
+        p1, p2 = p, q
+        while p1 != p2:
+            p1 = p1.parent if p1.parent else q
+            p2 = p2.parent if p2.parent else p
+        return p1

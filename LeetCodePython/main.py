@@ -72,8 +72,8 @@ def main():
     p = TreeNode(5, TreeNode(6), TreeNode(2, TreeNode(7), TreeNode(4)))
     q = TreeNode(1, TreeNode(0), TreeNode(8))
     # print(sol_tree.lowestCommonAncestor(TreeNode(3, p, q)))
-    node = TreeNode(3, p, q)
-    sol_tree.flatten(node)
-
-
+    # node = TreeNode(3, p, q)
+    # sol_tree.flatten(node)
+    # print(sol_misc.removeOuterParentheses('(()())(())'))
+    print(sol_dp.divisorGame(5))
 main()
