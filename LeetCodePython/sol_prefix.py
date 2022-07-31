@@ -353,3 +353,13 @@ class Soloution_Prefix:
             if T < lower: count -= 1
         return count
 
+    class NumArray:
+
+        def __init__(self, nums: list[int]):
+            self.arr = nums
+
+
+        def update(self, index: int, val: int) -> None:
+
+        def sumRange(self, left: int, right: int) -> int:
+            return 1

@@ -259,3 +259,23 @@ class Solution_Misc:
                         res += s[last:i + 1]
                     last = i + 1
         return res
+
+    def wordSubsets(self, words1: list[str], words2: list[str]) -> list[str]:
+        alphabet = [chr(i) for i in range(97, 123)]
+        requirement = dict(zip(alphabet, [0] * 26))
+        for word in words2:
+            count = dict(zip(alphabet, [0] * 26))
+            for char in word: count[char] += 1
+            for char in alphabet: requirement[char] = max(requirement[char], count[char])
+        res = []
+        for word in words1:
+            count = dict(zip(alphabet, [0] * 26))
+            for char in word: count[char] += 1
+            flag = False
+            for char in alphabet:
+                if requirement[char] > count[char]:
+                    flag = True
+                    break
+            if not flag: res.append(word)
+        return res
+

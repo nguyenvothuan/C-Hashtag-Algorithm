@@ -75,5 +75,8 @@ def main():
     # node = TreeNode(3, p, q)
     # sol_tree.flatten(node)
     # print(sol_misc.removeOuterParentheses('(()())(())'))
-    print(sol_dp.divisorGame(5))
+    # print(sol_dp.divisorGame(5))
+    print(sol_misc.wordSubsets(words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["l","e"]))
+
+
 main()
