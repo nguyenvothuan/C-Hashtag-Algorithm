@@ -1,3 +1,6 @@
+import math
+
+
 class Solution_Misc:
     def minMoves2(self, nums: list[int]) -> int:
         # choose median, not mean
@@ -278,4 +281,7 @@ class Solution_Misc:
                     break
             if not flag: res.append(word)
         return res
+
+    def uniquePaths(self, m: int, n: int) -> int:
+        return int(math.factorial(m + n - 2) / (math.factorial(n - 1) * math.factorial(m - 1)))
 

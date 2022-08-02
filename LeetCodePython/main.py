@@ -6,7 +6,7 @@ from sol_prefix import Soloution_Prefix
 from sol_dp import Solution_DynamicProgramming
 from sol_tree import Solution_Tree, TreeNode
 from sol_linkedlist import Solution_LinkedList, ListNode
-
+from sol_heap import Solution_Heap
 
 def main():
     sol_stack = Solution_Stack()
@@ -17,6 +17,7 @@ def main():
     sol_dp = Solution_DynamicProgramming()
     sol_tree = Solution_Tree()
     sol_linkedlist = Solution_LinkedList()
+    sol_heap = Solution_Heap()
     # print(sol.nextGreaterElements([5,4,3,2,1]))
     # print(sol_queue.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], k=3))
     # print(sol_queue.maxResult([10, -5, -2, 4, 0, 3], k=3))
@@ -76,7 +77,7 @@ def main():
     # sol_tree.flatten(node)
     # print(sol_misc.removeOuterParentheses('(()())(())'))
     # print(sol_dp.divisorGame(5))
-    print(sol_misc.wordSubsets(words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["l","e"]))
-
+    # print(sol_misc.wordSubsets(words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["l","e"]))
+    print(sol_heap.kthSmallest( matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 7))
 
 main()
