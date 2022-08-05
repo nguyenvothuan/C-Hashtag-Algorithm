@@ -78,6 +78,10 @@ def main():
     # print(sol_misc.removeOuterParentheses('(()())(())'))
     # print(sol_dp.divisorGame(5))
     # print(sol_misc.wordSubsets(words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["l","e"]))
-    print(sol_heap.kthSmallest( matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 7))
-
+    # print(sol_heap.kthSmallest( matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 7))
+    # calendar = sol_misc.MyCalendar()
+    # calls = [[47,50],[33,41],[39,45],[33,42],[25,32],[26,35],[19,25],[3,8],[8,13],[18,27]]
+    # for call in calls:
+    #     print(calendar.book(call[0], call[1]))
+    sol_tree.findLeaves(TreeNode(3, p, q))
 main()

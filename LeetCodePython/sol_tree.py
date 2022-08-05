@@ -222,3 +222,33 @@ class Solution_Tree:
             p1 = p1.parent if p1.parent else q
             p2 = p2.parent if p2.parent else p
         return p1
+
+    def findLeaves(self, root: TreeNode) -> list[list[int]]:
+        parent = dict()
+        outDeg = dict()
+        zeroOut = []
+
+        def check(node):
+            outDeg.setdefault(node, 0)
+            if node.left:
+                parent.setdefault(node.left, node)
+                outDeg[node] += 1
+                check(node.left)
+            if node.right:
+                parent.setdefault(node.right, node)
+                outDeg[node] += 1
+                check(node.right)
+            if outDeg[node] == 0: zeroOut.append(node)
+
+        check(root)
+        res = []
+        next = []
+        while len(zeroOut):
+            res.append(zeroOut.copy())
+            for node in zeroOut:
+                outDeg[parent[node]] -= 1
+                if outDeg[parent[node]] == 0:
+                    next.append(parent[node])
+            zeroOut = next.copy()
+            next = []
+        return res

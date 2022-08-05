@@ -212,3 +212,16 @@ class Solution_DynamicProgramming:
 
         return util(n)
 
+    def combinationSum4(self, nums: list[int], target: int) -> int:
+        dp = [-1] * (target + 1)  # n.o way to reach i
+
+        def util(i):
+            if i < 0: return 0
+            if i == 0: return 1
+            if dp[i] == -1:
+                dp[i] = 0
+                for num in nums:
+                    dp[i] += util(i - num)
+            return dp[i]
+
+        return util(target)

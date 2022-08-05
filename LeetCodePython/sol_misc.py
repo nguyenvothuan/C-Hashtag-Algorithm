@@ -1,4 +1,6 @@
 import math
+from collections import OrderedDict
+from bisect import bisect_left, bisect_right
 
 
 class Solution_Misc:
@@ -285,3 +287,22 @@ class Solution_Misc:
     def uniquePaths(self, m: int, n: int) -> int:
         return int(math.factorial(m + n - 2) / (math.factorial(n - 1) * math.factorial(m - 1)))
 
+    class MyCalendar:
+
+        def __init__(self):
+            self.od = OrderedDict()
+
+        def book(self, start: int, end: int) -> bool:
+            end -= 1
+            if len(self.od) != 0:
+                insert_point = bisect_left(list(self.od.keys()), start)
+                # conditions to add: left tail < start<end<right head
+                left = -9999999 if insert_point == 0 else self.od[list(self.od.keys())[insert_point - 1]]
+                right = 9999999 if insert_point == len(self.od) else list(self.od.keys())[insert_point]
+                if left >= start or start > end or end >= right: return False
+            self.od.setdefault(start, end)
+            return True
+
+    def mirrorReflection(self, p: int, q: int) -> int:
+        while p % 2 == 0 and q % 2 == 0: p /= 2; q /= 2
+        return 1 - p % 2 + q % 2
