@@ -1,6 +1,6 @@
 import math
 from collections import OrderedDict
-from bisect import bisect_left, bisect_right
+from bisect import bisect_left, bisect_right, bisect
 
 
 class Solution_Misc:
@@ -306,3 +306,32 @@ class Solution_Misc:
     def mirrorReflection(self, p: int, q: int) -> int:
         while p % 2 == 0 and q % 2 == 0: p /= 2; q /= 2
         return 1 - p % 2 + q % 2
+
+    def pancakeSort(self, arr: list[int]) -> list[int]:
+        def flipFirstK(array, k):
+            array[0:k] = array[0:k][::-1]
+
+        sarr = sorted(arr)
+        res = []
+
+        def fsort(i):  # sort i
+            if i == 0: return
+
+            while i>0 and arr[i] == sarr[i]:
+                i -= 1
+                if i == 0: return
+            a = sarr[i]
+            b = arr[i]
+            # a>b
+            trueIndex = bisect(arr, a)-1
+            flipFirstK(arr, trueIndex + 1)
+            res.append(trueIndex + 1)
+            if arr[i] != a:
+                flipFirstK(arr, i + 1)
+                res.append(i + 1)
+
+
+            fsort(i-1)
+
+        fsort(len(arr) - 1)
+        return res

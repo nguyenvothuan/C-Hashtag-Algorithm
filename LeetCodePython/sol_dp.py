@@ -205,7 +205,7 @@ class Solution_DynamicProgramming:
                 dp[i] = -1
                 for x in range(1, i):
                     if i % x == 0:
-                        if not util(i-x):
+                        if not util(i - x):
                             dp[i] = 1
                             break
             return dp[i] == 1
@@ -225,3 +225,19 @@ class Solution_DynamicProgramming:
             return dp[i]
 
         return util(target)
+
+    def numRollsToTarget(self, n: int, k: int, target: int) -> int:
+        # dp = [[-1] * (n + 1)] * (target + 1)
+        dp = [[-1 for _ in range(n + 1)] for _ in range(target + 1)]
+
+        def helper(s, count):
+            if s < 0 or count < 0: return 0
+            if s == 0: return 1
+            if dp[s][count] == -1:
+                dp[s][count] = 0
+                for i in range(1, k + 1):
+                    dp[s][count] += helper(s - i, count - 1)
+            return dp[s][count]
+
+        return int(helper(target, n) % (pow(10, 9) + 7))
+

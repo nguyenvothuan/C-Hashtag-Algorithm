@@ -83,5 +83,10 @@ def main():
     # calls = [[47,50],[33,41],[39,45],[33,42],[25,32],[26,35],[19,25],[3,8],[8,13],[18,27]]
     # for call in calls:
     #     print(calendar.book(call[0], call[1]))
-    sol_tree.findLeaves(TreeNode(3, p, q))
+    # sol_tree.findLeaves(TreeNode(3, p, q))
+    # print(sol_misc.pancakeSort([1,5,2,3,4]))
+    # print(sol_dp.numRollsToTarget(n = 2, k = 6, target = 7))
+    sol_tree.verticalOrder(TreeNode(3, p, q))
 main()
+
+

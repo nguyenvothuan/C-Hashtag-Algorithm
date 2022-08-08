@@ -1,4 +1,5 @@
 from collections import deque, defaultdict
+from typing import Optional, List
 
 
 class TreeNode:
@@ -252,3 +253,28 @@ class Solution_Tree:
             zeroOut = next.copy()
             next = []
         return res
+
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        memo = dict()
+        least = 0
+        most = 0
+
+        def traverse(node, col):
+            nonlocal least, most
+            least = min(least, col)
+            most = max(most, col)
+            if not node: return
+            if col not in memo.keys():
+                memo.setdefault(col, [node.val])
+            else:
+                memo[col].append(node.val)
+            traverse(node.left, col - 1)
+            traverse(node.right, col + 1)
+
+        traverse(root, 0)
+        res = []
+        for i in range(least, most + 1):
+            if i in memo.keys():
+                res.append(memo[i])
+        return res
+
