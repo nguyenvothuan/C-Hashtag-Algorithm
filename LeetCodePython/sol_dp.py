@@ -1,4 +1,6 @@
+import math
 from collections import defaultdict
+from typing import List
 
 
 class Solution_DynamicProgramming:
@@ -241,3 +243,23 @@ class Solution_DynamicProgramming:
 
         return int(helper(target, n) % (pow(10, 9) + 7))
 
+    def numFactoredBinaryTrees(self, arr: List[int]) -> int:
+        s = set(arr)
+        n = len(arr)
+        dp = dict()
+        for i in arr:
+            dp.setdefault(i, -1)
+
+        def helper(i):
+            if i not in s: return 0
+            if dp[i] == -1:
+                dp[i] = 1
+                for j in range(1, 1+int(math.sqrt(i))):
+                    if i % j == 0:
+                        dp[i] += helper(j) * helper(i / j)
+            return dp[i]
+
+        sum = 0
+        for i in arr:
+            sum += helper(i)
+        return sum

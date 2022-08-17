@@ -1,12 +1,17 @@
+import time
+from datetime import datetime
+from calendar import timegm
+
 from sol_stack import Solution_Stack
 from sol_queue import Solution_Queue
 from sol_greedy import Solution_Greedy
-from sol_misc import Solution_Misc
+from sol_misc import Solution_Misc, Solution
 from sol_prefix import Soloution_Prefix
 from sol_dp import Solution_DynamicProgramming
 from sol_tree import Solution_Tree, TreeNode
 from sol_linkedlist import Solution_LinkedList, ListNode
 from sol_heap import Solution_Heap
+
 
 def main():
     sol_stack = Solution_Stack()
@@ -86,7 +91,20 @@ def main():
     # sol_tree.findLeaves(TreeNode(3, p, q))
     # print(sol_misc.pancakeSort([1,5,2,3,4]))
     # print(sol_dp.numRollsToTarget(n = 2, k = 6, target = 7))
-    sol_tree.verticalOrder(TreeNode(3, p, q))
+    # sol_tree.verticalOrder(TreeNode(3, p, q))
+    # print(sol_dp.numFactoredBinaryTrees(arr = [2,4]))
+    # print(sol_misc.twoSum(
+    #     [3, 2, 4], 6))
+    # print(sol_misc.prisonAfterNDays(cells = [1,0,0,1,0,0,1,0], n = 1000))
+    # print(sol_misc.expandedString("((ab){3}(cd){2}){4}"))
+    # sol = Solution()
+    # data = [['gutvzg', '2022-01-10', '15:12:54', 'Akuna31', 'CME', 'TSLA', 'C', '2022-05-24', 950, 880, 'BUY'], [
+    #     '377tvk', '2022-01-10', '15:12:55', 'Broker', 'CME', 'TSLA', 'C', '2022-05-24', 900, 880, 'BUY']]
+    # for trade in data:
+    #     sol.process_raw_trade(trade)
+    print(sol_misc.findSubstring("wordgoodgoodgoodbestword", ["word", "good", "best", "good"]))
+
+
 main()
 
-
+# datetime.datetime.utcfromtimestamp(1347517370).strftime('%Y-%m-%d %H:%M:%S')

@@ -1,6 +1,9 @@
 import math
+import time
+from calendar import timegm
 from collections import OrderedDict
 from bisect import bisect_left, bisect_right, bisect
+from typing import List, Tuple
 
 
 class Solution_Misc:
@@ -317,21 +320,148 @@ class Solution_Misc:
         def fsort(i):  # sort i
             if i == 0: return
 
-            while i>0 and arr[i] == sarr[i]:
+            while i > 0 and arr[i] == sarr[i]:
                 i -= 1
                 if i == 0: return
             a = sarr[i]
             b = arr[i]
             # a>b
-            trueIndex = bisect(arr, a)-1
+            trueIndex = bisect(arr, a) - 1
             flipFirstK(arr, trueIndex + 1)
             res.append(trueIndex + 1)
             if arr[i] != a:
                 flipFirstK(arr, i + 1)
                 res.append(i + 1)
 
-
-            fsort(i-1)
+            fsort(i - 1)
 
         fsort(len(arr) - 1)
         return res
+
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        nums.sort()
+
+        def search(arr, target, left, right):
+            # search inclusively left and right
+            i = bisect_left(arr, target, left, right + 1)
+            return i if i < len(arr) and arr[i] == target else -1
+
+        for i in range(0, len(nums) // 2 + 1):
+            find = search(nums, target - nums[i], i, len(nums) - 1)
+            if find != -1: return [find, i]
+        return [-1, -1]
+
+    def prisonAfterNDaysTrash(self, cells: List[int], n: int) -> List[int]:
+        def hash(arr):
+            s = ''.join([str(e) for e in arr])
+            return s
+
+        def update(arr):
+            newarr = [0] * 8
+            for i in range(1, 7):
+                newarr[i] = 1 if arr[i - 1] == arr[i + 1] else 0
+            return newarr
+
+        d = dict()
+        for _ in range(n):
+            hashed = hash(cells)
+            if hashed in d.keys():
+                cells = d[hashed]
+            else:
+                cells = update(cells)
+                d.setdefault(hashed, cells)
+        return cells
+
+    def prisonAfterNDays(self, cells, n):
+        seen = dict({str(cells): n})
+        while n:
+            seen.setdefault(str(cells), n)
+            n -= 1
+            cells = [0] + [1 ^ cells[i - 1] ^ cells[i + 1] for i in range(1, 7)] + [0]
+            if str(cells) in seen:
+                n %= seen[str(cells)] - n
+        return cells
+
+    def expandedString(self, inputStr):
+        # Write your code here
+        stack = []
+        curNum = 0
+        curStr = ''
+        for chr in inputStr:
+            if chr.isdigit():
+                curNum = curNum * 10 + int(chr)
+            elif chr.isalpha():
+                curStr += chr
+            elif chr == '(':
+                stack.append(curStr)
+                curStr = ''
+                curNum = 0
+            # elif chr==')': curstr stay the same
+
+            elif chr == '}':
+                prev = stack.pop()
+                curStr = prev + curNum * curStr
+                curNum = 0
+        return curStr
+
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        k = len(words[0])  # len of word in words
+        res = []
+        count = dict.fromkeys(words, 0)
+        for word in words: count[word] += 1
+        for i in range(len(words)):
+            buffer = []
+            j = i + k
+            while j <= len(s):
+                buffer.append(s[j - k:j])
+                j += k
+            d = dict.fromkeys(words, 0)
+            for i in range(len(words)):
+                if buffer[i] in d:
+                    d[buffer[i]] += 1
+
+            def hasZero():
+                for key, val in d.items():
+                    if val < count[key]: return True
+                return False
+
+            for i in range(len(buffer) - len(words)):  # consider substring starting at index i
+                if not hasZero(): res.append(i * k)
+                # unplug
+                if buffer[i] in d: d[buffer[i]] -= 1
+                if buffer[i + len(words)] in d: d[buffer[i + len(words)]] += 1
+        return res
+
+
+class Solution:
+    class Trade:
+        def convert(self, d, t):
+            return timegm(time.strptime(d + ' ' + t, '%Y-%m-%d %H:%M:%S'))
+
+        def __init__(self, raw_trade: List):
+            self.trade_id = raw_trade[0]  # gutvzg
+            self.trade_date = raw_trade[1]  # 2022-01-10
+            self.time_of_trade = raw_trade[2]  # 15:12:54
+            self.is_broker = raw_trade[3] == 'Broker'  # Akuna31
+            self.exchange = raw_trade[4]  # CME
+            self.product = raw_trade[5]  # TSLA
+            self.product_type = raw_trade[6] if (len(raw_trade) > 6) else None
+            self.expiry_dt = raw_trade[7] if len(raw_trade) > 7 else None  # 2022-05-24
+            self.qty = raw_trade[8] if len(raw_trade) > 8 else None  # 950
+            self.strike_price = raw_trade[9] if (len(raw_trade) > 9) else None  # 880
+            self.side = raw_trade[10] if (len(raw_trade) > 10) else None  # BUY
+            self.time = self.convert(raw_trade[1], raw_trade[2])
+
+        def isFrontRunningWith(self, other):
+            return True
+
+    def __init__(self):
+        self.broker = set(self.Trade)
+        self.electronic = set(self.Trade)
+
+    def process_raw_trade(self, raw_trade: List):
+        newTrade = self.Trade(raw_trade)
+        if newTrade.is_broker:
+            self.broker.add(newTrade)
+        else:
+            self.electronic.add(newTrade)
